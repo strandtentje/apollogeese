@@ -1,0 +1,48 @@
+﻿<Properties>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="ModularFunk/Parsing/ParsingSession.cs">
+    <Files>
+      <File FileName="ApolloGeese/Secretary.cs" Line="45" Column="1" />
+      <File FileName="ApolloGeese/HttpServer.cs" Line="64" Column="10" />
+      <File FileName="ApolloGeese/ServiceRequestedEventHandler.cs" Line="5" Column="2" />
+      <File FileName="ApolloGeese/AssemblyInfo.cs" Line="1" Column="1" />
+      <File FileName="FileServer/MyClass.cs" Line="1" Column="1" />
+      <File FileName="ApolloGeese/Services/Service.cs" Line="9" Column="3" />
+      <File FileName="ApolloGeese/Services/ServiceProvider.cs" Line="32" Column="15" />
+      <File FileName="ApolloGeese/Services/ServiceParams.cs" Line="3" Column="31" />
+      <File FileName="ModularFunk/ExternalMod.cs" Line="41" Column="19" />
+      <File FileName="ModularFunk/Settings.cs" Line="6" Column="2" />
+      <File FileName="ModularFunk/Parsing/ParsingSession.cs" Line="14" Column="52" />
+      <File FileName="ModularFunk/Parsing/Parser.cs" Line="8" Column="4" />
+      <File FileName="ModularFunk/Parsing/IdentifierParser.cs" Line="10" Column="24" />
+      <File FileName="ModularFunk/Parsing/WhitespaceParser.cs" Line="9" Column="24" />
+      <File FileName="ModularFunk/Parsing/ParsingException.cs" Line="14" Column="4" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State expanded="True">
+          <Node name="ApolloGeese" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="Services" expanded="True" />
+          </Node>
+          <Node name="FileServer" expanded="True">
+            <Node name="References" expanded="True" />
+          </Node>
+          <Node name="ModularFunk" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="Parsing" expanded="True">
+              <Node name="ParsingSession.cs" selected="True" />
+            </Node>
+          </Node>
+        </State>
+      </Pad>
+      <Pad Id="ClassPad">
+        <State expanded="True" selected="True" />
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+</Properties>
