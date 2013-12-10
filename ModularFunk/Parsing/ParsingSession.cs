@@ -1,20 +1,21 @@
 using System;
 using System.IO;
+using ModularFunk.Parsing.Parsers;
 
 namespace ModularFunk.Parsing
 {
 	public class ParsingSession
 	{
-		private object dummy;
-		private int offset = 0;
-
+		public WhitespaceParser whitespaceParser = 
+			new WhitespaceParser(this);
 		public string Data { get; private set; }
-		public int CurrentLine { get; private set; }
+		public int CurrentLine { get; set; }
+		public int Offset { get; private set; }
 
-		public ParsingSession(string data, int offset = 0)
+		public ParsingSession(string data)
 		{
 			this.Data = data;
-			this.offset = offset;
+			this.Offset = 0;
 			this.CurrentLine = 0;
 		}
 
@@ -25,13 +26,11 @@ namespace ModularFunk.Parsing
 
 		public object Get (params Parser[] parsers)
 		{
-			WhitespaceParser.ParseWhitespace (Data, ref offset, out dummy);
-
-			object result;
+			object value;
 
 			foreach (Parser parser in parsers) {
-				if (parser.Run(Data, ref offset, out result) > -1)
-					return result;
+				if (parser.Run(this, out value) > -1)
+					return value;
 			}
 
 			throw new ParsingException(CurrentLine, parsers);

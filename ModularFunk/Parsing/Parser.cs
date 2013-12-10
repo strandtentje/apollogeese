@@ -6,9 +6,20 @@ namespace ModularFunk.Parsing
 {
 	public abstract class Parser
 	{	
-		public abstract ParseMethod Run { get; }
+		object dummy;
 
-		public delegate int ParseMethod(string data, ref int offset, out object result);	
+		public int Run(ParsingSession session)
+		{
+			return Run(session, out dummy);
+		}
+
+		public int Run(ParsingSession session, out object result)
+		{			
+			session.whitespaceParser.Run (this, out dummy);
+			return ParseMethod(session, out result);
+		}
+
+		private abstract int ParseMethod(ParsingSession session, out object result);
 
 		internal static bool IsAlpha(char character)
 		{

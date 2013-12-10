@@ -34,15 +34,23 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="ExternalMod.cs" />
-    <Compile Include="Settings.cs" />
     <Compile Include="Parsing\ParsingSession.cs" />
-    <Compile Include="Parsing\Parser.cs" />
-    <Compile Include="Parsing\WhitespaceParser.cs" />
-    <Compile Include="Parsing\IdentifierParser.cs" />
     <Compile Include="Parsing\ParsingException.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Settings\SettingsParser.cs" />
+    <Compile Include="Parsing\Parsers\IdentifierParser.cs" />
+    <Compile Include="Parsing\Parsers\AssignmentParser.cs" />
+    <Compile Include="Parsing\Parsers\ValueParser.cs" />
+    <Compile Include="Parsing\Parsers\WhitespaceParser.cs" />
+    <Compile Include="Parsing\Parsers\StringParser.cs" />
+    <Compile Include="Parsing\Parser.cs" />
+    <Compile Include="Parsing\Parsers\CharacterParser.cs" />
+    <Compile Include="Tuple.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Parsing\" />
+    <Folder Include="Settings\" />
+    <Folder Include="Parsing\Parsers\" />
   </ItemGroup>
 </Project>
