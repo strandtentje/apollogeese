@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace ModularFunk.Parsing.Parsers
+namespace BorrehSoft.Utensils.Parsing.Parsers
 {
 	public class IdentifierParser : Parser
 	{
@@ -16,7 +16,7 @@ namespace ModularFunk.Parsing.Parsers
 		/// <returns>
 		/// The parsed result
 		/// </returns>
-		private override int ParseMethod (ParsingSession session, out object result)
+		internal override int ParseMethod (ParsingSession session, out object result)
 		{
 			int position = session.Offset;
 

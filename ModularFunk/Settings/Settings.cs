@@ -1,10 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using ModularFunk.Parsing;
+using BorrehSoft.Utensils.Parsing;
 
-namespace ModularFunk.Settings
+namespace BorrehSoft.Utensils.Settings
 {
+	/// <summary>
+	/// Settings data structure; stores objects by key. May be
+	/// parsed from a file using the <see cref="BorrehSoft.Utensils.Settings.SettingsParser"/>
+	/// </summary>
 	public class Settings
 	{
 		Dictionary<string, object> assignments = 
@@ -29,11 +33,8 @@ namespace ModularFunk.Settings
 		{
 			ParsingSession session = ParsingSession.FromFile(file);
 			SettingsParser parser = new SettingsParser();
-			Settings target;
 
-			target = (Settings)session.Get(parser);
-
-			return target;
+			return (Settings)session.Get(parser);
 		}
 	}
 }

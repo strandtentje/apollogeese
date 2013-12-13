@@ -1,6 +1,6 @@
 using System;
 
-namespace ModularFunk.Parsing.Parsers
+namespace BorrehSoft.Utensils.Parsing.Parsers
 {
 	public class CharacterParser : Parser
 	{
@@ -16,13 +16,14 @@ namespace ModularFunk.Parsing.Parsers
 			return string.Format ("Single Character: {0}", TargetCharacter);
 		}
 
-		private override int ParseMethod (ParsingSession session, out object result)
+		internal override int ParseMethod (ParsingSession session, out object result)
 		{
 			if (session.Data [session.Offset] == TargetCharacter) {
 				session.Offset++;
 				result = TargetCharacter;
 				return 1;
 			}
+			result = null;
 			return -1;
 		}
 	}

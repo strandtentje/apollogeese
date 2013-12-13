@@ -1,10 +1,13 @@
 using System;
-using ModularFunk.Parsing;
-using ModularFunk.Parsing.Parsers;
+using BorrehSoft.Utensils.Parsing;
+using BorrehSoft.Utensils.Parsing.Parsers;
 using System.Collections.Generic;
 
-namespace ModularFunk.Settings
+namespace BorrehSoft.Utensils.Settings
 {
+	/// <summary>
+	/// Settings parser.
+	/// </summary>
 	public class SettingsParser : Parser
 	{
 		public override string ToString ()
@@ -16,22 +19,50 @@ namespace ModularFunk.Settings
 			blockOpener = new CharacterParser('{'),
 			blockCloser = new CharacterParser('}'),
 			lineCloser = new CharacterParser(';');
-		IdentifierParser identifierParser = new IdentifierParser(this);
-		StringParser stringParser = new StringParser(this);
-		ValueParser<int> intParser = new ValueParser<int>(this, int.TryParse);
-		ValueParser<float> floatParser = new ValueParser<float>(this, float.TryParse);
+		IdentifierParser identifierParser = new IdentifierParser();
+		StringParser stringParser = new StringParser();
+		ValueParser<int> 	intParser = 	new ValueParser<int>(	int.TryParse	);
+		ValueParser<float> 	floatParser = 	new ValueParser<float>(	float.TryParse	);
+		ValueParser<bool> 	boolParser = 	new ValueParser<bool>(	bool.TryParse, 	"(True|False|true|false)");
+		AssignmentParser assignmentParser;
 
-		AssignmentParser assignmentParser = new AssignmentParser(
-			intParser, floatParser, identifierParser, stringParser, this);
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BorrehSoft.Utensils.Settings.SettingsParser"/> class.
+		/// </summary>
+		public SettingsParser()
+		{
+			assignmentParser = new AssignmentParser(
+				intParser, 
+				floatParser, 
+				boolParser,
+				identifierParser, 
+				stringParser, 
+				this
+				);
+		}
 
-		public override int Run (ParsingSession session, out object result)
+		/// <summary>
+		/// Parsing Method for the <see cref="BorrehSoft.Utensils.Settings"/> type.
+		/// </summary>
+		/// <returns>
+		/// Succes value; zero or higher when succesful.
+		/// </returns>
+		/// <param name='session'>
+		/// Session in which this parsing action will be conducted.
+		/// </param>
+		/// <param name='result'>
+		/// Result of this parsing action
+		/// </param>
+		internal override int ParseMethod (ParsingSession session, out object result)
 		{
 			if (blockOpener.Run (session) > 0) {
 				Settings map = new Settings ();
 
-				Tuple<string, object> assignment;
-				while (assignmentParser.Run (session, out assignment) > 0)
+				object parsed;
+
+				while (assignmentParser.Run (session, out parsed) > 0)
 				{
+					Tuple<string, object> assignment = (Tuple<string, object>)parsed;
 					map[assignment.Key] = assignment.Value;
 					session.Get(lineCloser);
 				}
@@ -42,6 +73,8 @@ namespace ModularFunk.Settings
 
 				return map.Count;
 			}
+
+			result = null;
 
 			return -1;
 		}	

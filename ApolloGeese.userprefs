@@ -2,43 +2,42 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
   <MonoDevelop.Ide.Workbench ActiveDocument="ModularFunk/Parsing/Parsers/StringParser.cs">
     <Files>
-      <File FileName="ApolloGeese/Secretary.cs" Line="45" Column="1" />
-      <File FileName="ApolloGeese/HttpServer.cs" Line="64" Column="10" />
-      <File FileName="ApolloGeese/ServiceRequestedEventHandler.cs" Line="5" Column="2" />
-      <File FileName="ApolloGeese/AssemblyInfo.cs" Line="1" Column="1" />
-      <File FileName="FileServer/MyClass.cs" Line="1" Column="1" />
-      <File FileName="ApolloGeese/Services/Service.cs" Line="9" Column="3" />
-      <File FileName="ApolloGeese/Services/ServiceProvider.cs" Line="32" Column="15" />
-      <File FileName="ApolloGeese/Services/ServiceParams.cs" Line="3" Column="31" />
-      <File FileName="ModularFunk/ExternalMod.cs" Line="41" Column="19" />
-      <File FileName="ModularFunk/Parsing/ParsingSession.cs" Line="12" Column="32" />
-      <File FileName="ModularFunk/Parsing/ParsingException.cs" Line="13" Column="4" />
-      <File FileName="ModularFunk/Settings/Settings.cs" Line="34" Column="4" />
-      <File FileName="ModularFunk/Settings/SettingsParser.cs" Line="43" Column="18" />
-      <File FileName="ModularFunk/Parsing/Parsers/StringParser.cs" Line="23" Column="41" />
-      <File FileName="ModularFunk/Parsing/Parsers/AssignmentParser.cs" Line="19" Column="2" />
-      <File FileName="ModularFunk/Parsing/Parsers/IdentifierParser.cs" Line="34" Column="20" />
-      <File FileName="ModularFunk/Parsing/Parsers/ValueParser.cs" Line="15" Column="35" />
-      <File FileName="ModularFunk/Parsing/Parsers/WhitespaceParser.cs" Line="47" Column="41" />
-      <File FileName="ModularFunk/Parsing/Parser.cs" Line="22" Column="10" />
-      <File FileName="ModularFunk/Parsing/Parsers/CharacterParser.cs" Line="9" Column="27" />
-      <File FileName="ModularFunk/Tuple.cs" Line="13" Column="14" />
+      <File FileName="ModularFunk/Parsing/Parsers/StringParser.cs" Line="29" Column="19" />
+      <File FileName="ModularFunk/Parsing/Parsers/AssignmentParser.cs" Line="36" Column="18" />
+      <File FileName="ModularFunk/Parsing/Parsers/IdentifierParser.cs" Line="32" Column="35" />
+      <File FileName="ModularFunk/Parsing/Parsers/ValueParser.cs" Line="20" Column="25" />
+      <File FileName="ModularFunk/Parsing/Parsers/WhitespaceParser.cs" Line="27" Column="11" />
+      <File FileName="ModularFunk/Parsing/Parser.cs" Line="54" Column="1" />
+      <File FileName="ModularFunk/Parsing/Parsers/CharacterParser.cs" Line="26" Column="18" />
+      <File FileName="ModularFunk/Tuple.cs" Line="3" Column="19" />
+      <File FileName="ModularFunk/Parsing/ParsingSession.cs" Line="12" Column="27" />
+      <File FileName="ModularFunk/Settings/SettingsParser.cs" Line="53" Column="18" />
+      <File FileName="ModularFunk/Settings/Settings.cs" Line="4" Column="15" />
+      <File FileName="ModularFunk/ExternalMod.cs" Line="5" Column="19" />
+      <File FileName="ApolloGeese/Secretary.cs" Line="25" Column="3" />
+      <File FileName="FileServer/MyClass.cs" Line="3" Column="43" />
+      <File FileName="Duckling/Service.cs" Line="4" Column="42" />
+      <File FileName="Duckling/ServiceParams.cs" Line="3" Column="42" />
+      <File FileName="Duckling/ServiceProvider.cs" Line="17" Column="15" />
+      <File FileName="ModularFunk/AssemblyInfo.cs" Line="7" Column="35" />
+      <File FileName="ModularFunk/Parsing/ParsingException.cs" Line="3" Column="15" />
+      <File FileName="ApolloGeese/HttpServer.cs" Line="5" Column="39" />
+      <File FileName="ApolloGeese/AssemblyInfo.cs" Line="12" Column="43" />
+      <File FileName="FileServer/AssemblyInfo.cs" Line="12" Column="43" />
+      <File FileName="Duckling/AssemblyInfo.cs" Line="12" Column="43" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="ApolloGeese" expanded="True">
-            <Node name="References" expanded="True" />
-            <Node name="Services" expanded="True" />
-          </Node>
+          <Node name="Duckling" expanded="True" />
           <Node name="FileServer" expanded="True">
             <Node name="References" expanded="True" />
           </Node>
-          <Node name="ModularFunk" expanded="True">
-            <Node name="References" expanded="True" />
+          <Node name="Geese" expanded="True" />
+          <Node name="Utensils" expanded="True">
             <Node name="Parsing" expanded="True">
               <Node name="Parsers" expanded="True">
-                <Node name="StringParser.cs" selected="True" />
+                <Node name="ValueParser.cs" selected="True" />
               </Node>
             </Node>
             <Node name="Settings" expanded="True" />

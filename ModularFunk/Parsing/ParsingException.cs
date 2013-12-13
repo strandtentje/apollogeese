@@ -1,9 +1,13 @@
 using System;
 using System.IO;
-using ModularFunk.Parsing.Parsers;
+using BorrehSoft.Utensils.Parsing.Parsers;
 
-namespace ModularFunk.Parsing
+namespace BorrehSoft.Utensils.Parsing
 {
+	/// <summary>
+	/// Parsing exception. This occurs when no suitable parser was found
+	/// for the data at the current cursor position.
+	/// </summary>
 	class ParsingException : Exception
 	{
 		public ParsingException (int currentLine, Parser[] parsers) : 

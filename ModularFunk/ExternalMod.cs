@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 
-namespace ModularFunk
+namespace BorrehSoft.Utensils
 {
 	/// <summary>
 	/// Tools for loading external modifications and additions.

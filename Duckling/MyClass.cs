@@ -1,6 +1,6 @@
 using System;
 
-namespace BorrehSoft.Extensions.FileServer
+namespace Duckling
 {
 	public class MyClass
 	{

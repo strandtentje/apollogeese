@@ -1,6 +1,6 @@
 using System;
 
-namespace ApolloGeese
+namespace BorrehSoft.ApolloGeese
 {
 	/// <summary>
 	/// Secretary; initiator of symbiosis and maintainer

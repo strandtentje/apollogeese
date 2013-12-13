@@ -4,11 +4,11 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("FileServer")]
+[assembly: AssemblyTitle("Duckling")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("BorrehSoft")]
-[assembly: AssemblyProduct("ApolloGeese Extensions")]
+[assembly: AssemblyProduct("ApolloGeese")]
 [assembly: AssemblyCopyright("Rob Tierolff")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

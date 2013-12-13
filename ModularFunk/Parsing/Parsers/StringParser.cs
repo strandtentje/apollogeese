@@ -2,20 +2,24 @@ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace ModularFunk.Parsing.Parsers
+namespace BorrehSoft.Utensils.Parsing.Parsers
 {
 	public class StringParser : Parser
 	{
+		public override string ToString ()
+		{
+			return "A quotation-mark enclosed, backslash-escaped string.";
+		}
+
 		CharacterParser quotationMark = new CharacterParser('"');
 		Regex stringRegex = new Regex(@"""[^""\\]*(?:\\.[^""\\]*)*""");
 
-		private override int ParseMethod (ParsingSession session, out object result)
+		internal override int ParseMethod (ParsingSession session, out object result)
 		{
 			if (quotationMark.Run (session) > 0) {
 				string entirity, quotedText, escapedText, text;
-				StringBuilder returnValue = new StringBuilder();
 
-				entirity = session.Data.Remove(session.Offset + 1);
+				entirity = session.Data.Remove(session.Offset);
 				quotedText = stringRegex.Match(entirity).Value;
 				escapedText = quotedText.Remove(0, 1).Remove(quotedText.Length - 1, 1);
 				text = Regex.Unescape(escapedText);
@@ -26,6 +30,7 @@ namespace ModularFunk.Parsing.Parsers
 				return text.Length;
 			}
 
+			result = null;
 			return -1;
 		}
 	}

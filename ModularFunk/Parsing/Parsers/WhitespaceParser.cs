@@ -1,14 +1,9 @@
 using System;
 
-namespace ModularFunk.Parsing.Parsers
+namespace BorrehSoft.Utensils.Parsing.Parsers
 {
 	public class WhitespaceParser : Parser
 	{
-		public WhitespaceParser(ParsingSession session) : base(session)
-		{
-
-		}
-
 		public override string ToString ()
 		{
 			return "Whitespace";
@@ -29,13 +24,17 @@ namespace ModularFunk.Parsing.Parsers
 		/// <param name='result'>
 		/// Nothing
 		/// </param>
-		private override int ParseMethod(ParsingSession session, out object result)
+		internal override int ParseMethod(ParsingSession session, out object result)
 		{
-			int newlineAmount = 0;
+			int 
+				newlineAmount = 0,
+				whiteCount = 0;
 
 			bool currentCRLF, previousCRLF = false;
 
 			for (char c = session.Data[session.Offset]; IsSpace(c); c = session.Data[session.Offset]) {
+				whiteCount++;
+
 				currentCRLF = IsNewline(c);
 
 				newlineAmount += (currentCRLF && !previousCRLF ? 1 : 0);
@@ -46,7 +45,7 @@ namespace ModularFunk.Parsing.Parsers
 			result = null;
 			session.CurrentLine += newlineAmount;
 
-			return 1;
+			return -1;
 		}
 	}
 }

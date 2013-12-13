@@ -5,16 +5,16 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{1B2D93BB-9283-4A7C-94C3-584D6BD6EB09}</ProjectGuid>
+    <ProjectGuid>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>BorrehSoft.Extensions.FileServer</RootNamespace>
-    <AssemblyName>FileServer</AssemblyName>
+    <RootNamespace>BorrehSoft.Utensils</RootNamespace>
+    <AssemblyName>Utensils</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\Utensils\bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -23,7 +23,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>none</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
+    <OutputPath>..\Utensils\bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
@@ -32,18 +32,25 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MyClass.cs" />
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="ExternalMod.cs" />
+    <Compile Include="Parsing\ParsingSession.cs" />
+    <Compile Include="Parsing\ParsingException.cs" />
+    <Compile Include="Settings\Settings.cs" />
+    <Compile Include="Settings\SettingsParser.cs" />
+    <Compile Include="Parsing\Parsers\IdentifierParser.cs" />
+    <Compile Include="Parsing\Parsers\AssignmentParser.cs" />
+    <Compile Include="Parsing\Parsers\ValueParser.cs" />
+    <Compile Include="Parsing\Parsers\WhitespaceParser.cs" />
+    <Compile Include="Parsing\Parsers\StringParser.cs" />
+    <Compile Include="Parsing\Parser.cs" />
+    <Compile Include="Parsing\Parsers\CharacterParser.cs" />
+    <Compile Include="Tuple.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Duckling\Duckling.csproj">
-      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
-      <Name>Duckling</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\ModularFunk\Utensils.csproj">
-      <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
-      <Name>Utensils</Name>
-    </ProjectReference>
+    <Folder Include="Parsing\" />
+    <Folder Include="Settings\" />
+    <Folder Include="Parsing\Parsers\" />
   </ItemGroup>
 </Project>

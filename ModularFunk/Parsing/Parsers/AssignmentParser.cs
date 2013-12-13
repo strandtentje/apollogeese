@@ -1,20 +1,40 @@
 using System;
-using ModularFunk.Parsing;
+using BorrehSoft.Utensils.Parsing;
 
-namespace ModularFunk.Parsing.Parsers
+namespace BorrehSoft.Utensils.Parsing.Parsers
 {
 	public class AssignmentParser : Parser
 	{
+		IdentifierParser identifierParser = new IdentifierParser();
+		CharacterParser coupler = new CharacterParser('=');
+		Parser[] expressionParsers;
+
+		public AssignmentParser (params Parser[] exprParsers)
+		{
+			expressionParsers = exprParsers;
+		}
+
 		public override string ToString ()
 		{
 			return "Assignment";
 		}
 
-		private override int ParseMethod (ParsingSession session, out object result)
+		internal override int ParseMethod (ParsingSession session, out object result)
 		{
-			return 0;
+			object identifier, value;
+
+			if (identifierParser.Run (session, out identifier) > -1) {
+				if (coupler.Run(session) > -1) {
+					value = session.Get(expressionParsers);
+
+					result = new Tuple<string, object>((string)identifier, value);
+
+					return 1;
+				}
+			}
+
+			result = null;
+			return -1;
 		}
 	}
-
 }
-

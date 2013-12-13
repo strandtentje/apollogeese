@@ -4,12 +4,12 @@ using System.Runtime.CompilerServices;
 // Information about this assembly is defined by the following attributes. 
 // Change them to the values specific to your project.
 
-[assembly: AssemblyTitle("ApolloGeese")]
+[assembly: AssemblyTitle("Geese")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("")]
-[assembly: AssemblyCopyright("rob")]
+[assembly: AssemblyCompany("BorrehSoft")]
+[assembly: AssemblyProduct("ApolloGeese")]
+[assembly: AssemblyCopyright("Rob Tierolff")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

@@ -2,9 +2,9 @@ using System;
 using System.Web;
 using System.Net;
 using System.Collections.Generic;
-using ApolloGeese.Services;
+using BorrehSoft.ApolloGeese.Duckling;
 
-namespace ApolloGeese
+namespace BorrehSoft.ApolloGeese
 {
 	/// <summary>
 	/// Http server.
