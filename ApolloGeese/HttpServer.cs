@@ -49,7 +49,7 @@ namespace BorrehSoft.ApolloGeese
 		/// </param>
 		public ServiceProvider AddService (ServiceProvider serviceProvider, bool highPriority = false)
 		{
-			Secretary.Report(1, "Adding" , serviceProvider.Name, "on", (highPriority ? "high priority" : "low priority"));
+			Secretary.Report(1, "Adding" , serviceProvider.Service.Name, "on", (highPriority ? "high priority" : "low priority"));
 
 			if (highPriority) services.Insert(0, serviceProvider);
 			else services.Add(serviceProvider);
@@ -86,7 +86,7 @@ namespace BorrehSoft.ApolloGeese
 			}
 			else {
 				ServiceProvider provider = services[i];
-				provider.Service.Acquire(
+				provider.Service.Request(
 					provider.Parse(context.Request), 
 					context.Response);
 			}

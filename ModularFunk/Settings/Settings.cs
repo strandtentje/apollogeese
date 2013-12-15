@@ -31,10 +31,17 @@ namespace BorrehSoft.Utensils.Settings
 
 		public static Settings FromFile(string file)
 		{
+			if (!File.Exists (file))
+				File.Create (file);
+
 			ParsingSession session = ParsingSession.FromFile(file);
 			SettingsParser parser = new SettingsParser();
+			object result;
 
-			return (Settings)session.Get(parser);
+			if (parser.Run (session, out result) < 0)
+				return new Settings ();
+
+			return (Settings)result;
 		}
 	}
 }

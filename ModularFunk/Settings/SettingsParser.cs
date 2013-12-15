@@ -8,37 +8,35 @@ namespace BorrehSoft.Utensils.Settings
 	/// <summary>
 	/// Settings parser.
 	/// </summary>
-	public class SettingsParser : Parser
+	public class SettingsParser : ConcatenationParser
 	{
 		public override string ToString ()
 		{
 			return "Settings, accolade-enclosed block with zero or more assignments";
 		}
 
-		CharacterParser 
-			blockOpener = new CharacterParser('{'),
-			blockCloser = new CharacterParser('}'),
-			lineCloser = new CharacterParser(';');
-		IdentifierParser identifierParser = new IdentifierParser();
-		StringParser stringParser = new StringParser();
-		ValueParser<int> 	intParser = 	new ValueParser<int>(	int.TryParse	);
-		ValueParser<float> 	floatParser = 	new ValueParser<float>(	float.TryParse	);
-		ValueParser<bool> 	boolParser = 	new ValueParser<bool>(	bool.TryParse, 	"(True|False|true|false)");
-		AssignmentParser assignmentParser;
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Utensils.Settings.SettingsParser"/> class.
 		/// </summary>
-		public SettingsParser()
+		public SettingsParser() : base('{', '}', ';')
 		{
-			assignmentParser = new AssignmentParser(
-				intParser, 
-				floatParser, 
-				boolParser,
-				identifierParser, 
-				stringParser, 
+			ConcatenationParser listParser = new ConcatenationParser ('[', ']', '=');
+			AssignmentParser assignmentParser = new AssignmentParser ();
+
+			AnyParser valueParser = new AnyParser (
+				new ValueParser<int> (int.TryParse), 
+				new ValueParser<float> (float.TryParse),
+				new ValueParser<bool> (bool.TryParse), 
+				new IdentifierParser (),
+				new StringParser (), 
+				listParser, 
 				this
-				);
+			);			
+
+			listParser.InnerParser = valueParser;
+			assignmentParser.InnerParser = valueParser;
+
+			this.InnerParser = assignmentParser;
 		}
 
 		/// <summary>
@@ -55,29 +53,23 @@ namespace BorrehSoft.Utensils.Settings
 		/// </param>
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
-			if (blockOpener.Run (session) > 0) {
+			object parsedAssignmentList;
+
+			if (base.ParseMethod (session, out parsedAssignmentList) > 0) {
+				List<object> assignments = (List<object>)parsedAssignmentList;
+
 				Settings map = new Settings ();
 
-				object parsed;
-
-				while (assignmentParser.Run (session, out parsed) > 0)
-				{
-					Tuple<string, object> assignment = (Tuple<string, object>)parsed;
-					map[assignment.Key] = assignment.Value;
-					session.Get(lineCloser);
+				foreach (object assignment in assignments) {
+					Tuple<string, object> t = (Tuple<string, object>)assignment;
+					map [t.Key] = t.Value;
 				}
 
-				session.Get(blockCloser);
-
 				result = map;
-
-				return map.Count;
 			}
 
 			result = null;
-
 			return -1;
 		}	
 	}
 }
-

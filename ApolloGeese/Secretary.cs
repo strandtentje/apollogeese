@@ -1,4 +1,5 @@
 using System;
+using BorrehSoft.Utensils.Settings;
 
 namespace BorrehSoft.ApolloGeese
 {
@@ -19,6 +20,8 @@ namespace BorrehSoft.ApolloGeese
 		static void Main (string[] args)
 		{
 			HttpServer n = new HttpServer("http://*:8080/");
+
+			Settings s = Settings.FromFile ("apollogeese.conf");
 
 			Console.ReadLine();
 		}

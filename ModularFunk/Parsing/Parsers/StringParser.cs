@@ -16,9 +16,11 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
+			// "
 			if (quotationMark.Run (session) > 0) {
 				string entirity, quotedText, escapedText, text;
 
+				// "cheese"
 				entirity = session.Data.Remove(session.Offset);
 				quotedText = stringRegex.Match(entirity).Value;
 				escapedText = quotedText.Remove(0, 1).Remove(quotedText.Length - 1, 1);

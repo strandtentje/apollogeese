@@ -63,26 +63,6 @@ namespace BorrehSoft.Utensils.Parsing
 		{
 			return new ParsingSession(File.ReadAllText(file));
 		}
-
-		/// <summary>
-		/// Get a chunk of data using any of the supplied parsers and errors out
-		/// when no parser can produce an object from the current cursor position
-		/// onwards.
-		/// </summary>
-		/// <param name='parsers'>
-		/// Parsers to use.
-		/// </param>
-		public object Get (params Parser[] parsers)
-		{
-			object value;
-
-			foreach (Parser parser in parsers) {
-				if (parser.Run(this, out value) > -1)
-					return value;
-			}
-
-			throw new ParsingException(CurrentLine, parsers);
-		}
 	}
 }
 

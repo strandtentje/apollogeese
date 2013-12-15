@@ -1,9 +1,16 @@
 using System;
+using System.Text.RegularExpressions;
 
 namespace BorrehSoft.Utensils.Parsing.Parsers
 {
 	public class WhitespaceParser : Parser
 	{
+		/// <summary>
+		/// The white space and comment finding regex.
+		/// What a beautiful abomination is it not?
+		/// </summary>
+		Regex whiteSpaceRegex = new Regex(@"(\/\*.*\*\/|\/\/.*\n| |\r|\n|\t)+");
+
 		public override string ToString ()
 		{
 			return "Whitespace";
@@ -26,26 +33,23 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 		/// </param>
 		internal override int ParseMethod(ParsingSession session, out object result)
 		{
-			int 
-				newlineAmount = 0,
-				whiteCount = 0;
-
-			bool currentCRLF, previousCRLF = false;
-
-			for (char c = session.Data[session.Offset]; IsSpace(c); c = session.Data[session.Offset]) {
-				whiteCount++;
-
-				currentCRLF = IsNewline(c);
-
-				newlineAmount += (currentCRLF && !previousCRLF ? 1 : 0);
-
-				previousCRLF = currentCRLF;
-			}
+			Match oncomingWhitespace = whiteSpaceRegex.Match (
+				session.Data.Substring (session.Offset));
 
 			result = null;
-			session.CurrentLine += newlineAmount;
+			if (!oncomingWhitespace.Success)
+				return -1;
 
-			return -1;
+			if (oncomingWhitespace.Index != 0)
+				return -1;
+
+			session.Offset += oncomingWhitespace.Length;
+
+			foreach (char c in oncomingWhitespace.Value)
+				if (c == '\n') session.CurrentLine++;
+
+			result = oncomingWhitespace.Value;
+			return oncomingWhitespace.Length;
 		}
 	}
 }

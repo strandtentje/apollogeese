@@ -7,12 +7,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 	{
 		IdentifierParser identifierParser = new IdentifierParser();
 		CharacterParser coupler = new CharacterParser('=');
-		Parser[] expressionParsers;
-
-		public AssignmentParser (params Parser[] exprParsers)
-		{
-			expressionParsers = exprParsers;
-		}
+		public Parser InnerParser { get; set; }
 
 		public override string ToString ()
 		{
@@ -23,13 +18,18 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 		{
 			object identifier, value;
 
+			// dick
 			if (identifierParser.Run (session, out identifier) > -1) {
-				if (coupler.Run(session) > -1) {
-					value = session.Get(expressionParsers);
-
-					result = new Tuple<string, object>((string)identifier, value);
-
-					return 1;
+				// = 
+				if (coupler.Run (session) > -1) {
+					if (InnerParser.Run (session, out value) > 0) {
+						result = new Tuple<string, object> ((string)identifier, value);
+						return 1;
+					} else {
+						throw new ParsingException (session.CurrentLine, InnerParser);
+					}
+				} else {
+					throw new ParsingException (session.CurrentLine, coupler);
 				}
 			}
 

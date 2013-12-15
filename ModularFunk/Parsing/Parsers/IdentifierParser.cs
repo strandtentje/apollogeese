@@ -24,11 +24,13 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 
 			result = "";
 
+			// d
 			if (IsAlpha (session.Data [position]))
 				resultBuilder.Append (session.Data [position++]);
 			else 
 				return -1;
 
+			// ick
 			for (session.Offset = position;
 				(session.Offset < session.Data.Length) && IsAlphaNumeric(session.Data[position]);
 				session.Offset++) {

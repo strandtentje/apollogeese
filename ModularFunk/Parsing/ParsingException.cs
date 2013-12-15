@@ -10,10 +10,10 @@ namespace BorrehSoft.Utensils.Parsing
 	/// </summary>
 	class ParsingException : Exception
 	{
-		public ParsingException (int currentLine, Parser[] parsers) : 
+		public ParsingException (int currentLine, Parser parser) : 
 			base (
 				string.Format(
-					"Expected {0} at line {1}", parsers.ToString(), currentLine.ToString()))
+					"Expected {0} at line {1}", parser.ToString(), currentLine.ToString()))
 		{
 		}
 	}

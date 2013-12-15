@@ -7,7 +7,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	{
 		public abstract string Name { get; }
 
-		public void Run (ServiceParams serviceParams, HttpListenerResponse response)
+		public void Request (ServiceParams serviceParams, HttpListenerResponse response)
 		{
 
 		}

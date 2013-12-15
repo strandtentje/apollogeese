@@ -33,8 +33,10 @@ namespace BorrehSoft.Utensils.Parsing
 		/// Result.
 		/// </param>
 		public int Run(ParsingSession session, out object result)
-		{			
-			session.whitespaceParser.Run (session, out dummy);
+		{	
+			if (this != session.whitespaceParser)
+				session.whitespaceParser.Run (session, out dummy);
+
 			return ParseMethod(session, out result);
 		}
 
