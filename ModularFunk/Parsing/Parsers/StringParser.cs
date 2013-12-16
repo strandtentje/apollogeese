@@ -11,19 +11,21 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 			return "A quotation-mark enclosed, backslash-escaped string.";
 		}
 
-		CharacterParser quotationMark = new CharacterParser('"');
 		Regex stringRegex = new Regex(@"""[^""\\]*(?:\\.[^""\\]*)*""");
 
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
 			// "
-			if (quotationMark.Run (session) > 0) {
+			if (session.Data[session.Offset] == '\"') {
 				string entirity, quotedText, escapedText, text;
 
 				// "cheese"
-				entirity = session.Data.Remove(session.Offset);
-				quotedText = stringRegex.Match(entirity).Value;
-				escapedText = quotedText.Remove(0, 1).Remove(quotedText.Length - 1, 1);
+				entirity = session.Data.Substring(session.Offset);
+
+				Match quoteMatch = stringRegex.Match (entirity);
+
+				quotedText = quoteMatch.Value;
+				escapedText = quotedText.Remove(quotedText.Length - 1, 1).Remove(0, 1);
 				text = Regex.Unescape(escapedText);
 
 				session.Offset += quotedText.Length;

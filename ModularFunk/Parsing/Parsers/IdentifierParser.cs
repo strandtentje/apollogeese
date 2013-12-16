@@ -18,24 +18,18 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 		/// </returns>
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
-			int position = session.Offset;
-
 			StringBuilder resultBuilder = new StringBuilder ();
 
 			result = "";
 
 			// d
-			if (IsAlpha (session.Data [position]))
-				resultBuilder.Append (session.Data [position++]);
+			if (IsAlpha (session.Data [session.Offset]))
+				resultBuilder.Append (session.Data [session.Offset++]);
 			else 
 				return -1;
 
-			// ick
-			for (session.Offset = position;
-				(session.Offset < session.Data.Length) && IsAlphaNumeric(session.Data[position]);
-				session.Offset++) {
-				resultBuilder.Append (session.Data [position]);
-			}
+			while(IsAlphaNumeric(session.Data[session.Offset]))
+				resultBuilder.Append (session.Data [session.Offset++]);
 
 			result = resultBuilder.ToString();
 			return resultBuilder.Length;

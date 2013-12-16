@@ -1,14 +1,11 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="FileServer/MyClass.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ApolloGeese/Secretary.cs">
     <Files>
-      <File FileName="ModularFunk/Parsing/Parsers/AssignmentParser.cs" Line="15" Column="4" />
-      <File FileName="ApolloGeese/Secretary.cs" Line="12" Column="3" />
-      <File FileName="FileServer/MyClass.cs" Line="3" Column="43" />
-      <File FileName="ApolloGeese/HttpServer.cs" Line="91" Column="24" />
-      <File FileName="Duckling/ServiceProvider.cs" Line="17" Column="15" />
-      <File FileName="Duckling/Service.cs" Line="12" Column="4" />
-      <File FileName="Duckling/ServiceParams.cs" Line="3" Column="42" />
+      <File FileName="ApolloGeese/Secretary.cs" Line="42" Column="34" />
+      <File FileName="Geese/bin/Debug/apollogeese.conf" Line="3" Column="2" />
+      <File FileName="ModularFunk/ExternalMod.cs" Line="17" Column="17" />
+      <File FileName="ApolloGeese/HttpServer.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -16,17 +13,35 @@
           <Option id="ShowAllFiles" value="True" />
           <Node name="Duckling" expanded="True" />
           <Node name="FileServer" expanded="True" />
-          <Node name="Geese" expanded="True" selected="True" />
-          <Node name="Utensils" expanded="True" />
+          <Node name="Geese" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="bin" expanded="True">
+              <Node name="Debug" expanded="True" />
+            </Node>
+            <Node name="Secretary.cs" selected="True" />
+          </Node>
+          <Node name="Utensils" expanded="True">
+            <Node name="Parsing" expanded="True">
+              <Node name="Parsers" expanded="True" />
+            </Node>
+          </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">
         <State expanded="True" selected="True" />
+      </Pad>
+      <Pad Id="MonoDevelop.Debugger.WatchPad">
+        <State />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore />
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches>
+    <Watch file="ModularFunk/Parsing/Parsers/StringParser.cs" line="17" offsetX="736" offsetY="256" expression="session" liveUpdate="False" />
+    <Watch file="ApolloGeese/Secretary.cs" line="24" offsetX="568" offsetY="368" expression="s" liveUpdate="False" />
+    <Watch file="ModularFunk/Parsing/Parsers/ConcatenationParser.cs" line="35" offsetX="688" offsetY="544" expression="session" liveUpdate="False" />
+    <Watch file="ModularFunk/Parsing/Parsers/ConcatenationParser.cs" line="35" offsetX="688" offsetY="544" expression="session" liveUpdate="False" />
+  </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

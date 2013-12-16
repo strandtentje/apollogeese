@@ -66,6 +66,7 @@ namespace BorrehSoft.Utensils.Settings
 				}
 
 				result = map;
+				return 1;
 			}
 
 			result = null;

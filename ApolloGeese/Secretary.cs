@@ -1,4 +1,6 @@
 using System;
+using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.Utensils;
 using BorrehSoft.Utensils.Settings;
 
 namespace BorrehSoft.ApolloGeese
@@ -19,9 +21,14 @@ namespace BorrehSoft.ApolloGeese
 		/// </param>
 		static void Main (string[] args)
 		{
-			HttpServer n = new HttpServer("http://*:8080/");
+			HttpServer servicePort = new HttpServer("http://*:8080/");
+			Settings configuration = Settings.FromFile ("apollogeese.conf");
 
-			Settings s = Settings.FromFile ("apollogeese.conf");
+			foreach (string dll in (List<string>)configuration["plugins"]) {
+				ServiceProvider provider = 
+					ExternalMod.GetInitiatedTypes<ServiceProvider> (dll);
+				servicePort.AddService (provider);
+			}
 
 			Console.ReadLine();
 		}
