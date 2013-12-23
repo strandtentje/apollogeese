@@ -38,7 +38,9 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="HttpServer.cs" />
-    <Compile Include="Secretary.cs" />
+    <Compile Include="Secretary.cs">
+      <Link>Apenootje.cs</Link>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

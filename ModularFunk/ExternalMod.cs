@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.Utensils
 {
@@ -42,6 +43,8 @@ namespace BorrehSoft.Utensils
 		/// </typeparam>
 		public static List<T> GetInitiatedTypes<T> (Assembly assembly)
 		{
+			Secretary.Report (5, "Scanning: ", assembly.FullName);
+
 			List<T> initiatedTypes = new List<T>();
 			foreach (Type potential in assembly.GetTypes()) 			
 				if (typeof(T).IsAssignableFrom(potential))				

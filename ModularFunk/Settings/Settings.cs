@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using BorrehSoft.Utensils.Parsing;
+using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.Utensils.Settings
 {
@@ -31,8 +32,12 @@ namespace BorrehSoft.Utensils.Settings
 
 		public static Settings FromFile(string file)
 		{
-			if (!File.Exists (file))
+			Secretary.Report (5, "Loading settings file ", file);
+
+			if (!File.Exists (file)) {
 				File.Create (file);
+				Secretary.Report (5, file, " didn't exist. Has been created.");
+			}
 
 			ParsingSession session = ParsingSession.FromFile(file);
 			SettingsParser parser = new SettingsParser();
@@ -41,7 +46,11 @@ namespace BorrehSoft.Utensils.Settings
 			if (parser.Run (session, out result) < 0)
 				return new Settings ();
 
-			return (Settings)result;
+			Settings config = (Settings)result;
+
+			Secretary.Report (5, "Settings finished loading from: ", file, ", ", config.Count.ToString(), " root entries.");
+
+			return config;
 		}
 	}
 }

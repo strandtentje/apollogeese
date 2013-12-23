@@ -33,9 +33,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="ServiceParams.cs" />
-    <Compile Include="ServiceProvider.cs" />
     <Compile Include="Service.cs" />
+    <Compile Include="Parameters.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\ModularFunk\Utensils.csproj">
+      <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
+      <Name>Utensils</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

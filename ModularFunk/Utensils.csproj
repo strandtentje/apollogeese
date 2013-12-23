@@ -50,11 +50,13 @@
     <Compile Include="Parsing\Parsers\ConcatenationParser.cs" />
     <Compile Include="Parsing\Parsers\AnyParser.cs" />
     <Compile Include="List.cs" />
+    <Compile Include="Log\Secretary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Parsing\" />
     <Folder Include="Settings\" />
     <Folder Include="Parsing\Parsers\" />
+    <Folder Include="Log\" />
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@ using System.Web;
 using System.Net;
 using System.Collections.Generic;
 using BorrehSoft.ApolloGeese.Duckling;
+using L = BorrehSoft.Utensils.Log.Secretary;
 
 namespace BorrehSoft.ApolloGeese
 {
@@ -11,7 +12,7 @@ namespace BorrehSoft.ApolloGeese
 	/// </summary>
 	class HttpServer
 	{
-		private List<ServiceProvider> services = new List<ServiceProvider>();
+		private List<Service> services = new List<Service>();
 		private HttpListener listener = new HttpListener();
 
 		/// <summary>
@@ -23,15 +24,15 @@ namespace BorrehSoft.ApolloGeese
 		public HttpServer (params string[] prefixes)
 		{
 			foreach (string prefix in prefixes) {
-				Secretary.Report(1, "Listening on:", prefix);
+				L.Report(5, "Listening on:", prefix);
 				listener.Prefixes.Add (prefix);
 			}
 
 			listener.Start();
-			Secretary.Report(0, "Started Listening!");
+			L.Report(4, "Started Listening!");
 
 			listener.BeginGetContext(RequestMade, listener);
-			Secretary.Report(2, "Getting first context...");
+			L.Report(5, "Getting first context...");
 		}
 
 		/// <summary>
@@ -47,14 +48,14 @@ namespace BorrehSoft.ApolloGeese
 		/// Set to true if this service is to be checked for first
 		/// when handling a request.
 		/// </param>
-		public ServiceProvider AddService (ServiceProvider serviceProvider, bool highPriority = false)
+		public Service AddService (Service service, bool highPriority = false)
 		{
-			Secretary.Report(1, "Adding" , serviceProvider.Service.Name, "on", (highPriority ? "high priority" : "low priority"));
+			L.Report(5, "Adding" , service.Name, "on", (highPriority ? "high priority" : "low priority"));
 
-			if (highPriority) services.Insert(0, serviceProvider);
-			else services.Add(serviceProvider);
+			if (highPriority) services.Insert(0, service);
+			else services.Add(service);
 
-			return serviceProvider;
+			return service;
 		}
 
 		/// <summary>
@@ -65,37 +66,31 @@ namespace BorrehSoft.ApolloGeese
 		/// </param>
 		void RequestMade (IAsyncResult ar)
 		{
-			Secretary.Report (2, "Context Gotten");
+			listener.BeginGetContext(RequestMade, listener);
+
+			L.Report (5, "Context Gotten");
 
 			HttpListener contextListener = (HttpListener)ar.AsyncState;
 			HttpListenerContext context = contextListener.EndGetContext (ar);
 
 			int i = 0;
 			
-			Secretary.Report (2, "Matching for service...");
+			L.Report (5, "Matching for service...");
 
 			// Scan for matching service indexing with 'i'
 			for (; (i < services.Count) &&
-			    (!services[i].Detect(context.Request));
+			    (!services[i].Process(context.Request, null));
 			     i++)
 				;
 
 			// If no service awarded anything, we 404
 			if (i == services.Count) {
-				context.Response.StatusCode = 404;
-			}
-			else {
-				ServiceProvider provider = services[i];
-				provider.Service.Request(
-					provider.Parse(context.Request), 
-					context.Response);
+				context.Response.StatusCode = 500;
 			}
 
 			context.Response.Close ();
 
-			Secretary.Report(2, "Request Finalized!");
-
-			listener.BeginGetContext(RequestMade, listener);
+			L.Report(5, "Request Finalized!");
 		}
 	}
 }

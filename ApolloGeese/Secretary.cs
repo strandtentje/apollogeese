@@ -1,18 +1,18 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils;
+using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Settings;
+using L = BorrehSoft.Utensils.Log.Secretary;
 
 namespace BorrehSoft.ApolloGeese
 {
 	/// <summary>
-	/// Secretary; initiator of symbiosis and maintainer
-	/// of logfiles.
+	/// Secretary. Fires up a webserver and loads in the modules according
+	/// to configuration. Will keep logg (Log may be kept by calling Secretary.Report
 	/// </summary>
-	public class Secretary
+	public class Head
 	{
-		static int globVerbosity = 10;
-
 		/// <summary>
 		/// The entry point of the program, where the program control starts and ends.
 		/// </summary>
@@ -21,34 +21,22 @@ namespace BorrehSoft.ApolloGeese
 		/// </param>
 		static void Main (string[] args)
 		{
+			(new Secretary (
+				string.Format (
+				"{0}\\ApolloGeese\\{1}.log",
+				Environment.SpecialFolder.ApplicationData,
+				DateTime.Now.ToString ("u")))).ReportHere (0, "Logfile Opened");
+
 			HttpServer servicePort = new HttpServer("http://*:8080/");
 			Settings configuration = Settings.FromFile ("apollogeese.conf");
 
 			foreach (string dll in (List<string>)configuration["plugins"]) {
-				ServiceProvider provider = 
-					ExternalMod.GetInitiatedTypes<ServiceProvider> (dll);
-				servicePort.AddService (provider);
+				foreach (Service service in ExternalMod.GetInitiatedTypes<Service> (dll)) {
+					servicePort.AddService (service);
+				}
 			}
 
 			Console.ReadLine();
 		}
-
-		/// <summary>
-		/// Report messageParts with specified verbosity.
-		/// </summary>
-		/// <param name='verbosity'>
-		/// Verbosity level.
-		/// </param>
-		/// <param name='messageParts'>
-		/// Message parts.
-		/// </param>
-		public static void Report (int verbosity, params string[] messageParts)
-		{
-			if (verbosity < globVerbosity) {
-				Console.Write (DateTime.Now.ToString ("HH:MM:SS | "));
-				Console.WriteLine (string.Join (" ", messageParts));
-			}
-		}
-
 	}
 }

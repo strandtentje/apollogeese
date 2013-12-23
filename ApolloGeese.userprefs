@@ -1,28 +1,20 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ApolloGeese/Secretary.cs">
-    <Files>
-      <File FileName="ApolloGeese/Secretary.cs" Line="42" Column="34" />
-      <File FileName="Geese/bin/Debug/apollogeese.conf" Line="3" Column="2" />
-      <File FileName="ModularFunk/ExternalMod.cs" Line="17" Column="17" />
-      <File FileName="ApolloGeese/HttpServer.cs" Line="1" Column="1" />
-    </Files>
+  <MonoDevelop.Ide.Workbench>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Option id="ShowAllFiles" value="True" />
-          <Node name="Duckling" expanded="True" />
-          <Node name="FileServer" expanded="True" />
-          <Node name="Geese" expanded="True">
+          <Node name="Duckling" expanded="True">
             <Node name="References" expanded="True" />
-            <Node name="bin" expanded="True">
-              <Node name="Debug" expanded="True" />
-            </Node>
-            <Node name="Secretary.cs" selected="True" />
           </Node>
+          <Node name="FileServer" expanded="True">
+            <Node name="References" expanded="True" />
+          </Node>
+          <Node name="Geese" expanded="True" />
           <Node name="Utensils" expanded="True">
-            <Node name="Parsing" expanded="True">
-              <Node name="Parsers" expanded="True" />
+            <Node name="Log" expanded="True">
+              <Node name="Secretary.cs" selected="True" />
             </Node>
           </Node>
         </State>
