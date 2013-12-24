@@ -34,7 +34,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
-    <Compile Include="ExternalMod.cs" />
     <Compile Include="Parsing\ParsingSession.cs" />
     <Compile Include="Parsing\ParsingException.cs" />
     <Compile Include="Settings\Settings.cs" />
@@ -51,6 +50,8 @@
     <Compile Include="Parsing\Parsers\AnyParser.cs" />
     <Compile Include="List.cs" />
     <Compile Include="Log\Secretary.cs" />
+    <Compile Include="Settings\MissingSettingException.cs" />
+    <Compile Include="PluginCollection.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

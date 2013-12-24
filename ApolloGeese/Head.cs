@@ -4,6 +4,8 @@ using BorrehSoft.Utensils;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Settings;
 using L = BorrehSoft.Utensils.Log.Secretary;
+using System.Collections.Generic;
+using System.Reflection;
 
 namespace BorrehSoft.ApolloGeese
 {
@@ -13,6 +15,8 @@ namespace BorrehSoft.ApolloGeese
 	/// </summary>
 	public class Head
 	{
+		static PluginCollection<Service> plugins;
+
 		/// <summary>
 		/// The entry point of the program, where the program control starts and ends.
 		/// </summary>
@@ -27,16 +31,37 @@ namespace BorrehSoft.ApolloGeese
 				Environment.SpecialFolder.ApplicationData,
 				DateTime.Now.ToString ("u")))).ReportHere (0, "Logfile Opened");
 
-			HttpServer servicePort = new HttpServer("http://*:8080/");
 			Settings configuration = Settings.FromFile ("apollogeese.conf");
 
-			foreach (string dll in (List<string>)configuration["plugins"]) {
-				foreach (Service service in ExternalMod.GetInitiatedTypes<Service> (dll)) {
-					servicePort.AddService (service);
-				}
-			}
+			plugins = PluginCollection<Service>.FromFiles (
+					(string[])configuration ["plugins"]);
+
+			foreach (Settings config in (Settings[])configuration["trees"])
+				LoadTree (config);
 
 			Console.ReadLine();
+		}
+
+		/// <summary>
+		/// Loads a tree of services.
+		/// </summary>
+		/// <returns>The tree.</returns>
+		/// <param name="config">Config.</param>
+		static Service LoadTree (Settings config)
+		{
+			string type = (string)config ["_type"];
+			Settings modconf = (Settings)config ["_modconf"];
+
+			Service svc = plugins.GetConstructed (type);
+			svc.Initialize (modconf);
+
+			foreach (string branch in config.GetKeys()) {
+				if (!branch.StartsWith ("_")) {
+					svc.RegisterBranch (
+						branch,
+						(Settings)LoadTree (config [branch]));
+				}
+			}
 		}
 	}
 }

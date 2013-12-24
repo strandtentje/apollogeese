@@ -15,10 +15,18 @@ namespace BorrehSoft.Utensils.Settings
 		Dictionary<string, object> assignments = 
 			new Dictionary<string, object>();
 
+		/// <summary>
+		/// Gets the setting count on this level
+		/// </summary>
+		/// <value>The count.</value>
 		public int Count {
 			get { return assignments.Count; }
 		}
 
+		/// <summary>
+		/// Gets or sets the <see cref="BorrehSoft.Utensils.Settings.Settings"/> with the specified indexer.
+		/// </summary>
+		/// <param name="indexer">Indexer.</param>
 		public object this [string indexer] {
 			get {
 				if (assignments.ContainsKey(indexer)) return assignments[indexer];
@@ -30,6 +38,20 @@ namespace BorrehSoft.Utensils.Settings
 			}
 		}
 
+		/// <summary>
+		/// Gets the keys.
+		/// </summary>
+		/// <returns>The keys.</returns>
+		public string[] GetKeys()
+		{
+			return assignments.Keys;
+		}
+
+		/// <summary>
+		/// Acquires settings from the file.
+		/// </summary>
+		/// <returns>The file.</returns>
+		/// <param name="file">File.</param>
 		public static Settings FromFile(string file)
 		{
 			Secretary.Report (5, "Loading settings file ", file);

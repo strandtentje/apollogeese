@@ -7,26 +7,34 @@ namespace BorrehSoft.ApolloGeese.Duckling
 {
 	public abstract class Service	
 	{
-		private List<ProcessCallback> outPipes = new List<ProcessCallback> ();
+		private Dictionary<string, ProcessCallback> branches = new Dictionary<string, ProcessCallback> ();
 
 		public delegate bool ProcessCallback(HttpListenerRequest request, object parameter);
 
 		public abstract string Name { get; }
-		public abstract string[] AdvertisedPipes { get; }
+		public abstract string[] AdvertisedBranches { get; }
 
 		public abstract void Initialize(Settings modSettings);
 		public abstract bool Process (HttpListenerRequest request, Parameters parameters);
 
-		public void RegisterOutpipe(ProcessCallback callback)
+		/// <summary>
+		/// Gets a value indicating whether this instance is deaf for incoming requests
+		/// </summary>
+		/// <value><c>true</c> if this instance is deaf; otherwise, <c>false</c>.</value>
+		public virtual bool IsDeaf { get { return false; } }
+
+		public void RegisterBranch(string pin, ProcessCallback callback)
 		{
-			outPipes.Add (callback);
+			if (branches.ContainsKey (pin))
+				branches.Remove (pin);
+
+			branches.Add (pin, callback);
 		}
 
-		public bool PipeOut(HttpListenerRequest request, Parameters parameters)
+		public bool Branch(string branch, HttpListenerRequest request, Parameters parameters)
 		{
-			for (int i = 0; i < outPipes.Count; i++)
-				if (outPipes[i] (request, parameters))
-					return true;
+			if (branches.ContainsKey(branch))			
+				return branches [branch] (request, parameters);
 
 			return false;
 		}
