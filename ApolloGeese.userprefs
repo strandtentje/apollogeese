@@ -1,42 +1,34 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ModularFunk/PluginCollection.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="ApolloGeese/Head.cs">
     <Files>
       <File FileName="ModularFunk/Log/Secretary.cs" Line="1" Column="1" />
-      <File FileName="ModularFunk/PluginCollection.cs" Line="26" Column="9" />
-      <File FileName="ModularFunk/Settings/Settings.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/PluginCollection.cs" Line="47" Column="61" />
       <File FileName="ModularFunk/Settings/SettingsParser.cs" Line="1" Column="1" />
-      <File FileName="ApolloGeese/HttpServer.cs" Line="1" Column="1" />
-      <File FileName="FileServer/FileService.cs" Line="1" Column="1" />
+      <File FileName="FileServer/FileService.cs" Line="7" Column="1" />
       <File FileName="ModularFunk/Settings/MissingSettingException.cs" Line="1" Column="1" />
-      <File FileName="ApolloGeese/Head.cs" Line="16" Column="19" />
+      <File FileName="ApolloGeese/Head.cs" Line="46" Column="32" />
       <File FileName="ModularFunk/Parsing/Parser.cs" Line="1" Column="1" />
       <File FileName="Duckling/Parameters.cs" Line="1" Column="1" />
-      <File FileName="Duckling/Service.cs" Line="1" Column="1" />
-      <File FileName="Geese/bin/Debug/apollogeese.conf" Line="1" Column="1" />
+      <File FileName="Duckling/Service.cs" Line="33" Column="3" />
+      <File FileName="Geese/bin/Debug/apollogeese.conf" Line="2" Column="42" />
+      <File FileName="RegularHttpServer/HttpService.cs" Line="19" Column="74" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Option id="ShowAllFiles" value="True" />
-          <Node name="Duckling" expanded="True">
-            <Node name="References" expanded="True" />
-          </Node>
-          <Node name="FileServer" expanded="True">
-            <Node name="bin" expanded="True">
-              <Node name="Debug" expanded="True" />
-            </Node>
-          </Node>
+          <Node name="Duckling" expanded="True" />
+          <Node name="FileServer" expanded="True" />
           <Node name="Geese" expanded="True">
             <Node name="bin" expanded="True">
               <Node name="Debug" expanded="True" />
             </Node>
+            <Node name="Head.cs" selected="True" />
           </Node>
+          <Node name="RegularHttpServer" expanded="True" />
           <Node name="Utensils" expanded="True">
-            <Node name="Log" expanded="True" />
-            <Node name="Parsing" expanded="True" />
             <Node name="Settings" expanded="True" />
-            <Node name="PluginCollection.cs" selected="True" />
           </Node>
         </State>
       </Pad>

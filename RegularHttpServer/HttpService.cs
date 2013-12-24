@@ -64,7 +64,7 @@ namespace BorrehSoft.Extensions.HttpService
 			HttpListener contextListener = (HttpListener)ar.AsyncState;
 			HttpListenerContext context = contextListener.EndGetContext (ar);
 
-			if (!Process (context.Request, null))
+			if (!Process (context, null))
 				context.Response.StatusCode = 500;
 
 			context.Response.Close ();
@@ -72,9 +72,9 @@ namespace BorrehSoft.Extensions.HttpService
 			L.Report(5, "Request Finalized!");
 		}
 
-		public override bool Process (HttpListenerRequest request, Parameters parameters)
+		public override bool Process (HttpListenerContext context, Parameters parameters)
 		{
-			return Branch ("http", request, parameters);
+			return RunBranch ("http", context, parameters);
 		}
 	}
 }

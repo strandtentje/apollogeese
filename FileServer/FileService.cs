@@ -3,10 +3,12 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Settings;
 using System.Net;
 using BorrehSoft.Utensils;
-using Duple = BorrehSoft.Utensils.Tuple<string, string>;
 
 namespace BorrehSoft.Extensions.FileServer
 {
+	/// <summary>
+	/// File service.
+	/// </summary>
 	public class FileService : Service
 	{
 		public override string Name {
@@ -23,30 +25,28 @@ namespace BorrehSoft.Extensions.FileServer
 			}
 		}
 
-		List<Duple> mappings = new List<Duple>();
-
+		List<Mapping> mappings = new List<Mapping>();
 
 		public override void Initialize (Settings modSettings)
 		{
 			if (modSettings ["mappings"] == null)
-				throw new MissingSettingException ("where type is \"fileserver\"", "mappings", "an array of from=/to= pairs");
+				throw new MissingSettingException ("where type is \"fileserver\"", "mappings", "a mapping from a URL-path to filesystem path");
 
 			Settings[] mappings = (Settings[])modSettings ["mappings"];
 
 			foreach (Settings s in mappings) {
-				this.mappings.Add (
-					new Duple (
-						(string)s["from"], 
-						(string)s["to"]
-					)
-				);
+				this.mappings.Add (new Mapping(s));
 			}
 		}
 
-		public override bool Process (HttpListenerRequest request, Parameters parameters)
+		public override bool Process (HttpListenerContext context, Parameters parameters)
 		{
+			foreach (Mapping mapping in mappings) {
+				if (mapping.Follow (context.Request.RawUrl, context.Response))
+					return true;
+			}
 
-			return true;
+			return false;
 		}
 	}
 }

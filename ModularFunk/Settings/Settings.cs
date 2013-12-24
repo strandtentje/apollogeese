@@ -42,7 +42,7 @@ namespace BorrehSoft.Utensils.Settings
 		/// Gets the keys.
 		/// </summary>
 		/// <returns>The keys.</returns>
-		public string[] GetKeys()
+		public IEnumerable<string> GetKeys()
 		{
 			return assignments.Keys;
 		}

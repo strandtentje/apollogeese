@@ -49,19 +49,22 @@ namespace BorrehSoft.ApolloGeese
 		/// <param name="config">Config.</param>
 		static Service LoadTree (Settings config)
 		{
-			string type = (string)config ["_type"];
-			Settings modconf = (Settings)config ["_modconf"];
+			string type = (string)config ["type"];
+			Settings modconf = (Settings)config ["modconf"];
 
 			Service svc = plugins.GetConstructed (type);
 			svc.Initialize (modconf);
 
 			foreach (string branch in config.GetKeys()) {
-				if (!branch.StartsWith ("_")) {
-					svc.RegisterBranch (
-						branch,
-						(Settings)LoadTree (config [branch]));
+				int brIx = branch.IndexOf ("_branch");
+
+				if (brIx > -1) {
+					Settings treeConf = (Settings)config [branch];
+					svc.RegisterBranch (branch.Remove(brIx), LoadTree (treeConf));
 				}
 			}
+
+			return svc;
 		}
 	}
 }
