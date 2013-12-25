@@ -15,10 +15,10 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		private Dictionary<string, Service> branches = new Dictionary<string, Service> ();
 
 		/// <summary>
-		/// Gets the name of this service. (Cool bonus: May change! Woo!)
+		/// Gets the description of this service. (Cool bonus: May change! Woo!)
 		/// </summary>
 		/// <value>The name of this service</value>
-		public abstract string Name { get; }
+		public abstract string Description { get; }
 		/// <summary>
 		/// Gets an array of branch names this service advertises with.
 		/// This is primarly of use in the SFC GUI tool, which doesn't

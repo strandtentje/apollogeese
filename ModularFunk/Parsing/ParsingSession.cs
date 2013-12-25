@@ -19,6 +19,7 @@ namespace BorrehSoft.Utensils.Parsing
 		/// The data.
 		/// </value>
 		public string Data { get; private set; }
+
 		/// <summary>
 		/// Gets or sets the current line index, readout intended
 		/// for reporting parsing errors. Write intended for Parser-
@@ -36,6 +37,12 @@ namespace BorrehSoft.Utensils.Parsing
 		/// The offset.
 		/// </value>
 		public int Offset { get; set; }
+		/// <summary>
+		/// Gets or sets the current column index.
+		/// </summary>
+		/// <value>The current column.</value>
+		public int CurrentColumn { get; set; }
+
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Utensils.Parsing.ParsingSession"/> class.

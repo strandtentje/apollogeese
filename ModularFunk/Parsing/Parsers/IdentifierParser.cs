@@ -28,7 +28,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 			else 
 				return -1;
 
-			while(IsAlphaNumeric(session.Data[session.Offset]))
+			while(IsAlphaNumericUsc(session.Data[session.Offset]))
 				resultBuilder.Append (session.Data [session.Offset++]);
 
 			result = resultBuilder.ToString();

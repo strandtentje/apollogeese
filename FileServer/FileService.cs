@@ -11,7 +11,7 @@ namespace BorrehSoft.Extensions.FileServer
 	/// </summary>
 	public class FileService : Service
 	{
-		public override string Name {
+		public override string Description {
 			get {
 				return "Fileserver";
 			}
@@ -32,10 +32,8 @@ namespace BorrehSoft.Extensions.FileServer
 			if (modSettings ["mappings"] == null)
 				throw new MissingSettingException ("where type is \"fileserver\"", "mappings", "a mapping from a URL-path to filesystem path");
 
-			Settings[] mappings = (Settings[])modSettings ["mappings"];
-
-			foreach (Settings s in mappings) {
-				this.mappings.Add (new Mapping(s));
+			foreach (object s in (List<object>)modSettings ["mappings"]) {
+				this.mappings.Add (new Mapping((Settings)s));
 			}
 		}
 

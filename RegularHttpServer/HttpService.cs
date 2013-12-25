@@ -11,7 +11,7 @@ namespace BorrehSoft.Extensions.HttpService
 	/// <summary>
 	/// Http server.
 	/// </summary>
-	class HttpService : Service
+	public class HttpService : Service
 	{
 		private HttpListener listener = new HttpListener();
 
@@ -33,7 +33,7 @@ namespace BorrehSoft.Extensions.HttpService
 			}
 		}
 
-		public override string Name {
+		public override string Description {
 			get {
 				return "HttpServer";
 			}
@@ -41,8 +41,8 @@ namespace BorrehSoft.Extensions.HttpService
 
 		public override void Initialize (Settings modSettings)
 		{
-			foreach(string prefix in (string[])modSettings["prefixes"])			
-				listener.Prefixes.Add(prefix);
+			foreach(object prefix in (List<object>)modSettings["prefixes"])			
+				listener.Prefixes.Add((string)prefix);
 
 			listener.Start ();
 
@@ -67,6 +67,7 @@ namespace BorrehSoft.Extensions.HttpService
 			if (!Process (context, null))
 				context.Response.StatusCode = 500;
 
+			context.Response.OutputStream.Close ();
 			context.Response.Close ();
 
 			L.Report(5, "Request Finalized!");

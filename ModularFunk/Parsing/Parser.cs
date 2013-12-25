@@ -81,6 +81,11 @@ namespace BorrehSoft.Utensils.Parsing
 		{
 			return IsAlpha(character) || IsNumeric(character);
 		}
+
+		internal static bool IsAlphaNumericUsc(char character)
+		{
+			return IsAlphaNumeric (character) || (character == '_');
+		}
 	}
 }
 

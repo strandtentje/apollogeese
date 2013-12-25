@@ -43,10 +43,20 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 			if (oncomingWhitespace.Index != 0)
 				return -1;
 
-			session.Offset += oncomingWhitespace.Length;
+			string consecSpace = oncomingWhitespace.Value;
 
-			foreach (char c in oncomingWhitespace.Value)
-				if (c == '\n') session.CurrentLine++;
+			session.Offset += consecSpace.Length;
+
+			int lastBreak = 0; 
+
+			for (int charI = 0; charI < consecSpace.Length; charI++) {
+				if (consecSpace [charI] == '\n') {
+					lastBreak = charI;
+					session.CurrentLine++;
+				}
+			}
+
+			session.CurrentColumn = consecSpace.Length - lastBreak;
 
 			result = oncomingWhitespace.Value;
 			return oncomingWhitespace.Length;

@@ -40,7 +40,7 @@ namespace BorrehSoft.Utensils
 		/// <param name="name">Name.</param>
 		public T GetConstructed(string name)
 		{
-			return (T)Activator.CreateInstance (typeof(T));
+			return (T)Activator.CreateInstance (butt[name]);
 		}
 
 		/// <summary>
@@ -52,12 +52,20 @@ namespace BorrehSoft.Utensils
 		{
 			PluginCollection<T> newcol = new PluginCollection<T> ();
 
-			foreach(string file in files)
-				AppendMatchingTypesTo (
-					newcol.butt, typeof(T), 
-					Assembly.LoadFrom (file));
+			foreach (string file in files)
+				newcol.AddFile (file);
 
 			return newcol;
+		}
+
+		/// <summary>
+		/// Adds all matching plugins from a file.
+		/// </summary>
+		/// <param name="file">File.</param>
+		public void AddFile (string file)
+		{			
+			Secretary.Report (6, "Adding plugin from file:", file);
+			AppendMatchingTypesTo (butt, typeof(T), Assembly.LoadFrom (file));
 		}
 
 		/// <summary>
@@ -69,8 +77,10 @@ namespace BorrehSoft.Utensils
 		static void AppendMatchingTypesTo (Dictionary<string, Type> registry, Type match, Assembly assembly)
 		{
 			foreach (Type potential in assembly.GetTypes())
-				if (match.IsAssignableFrom (potential))
+				if (match.IsAssignableFrom (potential)) {
+					Secretary.Report (7, "Type matched:", potential.Name);
 					registry.Add (potential.Name, potential);
+				}
 		}
 	}
 }

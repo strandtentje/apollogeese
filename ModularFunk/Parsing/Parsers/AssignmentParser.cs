@@ -26,10 +26,10 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 						result = new Tuple<string, object> ((string)identifier, value);
 						return 1;
 					} else {
-						throw new ParsingException (session.CurrentLine, InnerParser);
+						throw new ParsingException (session, InnerParser);
 					}
 				} else {
-					throw new ParsingException (session.CurrentLine, coupler);
+					throw new ParsingException (session, coupler, (string)identifier);
 				}
 			}
 

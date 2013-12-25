@@ -20,13 +20,13 @@ namespace BorrehSoft.Utensils.Settings
 		/// </summary>
 		public SettingsParser() : base('{', '}', ';')
 		{
-			ConcatenationParser listParser = new ConcatenationParser ('[', ']', '=');
+			ConcatenationParser listParser = new ConcatenationParser ('[', ']', ',');
 			AssignmentParser assignmentParser = new AssignmentParser ();
 
 			AnyParser valueParser = new AnyParser (
 				new ValueParser<int> (int.TryParse), 
 				new ValueParser<float> (float.TryParse),
-				new ValueParser<bool> (bool.TryParse), 
+				new ValueParser<bool> (bool.TryParse, "(True|False|true|false)"), 
 				new IdentifierParser (),
 				new StringParser (), 
 				listParser, 

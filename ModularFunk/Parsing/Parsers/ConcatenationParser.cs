@@ -41,7 +41,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 					result = target;
 					return target.Count;
 				} else {
-					throw new ParsingException (session.CurrentLine, closer);
+					throw new ParsingException (session, closer);
 				}
 			}
 

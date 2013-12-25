@@ -4,6 +4,7 @@ using BorrehSoft.Utensils;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Settings;
 using L = BorrehSoft.Utensils.Log.Secretary;
+using OL = BorrehSoft.Utensils.List<object>;
 using System.Collections.Generic;
 using System.Reflection;
 
@@ -15,7 +16,7 @@ namespace BorrehSoft.ApolloGeese
 	/// </summary>
 	public class Head
 	{
-		static PluginCollection<Service> plugins;
+		static PluginCollection<Service> plugins = new PluginCollection<Service> ();
 
 		/// <summary>
 		/// The entry point of the program, where the program control starts and ends.
@@ -29,15 +30,18 @@ namespace BorrehSoft.ApolloGeese
 				string.Format (
 				"{0}\\ApolloGeese\\{1}.log",
 				Environment.SpecialFolder.ApplicationData,
-				DateTime.Now.ToString ("u")))).ReportHere (0, "Logfile Opened");
+				DateTime.Now.ToString ("u"))) { globVerbosity = 10 }).ReportHere (
+				0, "Logfile Opened");
 
 			Settings configuration = Settings.FromFile ("apollogeese.conf");
 
-			plugins = PluginCollection<Service>.FromFiles (
-					(string[])configuration ["plugins"]);
+			foreach (object pluInFileObj in (OL)configuration ["plugins"])
+				plugins.AddFile ((string)pluInFileObj);
 
-			foreach (Settings config in (Settings[])configuration["trees"])
-				LoadTree (config);
+			Secretary.Report (5, "Loading Branches");
+			foreach (object config in (OL)configuration["trees"]) {
+				LoadTree ((Settings)config);
+			}
 
 			Console.ReadLine();
 		}
@@ -50,10 +54,17 @@ namespace BorrehSoft.ApolloGeese
 		static Service LoadTree (Settings config)
 		{
 			string type = (string)config ["type"];
+
+			Secretary.Report (6, "Entered branch for", type);
+
 			Settings modconf = (Settings)config ["modconf"];
 
+			Secretary.Report (7, "Constructing and Initializing node for", type);
 			Service svc = plugins.GetConstructed (type);
 			svc.Initialize (modconf);
+			Secretary.Report (8, "Aforementioned finished.");
+
+			Secretary.Report (6, "Branching within...");
 
 			foreach (string branch in config.GetKeys()) {
 				int brIx = branch.IndexOf ("_branch");
