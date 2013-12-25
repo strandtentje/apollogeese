@@ -11,14 +11,14 @@ namespace BorrehSoft.Utensils.Parsing
 	/// </summary>
 	public class ParsingSession
 	{
-		public WhitespaceParser whitespaceParser = new WhitespaceParser();
+		public Parser whitespaceParser;
 		/// <summary>
 		/// Gets the data to be parsed
 		/// </summary>
 		/// <value>
 		/// The data.
 		/// </value>
-		public string Data { get; private set; }
+		public string Data { get; set; }
 
 		/// <summary>
 		/// Gets or sets the current line index, readout intended
@@ -43,15 +43,9 @@ namespace BorrehSoft.Utensils.Parsing
 		/// <value>The current column.</value>
 		public int CurrentColumn { get; set; }
 
-
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BorrehSoft.Utensils.Parsing.ParsingSession"/> class.
-		/// </summary>
-		/// <param name='data'>
-		/// Data this Session will provide to the parsers.
-		/// </param>
-		public ParsingSession(string data)
+		public ParsingSession(string data, Parser whitespaceParser)
 		{
+			this.whitespaceParser = whitespaceParser;
 			this.Data = data;
 			this.Offset = 0;
 			this.CurrentLine = 0;
@@ -68,7 +62,19 @@ namespace BorrehSoft.Utensils.Parsing
 		/// </param>
 		public static ParsingSession FromFile(string file)
 		{
-			return new ParsingSession(File.ReadAllText(file));
+			return FromFile (file, new WhitespaceParser ());
+		}
+
+		/// <summary>
+		/// Reads all contents from a file for usage in a ParsingSession, and uses
+		/// and alternative parser for whitespace regions (i.e. #operations)
+		/// </summary>
+		/// <returns>The file.</returns>
+		/// <param name="file">File.</param>
+		/// <param name="whitespaceParser">Whitespace parser.</param>
+		public static ParsingSession FromFile(string file, Parser whitespaceParser)
+		{
+			return new ParsingSession (File.ReadAllText (file), whitespaceParser);
 		}
 	}
 }

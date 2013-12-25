@@ -61,7 +61,7 @@ namespace BorrehSoft.Utensils.Settings
 				Secretary.Report (5, file, " didn't exist. Has been created.");
 			}
 
-			ParsingSession session = ParsingSession.FromFile(file);
+			ParsingSession session = ParsingSession.FromFile(file, new IncludeParser());
 			SettingsParser parser = new SettingsParser();
 			object result;
 
