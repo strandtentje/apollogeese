@@ -66,8 +66,12 @@ namespace BorrehSoft.Utensils.Log
 		{
 			while (messages.Count > 0) {
 				string[] message = messages.Dequeue ();							
-				logEntry.Append(DateTime.Now.ToString ("HH:MM:SS | "));
-				logEntry.AppendLine(string.Join (" ", message));
+				logEntry.Append(DateTime.Now.ToString ("s"));
+				logEntry.Append (" | ");
+				if (message == null)
+					logEntry.AppendLine ("Nullmessage Caught!!");
+				else
+					logEntry.AppendLine(string.Join (" ", message));
 			}
 
 			logChunk = logEntry.ToString ();

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using BorrehSoft.ApolloGeese.Duckling;
 using L = BorrehSoft.Utensils.Log.Secretary;
 using BorrehSoft.Utensils.Settings;
+using System.Diagnostics;
 
 namespace BorrehSoft.Extensions.HttpService
 {
@@ -64,13 +65,17 @@ namespace BorrehSoft.Extensions.HttpService
 			HttpListener contextListener = (HttpListener)ar.AsyncState;
 			HttpListenerContext context = contextListener.EndGetContext (ar);
 
+			Stopwatch requestSw = new Stopwatch ();
+
+			requestSw.Start ();
 			if (!Process (context, null))
 				context.Response.StatusCode = 500;
+			requestSw.Stop ();
 
 			context.Response.OutputStream.Close ();
 			context.Response.Close ();
 
-			L.Report(5, "Request Finalized!");
+			L.Report(5, "Request Finalized in", requestSw.ElapsedMilliseconds.ToString(), "milliseconds");
 		}
 
 		public override bool Process (HttpListenerContext context, Parameters parameters)

@@ -75,6 +75,8 @@ namespace BorrehSoft.ApolloGeese
 				}
 			}
 
+			Secretary.Report (7, type, "now has", svc.BranchCount.ToString(), "branches.");
+
 			return svc;
 		}
 	}

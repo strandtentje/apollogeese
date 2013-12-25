@@ -62,6 +62,14 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		}
 
 		/// <summary>
+		/// Gets the branch count.
+		/// </summary>
+		/// <value>The branch count.</value>
+		public int BranchCount {
+			get { return branches.Count; }
+		}
+
+		/// <summary>
 		/// Runs a branch-operation.
 		/// </summary>
 		/// <returns><c>true</c>, if branch was ran succesfully, <c>false</c> otherwise.</returns>
