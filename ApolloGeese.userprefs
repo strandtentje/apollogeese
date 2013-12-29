@@ -1,18 +1,30 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="ApolloGeese/Head.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Website/WebService.cs">
     <Files>
+      <File FileName="RegularHttpServer/HttpService.cs" Line="33" Column="31" />
+      <File FileName="Duckling/Service.cs" Line="33" Column="54" />
+      <File FileName="FileServer/FileService.cs" Line="46" Column="4" />
+      <File FileName="FileServer/Mapping.cs" Line="1" Column="1" />
+      <File FileName="ApolloGeese/Head.cs" Line="37" Column="4" />
       <File FileName="ModularFunk/Log/Secretary.cs" Line="1" Column="1" />
-      <File FileName="ModularFunk/PluginCollection.cs" Line="47" Column="61" />
-      <File FileName="ModularFunk/Settings/SettingsParser.cs" Line="1" Column="1" />
-      <File FileName="FileServer/FileService.cs" Line="7" Column="1" />
-      <File FileName="ModularFunk/Settings/MissingSettingException.cs" Line="1" Column="1" />
-      <File FileName="ApolloGeese/Head.cs" Line="46" Column="32" />
-      <File FileName="ModularFunk/Parsing/Parser.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/PluginCollection.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/StreamTools.cs" Line="1" Column="1" />
       <File FileName="Duckling/Parameters.cs" Line="1" Column="1" />
-      <File FileName="Duckling/Service.cs" Line="33" Column="3" />
-      <File FileName="Geese/bin/Debug/apollogeese.conf" Line="2" Column="42" />
-      <File FileName="RegularHttpServer/HttpService.cs" Line="19" Column="74" />
+      <File FileName="RegularHttpServer/BasicAuthService.cs" Line="26" Column="3" />
+      <File FileName="ModularFunk/Settings/Settings.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/Parsing/Parsers/WhitespaceParser.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/Parsing/ParsingSession.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/Settings/IncludeParser.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/Parsing/Parser.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/Settings/SettingsParser.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/Parsing/Parsers/StringParser.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/Parsing/Parsers/ValueParser.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/Parsing/Parsers/CharacterParser.cs" Line="1" Column="1" />
+      <File FileName="RegularHttpServer/CacheService.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/Parsing/Parsers/AssignmentParser.cs" Line="1" Column="1" />
+      <File FileName="Website/WebsiteParameters.cs" Line="12" Column="1" />
+      <File FileName="Website/WebService.cs" Line="20" Column="5" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -20,15 +32,11 @@
           <Option id="ShowAllFiles" value="True" />
           <Node name="Duckling" expanded="True" />
           <Node name="FileServer" expanded="True" />
-          <Node name="Geese" expanded="True">
-            <Node name="bin" expanded="True">
-              <Node name="Debug" expanded="True" />
-            </Node>
-            <Node name="Head.cs" selected="True" />
-          </Node>
+          <Node name="Geese" expanded="True" />
           <Node name="RegularHttpServer" expanded="True" />
-          <Node name="Utensils" expanded="True">
-            <Node name="Settings" expanded="True" />
+          <Node name="Utensils" expanded="True" />
+          <Node name="Website" expanded="True">
+            <Node name="WebService.cs" selected="True" />
           </Node>
         </State>
       </Pad>
@@ -41,12 +49,19 @@
     </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/home/rob/Bureaublad/ApolloGeese/RegularHttpServer/CacheService.cs" line="33" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>
     <Watch file="ModularFunk/Parsing/Parsers/StringParser.cs" line="17" offsetX="736" offsetY="256" expression="session" liveUpdate="False" />
     <Watch file="ApolloGeese/Secretary.cs" line="24" offsetX="568" offsetY="368" expression="s" liveUpdate="False" />
     <Watch file="ModularFunk/Parsing/Parsers/ConcatenationParser.cs" line="35" offsetX="688" offsetY="544" expression="session" liveUpdate="False" />
     <Watch file="ModularFunk/Parsing/Parsers/ConcatenationParser.cs" line="35" offsetX="688" offsetY="544" expression="session" liveUpdate="False" />
+    <Watch file="ApolloGeese/Head.cs" line="37" offsetX="526" offsetY="448" expression="configuration" liveUpdate="False" />
+    <Watch file="FileServer/Mapping.cs" line="25" offsetX="350" offsetY="384" expression="s" liveUpdate="False" />
+    <Watch file="FileServer/FileService.cs" line="42" offsetX="478" offsetY="656" expression="mappings" liveUpdate="False" />
+    <Watch file="RegularHttpServer/BasicAuthService.cs" line="45" offsetX="518" offsetY="704" expression="authHeader" liveUpdate="False" />
+    <Watch file="RegularHttpServer/CacheService.cs" line="41" offsetX="462" offsetY="640" expression="outStream" liveUpdate="False" />
   </MonoDevelop.Ide.DebuggingService.PinnedWatches>
 </Properties>

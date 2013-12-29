@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duckling", "Duckling\Duckli
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RegularHttpServer", "RegularHttpServer\RegularHttpServer.csproj", "{31EE0B27-8C38-417C-8896-F1C5FC63C51A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Website", "Website\Website.csproj", "{3E5EA577-581E-495F-9561-3241DB072092}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x86 = Debug|x86
@@ -29,6 +31,10 @@ Global
 		{31EE0B27-8C38-417C-8896-F1C5FC63C51A}.Debug|x86.Build.0 = Debug|Any CPU
 		{31EE0B27-8C38-417C-8896-F1C5FC63C51A}.Release|x86.ActiveCfg = Release|Any CPU
 		{31EE0B27-8C38-417C-8896-F1C5FC63C51A}.Release|x86.Build.0 = Release|Any CPU
+		{3E5EA577-581E-495F-9561-3241DB072092}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3E5EA577-581E-495F-9561-3241DB072092}.Debug|x86.Build.0 = Debug|Any CPU
+		{3E5EA577-581E-495F-9561-3241DB072092}.Release|x86.ActiveCfg = Release|Any CPU
+		{3E5EA577-581E-495F-9561-3241DB072092}.Release|x86.Build.0 = Release|Any CPU
 		{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}.Debug|x86.Build.0 = Debug|Any CPU
 		{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}.Release|x86.ActiveCfg = Release|Any CPU
