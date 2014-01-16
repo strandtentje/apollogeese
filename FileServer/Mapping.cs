@@ -76,9 +76,9 @@ namespace BorrehSoft.Extensions.FileServer
 		/// </summary>
 		/// <param name="rawUrl">Raw URL.</param>
 		/// <param name="response">Response.</param>
-		public bool Follow (string rawUrl, HttpListenerResponse response)
+		public bool Follow (Interaction parameters)
 		{
-			rawUrl = HttpUtility.UrlDecode (rawUrl);
+			string rawUrl = parameters.RawURL;
 
 			// Failure when this mapping isn't relevant
 			if (!rawUrl.StartsWith (URL)) return false;
@@ -90,11 +90,11 @@ namespace BorrehSoft.Extensions.FileServer
 				fsPath = FileSystemPath + tail.TrimStart ('/');
 
 			if (Directory.Exists (fsPath))
-				return GetDirectoryIndex (response, fsPath, rawUrl);
+				return GetDirectoryIndex (parameters, rawUrl, fsPath);
 			else if (File.Exists (fsPath)) 
-				return GetFileContents (response, fsPath);
+				return GetFileContents (parameters, rawUrl, fsPath);
 
-			response.StatusCode = 404;
+			parameters.StatusCode = 404;
 
 			return false;
 		}
@@ -106,14 +106,14 @@ namespace BorrehSoft.Extensions.FileServer
 		/// <param name="response">Response.</param>
 		/// <param name="fsPath">Filesystem path.</param>
 		/// <param name="rawUrl">Raw Requesy URL.</param>
-		bool GetDirectoryIndex (HttpListenerResponse response, string fsPath, string rawUrl)
+		bool GetDirectoryIndex (Interaction parameters, string rawUrl, string fsPath)
 		{
 			rawUrl = rawUrl.TrimEnd ('/') + '/';
 
 			DirectoryInfo info = new DirectoryInfo (fsPath);
 
-			if (!AllowBrowsing) { response.StatusCode = 403; return false; }
-			if (!info.Exists) { response.StatusCode = 404; return false; }
+			if (!AllowBrowsing) { parameters.StatusCode = 403; return false; }
+			if (!info.Exists) { parameters.StatusCode = 404; return false; }
 
 			StringBuilder fileList = new StringBuilder ();
 
@@ -134,7 +134,8 @@ namespace BorrehSoft.Extensions.FileServer
 						HttpUtility.UrlEncode(rawUrl + file.Name).Replace("%2f", "/"), 
 						file.Name));
 
-			Response.WriteHTML (response, string.Format (ListMarkup, fileList.ToString ()));
+			parameters.HTML.AppendLine (
+				string.Format (ListMarkup, fileList.ToString ()));
 
 			Secretary.Report (9, "Was directory, providing index.");
 
@@ -147,17 +148,21 @@ namespace BorrehSoft.Extensions.FileServer
 		/// <returns><c>true</c>, if file contents was gotten, <c>false</c> otherwise.</returns>
 		/// <param name="response">Response.</param>
 		/// <param name="fsPath">Filesystem path.</param>
-		bool GetFileContents (HttpListenerResponse response, string fsPath)
+		bool GetFileContents (Interaction parameters, string rawUrl, string fsPath)
 		{
 			FileInfo info = new FileInfo (fsPath);
 
 			string mimeType = (string)Whitelist [info.Extension.TrimStart ('.')];
 			if (mimeType == null) {
-				response.StatusCode = 403;
+				parameters.StatusCode = 404;
 				return false;
 			}
+			
+			FileInfo file = new FileInfo (fsPath);
 
-			Response.WriteFile (response, info, mimeType);
+			parameters.MimeType = mimeType;
+			parameters.Size = file.Length;
+			parameters.BodyInStream = file.OpenRead ();
 
 			Secretary.Report (9, "Was file, providing content.");
 

@@ -59,6 +59,10 @@
       <Project>{31EE0B27-8C38-417C-8896-F1C5FC63C51A}</Project>
       <Name>RegularHttpServer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Website\Website.csproj">
+      <Project>{3E5EA577-581E-495F-9561-3241DB072092}</Project>
+      <Name>Website</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Geese\bin\Debug\apollogeese.conf" />

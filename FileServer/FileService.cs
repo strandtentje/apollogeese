@@ -27,20 +27,22 @@ namespace BorrehSoft.Extensions.FileServer
 
 		List<Mapping> mappings = new List<Mapping>();
 
-		public override void Initialize (Settings modSettings)
+		protected override void Initialize (Settings modSettings)
 		{
 			if (modSettings ["mappings"] == null)
 				throw new MissingSettingException ("where type is \"fileserver\"", "mappings", "a mapping from a URL-path to filesystem path");
+
+			this.mappings.Clear ();
 
 			foreach (object s in (List<object>)modSettings ["mappings"]) {
 				this.mappings.Add (new Mapping((Settings)s));
 			}
 		}
 
-		public override bool Process (HttpListenerContext context, Parameters parameters)
+		protected override bool Process (Interaction parameters)
 		{
 			foreach (Mapping mapping in mappings) {
-				if (mapping.Follow (context.Request.RawUrl, context.Response))
+				if (mapping.Follow (parameters))
 					return true;
 			}
 

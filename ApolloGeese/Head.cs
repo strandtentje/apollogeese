@@ -61,7 +61,13 @@ namespace BorrehSoft.ApolloGeese
 
 			Secretary.Report (7, "Constructing and Initializing node for", type);
 			Service svc = plugins.GetConstructed (type);
-			svc.Initialize (modconf);
+
+			if (!svc.TryInitialize (modconf)) {
+				Secretary.Report (6, "This module produced an error on initialization: ",
+				                  svc.InitErrorMessage, 
+				                  " but we're continuing anyways, because we've balls.");
+			}
+
 			Secretary.Report (8, "Aforementioned finished.");
 
 			Secretary.Report (6, "Branching within...");

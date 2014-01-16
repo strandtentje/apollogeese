@@ -40,8 +40,12 @@ namespace BorrehSoft.Extensions.HttpService
 			}
 		}
 
-		public override void Initialize (Settings modSettings)
+		protected override void Initialize (Settings modSettings)
 		{
+			listener.Stop ();
+
+			listener.Prefixes.Clear ();
+
 			foreach(object prefix in (List<object>)modSettings["prefixes"])			
 				listener.Prefixes.Add((string)prefix);
 
@@ -67,10 +71,18 @@ namespace BorrehSoft.Extensions.HttpService
 
 			Stopwatch requestSw = new Stopwatch ();
 
+			Interaction parameters = new Interaction (context.Request);
+
 			requestSw.Start ();
-			if (!Process (context, null))
-				context.Response.StatusCode = 500;
+			bool succesful = Process (parameters);
 			requestSw.Stop ();
+
+			if (succesful) {
+				parameters.Ready (context.Response);
+			}
+			else {
+				context.Response.StatusCode = 500;
+			}
 
 			context.Response.OutputStream.Close ();
 			context.Response.Close ();
@@ -78,9 +90,9 @@ namespace BorrehSoft.Extensions.HttpService
 			L.Report(5, "Request Finalized in", requestSw.ElapsedMilliseconds.ToString(), "milliseconds");
 		}
 
-		public override bool Process (HttpListenerContext context, Parameters parameters)
+		protected override bool Process (Interaction parameters)
 		{
-			return RunBranch ("http", context, parameters);
+			return RunBranch ("http", parameters);
 		}
 	}
 }

@@ -24,7 +24,7 @@ namespace RegularHttpServer
 		string realm;
 		string wwwAuthHeader;
 
-		public override void Initialize (Settings modSettings)
+		protected override void Initialize (Settings modSettings)
 		{
 			byte[] loginBytes = Encoding.ASCII.GetBytes (
 				(string)modSettings ["username"] + ":" +
@@ -35,9 +35,9 @@ namespace RegularHttpServer
 			wwwAuthHeader = string.Format ("Basic realm=\"{0}\"", realm);
 		}
 
-		public override bool Process (HttpListenerContext context, Parameters parameters)
+		protected override bool Process (Interaction parameters)
 		{
-			string[] authHeader = context.Request.Headers.GetValues ("Authorization");
+			string[] authHeader = parameters.IncomingHeaders.GetValues ("Authorization");
 
 			if ((authHeader != null) &&
 				(authHeader.Length > 0)) {
@@ -46,12 +46,13 @@ namespace RegularHttpServer
 
 				if ((authHeader [0] == "Basic") &&
 					(authHeader [1] == loginString)) {
-					return RunBranch ("http", context, parameters);
+					return RunBranch ("http", parameters);
 				}
 			} 
 
-			context.Response.StatusCode = 401;
-			context.Response.AddHeader ("WWW-Authenticate", wwwAuthHeader);
+			parameters.StatusCode = 401;
+			parameters.OutgoingHeaders ["WWW-Authenticate"] = wwwAuthHeader;
+
 			return true;
 		}
 	}

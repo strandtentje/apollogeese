@@ -54,6 +54,7 @@
     <Compile Include="PluginCollection.cs" />
     <Compile Include="StreamTools.cs" />
     <Compile Include="Settings\IncludeParser.cs" />
+    <Compile Include="Map.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
