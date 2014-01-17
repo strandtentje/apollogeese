@@ -25,15 +25,15 @@ namespace Website
 
 		protected override bool Process (Interaction parameters)
 		{
-			string givenCookie = parameters.BaseRequest.Cookies ["SES"].Value;
+			/* string givenCookie = parameters.BaseRequest.Cookies ["SES"].Value;
 
 			if ((givenCookie != null) && (givenCookie.Length > 0)) {
 
 			}
 
 			string ipAddr = parameters.BaseRequest.RemoteEndPoint.Address.ToString ();
-			string usrClient = parameters.BaseRequest.UserAgent.ToString ();
-
+			string usrClient = parameters.BaseRequest.UserAgent.ToString (); */
+			return false;
 		}
 	}
 }

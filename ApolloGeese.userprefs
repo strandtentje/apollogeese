@@ -1,43 +1,33 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Website/HtmlTemplateService.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="RegularHttpServer/HttpService.cs">
     <Files>
-      <File FileName="ApolloGeese/Head.cs" Line="62" Column="73" />
-      <File FileName="Website/WebpageService.cs" Line="49" Column="35" />
-      <File FileName="Duckling/Service.cs" Line="34" Column="80" />
+      <File FileName="ApolloGeese/Head.cs" Line="1" Column="1" />
+      <File FileName="Website/WebpageService.cs" Line="1" Column="1" />
+      <File FileName="Duckling/Service.cs" Line="1" Column="1" />
       <File FileName="Website/HtmlTemplateService.cs" Line="90" Column="4" />
-      <File FileName="ModularFunk/Map.cs" Line="39" Column="22" />
-      <File FileName="FileServer/FileService.cs" Line="52" Column="2" />
-      <File FileName="RegularHttpServer/HttpService.cs" Line="89" Column="4" />
-      <File FileName="RegularHttpServer/BasicAuthService.cs" Line="45" Column="45" />
-      <File FileName="Datatables/Tableservice.cs" Line="34" Column="3" />
-      <File FileName="FileServer/Mapping.cs" Line="164" Column="4" />
-      <File FileName="Duckling/Parameters.cs" Line="35" Column="57" />
+      <File FileName="ModularFunk/Map.cs" Line="1" Column="1" />
+      <File FileName="FileServer/FileService.cs" Line="1" Column="1" />
+      <File FileName="RegularHttpServer/HttpService.cs" Line="25" Column="32" />
+      <File FileName="RegularHttpServer/BasicAuthService.cs" Line="1" Column="1" />
+      <File FileName="Datatables/Tableservice.cs" Line="1" Column="1" />
+      <File FileName="FileServer/Mapping.cs" Line="1" Column="1" />
+      <File FileName="Website/Sessionizer.cs" Line="25" Column="3" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Option id="ShowAllFiles" value="True" />
-          <Node name="Datatables" expanded="True" />
-          <Node name="Duckling" expanded="True">
-            <Node name="References" expanded="True" />
-          </Node>
-          <Node name="FileServer" expanded="True">
-            <Node name="References" expanded="True" />
-          </Node>
           <Node name="Geese" expanded="True">
             <Node name="bin" expanded="True">
               <Node name="Debug" expanded="True" />
             </Node>
           </Node>
-          <Node name="RegularHttpServer" expanded="True" />
-          <Node name="Utensils" expanded="True">
-            <Node name="Log" expanded="True" />
-            <Node name="Settings" expanded="True" />
+          <Node name="RegularHttpServer" expanded="True">
+            <Node name="HttpService.cs" selected="True" />
           </Node>
           <Node name="Website" expanded="True">
             <Node name="References" expanded="True" />
-            <Node name="HtmlTemplateService.cs" selected="True" />
           </Node>
         </State>
       </Pad>
