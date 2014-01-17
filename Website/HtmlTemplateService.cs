@@ -4,7 +4,8 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Settings;
 using System.Net;
 using System.IO;
-using System.Collections.Generic;
+using BorrehSoft.Utensils;
+using Stringtionary = System.Collections.Generic.Dictionary<string, string>;
 
 namespace Website
 {
@@ -13,18 +14,15 @@ namespace Website
 	/// </summary>
 	public class HtmlTemplateService : Service
 	{
+		private Settings settings;
 		/// <summary>
 		/// Regex Matches that may be replaced
 		/// </summary>
 		private MatchCollection replaceables;
 		/// <summary>
-		/// Default variables loaded from settings
-		/// </summary>
-		private Dictionary<string, string> defaultVariables = new Dictionary<string, string> ();
-		/// <summary>
 		/// Variables this template supports
 		/// </summary>
-		private List<string> templateVariables = new List<string>();
+		private StringList templateVariables = new StringList();
 
 		private string templateFile, rawTemplate, chunkPattern, title;
 
@@ -52,46 +50,40 @@ namespace Website
 			title = (string)modSettings ["title"];
 			chunkPattern = (string)modSettings ["chunkpattern"];
 			templateFile = (string)modSettings ["templatefile"];
+			settings = modSettings;
 
 			if (chunkPattern == null) chunkPattern = @"\{% ([a-z]+) %\}";
 			rawTemplate = File.ReadAllText (templateFile);
 
-			replaceables = Regex.Matches (rawTemplate, chunkPattern, RegexOptions.IgnoreCase);
-
-			foreach (Match chunkMatch in replaceables) {
-				string chunkName = chunkMatch.Groups [1].Value;
-				if (!templateVariables.Contains(chunkName))
-					templateVariables.Add (chunkName);
-				if ((modSettings [chunkName] != null) && 
-				    (!defaultVariables.ContainsKey (chunkName)))
-					defaultVariables.Add (chunkName, (string)modSettings [chunkName]);
-			}
+			replaceables = templateVariables.AddUniqueRegexMatches (rawTemplate, chunkPattern);
 		}
 
 		protected override bool Process (Interaction parameters)
 		{
 			foreach (string variableName in templateVariables) {
-				// Seperate the parameters so the template variable contents
-				// do not get appended to the body of the response.
-				Interaction safeParameters = parameters.Clone ();
-				// Default the variable template value to an empty string
-				string variableValue = "";
+				if (parameters.Luggage [variableName] == null) {
+					// Seperate the parameters so the template variable contents
+					// do not get appended to the body of the response.
+					Interaction safeParameters = parameters.Clone ();
+					// Default the variable template value to an empty string
+					string variableValue = "";
 
-				// Branch off and assign the result to the variable, otherwise
-				// asign a default value if available.
-				if (RunBranch (variableName, safeParameters)) {
-					variableValue = safeParameters.HTML.ToString ();
-					if (parameters.SetAlternativeBody (safeParameters))
+					// Branch off and assign the result to the variable, otherwise
+					// asign a default value if available.
+					if (RunBranch (variableName, safeParameters)) {
+						variableValue = safeParameters.HTML.ToString ();
+						if (parameters.SetAlternativeBody (safeParameters))
 						// SUPRISE EXIT FROM THE ROUTINE!
 						// This happens if a branch is offering an
 						// alternative datastream to read from.
-						return true; 
+							return true; 
 
-				} else if (defaultVariables.ContainsKey (variableName)) {
-					variableValue = defaultVariables [variableName];
+					} else if (settings[variableName] != null) {
+						variableValue = (string)settings [variableName];
+					}
+
+					parameters.Luggage [variableName] = variableValue;
 				}
-
-				parameters.Luggage [variableName] = variableValue;
 			}
 
 			int cursor = 0;

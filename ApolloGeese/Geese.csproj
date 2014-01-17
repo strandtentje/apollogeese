@@ -63,6 +63,10 @@
       <Project>{3E5EA577-581E-495F-9561-3241DB072092}</Project>
       <Name>Website</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Datatables\Datatables.csproj">
+      <Project>{7F439F1A-EBB2-41FD-8896-BD2CAB0310A4}</Project>
+      <Name>Datatables</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Geese\bin\Debug\apollogeese.conf" />

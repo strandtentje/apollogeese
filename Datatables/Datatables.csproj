@@ -33,16 +33,7 @@
     <Reference Include="Mono.Data.Sqlite" />
     <Reference Include="System.Data" />
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\mysql.data.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data.Entity">
-      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\mysql.data.entity.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Data.Entity.EF6">
-      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\mysql.data.entity.EF6.dll</HintPath>
-    </Reference>
-    <Reference Include="MySql.Web">
-      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\mysql.web.dll</HintPath>
+      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall %281%29\v4.0\MySql.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
