@@ -39,7 +39,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Querier.cs" />
-    <Compile Include="FormInput.cs" />
+    <Compile Include="ConstrainedField.cs" />
+    <Compile Include="InputForm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
