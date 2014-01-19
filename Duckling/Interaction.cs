@@ -16,44 +16,80 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// Parameters to a service call
 	/// </summary>
 	public class Interaction
-	{
-		public HttpListenerRequest Incoming { get; private set; }
-		
-		/// <summary>
-		/// Gets or sets the outgoing cookies.
-		/// </summary>
-		/// <value>The out cookies.</value>
-		public CookieCollection OutCookies { get; set; }
+	{		
+		public Map<object> Luggage = new Map<object>();
+		private int maxInLen = 10000;
 
-		/// <summary>
-		/// Gets or sets the response encoding.
-		/// </summary>
-		/// <value>The response encoding.</value>
-		public Encoding ResponseEncoding { get; set; }
+		#region Request
+		public readonly HttpListenerRequest Incoming;
+		private Queue<string> _urlQueue;
+		private Map<object> _messageBody;
 
 		/// <summary>
 		/// Gets the URL queue.
 		/// </summary>
 		/// <value>The URL queue.</value>
-		public Queue<string> UrlQueue { get; set; }
+		public Queue<string> UrlQueue { 
+			get {
+				if (_urlQueue != null) return _urlQueue;
+								
+				string[] tailList = HttpUtility.UrlDecode (Incoming.RawUrl).Trim ('/').Split ('/');
+				_urlQueue = new Queue<string> (tailList);
+
+				return _urlQueue;
+			}
+		}
 
 		/// <summary>
-		/// Gets or sets the HTTP status code.
+		/// Gets the POST message body if any.
 		/// </summary>
-		/// <value>The status code.</value>
-		public int StatusCode {	get; set; }
+		/// <value>The message body.</value>
+		public Map<string> MessageBody { 
+			get {
+				if (_messageBody != null) return _messageBody;
+
+				if (Incoming.ContentLength64 < maxInLen)
+				{
+					_messageBody = new Map<object>();
+					HttpInterations.ReadIntoMap(Incoming.InputStream, '=', '&', _messageBody);
+				}
+			}
+		}
+		#endregion
+
+		#region Reponse Headers
+		/// <summary>
+		/// The status code.
+		/// </summary>
+		public int StatusCode = 200;
 
 		/// <summary>
-		/// Gets or sets the HTML code.
+		/// The outgoing headers.
 		/// </summary>
-		/// <value>The HTM.</value>
-		public StringBuilder HTML { get; set; }
+		public WebHeaderCollection OutgoingHeaders = new WebHeaderCollection();
 
 		/// <summary>
-		/// Gets or sets the Mime Type of the response.
+		/// The outgoing cookies.
 		/// </summary>
-		/// <value>The type of the MIME. (What the hell Monodevelop Autogenerate?)</value>
-		public string MimeType { get; set; }
+		public CookieCollection OutCookies = new CookieCollection();
+		#endregion
+
+		#region Response Body
+		/// <summary>
+		/// Gets or sets the response encoding.
+		/// </summary>
+		/// <value>The response encoding.</value>
+		public Encoding ResponseEncoding;
+
+		/// <summary>
+		/// The HTML source string builder
+		/// </summary>
+		public StringBuilder HTML = new StringBuilder();
+
+		/// <summary>
+		/// The Mimetype to the body of the response
+		/// </summary>
+		public string MimeType = "text/html";
 
 		/// <summary>
 		/// Gets or sets the size of the response in bytes
@@ -66,25 +102,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// </summary>
 		/// <value>The body stream.</value>
 		public Stream BodyInStream { get; set; }
-
-		/// <summary>
-		/// Gets or sets the outgoing headers.
-		/// </summary>
-		/// <value>The outgoing headers.</value>
-		public WebHeaderCollection OutgoingHeaders { get; set;	}
-
-		/// <summary>
-		/// Gets or sets the luggage that is produced and consumed when
-		/// processing the request
-		/// </summary>
-		/// <value>The luggage.</value>
-		public Map<object> Luggage { get; set; }
-				
-		/// <summary>
-		/// Gets the POST message body if any.
-		/// </summary>
-		/// <value>The message body.</value>
-		public Map<string> MessageBody { get; private set; }
+		#endregion
 
 		private Interaction () { }
 
@@ -92,19 +110,10 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// Initializes a new instance of the <see cref="BorrehSoft.ApolloGeese.Duckling.Parameters"/> class.
 		/// </summary>
 		/// <param name="request">Request to parameterize.</param>
-		public Interaction (HttpListenerRequest request)
+		public Interaction (HttpListenerRequest request, int maxInLen = 10000)
 		{
-			Incoming = request;
-
-			string[] tailList = HttpUtility.UrlDecode (Incoming.RawUrl).Trim ('/').Split ('/');
-			UrlQueue = new Queue<string> (tailList);
-
-			StatusCode = 200;
-			HTML = new StringBuilder ();
-			MimeType = "text/html";
-			OutgoingHeaders = new WebHeaderCollection ();
-			Luggage = new Map<object> ();
-			OutCookies = new CookieCollection ();	
+			this.Incoming = request;
+			this.maxInLen = maxInLen;
 		}
 
 		/// <summary>
@@ -113,14 +122,14 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		public Interaction Clone()
 		{
 			return new Interaction () {
+				maxInLen = this.maxInLen,
 				Incoming = this.Incoming,
 				UrlQueue = new Queue<string>(this.UrlQueue.ToArray()),
 				StatusCode = this.StatusCode,
-				HTML = new StringBuilder(),
 				MimeType = this.MimeType,
 				ResponseEncoding = this.ResponseEncoding,
 				Luggage = this.Luggage.Clone(),
-				OutCookies = this.OutCookies
+				OutCookies.Add(this.OutCookies)
 			};
 		}
 
