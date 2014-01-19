@@ -34,9 +34,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="WebpageService.cs" />
-    <Compile Include="HtmlTemplateService.cs" />
     <Compile Include="Sessionizer.cs" />
+    <Compile Include="SiteSubsection.cs" />
+    <Compile Include="Template.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -16,7 +16,7 @@ namespace Datatables
 
 		public override string[] AdvertisedBranches {
 			get {
-				return myBranches;
+				return myBranches.ToArray();
 			}
 		}
 
@@ -30,14 +30,24 @@ namespace Datatables
 		protected override void Initialize (Settings modSettings)
 		{
 			List<object> definedFields = (List<object>)modSettings ["fields"];
-
-			myBranches.Add (definedFields.ToStringArray ());
-
+			myBranches.AddRange (definedFields.ToStringArray ());
 		}
 
 		protected override bool Process (Interaction parameters)
 		{
+			Map<object> incoming = new Map<object> ();
+			Interaction tmpParam = parameters.Clone ();
+			bool success = true;
 
+			foreach (string branchName in myBranches) {
+				if (success)
+				{
+					success &= RunBranch (branchName, tmpParam);
+				}
+			}
+
+
+			return false;
 		}
 	}
 }

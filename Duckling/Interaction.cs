@@ -17,9 +17,76 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// </summary>
 	public class Interaction
 	{
-		private Interaction () { }
+		public HttpListenerRequest Incoming { get; private set; }
+		
+		/// <summary>
+		/// Gets or sets the outgoing cookies.
+		/// </summary>
+		/// <value>The out cookies.</value>
+		public CookieCollection OutCookies { get; set; }
 
-		public HttpListenerRequest BaseRequest { get; private set; }
+		/// <summary>
+		/// Gets or sets the response encoding.
+		/// </summary>
+		/// <value>The response encoding.</value>
+		public Encoding ResponseEncoding { get; set; }
+
+		/// <summary>
+		/// Gets the URL queue.
+		/// </summary>
+		/// <value>The URL queue.</value>
+		public Queue<string> UrlQueue { get; set; }
+
+		/// <summary>
+		/// Gets or sets the HTTP status code.
+		/// </summary>
+		/// <value>The status code.</value>
+		public int StatusCode {	get; set; }
+
+		/// <summary>
+		/// Gets or sets the HTML code.
+		/// </summary>
+		/// <value>The HTM.</value>
+		public StringBuilder HTML { get; set; }
+
+		/// <summary>
+		/// Gets or sets the Mime Type of the response.
+		/// </summary>
+		/// <value>The type of the MIME. (What the hell Monodevelop Autogenerate?)</value>
+		public string MimeType { get; set; }
+
+		/// <summary>
+		/// Gets or sets the size of the response in bytes
+		/// </summary>
+		/// <value>The size.</value>
+		public long Size { get; set; }
+
+		/// <summary>
+		/// Gets or sets the stream to use for the data in the response.
+		/// </summary>
+		/// <value>The body stream.</value>
+		public Stream BodyInStream { get; set; }
+
+		/// <summary>
+		/// Gets or sets the outgoing headers.
+		/// </summary>
+		/// <value>The outgoing headers.</value>
+		public WebHeaderCollection OutgoingHeaders { get; set;	}
+
+		/// <summary>
+		/// Gets or sets the luggage that is produced and consumed when
+		/// processing the request
+		/// </summary>
+		/// <value>The luggage.</value>
+		public Map<object> Luggage { get; set; }
+				
+		/// <summary>
+		/// Gets the POST message body if any.
+		/// </summary>
+		/// <value>The message body.</value>
+		public Map<string> MessageBody { get; private set; }
+
+		private Interaction () { }
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.ApolloGeese.Duckling.Parameters"/> class.
@@ -27,23 +94,17 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <param name="request">Request to parameterize.</param>
 		public Interaction (HttpListenerRequest request)
 		{
-			BaseRequest = request;
+			Incoming = request;
 
-			RawURL = request.RawUrl;
-
-			string[] tailList = HttpUtility.UrlDecode (RawURL).Trim ('/').Split ('/');
+			string[] tailList = HttpUtility.UrlDecode (Incoming.RawUrl).Trim ('/').Split ('/');
 			UrlQueue = new Queue<string> (tailList);
 
 			StatusCode = 200;
 			HTML = new StringBuilder ();
 			MimeType = "text/html";
-			IncomingHeaders = request.Headers;
 			OutgoingHeaders = new WebHeaderCollection ();
-			ResponseEncoding = request.ContentEncoding;
 			Luggage = new Map<object> ();
-
-			InCookies = request.Cookies;
-			OutCookies = new CookieCollection ();
+			OutCookies = new CookieCollection ();	
 		}
 
 		/// <summary>
@@ -52,15 +113,13 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		public Interaction Clone()
 		{
 			return new Interaction () {
-				RawURL = this.RawURL,
+				Incoming = this.Incoming,
 				UrlQueue = new Queue<string>(this.UrlQueue.ToArray()),
 				StatusCode = this.StatusCode,
 				HTML = new StringBuilder(),
 				MimeType = this.MimeType,
-				IncomingHeaders = this.IncomingHeaders,
 				ResponseEncoding = this.ResponseEncoding,
 				Luggage = this.Luggage.Clone(),
-				InCookies = this.InCookies,
 				OutCookies = this.OutCookies
 			};
 		}
@@ -107,109 +166,6 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			return false;
 		}
 
-		/// <summary>
-		/// Gets the session token.
-		/// </summary>
-		/// <value>The session token.</value>
-		public string SessionToken { get; private set; }
-
-		/// <summary>
-		/// Gets or sets the outgoing cookies.
-		/// </summary>
-		/// <value>The out cookies.</value>
-		public CookieCollection OutCookies { get; set; }
-
-		/// <summary>
-		/// Gets the incoming cookies
-		/// </summary>
-		/// <value>The cookies.</value>
-		public CookieCollection InCookies { get; private set; }
-
-		/// <summary>
-		/// Gets or sets the response encoding.
-		/// </summary>
-		/// <value>The response encoding.</value>
-		public Encoding ResponseEncoding { get; set; }
-
-		/// <summary>
-		/// Gets the raw URL
-		/// </summary>
-		/// <value>The raw UR.</value>
-		public string RawURL {
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// Gets the URL queue.
-		/// </summary>
-		/// <value>The URL queue.</value>
-		public Queue<string> UrlQueue {
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// Gets or sets the HTTP status code.
-		/// </summary>
-		/// <value>The status code.</value>
-		public int StatusCode {
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// Gets or sets the HTML code.
-		/// </summary>
-		/// <value>The HTM.</value>
-		public StringBuilder HTML {
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// Gets or sets the Mime Type of the response.
-		/// </summary>
-		/// <value>The type of the MIME. (What the hell Monodevelop Autogenerate?)</value>
-		public string MimeType {
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// Gets or sets the size of the response in bytes
-		/// </summary>
-		/// <value>The size.</value>
-		public long Size { get; set; }
-
-		/// <summary>
-		/// Gets or sets the stream to use for the data in the response.
-		/// </summary>
-		/// <value>The body stream.</value>
-		public Stream BodyInStream {
-			get;
-			set;
-		}
-
-		/// <summary>
-		/// Gets the incoming headers.
-		/// </summary>
-		/// <value>The incoming headers.</value>
-		public NameValueCollection IncomingHeaders {
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// Gets or sets the outgoing headers.
-		/// </summary>
-		/// <value>The outgoing headers.</value>
-		public WebHeaderCollection OutgoingHeaders {
-			get;
-			set;
-		}
-	
-		public Map<object> Luggage { get; set; }
 	}
 }
 
