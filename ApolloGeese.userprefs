@@ -3,20 +3,21 @@
   <MonoDevelop.Ide.Workbench ActiveDocument="Duckling/Interaction.cs">
     <Files>
       <File FileName="ApolloGeese/Head.cs" Line="1" Column="1" />
-      <File FileName="Website/SiteSubsection.cs" Line="9" Column="29" />
-      <File FileName="Duckling/Service.cs" Line="56" Column="50" />
-      <File FileName="Website/Template.cs" Line="15" Column="23" />
+      <File FileName="Website/SiteSubsection.cs" Line="37" Column="43" />
+      <File FileName="Duckling/Service.cs" Line="1" Column="1" />
+      <File FileName="Website/Template.cs" Line="1" Column="1" />
       <File FileName="ModularFunk/Map.cs" Line="1" Column="1" />
       <File FileName="FileServer/FileService.cs" Line="1" Column="1" />
       <File FileName="RegularHttpServer/HttpService.cs" Line="1" Column="1" />
-      <File FileName="RegularHttpServer/BasicAuthentication.cs" Line="40" Column="81" />
-      <File FileName="Datatables/Querier.cs" Line="28" Column="5" />
+      <File FileName="RegularHttpServer/BasicAuthentication.cs" Line="1" Column="1" />
+      <File FileName="Datatables/Querier.cs" Line="1" Column="1" />
       <File FileName="FileServer/Mapping.cs" Line="1" Column="1" />
       <File FileName="Website/Sessionizer.cs" Line="1" Column="1" />
-      <File FileName="Duckling/Interaction.cs" Line="84" Column="41" />
-      <File FileName="ModularFunk/List.cs" Line="9" Column="16" />
+      <File FileName="Duckling/Interaction.cs" Line="154" Column="27" />
+      <File FileName="ModularFunk/List.cs" Line="1" Column="1" />
       <File FileName="Datatables/InputForm.cs" Line="45" Column="50" />
       <File FileName="Datatables/ConstrainedField.cs" Line="1" Column="1" />
+      <File FileName="ModularFunk/StreamTools.cs" Line="32" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -26,7 +27,9 @@
           <Node name="Duckling" expanded="True">
             <Node name="Interaction.cs" selected="True" />
           </Node>
-          <Node name="Utensils" expanded="True" />
+          <Node name="Utensils" expanded="True">
+            <Node name="References" expanded="True" />
+          </Node>
           <Node name="Website" expanded="True" />
         </State>
       </Pad>
@@ -40,7 +43,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/home/rob/Bureaublad/ApolloGeese/RegularHttpServer/CacheService.cs" line="33" />
+      <Breakpoint file="/home/rob/Bureaublad/ApolloGeese/RegularHttpServer/CacheService.cs" line="33" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

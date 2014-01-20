@@ -9,6 +9,7 @@ using System.IO;
 using System.Collections.Specialized;
 using System.Security;
 using System.Security.Cryptography;
+using GList = System.Collections.Generic.List<string>;
 
 namespace BorrehSoft.ApolloGeese.Duckling
 {
@@ -22,22 +23,57 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 		#region Request
 		public readonly HttpListenerRequest Incoming;
-		private Queue<string> _urlQueue;
-		private Map<object> _messageBody;
+		private GList _urlAhead;
+		private GList _urlProcessed = new GList();
+
+		private Map<string> _messageBody;
 
 		/// <summary>
-		/// Gets the URL queue.
+		/// Gets the URL chunks that haven't been processed.
 		/// </summary>
-		/// <value>The URL queue.</value>
-		public Queue<string> UrlQueue { 
+		/// <value>The unprocessed chunks of the url.</value>
+		public string[] UrlAhead { 
 			get {
-				if (_urlQueue != null) return _urlQueue;
+				if (_urlAhead != null)
+					return _urlAhead.ToArray ();
 								
 				string[] tailList = HttpUtility.UrlDecode (Incoming.RawUrl).Trim ('/').Split ('/');
-				_urlQueue = new Queue<string> (tailList);
 
-				return _urlQueue;
+				_urlAhead = new GList (tailList);
+
+				return tailList;
 			}
+		}
+
+		/// <summary>
+		/// Gets the URL, processed thus far.
+		/// </summary>
+		/// <value>The URL that has yet to be processed.</value>
+		public string[] UrlProcessed {
+			get {
+				return _urlProcessed.ToArray ();
+			}
+		}
+
+		/// <summary>
+		/// Gets the next URL chunk.
+		/// </summary>
+		/// <returns>The next URL chunk.</returns>
+		public bool InvokeForNextURLChunk(Action<string> invokeAction)
+		{
+			if (_urlAhead.Count < 1) return false;
+
+			string chunk = _urlAhead [0]; 
+
+			_urlAhead.RemoveAt (0);
+			_urlProcessed.Insert (0, chunk);
+
+			invokeAction (chunk);
+
+			_urlProcessed.RemoveAt (0);
+			_urlAhead.Insert (0, chunk);
+
+			return true;
 		}
 
 		/// <summary>
@@ -50,9 +86,11 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 				if (Incoming.ContentLength64 < maxInLen)
 				{
-					_messageBody = new Map<object>();
-					HttpInterations.ReadIntoMap(Incoming.InputStream, '=', '&', _messageBody);
+					_messageBody = new Map<string>();
+					HttpInterations.ReadIntoMap(Incoming.InputStream, '=', '&', ref _messageBody);
 				}
+
+				return _messageBody;
 			}
 		}
 		#endregion
@@ -95,13 +133,13 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// Gets or sets the size of the response in bytes
 		/// </summary>
 		/// <value>The size.</value>
-		public long Size { get; set; }
+		public long Size;
 
 		/// <summary>
 		/// Gets or sets the stream to use for the data in the response.
 		/// </summary>
 		/// <value>The body stream.</value>
-		public Stream BodyInStream { get; set; }
+		public Stream BodyInStream;
 		#endregion
 
 		private Interaction () { }
@@ -121,10 +159,9 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// </summary>
 		public Interaction Clone()
 		{
-			return new Interaction () {
-				maxInLen = this.maxInLen,
-				Incoming = this.Incoming,
-				UrlQueue = new Queue<string>(this.UrlQueue.ToArray()),
+			return new Interaction (this.Incoming, this.maxInLen) {
+				_urlAhead = new GList(this._urlAhead.ToArray()),
+				_urlProcessed = 
 				StatusCode = this.StatusCode,
 				MimeType = this.MimeType,
 				ResponseEncoding = this.ResponseEncoding,

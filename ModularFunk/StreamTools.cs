@@ -2,6 +2,8 @@ using System;
 using System.IO;
 using System.Text;
 using System.Net;
+using System.Web;
+using System.Collections.Generic;
 
 namespace BorrehSoft.Utensils
 {
@@ -28,31 +30,24 @@ namespace BorrehSoft.Utensils
 	
 		public static void ReadIntoMap(Stream source, char seperator, char concatenator, ref Map<string> target)
 		{
-			List<byte> buffer = new List<byte>();
+			StringBuilder buffer = new StringBuilder ();
 			Queue<string> queue = new Queue<string>();
 
 			while(source.Position < source.Length)
 			{
-				byte inByte = source.ReadByte();
+				int inByte = source.ReadByte();
 
-				if ((char)inByte == '&')
+				if ((char)inByte == concatenator)
 				{
-					if (queue.Count == 1)							
-						target[queue.Dequeue()] = "";
-					if (queue.Count == 2)
-						target[queue.Dequeue()] = queue.Dequeue();
-
+					if (queue.Count == 1) target[queue.Dequeue()] = "";
+					if (queue.Count == 2) target[queue.Dequeue()] = queue.Dequeue();
 					queue.Clear();
-				} else if ((char)inByte == '=')
+				} else if ((char)inByte == seperator)
 				{
-					queue.Enqueue(
-						HttpUtility.UrlDecode(
-						Incoming.ContentEncoding.GetString(
-						buffer.ToArray())));
-
+					queue.Enqueue(HttpUtility.UrlDecode(buffer.ToString()));
 					buffer.Clear();
 				} else {
-					buffer.Add(inByte);
+					buffer.Append ((char)inByte);
 				}
 			}
 		}

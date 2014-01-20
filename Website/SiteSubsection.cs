@@ -31,12 +31,10 @@ namespace Website
 			// Assigns children to 'Siblings' parameter for underlying child.
 			parameters.Luggage ["Siblings"] = ConnectedBranches.Values;
 
-			if (parameters.UrlQueue.Count > 0)
-				// Branch off for the next URL chunk
-				return RunBranch (parameters.UrlQueue.Dequeue (), parameters);
-			else
-				// Pick root when out of URL chunks
-				return RunBranch ("root", parameters);
+			if (!parameters.InvokeForNextURLChunk(delegate(string chunk) {
+				return RunBranch (chunk, parameters);
+			}))				
+				return RunBranch ("root", parameters);		
 		}
 	}
 }
