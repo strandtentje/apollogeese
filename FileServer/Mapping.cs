@@ -78,7 +78,7 @@ namespace BorrehSoft.Extensions.FileServer
 		/// <param name="response">Response.</param>
 		public bool Follow (Interaction parameters)
 		{
-			string rawUrl = parameters.RawURL;
+			string rawUrl = string.Join("/", parameters.UrlAhead);
 
 			// Failure when this mapping isn't relevant
 			if (!rawUrl.StartsWith (URL)) return false;

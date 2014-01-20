@@ -159,15 +159,17 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// </summary>
 		public Interaction Clone()
 		{
-			return new Interaction (this.Incoming, this.maxInLen) {
+			Interaction clonedInteraction = new Interaction (this.Incoming, this.maxInLen) {
 				_urlAhead = new GList(this._urlAhead.ToArray()),
-				_urlProcessed = 
+				_urlProcessed = new GList(this._urlProcessed.ToArray()),
 				StatusCode = this.StatusCode,
 				MimeType = this.MimeType,
 				ResponseEncoding = this.ResponseEncoding,
 				Luggage = this.Luggage.Clone(),
-				OutCookies.Add(this.OutCookies)
+				OutCookies = this.OutCookies
 			};
+
+			return clonedInteraction;
 		}
 
 		/// <summary>
