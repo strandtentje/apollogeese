@@ -2,6 +2,7 @@ using System;
 using System.Net;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utensils;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
@@ -11,13 +12,20 @@ namespace BorrehSoft.Extensions.BasicWeblings
 	/// </summary>
 	public class HttpInteraction : Interaction
 	{
+		private HttpListenerRequest _request;
+		private HttpListenerResponse _response;
+
 		/// <summary>
 		/// Gets or sets the request.
 		/// </summary>
 		/// <value>The request.</value>
 		public HttpListenerRequest Request {
-			get { return (HttpListenerRequest)this ["Request"];	}
-			set { this ["Request"] = value; }
+			get { return _request;	}
+			set 
+			{ 
+				_request = value; 
+				StringList = new StringList (value.RawUrl, '/', HttpUtility.UrlDecode);
+			}
 		}
 
 		/// <summary>
@@ -25,9 +33,17 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		/// </summary>
 		/// <value>The response.</value>
 		public HttpListenerResponse Response {
-			get { return (HttpListenerResponse)this ["Response"]; }
-			set { this ["Response"] = value; }
+			get { return _response; }
+			set { _response = value; }
 		}
+		
+		/// <summary>
+		/// Gets the URL chunk list.
+		/// </summary>
+		/// <value>The URL chunk list</value>
+		public StringList URL { get; private set; }
+
+		public string CurrentTitle { get; set; }
 
 		/// <summary>
 		/// Appends textual string to body.
@@ -70,7 +86,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			}
 
 			return false;
-		}
+		}	
 	}
 }
 

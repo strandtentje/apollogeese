@@ -5,15 +5,15 @@ using System.Net;
 using System.Collections.Generic;
 using BorrehSoft.Utensils;
 
-namespace Website
+namespace BorrehSoft.Extensions.BasicWeblings
 {
 	public class SiteSubsection : Service
 	{
-		private Map<string> Branches = new Map<string>();
+		private Map<string> BranchNames = new Map<string>();
 
 		public override string[] AdvertisedBranches {
 			get {
-				return Branches.GetNames ();
+				return BranchNames.GetNames ();
 			}
 		}
 
@@ -26,20 +26,24 @@ namespace Website
 
 		protected override void Initialize (Settings modSettings)
 		{
-
+			BranchNames = modSettings;
 		}
 
-		protected override bool Process (Interaction parameters)
+		protected override bool Process (HttpInteraction parameters)
 		{
-			// Assigns children to 'Siblings' parameter for underlying child.
-			parameters.ExtendSiblings (ConnectedBranches.Values);
-
+			string originalTitle = parameters.CurrentTitle;
+			string branchId;
 			bool success;
 
-			if (!parameters.InvokeForNextURLChunk(delegate(string chunk) {
-				success = RunBranch (chunk, parameters);
-			}))
-				success = RunBranch ("root", parameters);
+			if (parameters.URL.EndOfSeries)	branchId = "";
+			else branchId = parameters.URL.ReadUrlChunk ();
+
+
+			parameters.CurrentTitle = BranchNames [branchId];
+
+			success = RunBranch (branchId, parameters);
+
+			parameters.CurrentTitle = originalTitle;
 
 			return success;
 		}
