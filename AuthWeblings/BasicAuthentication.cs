@@ -35,8 +35,10 @@ namespace RegularHttpServer
 			wwwAuthHeader = string.Format ("Basic realm=\"{0}\"", realm);
 		}
 
-		protected override bool Process (Interaction parameters)
+		protected override bool Process (HttpInteraction parameters)
 		{
+			((HttpListenerRequest)parameters["Request"]).Headers["Authorization"]
+
 			string[] authHeader = parameters.IncomingHeaders.GetValues ("Authorization");
 
 			if ((authHeader != null) &&

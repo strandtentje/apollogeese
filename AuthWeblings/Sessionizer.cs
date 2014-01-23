@@ -39,7 +39,7 @@ namespace Website
 
 		protected override bool Process (Interaction parameters)
 		{
-			Cookie givenCookie = parameters.InCookies [cookieName];
+			Cookie givenCookie = parameters.Incoming.Cookies [cookieName];
 
 			if ((givenCookie == null) ||		// In case of a null sescookie
 				(givenCookie.Value.Length == 0) ||    // an empty sescookie

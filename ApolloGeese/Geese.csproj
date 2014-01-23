@@ -51,18 +51,6 @@
       <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
       <Name>Utensils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FileServer\FileServer.csproj">
-      <Project>{1B2D93BB-9283-4A7C-94C3-584D6BD6EB09}</Project>
-      <Name>FileServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\RegularHttpServer\RegularHttpServer.csproj">
-      <Project>{31EE0B27-8C38-417C-8896-F1C5FC63C51A}</Project>
-      <Name>RegularHttpServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Website\Website.csproj">
-      <Project>{3E5EA577-581E-495F-9561-3241DB072092}</Project>
-      <Name>Website</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Datatables\Datatables.csproj">
       <Project>{7F439F1A-EBB2-41FD-8896-BD2CAB0310A4}</Project>
       <Name>Datatables</Name>

@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{3E5EA577-581E-495F-9561-3241DB072092}</ProjectGuid>
+    <ProjectGuid>{3E51D2C9-9409-4F18-A50A-5D81323E3B29}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Website</RootNamespace>
-    <AssemblyName>Website</AssemblyName>
+    <RootNamespace>BorrehSoft.Extensions.BasicWeblings</RootNamespace>
+    <AssemblyName>BasicWeblings</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,15 +30,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sessionizer.cs" />
+    <Compile Include="HttpInteraction.cs" />
+    <Compile Include="HttpService.cs" />
     <Compile Include="SiteSubsection.cs" />
     <Compile Include="Template.cs" />
+    <Compile Include="FileListing\FileService.cs" />
+    <Compile Include="FileListing\Mapping.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="FileListing\" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>

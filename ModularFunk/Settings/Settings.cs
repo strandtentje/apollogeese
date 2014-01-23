@@ -10,43 +10,8 @@ namespace BorrehSoft.Utensils.Settings
 	/// Settings data structure; stores objects by key. May be
 	/// parsed from a file using the <see cref="BorrehSoft.Utensils.Settings.SettingsParser"/>
 	/// </summary>
-	public class Settings
+	public class Settings : Map<object>
 	{
-		Dictionary<string, object> assignments = 
-			new Dictionary<string, object>();
-
-		/// <summary>
-		/// Gets the setting count on this level
-		/// </summary>
-		/// <value>The count.</value>
-		public int Count {
-			get { return assignments.Count; }
-		}
-
-		/// <summary>
-		/// Gets or sets the <see cref="BorrehSoft.Utensils.Settings.Settings"/> with the specified indexer.
-		/// </summary>
-		/// <param name="indexer">Indexer.</param>
-		public object this [string indexer] {
-			get {
-				if (assignments.ContainsKey(indexer)) return assignments[indexer];
-				else return null;
-			}
-			set {
-				if (assignments.ContainsKey(indexer)) assignments.Remove(indexer);
-				assignments.Add(indexer, value);
-			}
-		}
-
-		/// <summary>
-		/// Gets the keys.
-		/// </summary>
-		/// <returns>The keys.</returns>
-		public IEnumerable<string> GetKeys()
-		{
-			return assignments.Keys;
-		}
-
 		/// <summary>
 		/// Acquires settings from the file.
 		/// </summary>
@@ -70,7 +35,7 @@ namespace BorrehSoft.Utensils.Settings
 
 			Settings config = (Settings)result;
 
-			Secretary.Report (5, "Settings finished loading from: ", file, ", ", config.Count.ToString(), " root entries.");
+			Secretary.Report (5, "Settings finished loading from: ", file, ", ", config.Length.ToString(), " root entries.");
 
 			return config;
 		}

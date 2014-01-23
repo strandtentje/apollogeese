@@ -8,6 +8,8 @@ namespace BorrehSoft.Utensils
 	/// </summary>
 	public class Map<T>
 	{
+		public string Name { get; set; }
+
 		/// <summary>
 		/// The arse.
 		/// </summary>
@@ -19,6 +21,14 @@ namespace BorrehSoft.Utensils
 		/// <returns>The names.</returns>
 		public IEnumerable<string> GetNames() {
 			return arse.Keys;
+		}
+
+		public void AssertItem(string key, object source)
+		{
+			if (!arse.ContainsKey (key))
+				throw new KeyNotFoundException (
+					string.Format ("{0} expected the key '{1}' in the Map '{2}'", 
+				               source.ToString (), key, Name));
 		}
 
 		/// <summary>

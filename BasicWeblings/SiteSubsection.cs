@@ -3,14 +3,17 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Settings;
 using System.Net;
 using System.Collections.Generic;
+using BorrehSoft.Utensils;
 
 namespace Website
 {
 	public class SiteSubsection : Service
 	{
+		private Map<string> Branches = new Map<string>();
+
 		public override string[] AdvertisedBranches {
 			get {
-				return new string[] { "root", "*" };
+				return Branches.GetNames ();
 			}
 		}
 
@@ -29,12 +32,16 @@ namespace Website
 		protected override bool Process (Interaction parameters)
 		{
 			// Assigns children to 'Siblings' parameter for underlying child.
-			parameters.Luggage ["Siblings"] = ConnectedBranches.Values;
+			parameters.ExtendSiblings (ConnectedBranches.Values);
+
+			bool success;
 
 			if (!parameters.InvokeForNextURLChunk(delegate(string chunk) {
-				return RunBranch (chunk, parameters);
-			}))				
-				return RunBranch ("root", parameters);		
+				success = RunBranch (chunk, parameters);
+			}))
+				success = RunBranch ("root", parameters);
+
+			return success;
 		}
 	}
 }
