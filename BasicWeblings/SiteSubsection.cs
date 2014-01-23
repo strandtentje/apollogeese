@@ -38,7 +38,6 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			if (parameters.URL.EndOfSeries)	branchId = "";
 			else branchId = parameters.URL.ReadUrlChunk ();
 
-
 			parameters.CurrentTitle = BranchNames [branchId];
 
 			success = RunBranch (branchId, parameters);

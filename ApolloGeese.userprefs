@@ -1,20 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="BasicWeblings/HttpInteraction.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="BasicWeblings/SiteSubsection.cs">
     <Files>
-      <File FileName="ApolloGeese/Head.cs" Line="1" Column="1" />
-      <File FileName="Duckling/Service.cs" Line="36" Column="84" />
-      <File FileName="ModularFunk/Map.cs" Line="31" Column="52" />
-      <File FileName="Datatables/Querier.cs" Line="1" Column="1" />
-      <File FileName="Duckling/Interaction.cs" Line="19" Column="42" />
-      <File FileName="ModularFunk/List.cs" Line="1" Column="1" />
-      <File FileName="Datatables/InputForm.cs" Line="1" Column="1" />
-      <File FileName="Datatables/ConstrainedField.cs" Line="1" Column="1" />
-      <File FileName="ModularFunk/StreamTools.cs" Line="1" Column="1" />
-      <File FileName="BasicWeblings/Template.cs" Line="1" Column="1" />
-      <File FileName="BasicWeblings/HttpInteraction.cs" Line="17" Column="4" />
-      <File FileName="BasicWeblings/HttpService.cs" Line="10" Column="40" />
-      <File FileName="BasicWeblings/SiteSubsection.cs" Line="20" Column="23" />
+      <File FileName="BasicWeblings/HttpService.cs" Line="9" Column="1" />
+      <File FileName="BasicWeblings/HttpInteraction.cs" Line="37" Column="20" />
+      <File FileName="BasicWeblings/SiteSubsection.cs" Line="40" Column="4" />
+      <File FileName="BasicWeblings/Template.cs" Line="96" Column="5" />
+      <File FileName="ModularFunk/List.cs" Line="109" Column="5" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -22,9 +14,15 @@
           <Option id="ShowAllFiles" value="True" />
           <Node name="AuthWeblings" expanded="True" />
           <Node name="BasicWeblings" expanded="True">
-            <Node name="FileListing" selected="True" />
+            <Node name="FileListing" expanded="True" />
+            <Node name="SiteSubsection.cs" selected="True" />
           </Node>
+          <Node name="Datatables" expanded="True" />
           <Node name="Duckling" expanded="True" />
+          <Node name="Geese" expanded="True" />
+          <Node name="Utensils" expanded="True">
+            <Node name="Settings" expanded="True" />
+          </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">
