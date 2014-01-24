@@ -4,7 +4,7 @@
     <Files>
       <File FileName="BasicWeblings/HttpService.cs" Line="9" Column="1" />
       <File FileName="BasicWeblings/HttpInteraction.cs" Line="37" Column="20" />
-      <File FileName="BasicWeblings/SiteSubsection.cs" Line="40" Column="4" />
+      <File FileName="BasicWeblings/SiteSubsection.cs" Line="16" Column="36" />
       <File FileName="BasicWeblings/Template.cs" Line="96" Column="5" />
       <File FileName="ModularFunk/List.cs" Line="109" Column="5" />
     </Files>
@@ -35,7 +35,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/home/rob/Bureaublad/ApolloGeese/RegularHttpServer/CacheService.cs" line="33" column="1" />
+      <Breakpoint file="/home/rob/Bureaublad/ApolloGeese/RegularHttpServer/CacheService.cs" line="33" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

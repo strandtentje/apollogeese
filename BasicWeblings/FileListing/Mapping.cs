@@ -9,7 +9,7 @@ using System.Text;
 using System.Web;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Extensions.FileServer
+namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 {
 	/// <summary>
 	/// A Mapping from URL to filesystem.
@@ -76,12 +76,17 @@ namespace BorrehSoft.Extensions.FileServer
 		/// </summary>
 		/// <param name="rawUrl">Raw URL.</param>
 		/// <param name="response">Response.</param>
-		public bool Follow (Interaction parameters)
+		public bool Follow (HttpInteraction parameters)
 		{
-			string rawUrl = string.Join("/", parameters.UrlAhead);
+			// string rawUrl = string.Join("/", parameters.UrlAhead);
+
+			string rawUrl = parameters.URL.ReadToEnd ();
 
 			// Failure when this mapping isn't relevant
-			if (!rawUrl.StartsWith (URL)) return false;
+			if (!rawUrl.StartsWith (URL)) {
+				parameters.URL.RewindUrl();
+				return false;
+			}
 			
 			Secretary.Report (8, "Path requested: ", rawUrl);
 

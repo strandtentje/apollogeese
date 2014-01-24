@@ -4,7 +4,7 @@ using BorrehSoft.Utensils.Settings;
 using System.Net;
 using BorrehSoft.Utensils;
 
-namespace BorrehSoft.Extensions.FileServer
+namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 {
 	/// <summary>
 	/// File service.
@@ -39,7 +39,7 @@ namespace BorrehSoft.Extensions.FileServer
 			}
 		}
 
-		protected override bool Process (Interaction parameters)
+		protected override bool Process (HttpInteraction parameters)
 		{
 			foreach (Mapping mapping in mappings) {
 				if (mapping.Follow (parameters))
