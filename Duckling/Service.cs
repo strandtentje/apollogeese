@@ -82,7 +82,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <returns><c>true</c>, if process was tryed, <c>false</c> otherwise.</returns>
 		/// <param name="context">Context.</param>
 		/// <param name="parameters">Parameters.</param>
-		public bool TryProcess(Interaction parameters)
+		public bool TryProcess(IInteraction parameters)
 		{
 			bool succesful = false;
 
@@ -120,7 +120,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <param name="request">Request.</param>
 		/// <param name="parameters">Parameters.</param>
 		/// <returns>True when the Process was completed succesfully</returns>
-		protected abstract bool Process (Interaction parameters);
+		protected abstract bool Process (IInteraction parameters);
 
 		/// <summary>
 		/// Gets a value indicating whether this instance is deaf for incoming requests
@@ -158,7 +158,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <param name="branch">Branchname.</param>
 		/// <param name="request">Request.</param>
 		/// <param name="parameters">Parameters.</param>
-		public bool RunBranch(string branch, Interaction parameters)
+		public bool RunBranch(string branch, IInteraction parameters)
 		{
 			if (branches.ContainsKey (branch)) {
 				Service branchService = branches [branch];

@@ -59,7 +59,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			replaceables = templateVariables.AddUniqueRegexMatches (rawTemplate, chunkPattern);
 		}
 
-		protected override bool Process (HttpInteraction parameters)
+		protected override bool Process (IHttpInteraction parameters)
 		{
 			int cursor = 0;
 			string groupName, lugValue;

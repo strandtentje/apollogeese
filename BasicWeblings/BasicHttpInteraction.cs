@@ -3,6 +3,7 @@ using System.Net;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils;
+using System.IO;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
@@ -10,7 +11,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 	/// Http interaction, offers extra utilities for interactions that resulted from an HTTP
 	/// server.
 	/// </summary>
-	public class HttpInteraction : Interaction
+	public class BasicHttpInteraction : Map<string>, IHttpInteraction
 	{
 		private HttpListenerRequest _request;
 		private HttpListenerResponse _response;
@@ -43,6 +44,12 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		/// <value>The URL chunk list</value>
 		public StringList URL { get; private set; }
 
+		/// <summary>
+		///  Gets or sets the title of the current block 
+		/// </summary>
+		/// <value>
+		///  The current title. 
+		/// </value>
 		public string CurrentTitle { get; set; }
 
 		/// <summary>
@@ -70,22 +77,23 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		}
 
 		/// <summary>
-		/// Tries to get a string from the underlying map.
+		/// Sets the body.
 		/// </summary>
-		/// <returns><c>true</c>, if get string was found and returned, <c>false</c> otherwise.</returns>
-		/// <param name="name">Name of the map entry.</param>
-		/// <param name="chunk">Value of the map entry.</param>
-		public bool TryGetString (string name, out string chunk)
+		/// <param name='sourceStream'>
+		/// Source stream.
+		/// </param>
+		/// <param name='sourceType'>
+		/// Source type.
+		/// </param>
+		/// <param name='sourceLength'>
+		/// Source length.
+		/// </param>
+		public virtual void SetBody (Stream sourceStream, string sourceType, long sourceLength)
 		{
-			if (this [name] == null)
-				return false;
-
-			if (this [name] is string) {
-				chunk = (string)this [name];
-				return true;
-			}
-
-			return false;
-		}	
+			Response.ContentType = sourceType;
+			Response.ContentLength64 = sourceLength;
+			Response.OutputStream = sourceStream;
+		}
+	
 	}
 }

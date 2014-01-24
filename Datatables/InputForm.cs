@@ -33,10 +33,10 @@ namespace Datatables
 			myBranches.AddRange (definedFields.ToStringArray ());
 		}
 
-		protected override bool Process (Interaction parameters)
+		protected override bool Process (IInteraction parameters)
 		{
 			Map<object> incoming = new Map<object> ();
-			Interaction tmpParam = parameters.Clone ();
+			IInteraction tmpParam = parameters.Clone ();
 			bool success = true;
 
 			foreach (string branchName in myBranches) {

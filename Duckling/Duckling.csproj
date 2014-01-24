@@ -35,7 +35,8 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
-    <Compile Include="Interaction.cs" />
+    <Compile Include="IInteraction.cs" />
+    <Compile Include="IHttpInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

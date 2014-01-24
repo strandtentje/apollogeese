@@ -29,7 +29,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			BranchNames = modSettings;
 		}
 
-		protected override bool Process (HttpInteraction parameters)
+		protected override bool Process (IHttpInteraction parameters)
 		{
 			string originalTitle = parameters.CurrentTitle;
 			string branchId;

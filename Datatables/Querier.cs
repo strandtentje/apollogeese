@@ -46,7 +46,7 @@ namespace Datatables
 			databaseConnection.Open ();
 		}
 
-		protected override bool Process (Interaction parameters)
+		protected override bool Process (IInteraction parameters)
 		{
 			IDbCommand command = databaseConnection.CreateCommand ();
 			command.CommandText = query;

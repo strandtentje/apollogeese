@@ -99,7 +99,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 			else if (File.Exists (fsPath)) 
 				return GetFileContents (parameters, rawUrl, fsPath);
 
-			parameters.StatusCode = 404;
+			parameters.Response.StatusCode  = 404;
 
 			return false;
 		}
@@ -111,7 +111,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 		/// <param name="response">Response.</param>
 		/// <param name="fsPath">Filesystem path.</param>
 		/// <param name="rawUrl">Raw Requesy URL.</param>
-		bool GetDirectoryIndex (Interaction parameters, string rawUrl, string fsPath)
+		bool GetDirectoryIndex (IHttpInteraction parameters, string rawUrl, string fsPath)
 		{
 			rawUrl = rawUrl.TrimEnd ('/') + '/';
 
@@ -139,7 +139,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 						HttpUtility.UrlEncode(rawUrl + file.Name).Replace("%2f", "/"), 
 						file.Name));
 
-			parameters.HTML.AppendLine (
+			parameters.AppendToBody (
 				string.Format (ListMarkup, fileList.ToString ()));
 
 			Secretary.Report (9, "Was directory, providing index.");
@@ -153,7 +153,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 		/// <returns><c>true</c>, if file contents was gotten, <c>false</c> otherwise.</returns>
 		/// <param name="response">Response.</param>
 		/// <param name="fsPath">Filesystem path.</param>
-		bool GetFileContents (Interaction parameters, string rawUrl, string fsPath)
+		bool GetFileContents (IHttpInteraction parameters, string rawUrl, string fsPath)
 		{
 			FileInfo info = new FileInfo (fsPath);
 
@@ -165,9 +165,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 			
 			FileInfo file = new FileInfo (fsPath);
 
-			parameters.MimeType = mimeType;
-			parameters.Size = file.Length;
-			parameters.BodyInStream = file.OpenRead ();
+			parameters.SetBody(file.OpenRead (), mimeType, file.Length);
 
 			Secretary.Report (9, "Was file, providing content.");
 
