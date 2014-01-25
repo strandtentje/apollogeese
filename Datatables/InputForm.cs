@@ -44,14 +44,10 @@ namespace Datatables
 			bool success = parameters.GetMethod () == correctMethod;
 
 			foreach (string branchName in myBranches) 
-				if (success)
-				
+				if (success)				
 					success &= RunBranch (branchName, parameters);
-				
 
-
-
-			return false;
+			return success;
 		}
 	}
 }
