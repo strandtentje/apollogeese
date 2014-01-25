@@ -91,7 +91,7 @@ namespace BorrehSoft.Utensils
 		/// <returns><c>true</c>, if get string was found and returned, <c>false</c> otherwise.</returns>
 		/// <param name="name">Name of the map entry.</param>
 		/// <param name="chunk">Value of the map entry.</param>
-		public bool TryGetString<T> (string name, out string chunk) where T : string
+		public bool TryGetString (string name, out string chunk) 
 		{
 			chunk = "";
 
@@ -99,7 +99,8 @@ namespace BorrehSoft.Utensils
 				return false;
 
 			if (this [name] is string) {
-				chunk = (string)this [name];
+				// You disappoint me C#
+				chunk = (string)(object)this [name];
 				return true;
 			}
 
