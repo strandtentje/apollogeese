@@ -76,7 +76,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 		/// </summary>
 		/// <param name="rawUrl">Raw URL.</param>
 		/// <param name="response">Response.</param>
-		public bool Follow (HttpInteraction parameters)
+		public bool Follow (IHttpInteraction parameters)
 		{
 			// string rawUrl = string.Join("/", parameters.UrlAhead);
 
@@ -99,7 +99,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 			else if (File.Exists (fsPath)) 
 				return GetFileContents (parameters, rawUrl, fsPath);
 
-			parameters.Response.StatusCode  = 404;
+			parameters.StatusCode  = 404;
 
 			return false;
 		}

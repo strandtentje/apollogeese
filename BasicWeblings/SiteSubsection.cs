@@ -9,11 +9,12 @@ namespace BorrehSoft.Extensions.BasicWeblings
 {
 	public class SiteSubsection : Service
 	{
-		private Map<string> BranchNames = new Map<string>();
+		private string[] branches;
+		private Map<object> BranchNames = new Map<object>();
 
 		public override string[] AdvertisedBranches {
 			get {
-				return BranchNames.GetNames ();
+				return branches;
 			}
 		}
 
@@ -26,11 +27,14 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		protected override void Initialize (Settings modSettings)
 		{
-			BranchNames = modSettings;
+			branches = new string[BranchNames.Length];
+			BranchNames.GetNames ().CopyTo (branches, 0);
 		}
 
-		protected override bool Process (IHttpInteraction parameters)
+		protected override bool Process (IInteraction uncastParameters)
 		{
+			IHttpInteraction parameters = (IHttpInteraction)uncastParameters;
+
 			string originalTitle = parameters.CurrentTitle;
 			string branchId;
 			bool success;

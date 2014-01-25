@@ -1,4 +1,5 @@
 using System;
+using System.Web;
 using System.Net;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Log;
@@ -15,6 +16,12 @@ namespace BorrehSoft.Extensions.BasicWeblings
 	{
 		private HttpListenerRequest _request;
 		private HttpListenerResponse _response;
+
+		/// <summary>
+		/// Gets or sets the status code for the HTTP response
+		/// </summary>
+		/// <value>The status code.</value>
+		public int StatusCode { get; set; }
 
 		/// <summary>
 		/// Gets or sets the request.

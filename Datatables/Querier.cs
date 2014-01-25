@@ -52,14 +52,14 @@ namespace Datatables
 			command.CommandText = query;
 
 			foreach (string parameterName in queryParameters)
-				command.Parameters.Add (parameters.Luggage [parameterName]);
+				command.Parameters.Add (parameters [parameterName]);
 
 			IDataReader queryReader = command.ExecuteReader ();
 
 			while (queryReader.Read()) {
 				for (int i = 0; i < queryReader.FieldCount; i++) {
 					string fieldName = queryReader.GetName (i);
-					parameters.Luggage [fieldName] = 
+					parameters [fieldName] = 
 						queryReader [fieldName].ToString ();
 				}
 

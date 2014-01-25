@@ -59,9 +59,12 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			replaceables = templateVariables.AddUniqueRegexMatches (rawTemplate, chunkPattern);
 		}
 
-		protected override bool Process (IHttpInteraction parameters)
+		protected override bool Process (IInteraction uncastParameters)
 		{
+			IHttpInteraction parameters = (IHttpInteraction)uncastParameters;
+
 			int cursor = 0;
+			bool success = true;
 			string groupName, lugValue;
 
 			try	{
@@ -73,16 +76,18 @@ namespace BorrehSoft.Extensions.BasicWeblings
 					//	a) The beginning of a chunk
 					//  b) The end of the document
 					parameters.AppendToBody (
-						rawTemplate.Substring (cursor, replaceable.Index - cursor));
+						rawTemplate.Substring (cursor, replaceable.Index - cursor),
+						"text/html");
 
 					groupName = replaceable.Groups[1].Value;
 
 					if (!RunBranch (groupName, parameters))
 					{
+						success = false;
 						string chunk = "";
 						if (parameters.TryGetString(groupName, out chunk))
 						{
-							parameters.AppendToBody (chunk);
+							parameters.AppendToBody (chunk, "text/html");
 						}
 					}
 
@@ -92,9 +97,9 @@ namespace BorrehSoft.Extensions.BasicWeblings
 				// In the very likely event the cursor is not at the end of the document,
 				// the last bit of the document needs to be written to the body as well.
 				if (cursor < rawTemplate.Length)
-					parameters.AppendToBody(rawTemplate.Substring(cursor));
+					parameters.AppendToBody(rawTemplate.Substring(cursor), "text/html");
 
-				return true;
+				return success;
 			}
 			catch (Exception ex) {
 				// Forward the exception but append a cursor position and a message

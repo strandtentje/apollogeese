@@ -43,8 +43,8 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		protected override void Initialize (Settings modSettings)
 		{
-			if (modSettings ["MeasurePerformance"] != null) {
-				if (bool.TryParse (modSettings ["MeasurePerformance"],
+			if (modSettings ["MeasurePerformance"] is string) {
+				if (bool.TryParse ((string)modSettings ["MeasurePerformance"],
 				                   out MeasurePerformance)) {
 					MeasurePerformance = true;
 				}

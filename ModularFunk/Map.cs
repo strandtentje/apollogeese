@@ -19,7 +19,7 @@ namespace BorrehSoft.Utensils
 		/// Gets the names.
 		/// </summary>
 		/// <returns>The names.</returns>
-		public IEnumerable<string> GetNames() {
+		public ICollection<string> GetNames() {
 			return arse.Keys;
 		}
 
