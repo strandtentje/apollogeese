@@ -97,7 +97,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		/// <param name="context">Context.</param>
 		void EnterTree (HttpListenerContext context)
 		{
-			BasicHttpInteraction parameters = new BasicHttpInteraction () { Name = "Interaction Parameters" };
+			HttpInteraction parameters = new HttpInteraction () { Name = "Interaction Parameters" };
 			parameters.Request = context.Request;
 			parameters.Response = context.Response;
 

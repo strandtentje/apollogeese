@@ -12,7 +12,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 	/// Http interaction, offers extra utilities for interactions that resulted from an HTTP
 	/// server.
 	/// </summary>
-	public class BasicHttpInteraction : Map<string>, IHttpInteraction
+	public class HttpInteraction : Map<string>, IHttpInteraction
 	{
 		private HttpListenerRequest _request;
 		private HttpListenerResponse _response;
@@ -32,7 +32,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			set 
 			{ 
 				_request = value; 
-				StringList = new StringList (value.RawUrl, '/', HttpUtility.UrlDecode);
+				URL = new StringList (value.RawUrl, '/', HttpUtility.UrlDecode);
 			}
 		}
 

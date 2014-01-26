@@ -35,12 +35,14 @@
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall %281%29\v4.0\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Querier.cs" />
     <Compile Include="ConstrainedField.cs" />
     <Compile Include="InputForm.cs" />
+    <Compile Include="WebformInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

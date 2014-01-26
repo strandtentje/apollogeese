@@ -37,9 +37,11 @@ namespace Website
 			if (cookieName == null)	cookieName = "SES";
 		}
 
-		protected override bool Process (Interaction parameters)
+		protected override bool Process (IInteraction uncastParameters)
 		{
-			Cookie givenCookie = parameters.Incoming.Cookies [cookieName];
+			IHttpInteraction parameters = (IHttpInteraction)uncastParameters;
+
+			Cookie givenCookie = parameters.RequestCookies [cookieName];
 
 			if ((givenCookie == null) ||		// In case of a null sescookie
 				(givenCookie.Value.Length == 0) ||    // an empty sescookie
@@ -58,14 +60,14 @@ namespace Website
 						Guid.NewGuid ().ToByteArray ());
 				} while (knownSessions.Contains(cookieValue));
 								
-				parameters.OutCookies.Add(new Cookie(cookieName, cookieValue) { 
+				parameters.ResponseCookies.Add(new Cookie(cookieName, cookieValue) { 
 					Expires = DateTime.Now + cookieLife });
 
 				// Yes, I made the Sescookie-creation loop around in case of a duplicate
 				// gloBALLY UNIQUE IDENTIFIER now hand me my tinfoil hat.
 			}
 
-			parameters.Luggage ["Session"] = givenCookie;
+			parameters ["Session"] = givenCookie;
 
 			return RunBranch ("http", parameters);
 		}

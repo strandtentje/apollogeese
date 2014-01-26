@@ -35,11 +35,11 @@ namespace RegularHttpServer
 			wwwAuthHeader = string.Format ("Basic realm=\"{0}\"", realm);
 		}
 
-		protected override bool Process (HttpInteraction parameters)
+		protected override bool Process (IInteraction uncastParameters)
 		{
-			((HttpListenerRequest)parameters["Request"]).Headers["Authorization"]
+			IHttpInteraction interaction = (IHttpInteraction)uncastParameters;
 
-			string[] authHeader = parameters.IncomingHeaders.GetValues ("Authorization");
+			string[] authHeader = interaction.RequestHeaders ["Authorization"];
 
 			if ((authHeader != null) &&
 				(authHeader.Length > 0)) {
@@ -48,12 +48,12 @@ namespace RegularHttpServer
 
 				if ((authHeader [0] == "Basic") &&
 					(authHeader [1] == loginString)) {
-					return RunBranch ("http", parameters);
+					return RunBranch ("http", uncastParameters);
 				}
 			} 
 
-			parameters.StatusCode = 401;
-			parameters.OutgoingHeaders ["WWW-Authenticate"] = wwwAuthHeader;
+			interaction.StatusCode = 401;
+			interaction.ResponseHeaders ["WWW-Authenticate"] = wwwAuthHeader;
 
 			return true;
 		}

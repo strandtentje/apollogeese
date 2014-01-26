@@ -129,18 +129,19 @@ namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 				if (!dir.Name.StartsWith("."))
 					fileList.AppendLine (string.Format (
 						DirectoryItemMarkup, 
-						HttpUtility.UrlEncode(rawUrl + dir.Name).Replace("%2f", "/"), 
+						rawUrl + HttpUtility.UrlEncode(dir.Name), 
 						dir.Name));
 
 			foreach (FileInfo file in files)
 				if (!file.Name.StartsWith("."))
 					fileList.AppendLine (string.Format (
 						FileItemMarkup, 
-						HttpUtility.UrlEncode(rawUrl + file.Name).Replace("%2f", "/"), 
+						rawUrl + HttpUtility.UrlEncode(file.Name), 
 						file.Name));
 
 			parameters.AppendToBody (
-				string.Format (ListMarkup, fileList.ToString ()));
+				string.Format (ListMarkup, fileList.ToString ()), 
+				"text/html");
 
 			Secretary.Report (9, "Was directory, providing index.");
 

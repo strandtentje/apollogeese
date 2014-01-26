@@ -39,8 +39,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 			}
 		}
 
-		protected override bool Process (IInteraction parameters)
+		protected override bool Process (IInteraction uncastParameters)
 		{
+			IHttpInteraction parameters = (IHttpInteraction)uncastParameters;
+
 			foreach (Mapping mapping in mappings) {
 				if (mapping.Follow (parameters))
 					return true;

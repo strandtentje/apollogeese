@@ -37,7 +37,7 @@
     <Compile Include="Service.cs" />
     <Compile Include="IInteraction.cs" />
     <Compile Include="IHttpInteraction.cs" />
-    <Compile Include="IMethodInteraction.cs" />
+    <Compile Include="ISessionInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

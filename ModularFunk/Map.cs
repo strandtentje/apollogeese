@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Text;
+using System.IO;
 
 namespace BorrehSoft.Utensils
 {
@@ -8,7 +10,51 @@ namespace BorrehSoft.Utensils
 	/// </summary>
 	public class Map<T>
 	{
+		/// <summary>
+		/// Gets or sets the name.
+		/// </summary>
+		/// <value>The name.</value>
 		public string Name { get; set; }
+
+		public delegate string Parser(string data);
+
+		/// <summary>
+		/// Adds elements from string stream.
+		/// </summary>
+		/// <param name="data">Data to parse</param>
+		/// <param name="parser">String parser for element value.</param>
+		/// <param name="assigner">Value-assigning character.</param>
+		/// <param name="concatenator">Concatenator of assignments.</param>
+		public void AddFromString(string source, Parser parser, char assigner, char concatenator)
+		{
+			StringBuilder buffer = new StringBuilder ();
+			Queue<string> queue = new Queue<string>();
+
+			int inByte;
+			string id, data;
+
+			foreach(char c in source)
+			{
+				if (c == concatenator)
+				{
+					id = queue.Dequeue(); data = "";
+
+					if (queue.Count > 0) data = parser(queue.Dequeue());
+
+					this[id] = (T)(object)data;
+
+					queue.Clear();
+				}
+				else if (c == assigner)
+				{
+					queue.Enqueue(buffer.ToString());
+					buffer.Clear();
+				}
+				else {
+					buffer.Append(c);
+				}
+			}
+		}
 
 		/// <summary>
 		/// The arse.

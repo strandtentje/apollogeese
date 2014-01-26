@@ -9,7 +9,7 @@ namespace Datatables
 	{
 		private static readonly string[] permanentBranches = new string[] { "succes" };
 		private List<string> myBranches = new List<string>();
-		private Method correctMethod;
+		private string correctMethod;
 
 		public InputForm() {
 			myBranches.AddRange (permanentBranches);
@@ -27,10 +27,9 @@ namespace Datatables
 			}
 		}
 
-
 		protected override void Initialize (Settings modSettings)
 		{
-			correctMethod = Enum.Parse (typeof(Method), (string)modSettings ["method"]);
+			correctMethod = (string)modSettings ["method"];
 
 			List<object> definedFields = (List<object>)modSettings ["fields"];
 			myBranches.AddRange (definedFields.ToStringArray ());
@@ -39,13 +38,15 @@ namespace Datatables
 		protected override bool Process (IInteraction uncastParameters)
 		{
 			Map<object> incoming = new Map<object> ();
-			IMethodInteraction parameters = (IMethodInteraction)uncastParameters;
+			WebformInteraction parameters = 
+				new WebformInteraction (
+					(IHttpInteraction)uncastParameters,
+					correctMethod);
 
-			bool success = parameters.GetMethod () == correctMethod;
+			bool success = true;
 
 			foreach (string branchName in myBranches) 
-				if (success)				
-					success &= RunBranch (branchName, parameters);
+				success &= RunBranch (branchName, parameters);
 
 			return success;
 		}

@@ -72,7 +72,7 @@ namespace BorrehSoft.ApolloGeese
 
 			Secretary.Report (6, "Branching within...");
 
-			foreach (string branch in config.GetKeys()) {
+			foreach (string branch in config.GetNames()) {
 				int brIx = branch.IndexOf ("_branch");
 
 				if (brIx > -1) {

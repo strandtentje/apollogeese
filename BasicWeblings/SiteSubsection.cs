@@ -35,20 +35,12 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		{
 			IHttpInteraction parameters = (IHttpInteraction)uncastParameters;
 
-			string originalTitle = parameters.CurrentTitle;
 			string branchId;
-			bool success;
 
 			if (parameters.URL.EndOfSeries)	branchId = "";
 			else branchId = parameters.URL.ReadUrlChunk ();
 
-			parameters.CurrentTitle = BranchNames [branchId];
-
-			success = RunBranch (branchId, parameters);
-
-			parameters.CurrentTitle = originalTitle;
-
-			return success;
+			return RunBranch (branchId, parameters);
 		}
 	}
 }
