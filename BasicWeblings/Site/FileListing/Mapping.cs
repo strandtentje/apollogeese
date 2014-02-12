@@ -8,6 +8,8 @@ using System.IO;
 using System.Text;
 using System.Web;
 using BorrehSoft.Utensils.Log;
+using BorrehSoft.ApolloGeese.Duckling.Http;
+using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
 
 namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 {
@@ -139,9 +141,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 						rawUrl + HttpUtility.UrlEncode(file.Name), 
 						file.Name));
 
-			parameters.AppendToBody (
-				string.Format (ListMarkup, fileList.ToString ()), 
-				"text/html");
+			parameters.ResponseHeaders.ContentType.AssertSimilarityTo (MimeType.Text.Html);
+			
+			parameters.ResponseBody.WriteLine (string.Format (ListMarkup, fileList.ToString ()));		
 
 			Secretary.Report (9, "Was directory, providing index.");
 
@@ -166,7 +168,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.FileListing
 			
 			FileInfo file = new FileInfo (fsPath);
 
-			parameters.SetBody(file.OpenRead (), mimeType, file.Length);
+			parameters.ResponseHeaders.ContentType =
+				new MimeType (mimeType);
+			parameters.ResponseHeaders.ContentLength = 
+				file.Length;
+
+			file.OpenRead ().CopyTo (parameters.ResponseBody.BaseStream);
 
 			Secretary.Report (9, "Was file, providing content.");
 

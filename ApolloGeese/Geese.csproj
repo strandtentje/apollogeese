@@ -51,9 +51,9 @@
       <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
       <Name>Utensils</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Datatables\Datatables.csproj">
-      <Project>{7F439F1A-EBB2-41FD-8896-BD2CAB0310A4}</Project>
-      <Name>Datatables</Name>
+    <ProjectReference Include="..\BasicWeblings\BasicWeblings.csproj">
+      <Project>{3E51D2C9-9409-4F18-A50A-5D81323E3B29}</Project>
+      <Name>BasicWeblings</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

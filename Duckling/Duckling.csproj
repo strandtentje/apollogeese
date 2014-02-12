@@ -36,8 +36,11 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="IInteraction.cs" />
-    <Compile Include="IHttpInteraction.cs" />
-    <Compile Include="ISessionInteraction.cs" />
+    <Compile Include="HTTP\IHttpInteraction.cs" />
+    <Compile Include="HTTP\RequestHeaders.cs" />
+    <Compile Include="HTTP\ResponseHeaders.cs" />
+    <Compile Include="HTTP\Headers\MimeType.cs" />
+    <Compile Include="HTTP\Headers\MimeTypeMismatchException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -45,5 +48,9 @@
       <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
       <Name>Utensils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="HTTP\" />
+    <Folder Include="HTTP\Headers\" />
   </ItemGroup>
 </Project>

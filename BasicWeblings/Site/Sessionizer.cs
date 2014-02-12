@@ -6,8 +6,9 @@ using System.Net;
 using System.Security;
 using System.Security.Policy;
 using System.Security.Cryptography;
+using BorrehSoft.ApolloGeese.Duckling.Http;
 
-namespace Website
+namespace BorrehSoft.Extensions.BasicWeblings.Site
 {
 	public class Sessionizer : Service
 	{
@@ -30,18 +31,20 @@ namespace Website
 
 		protected override void Initialize (Settings modSettings)
 		{
-			cookieLife = TimeSpan.Parse ((string)modSettings ["CookieLife"]);
-			cookieName = (string)modSettings ["CookieName"];
+			string temporary;
 
-			if (cookieLife == null) cookieLife = TimeSpan.FromHours (1);
-			if (cookieName == null)	cookieName = "SES";
+			if (modSettings.TryGetString ("CookieLife", out temporary))
+				cookieLife = TimeSpan.Parse (temporary);
+
+			if (modSettings.TryGetString ("CookieName", out temporary))
+				cookieName = temporary;
 		}
 
 		protected override bool Process (IInteraction uncastParameters)
 		{
 			IHttpInteraction parameters = (IHttpInteraction)uncastParameters;
 
-			Cookie givenCookie = parameters.RequestCookies [cookieName];
+			Cookie givenCookie = parameters.RequestHeaders.Cookies [cookieName];
 
 			if ((givenCookie == null) ||		// In case of a null sescookie
 				(givenCookie.Value.Length == 0) ||    // an empty sescookie
@@ -60,8 +63,7 @@ namespace Website
 						Guid.NewGuid ().ToByteArray ());
 				} while (knownSessions.Contains(cookieValue));
 								
-				parameters.ResponseCookies.Add(new Cookie(cookieName, cookieValue) { 
-					Expires = DateTime.Now + cookieLife });
+				parameters.ResponseHeaders.SetCookie (cookieName, cookieValue);
 
 				// Yes, I made the Sescookie-creation loop around in case of a duplicate
 				// gloBALLY UNIQUE IDENTIFIER now hand me my tinfoil hat.

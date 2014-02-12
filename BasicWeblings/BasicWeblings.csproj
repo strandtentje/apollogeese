@@ -34,16 +34,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="HttpService.cs" />
-    <Compile Include="SiteSubsection.cs" />
-    <Compile Include="Template.cs" />
-    <Compile Include="FileListing\FileService.cs" />
-    <Compile Include="FileListing\Mapping.cs" />
-    <Compile Include="HttpInteraction.cs" />
+    <Compile Include="Server\HttpInteraction.cs" />
+    <Compile Include="Server\HttpService.cs" />
+    <Compile Include="Site\SiteSubsection.cs" />
+    <Compile Include="Site\Template.cs" />
+    <Compile Include="Site\FileListing\FileService.cs" />
+    <Compile Include="Site\FileListing\Mapping.cs" />
+    <Compile Include="Site\Sessionizer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="FileListing\" />
+    <Folder Include="Server\" />
+    <Folder Include="Site\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">

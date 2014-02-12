@@ -6,8 +6,11 @@ using System.Net;
 using System.IO;
 using BorrehSoft.Utensils;
 using Stringtionary = System.Collections.Generic.Dictionary<string, string>;
+using System.Text;
+using BorrehSoft.ApolloGeese.Duckling.Http;
+using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.BasicWeblings.Site
 {
 	/// <summary>
 	/// Simple template service which fills 
@@ -24,7 +27,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		/// </summary>
 		private StringList templateVariables = new StringList();
 
-		private string templateFile, rawTemplate, chunkPattern, title;
+		private string templateFile, rawTemplate, chunkPattern, title, defaultEncoding;
 
 		/// <summary>
 		/// HTML Template Service will expose Branches which have been defined
@@ -61,23 +64,22 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		protected override bool Process (IInteraction uncastParameters)
 		{
-			IHttpInteraction parameters = (IHttpInteraction)uncastParameters;
-
+			IHttpInteraction parameters;
+			StreamWriter body;
+			MimeType type;
 			int cursor = 0;
 			bool success = true;
 			string groupName, lugValue;
 
+			parameters = uncastParameters as IHttpInteraction;
+			type = MimeType.Text.Html; type.Encoding = Encoding.UTF8;
+
+			parameters.ResponseHeaders.ContentType = type;
+
+
 			try	{
 				foreach (Match replaceable in replaceables) {
-					// Append from:
-					//  a) The beginning of the document
-					//  b) The continuation of the document since the last chunk
-					// to:
-					//	a) The beginning of a chunk
-					//  b) The end of the document
-					parameters.AppendToBody (
-						rawTemplate.Substring (cursor, replaceable.Index - cursor),
-						"text/html");
+					parameters.ResponseBody.Write(rawTemplate.Substring (cursor, replaceable.Index - cursor));
 
 					groupName = replaceable.Groups[1].Value;
 
@@ -85,10 +87,8 @@ namespace BorrehSoft.Extensions.BasicWeblings
 					{
 						success = false;
 						string chunk = "";
-						if (parameters.TryGetString(groupName, out chunk))
-						{
-							parameters.AppendToBody (chunk, "text/html");
-						}
+						if (parameters.TryGetString(groupName, out chunk) || settings.TryGetString(groupName, out chunk))
+							parameters.ResponseBody.Write(chunk);
 					}
 
 					cursor = replaceable.Index + replaceable.Length;
@@ -97,7 +97,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 				// In the very likely event the cursor is not at the end of the document,
 				// the last bit of the document needs to be written to the body as well.
 				if (cursor < rawTemplate.Length)
-					parameters.AppendToBody(rawTemplate.Substring(cursor), "text/html");
+					parameters.ResponseBody.Write(rawTemplate.Substring(cursor));
 
 				return success;
 			}

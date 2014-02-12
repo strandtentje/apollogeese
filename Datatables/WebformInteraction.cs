@@ -36,7 +36,7 @@ namespace Datatables
 			if (baseInteraction.RequestMethod.ToLower () != "post")
 				return;
 
-			if (baseInteraction.RequestBodyMIME.ToLower () != "application/x-www-form-urlencoded")
+			if (baseInteraction.RequestHeaders["Content-Type"].ToLower () != "application/x-www-form-urlencoded")
 				return;
 
 			byte[] data = new byte[baseInteraction.RequestBodySize];

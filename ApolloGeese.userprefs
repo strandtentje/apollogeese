@@ -1,39 +1,31 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Datatables/InputForm.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="AuthWeblings/Sessionizer.cs">
     <Files>
-      <File FileName="BasicWeblings/HttpService.cs" Line="37" Column="3" />
-      <File FileName="BasicWeblings/SiteSubsection.cs" Line="28" Column="4" />
-      <File FileName="BasicWeblings/Template.cs" Line="104" Column="26" />
-      <File FileName="Geese/bin/Debug/apollogeese.conf" Line="1" Column="1" />
-      <File FileName="BasicWeblings/FileListing/Mapping.cs" Line="102" Column="19" />
-      <File FileName="BasicWeblings/FileListing/FileService.cs" Line="39" Column="5" />
-      <File FileName="BasicWeblings/BasicHttpInteraction.cs" Line="24" Column="38" />
-      <File FileName="Duckling/IHttpInteraction.cs" Line="59" Column="26" />
-      <File FileName="ModularFunk/Map.cs" Line="25" Column="3" />
-      <File FileName="Datatables/Querier.cs" Line="38" Column="39" />
-      <File FileName="Duckling/Service.cs" Line="15" Column="31" />
-      <File FileName="Datatables/InputForm.cs" Line="32" Column="4" />
-      <File FileName="Duckling/IInteraction.cs" Line="20" Column="4" />
-      <File FileName="Duckling/IMethodInteraction.cs" Line="5" Column="9" />
+      <File FileName="Geese/bin/Debug/fileindex.conf" Line="1" Column="1" />
+      <File FileName="BasicWeblings/Server/HttpService.cs" Line="1" Column="1" />
+      <File FileName="BasicWeblings/Site/Template.cs" Line="1" Column="1" />
+      <File FileName="AuthWeblings/Sessionizer.cs" Line="56" Column="20" />
+      <File FileName="Duckling/HTTP/RequestHeaders.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
         <State expanded="True">
           <Option id="ShowAllFiles" value="True" />
-          <Node name="AuthWeblings" expanded="True" />
-          <Node name="BasicWeblings" expanded="True" />
-          <Node name="Datatables" expanded="True">
-            <Node name="InputForm.cs" selected="True" />
+          <Node name="AuthWeblings" expanded="True">
+            <Node name="Sessionizer.cs" selected="True" />
           </Node>
-          <Node name="Duckling" expanded="True" />
+          <Node name="BasicWeblings" expanded="True" />
+          <Node name="Duckling" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="HTTP" expanded="True">
+              <Node name="Headers" expanded="True" />
+            </Node>
+          </Node>
           <Node name="Geese" expanded="True">
             <Node name="bin" expanded="True">
               <Node name="Debug" expanded="True" />
             </Node>
-          </Node>
-          <Node name="Utensils" expanded="True">
-            <Node name="Settings" expanded="True" />
           </Node>
         </State>
       </Pad>

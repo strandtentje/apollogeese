@@ -7,7 +7,7 @@ using L = BorrehSoft.Utensils.Log.Secretary;
 using BorrehSoft.Utensils.Settings;
 using System.Diagnostics;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.BasicWeblings.Server
 {
 	/// <summary>
 	/// Http server.
@@ -97,14 +97,15 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		/// <param name="context">Context.</param>
 		void EnterTree (HttpListenerContext context)
 		{
-			HttpInteraction parameters = new HttpInteraction () { Name = "Interaction Parameters" };
-			parameters.Request = context.Request;
-			parameters.Response = context.Response;
+			HttpInteraction parameters = new HttpInteraction (
+				context.Request, context.Response) { 
+				Name = "Basic Http Interaction" 
+			};
 
 			if (!Process (parameters)) context.Response.StatusCode = 500;
 
-			context.Response.OutputStream.Close ();
-			context.Response.Close ();
+			parameters.RequestBody.Close ();
+			parameters.ResponseBody.Close ();
 		}
 
 		protected override bool Process (IInteraction parameters)

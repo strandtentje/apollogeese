@@ -4,8 +4,9 @@ using BorrehSoft.Utensils.Settings;
 using System.Net;
 using System.Collections.Generic;
 using BorrehSoft.Utensils;
+using BorrehSoft.ApolloGeese.Duckling.Http;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.BasicWeblings.Site
 {
 	public class SiteSubsection : Service
 	{
