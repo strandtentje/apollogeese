@@ -17,17 +17,17 @@ namespace BorrehSoft.ApolloGeese.Duckling.Http
 		{
 			this.Backend = Backend;
 
-			this.Cookies = GetParsedCookies (Backend.GetValues ("Cookie"));
+			// SetCookies (Backend.GetValues ("Cookie"));
 		}
 
-		static Dictionary<string, string> GetParsedCookies (string[] cookieHeaders)
+		void SetCookies (string[] cookieHeaders)
 		{
 			string[] splitCookie;
 
-			foreach (string cookieSpec in string.Join (";", cookieHeaders)) {
+			foreach (string cookieSpec in cookieHeaders) {
 				foreach (string cookiePair in cookieSpec.Split(';')) {
 					splitCookie = cookiePair.Split ('=');
-					Cookies[splitCookie [0], splitCookie [1]];
+					Cookies [splitCookie [0]] = splitCookie [1];
 				}
 			}
 		}

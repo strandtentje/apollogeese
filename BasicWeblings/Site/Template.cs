@@ -76,7 +76,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 			parameters.ResponseHeaders.ContentType = type;
 
-
 			try	{
 				foreach (Match replaceable in replaceables) {
 					parameters.ResponseBody.Write(rawTemplate.Substring (cursor, replaceable.Index - cursor));

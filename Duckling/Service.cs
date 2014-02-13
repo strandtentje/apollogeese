@@ -14,7 +14,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// </summary>
 	public abstract class Service
 	{
-		private Dictionary<string, Service> branches = new Dictionary<string, Service> ();
+		private SortedDictionary<string, Service> branches = new SortedDictionary<string, Service> ();
 
 		/// <summary>
 		/// Gets the description of this service. (Cool bonus: May change! Woo!)
@@ -33,7 +33,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// Gets the Services this Service may branch into
 		/// </summary>
 		/// <value>The branches.</value>
-		public Dictionary<string, Service> ConnectedBranches { get { return branches; } }
+		public SortedDictionary<string, Service> ConnectedBranches { get { return branches; } }
 
 		/// <summary>
 		/// Gets the error message that caused 'TryInitialize' to fail.

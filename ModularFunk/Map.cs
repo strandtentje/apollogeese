@@ -16,7 +16,7 @@ namespace BorrehSoft.Utensils
 		/// <value>The name.</value>
 		public string Name { get; set; }
 
-		public delegate string Parser(string data);
+		public delegate T Parser(string data);
 
 		/// <summary>
 		/// Adds elements from string stream.
@@ -28,7 +28,8 @@ namespace BorrehSoft.Utensils
 		public void AddFromString(string source, Parser parser, char assigner, char concatenator)
 		{
 			StringBuilder buffer = new StringBuilder ();
-			Queue<string> queue = new Queue<string>();
+
+			string identifier = "";
 
 			int inByte;
 			string id, data;
@@ -37,23 +38,50 @@ namespace BorrehSoft.Utensils
 			{
 				if (c == concatenator)
 				{
-					id = queue.Dequeue(); data = "";
-
-					if (queue.Count > 0) data = parser(queue.Dequeue());
-
-					this[id] = (T)(object)data;
-
-					queue.Clear();
+					this [identifier] = parser (buffer.ToString ());
+					buffer.Clear ();
 				}
 				else if (c == assigner)
 				{
-					queue.Enqueue(buffer.ToString());
+					identifier = buffer.ToString ();
 					buffer.Clear();
 				}
 				else {
 					buffer.Append(c);
 				}
 			}
+
+			if (buffer.Length > 0) {
+				this [identifier] = parser (buffer.ToString ());
+				buffer.Clear ();
+			}
+		}
+
+		/// <summary>
+		/// Writes the pairs using the supplied write method.
+		/// </summary>
+		/// <param name="writeMethod">Write method.</param>
+		/// <param name="connector">Connector.</param>
+		/// <param name="seperator">Seperator.</param>
+		public void WritePairsTo(Action<string> writeMethod, char connector, char seperator)
+		{
+			foreach (KeyValuePair<string, T> kvp in arse) {
+				writeMethod (kvp.Key);
+				writeMethod (connector.ToString());
+				writeMethod (kvp.Value.ToString());
+				writeMethod (seperator.ToString());
+			}
+		}
+
+		/// <summary>
+		/// Writes the pairs to the supplied stringbuilder using a format.
+		/// </summary>
+		/// <param name="builder">Builder.</param>
+		/// <param name="format">Format.</param>
+		public void WritePairsTo(StringBuilder builder, string format)
+		{
+			foreach (KeyValuePair<string, T> kvp in arse) 
+				builder.AppendFormat (format, kvp.Key, kvp.Value.ToString ());
 		}
 
 		/// <summary>
@@ -108,6 +136,18 @@ namespace BorrehSoft.Utensils
 					arse.Remove (name);
 				arse.Add (name, value);
 			}
+		}
+
+		/// <summary>
+		/// Gets the string.
+		/// </summary>
+		/// <returns>The string.</returns>
+		/// <param name="name">Name.</param>
+		/// <param name="defaultValue">Default value.</param>
+		public string GetString(string name, string defaultValue) 
+		{
+			// Jesus fuck C# that's sexy
+			return (this [name] as string) ?? defaultValue;
 		}
 
 		/// <summary>

@@ -17,7 +17,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// Parameters to a service call
 	/// </summary>
 	public interface IInteraction 
-	{	
+	{
 		/// <summary>
 		/// Tries to get a string from the luggage
 		/// </summary>

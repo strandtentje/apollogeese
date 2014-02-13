@@ -6,6 +6,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.ApolloGeese.Duckling.Http;
+using System.Collections.Specialized;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Server
 {
@@ -24,8 +25,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		{
 			this.Request = Request;
 			this.Response = Response;
-
-
 		}
 
 		#region Request
@@ -40,7 +39,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			private set 
 			{ 
 				_request = value; 
-				URL = new StringList (value.RawUrl, '/', HttpUtility.UrlDecode);
+				URL = new StringList (value.RawUrl, '/');
 				RequestHeaders = new RequestHeaders (value.Headers);
 				RequestBody = new StreamReader (value.InputStream);
 			}

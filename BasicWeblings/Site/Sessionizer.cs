@@ -44,11 +44,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 		{
 			IHttpInteraction parameters = (IHttpInteraction)uncastParameters;
 
-			Cookie givenCookie = parameters.RequestHeaders.Cookies [cookieName];
+			string givenCookie = parameters.RequestHeaders.Cookies [cookieName];
 
 			if ((givenCookie == null) ||		// In case of a null sescookie
-				(givenCookie.Value.Length == 0) ||    // an empty sescookie
-				(!knownSessions.Contains (givenCookie.Value))) {  // or an unknown session cookie
+				(givenCookie.Length == 0) ||    // an empty sescookie
+				(!knownSessions.Contains (givenCookie))) {  // or an unknown session cookie
 				// we create a cookie
 
 				string cookieValue;
