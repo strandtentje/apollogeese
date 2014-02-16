@@ -10,7 +10,7 @@ using System.Web;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 {
 	public class Form : Service
 	{

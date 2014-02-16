@@ -11,7 +11,7 @@ using BorrehSoft.Utensils.Log;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
 
-namespace BorrehSoft.Extensions.BasicWeblings.FileListing
+namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.FileListing
 {
 	/// <summary>
 	/// A Mapping from URL to filesystem.

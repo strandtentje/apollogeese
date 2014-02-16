@@ -5,7 +5,7 @@ using BorrehSoft.Utensils;
 using BorrehSoft.ApolloGeese.Duckling;
 using System.Text;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 {
 	/// <summary>
 	/// The event handler for when

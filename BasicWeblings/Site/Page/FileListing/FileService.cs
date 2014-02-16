@@ -5,7 +5,7 @@ using System.Net;
 using BorrehSoft.Utensils;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 
-namespace BorrehSoft.Extensions.BasicWeblings.FileListing
+namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.FileListing
 {
 	/// <summary>
 	/// File service.

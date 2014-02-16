@@ -5,7 +5,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils;
 using BorrehSoft.Utensils.Settings;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 {
 	public class TextEntry : Service
 	{

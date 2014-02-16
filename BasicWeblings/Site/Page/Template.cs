@@ -10,7 +10,7 @@ using System.Text;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site
+namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 {
 	/// <summary>
 	/// Simple template service which fills 

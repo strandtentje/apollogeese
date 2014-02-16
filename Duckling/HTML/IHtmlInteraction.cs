@@ -4,9 +4,6 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML
 {
 	public interface IHtmlInteraction : IInteraction
 	{
-		string DoctypeOpener { get; }
-
-		HtmlEntity RootEntity { get; set; }
+		HtmlEntity Entity { get; set; }
 	}
 }
-

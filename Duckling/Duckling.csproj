@@ -45,7 +45,9 @@
     <Compile Include="HTML\HtmlEntity.cs" />
     <Compile Include="HTML\HtmlAttribute.cs" />
     <Compile Include="HTML\HtmlAttributeCollection.cs" />
-    <Compile Include="HTML\HtmlCapsuleType.cs" />
+    <Compile Include="HTML\Entities\TextualEntity.cs" />
+    <Compile Include="HTML\Entities\UnbodiedEntity.cs" />
+    <Compile Include="HTML\Entities\TaggedBodyEntity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -58,5 +60,6 @@
     <Folder Include="HTTP\" />
     <Folder Include="HTTP\Headers\" />
     <Folder Include="HTML\" />
+    <Folder Include="HTML\Entities\" />
   </ItemGroup>
 </Project>

@@ -37,23 +37,23 @@
     <Compile Include="Server\HttpInteraction.cs" />
     <Compile Include="Server\HttpService.cs" />
     <Compile Include="Site\SiteSubsection.cs" />
-    <Compile Include="Site\Template.cs" />
-    <Compile Include="Site\FileListing\FileService.cs" />
-    <Compile Include="Site\FileListing\Mapping.cs" />
     <Compile Include="Site\Sessionizer.cs" />
-    <Compile Include="Site\DataEntry\Form.cs" />
-    <Compile Include="Site\DataEntry\EntryInteraction.cs" />
-    <Compile Include="Site\DataEntry\Fields\TextEntry.cs" />
-    <Compile Include="Site\DataEntry\FormDisplayingEvent.cs" />
-    <Compile Include="Site\DataEntry\InputAcceptedEvent.cs" />
-    <Compile Include="Site\DataEntry\Fields\SubmitButton.cs" />
+    <Compile Include="Site\Page\DataEntry\Form.cs" />
+    <Compile Include="Site\Page\DataEntry\EntryInteraction.cs" />
+    <Compile Include="Site\Page\DataEntry\Fields\TextEntry.cs" />
+    <Compile Include="Site\Page\DataEntry\FormDisplayingEvent.cs" />
+    <Compile Include="Site\Page\DataEntry\InputAcceptedEvent.cs" />
+    <Compile Include="Site\Page\DataEntry\Fields\SubmitButton.cs" />
+    <Compile Include="Site\Page\FileListing\FileService.cs" />
+    <Compile Include="Site\Page\FileListing\Mapping.cs" />
+    <Compile Include="Site\Page\Template.cs" />
+    <Compile Include="Site\HtmlComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Server\" />
     <Folder Include="Site\" />
-    <Folder Include="Site\DataEntry\" />
-    <Folder Include="Site\DataEntry\Fields\" />
+    <Folder Include="Site\Page\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">
