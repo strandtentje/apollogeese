@@ -57,7 +57,6 @@
     <Compile Include="Settings\IncludeParser.cs" />
     <Compile Include="Map.cs" />
     <Compile Include="StringList.cs" />
-    <Compile Include="HTML\HtmlTag.cs" />
     <Compile Include="Caching\FileCache.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -67,7 +66,6 @@
     <Folder Include="Parsing\Parsers\" />
     <Folder Include="Log\" />
     <Folder Include="Parsing\Web\" />
-    <Folder Include="HTML\" />
     <Folder Include="Caching\" />
   </ItemGroup>
 </Project>
