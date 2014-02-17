@@ -17,7 +17,7 @@ Using those twenty-eight reasons which are actually three reasons (but youknow, 
 
 ### The Customer Conveyor
 
-As I mentioned earlier, the web has been mostly, if not entirely, programmed in languages that process the customer's request using a list of instructions. The very mentality that our visitor is just a resource for our factory (the webservice), in making the product (the website) is wrong. This claim is laid, for this linearity transitions into the way we present ourselves to the world. If we fail to let go of the habbit of linearizing our on-line communications, websites will never be more than the metaphorical tinny-voiced robots telling us the way in not exactly the way we want to know it.
+As I mentioned earlier, the web has been mostly, if not entirely, programmed in languages that process the customer's request using a list of instructions. The very mentality that our visitor is just a resource for our factory (the webservice), in making the product (the website) is wrong. This claim is laid, for this linearity transitions into the way we present ourselves to the world. If we fail to let go of the habbit of linearizing our on-line communications, websites will never be more than the metaphorical tinny-voiced robots telling us the way to go, but not precisely the way we wanted to know.
 
 In real life, our guided tours don't consist of simply showing the facade of our buildings. And yet we do this online and we even have the audacity of pretending it's representing who we are and what we do. Our websites are just tall piles of ever-shrinking blocks of textual bricks and stock-photography windows in an otherwise well-designed frame.
 
