@@ -37,7 +37,7 @@ Meanwhile, it seems to be a long upheld lie by the programmer's guild that progr
 
 The combination of employer curiousity and employee closedness is a source of needless friction.
 
-To remove this friction, meaningfull and useful documentation needs to be produced. Not explicitly, but by design. Elements in the developers design irrevokably display their purpose and their coherence with the rest of the design. If the element's purpose is unclear, it can't be used and it shan't be used.
+To remove this friction, meaningfull and useful documentation needs to be produced. Not explicitly, but by design. Elements in the developers design irrevokably display their purpose and their coherence with the rest of the design. If the element's purpose is unclear, it's unclear for both the designer and the executive, and is therefore useless.
 
 ### You're a madman
 
