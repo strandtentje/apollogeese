@@ -41,9 +41,10 @@ To remove this friction, meaningfull and useful documentation needs to be produc
 
 ### You're a madman
 
-It is countless times I have found myself getting familiar with a bunch of website source code written by someone who has
-a. Disappointed their mother
-b. Probably died
+It is countless times I have found myself getting familiar with a bunch of website source code written by someone who has:
+
+1. Disappointed their mother
+2. Probably died
 
 Generally, this source code runs into thousands of lines and seems meaningless at first sight, because the concept 'identifier' didn't entirely trickle down in the developer's mind, now causing a bunch of either temporary or EXTREMELY RELEVANT variables to identify with the brief yet not very concise identifier 'BN'.
 
