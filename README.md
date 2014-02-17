@@ -9,7 +9,7 @@ Philosophy
 The ridiculous majority of Web Services seem to be built by means of a not very structural, very sequential, weakly typed, never-ending concatenation of characters, line-breaks and other advocates of nightmare and dismay. I'm looking at you here, PHP, Python, ASP(.Net) and those who shall not be mentioned.
 
 This notion of incomprehensible, scripted linearity makes me as a developer awfully unhappy for precisely twenty-eight reasons:
-* Interaction is defined as if the customer were a resource in a factory being passed on by conveyors.
+* Interaction is defined as if the customer were a resource being passed on by conveyors in a factory.
 * Superiors don't know what you're up to until it's too late.
 * It's not fun to make or understand, unless you're slightly mad. 
 
