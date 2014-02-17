@@ -23,9 +23,9 @@ In real life, our guided tours don't consist of simply showing the facade of our
 
 No, in real life, we'd love to take everyone who is interrested into our environments. We show them through all the corridors, cubicles, halls and rooms. We show it precisely so that we spark the customer's curiousity, evoke questions and provide satisfactory answers to these questions using the very structure of our environment as a boilerplate to achieve this.
 
-That brings us to the first aim of ApolloGeese: Structure. If someone who is interrested in what you've to offer immediately observes a simple structure in the way you present yourself, they know what to ask, and where to look. Your presentation will prove useful.
+That brings us to the first aim of ApolloGeese: Structure. If someone who is interrested in what you've to offer, immediately observes a simple structure in the way you present yourself, they know what to ask, and where to look. Your presentation will prove useful.
 
-We need to achieve this by punishing the developer immediately, when they implement an incoherent structure. Not explicitly, but by design. It's made so when the developer has to double-take what they just made, it's too complex for the customer too, and needs to be revised.
+We need to achieve this by punishing the developer immediately when they implement an incoherent structure. Not explicitly, but by design. ApolloGeese is made so when the developer has to double-take what they just made, it's too complex for the customer too, and needs to be revised.
 
 ### Aye, Captain
 
