@@ -51,3 +51,16 @@ Generally, this source code runs into thousands of lines and seems meaningless a
 One may conclude from this not all developers are very crafty with identifiers.
 
 So you've guessed it, there will be identifiers which are meaningful and useful at all times. Not explicitly, but by design! HA! Wrong. Identifiers are arseholes and an ApolloGeese webdesigner will have nothing to do with them when setting up the website.
+
+The Design
+----------
+
+An ApolloGeese-webservice, contrary to most nerd-developed webservices, is pleasantly bureaucratic. It's a hierarchy where the customer will start at the top node, will be dipped down into a tree further defining what is presented, and finally will be pulled up again to the top node, which then returns the product to the customer. 
+
+The base type for nodes in this hierarchy is 'Service' and communications between these nodes is defined by the interface 'IInteraction'. Both of these may be overridden and implemented to any Mono developer's heart's content. Given ApolloGeese's initial intention and main purpose is communication on the web, IInteraction is not typically implemented on its own, but rather as the base Interface to IHttpInteraction and IHtmlInteraction.
+
+ie. A top node may be a Service implementing an HTTP-server, this will produce an instance implementing IHttpInteraction. This Interaction provides Headers, Cookies, Request and Response body streams for webrequests filed by customers, and could for example be pushed onwards to a Service implementing an HTML-composer, providing an IHtmlInteraction to nodes which produce the actual content to the website.
+
+If all this meant any more than mumbo-jumbo to you, congratulations, you rock and we should probably talk about things more. In the more likely event you've no idea where I'm going with this right now, have a look at this UML diagram.
+
+Just kidding. No UML diagram tonight. I'm going to bed.
