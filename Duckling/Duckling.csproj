@@ -46,8 +46,8 @@
     <Compile Include="HTML\HtmlAttribute.cs" />
     <Compile Include="HTML\HtmlAttributeCollection.cs" />
     <Compile Include="HTML\Entities\TextualEntity.cs" />
-    <Compile Include="HTML\Entities\UnbodiedEntity.cs" />
     <Compile Include="HTML\Entities\TaggedBodyEntity.cs" />
+    <Compile Include="HTML\Entities\BodylessEntity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

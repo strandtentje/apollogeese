@@ -1,6 +1,6 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Duckling/HTML/Entities/TaggedBodyEntity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Duckling/HTML/HtmlEntity.cs">
     <Files>
       <File FileName="BasicWeblings/Site/SiteSubsection.cs" Line="1" Column="1" />
       <File FileName="BasicWeblings/Site/Sessionizer.cs" Line="1" Column="1" />
@@ -15,7 +15,7 @@
       <File FileName="ModularFunk/Map.cs" Line="1" Column="1" />
       <File FileName="Duckling/HTTP/IHttpInteraction.cs" Line="1" Column="1" />
       <File FileName="Duckling/HTML/IHtmlInteraction.cs" Line="6" Column="3" />
-      <File FileName="Duckling/HTML/HtmlEntity.cs" Line="48" Column="64" />
+      <File FileName="Duckling/HTML/HtmlEntity.cs" Line="52" Column="15" />
       <File FileName="Duckling/HTML/HtmlAttributeCollection.cs" Line="16" Column="3" />
       <File FileName="Duckling/HTML/HtmlAttribute.cs" Line="1" Column="1" />
       <File FileName="Duckling/IInteraction.cs" Line="1" Column="1" />
@@ -52,9 +52,8 @@
           <Node name="Datatables" expanded="True" />
           <Node name="Duckling" expanded="True">
             <Node name="HTML" expanded="True">
-              <Node name="Entities" expanded="True">
-                <Node name="TaggedBodyEntity.cs" selected="True" />
-              </Node>
+              <Node name="Entities" expanded="True" />
+              <Node name="HtmlEntity.cs" selected="True" />
             </Node>
             <Node name="HTTP" expanded="True" />
           </Node>
