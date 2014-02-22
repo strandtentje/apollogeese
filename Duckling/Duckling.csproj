@@ -49,6 +49,7 @@
     <Compile Include="HTML\Entities\TaggedBodyEntity.cs" />
     <Compile Include="HTML\Entities\BodylessEntity.cs" />
     <Compile Include="StubService.cs" />
+    <Compile Include="HTML\Entities\Specialized\HeadEntity.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -62,5 +63,6 @@
     <Folder Include="HTTP\Headers\" />
     <Folder Include="HTML\" />
     <Folder Include="HTML\Entities\" />
+    <Folder Include="HTML\Entities\Specialized\" />
   </ItemGroup>
 </Project>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site
 {
@@ -16,6 +17,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 		/// </summary>
 		public List<string> knownSessions = new List<string> ();
 
+		private Service Http;
 		private TimeSpan cookieLife = new TimeSpan (1, 0, 0);
 		private string cookieName = "SES";
 
@@ -36,6 +38,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 			if (modSettings.TryGetString ("CookieName", out temporary))
 				cookieName = temporary;
+		}
+
+		protected override void HandleItemChanged (object sender, ItemChangedEventArgs<Service> e)
+		{
+			if (e.Name = "http") 
+				Http = e.NewValue;
 		}
 
 		protected override bool Process (IInteraction uncastParameters)
@@ -69,7 +77,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 			parameters ["Session"] = givenCookie;
 
-			return Branches["http"].TryProcess(parameters);
+			return Http.TryProcess(parameters);
 		}
 	}
 }

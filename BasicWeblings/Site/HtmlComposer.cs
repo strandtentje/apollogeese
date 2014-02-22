@@ -3,20 +3,14 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.ApolloGeese.Duckling.HTML.Entities;
 using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
 	public class HtmlComposer : Service
 	{
-		static readonly string[] htmlBranchName = new string[] { "html" };
-
-		public override string[] AdvertisedBranches {
-			get {
-				return htmlBranchName;
-			}
-		}
-
-		public string Doctype { get; set; }
+		private Service Html;
+		string Doctype { get; set; }
 
 		public override string Description {
 			get {
@@ -26,11 +20,19 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		protected override void Initialize (Settings modSettings)
 		{
+			Branches ["html"] = Stub;
 			Doctype = modSettings.GetString("doctype", "<!DOCTYPE HTML>");
+		}
+
+		protected override void HandleItemChanged (object sender, ItemChangedEventArgs<Service> e)
+		{
+			if (e.Name = "html")
+				Html = e.NewValue;
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
+			bool success;
 			TaggedBodyEntity 
 				rootEntity = new TaggedBodyEntity("html"),
 				headEntity = new TaggedBodyEntity("head"),
@@ -41,7 +43,9 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 			HtmlInteraction branchInteraction = new HtmlInteraction(parameters, headEntity, bodyEntity);
 
-			return RunBranch ("html", branchInteraction);
+			success = Html.TryProcess (branchInteraction);
+
+			return success;
 		}
 	}
 }

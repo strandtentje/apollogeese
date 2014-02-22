@@ -28,16 +28,14 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 		protected override void Initialize (Settings modSettings)
 		{
-			Branches.ItemChanged += HandleItemChanged;
 			Branches ["main"] = Stub;
 			Branches ["default"] = Stub;
 		}
 
-		void HandleItemChanged (object sender, ItemChangedEventArgs<Service> e)
+		protected override void HandleItemChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			if (e.Name == "main") Main = e.NewValue;
 			if (e.Name == "default") Default = e.NewValue;
-
 		}
 
 		protected override bool Process (IInteraction uncastParameters)

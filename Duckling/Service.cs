@@ -5,6 +5,7 @@ using BorrehSoft.Utensils;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.Duckling
 {
@@ -47,6 +48,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 			try
 			{
+				Branches.ItemChanged += HandleItemChanged;
 				Initialize(modSettings);
 				InitErrorMessage = "";
 				succesful = true;
@@ -62,6 +64,8 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 			return succesful;
 		}
+
+		protected abstract void HandleItemChanged (object sender, ItemChangedEventArgs<Service> e);
 
 		/// <summary>
 		/// Tries to process and leaves a ProcessErrorMessage set if applicable.
