@@ -115,5 +115,15 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// The branches.
 		/// </summary>
 		public Map<Service> Branches = new Map<Service>();
+
+		/// <summary>
+		/// Gets a stub service. StubService.Instance does thesame.
+		/// </summary>
+		/// <value>The stub.</value>
+		public static Service Stub {
+			get {
+				return StubService.Instance;
+			}
+		}
 	}
 }

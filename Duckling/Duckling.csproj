@@ -48,6 +48,7 @@
     <Compile Include="HTML\Entities\TextualEntity.cs" />
     <Compile Include="HTML\Entities\TaggedBodyEntity.cs" />
     <Compile Include="HTML\Entities\BodylessEntity.cs" />
+    <Compile Include="StubService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
