@@ -1,6 +1,6 @@
 using System;
 
-namespace BorrehSoft.Utensils.Parsing.Parsers
+namespace BorrehSoft.Utensils.Parsing.Parser
 {
 	public class CharacterParser : Parser
 	{

@@ -1,7 +1,7 @@
 using System;
 using System.Text;
 
-namespace BorrehSoft.Utensils.Parsing.Parsers
+namespace BorrehSoft.Utensils
 {
 	public class IdentifierParser : Parser
 	{

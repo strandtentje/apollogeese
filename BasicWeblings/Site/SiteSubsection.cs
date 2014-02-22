@@ -1,9 +1,9 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.Utensils.Settings;
+using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
 using System.Net;
 using System.Collections.Generic;
-using BorrehSoft.Utensils;
+using BorrehSoft.BorrehSoft.Utensils.Collections;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site

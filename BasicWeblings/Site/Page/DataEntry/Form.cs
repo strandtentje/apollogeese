@@ -1,11 +1,11 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.Utensils.Settings;
+using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
-using UList = BorrehSoft.Utensils.List<object>;
+using UList = BorrehSoft.BorrehSoft.Utensils.Collections.List<object>;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using System.IO;
-using BorrehSoft.Utensils;
+using BorrehSoft.BorrehSoft.Utensils.Collections;
 using System.Web;
 using System.Text;
 using System.Text.RegularExpressions;

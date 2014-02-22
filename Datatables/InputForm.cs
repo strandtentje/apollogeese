@@ -1,7 +1,7 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.Utensils.Settings;
-using BorrehSoft.Utensils;
+using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.BorrehSoft.Utensils.Collections;
 
 namespace Datatables
 {

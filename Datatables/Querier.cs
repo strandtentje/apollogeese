@@ -3,8 +3,8 @@ using System.Data;
 using MySql.Data.MySqlClient;
 using BorrehSoft.ApolloGeese.Duckling;
 using System.Net;
-using BorrehSoft.Utensils.Settings;
-using BorrehSoft.Utensils;
+using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.BorrehSoft.Utensils.Collections;
 using System.Text.RegularExpressions;
 
 namespace Datatables

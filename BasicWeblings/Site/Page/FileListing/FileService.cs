@@ -1,8 +1,8 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.Utensils.Settings;
+using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
 using System.Net;
-using BorrehSoft.Utensils;
+using BorrehSoft.BorrehSoft.Utensils.Collections;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.FileListing

@@ -8,7 +8,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 {
 	public class HtmlComposer : Service
 	{
-		static readonly string[] htmlBranchName = new string[] { "head", "body" };
+		static readonly string[] htmlBranchName = new string[] { "html" };
 
 		public override string[] AdvertisedBranches {
 			get {
@@ -39,11 +39,9 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			rootEntity.Children.Add(headEntity);
 			rootEntity.Children.Add(bodyEntity);
 
-			HtmlInteraction branchInteraction = new HtmlInteraction(parameters, headEntitym, bodyEntity);
+			HtmlInteraction branchInteraction = new HtmlInteraction(parameters, headEntity, bodyEntity);
 
-
-
-
+			return RunBranch ("html", branchInteraction);
 		}
 	}
 }

@@ -4,7 +4,7 @@ using System.Threading;
 using System.Text;
 using System.IO;
 
-namespace BorrehSoft.Utensils.Log
+namespace BorrehSoft.Utensils
 {
 	/// <summary>
 	/// Secretary.

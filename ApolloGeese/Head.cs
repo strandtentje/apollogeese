@@ -1,10 +1,10 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.Utensils;
-using BorrehSoft.Utensils.Log;
-using BorrehSoft.Utensils.Settings;
-using L = BorrehSoft.Utensils.Log.Secretary;
-using OL = BorrehSoft.Utensils.List<object>;
+using BorrehSoft.BorrehSoft.Utensils.Collections;
+using BorrehSoft.BorrehSoft.Utensils.Collections.Log;
+using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
+using L = BorrehSoft.BorrehSoft.Utensils.Collections.Log.Secretary;
+using OL = BorrehSoft.BorrehSoft.Utensils.Collections.List<object>;
 using System.Collections.Generic;
 using System.Reflection;
 

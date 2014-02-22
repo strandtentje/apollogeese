@@ -14,8 +14,6 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// </summary>
 	public abstract class Service
 	{
-		private SortedDictionary<string, Service> branches = new SortedDictionary<string, Service> ();
-
 		/// <summary>
 		/// Gets the description of this service. (Cool bonus: May change! Woo!)
 		/// May be used as page titles
@@ -29,23 +27,12 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// </summary>
 		/// <value>The advertised branches.</value>
 		public abstract string[] AdvertisedBranches { get; }
-		/// <summary>
-		/// Gets the Services this Service may branch into
-		/// </summary>
-		/// <value>The branches.</value>
-		public SortedDictionary<string, Service> ConnectedBranches { get { return branches; } }
 
 		/// <summary>
 		/// Gets the error message that caused 'TryInitialize' to fail.
 		/// </summary>
 		/// <value>The error message.</value>
 		public string InitErrorMessage { get; private set; }
-
-		/// <summary>
-		/// Gets the error message that caused 'TryProcess' to fail.
-		/// </summary>
-		/// <value>The error message.</value>
-		public string ProcessErrorMessage { get; private set; }
 
 		/// <summary>
 		/// Tries to Initialize and leaves the an InitErrorMessage set if applicable.
@@ -85,6 +72,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		public bool TryProcess(IInteraction parameters)
 		{
 			bool succesful = false;
+			string ProcessErrorMessage;
 
 			try
 			{
@@ -122,11 +110,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <returns>True when the Process was completed succesfully</returns>
 		protected abstract bool Process (IInteraction parameters);
 
-		/// <summary>
-		/// Gets a value indicating whether this instance is deaf for incoming requests
-		/// </summary>
-		/// <value><c>true</c> if this instance is deaf; otherwise, <c>false</c>.</value>
-		public virtual bool IsDeaf { get { return false; } }
+		public Map<Service> Branches = new Map<Service>();
 
 		/// <summary>
 		/// Registers a branch on the specified pin name.
@@ -135,37 +119,6 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// </summary>
 		/// <param name="pin">Pin name.</param>
 		/// <param name="branch">Branch.</param>
-		public void RegisterBranch(string pin, Service branch)
-		{
-			if (branches.ContainsKey (pin))
-				branches.Remove (pin);
-
-			branches.Add (pin, branch);
-		}
-
-		/// <summary>
-		/// Gets the branch count.
-		/// </summary>
-		/// <value>The branch count.</value>
-		public int BranchCount {
-			get { return branches.Count; }
-		}
-
-		/// <summary>
-		/// Runs a branch-operation.
-		/// </summary>
-		/// <returns><c>true</c>, if branch was ran succesfully, <c>false</c> otherwise.</returns>
-		/// <param name="branch">Branchname.</param>
-		/// <param name="request">Request.</param>
-		/// <param name="parameters">Parameters.</param>
-		public bool RunBranch(string branch, IInteraction parameters)
-		{
-			if (branches.ContainsKey (branch)) {
-				Service branchService = branches [branch];
-				return branchService.TryProcess (parameters);
-			}
-
-			return false;
-		}
+		public abstract void RegisterBranch (string pin, Service branch);
 	}
 }

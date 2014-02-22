@@ -1,5 +1,6 @@
 using System;
 using System.Data.Linq;
+using BorrehSoft.Utensils.Collections;
 
 namespace BorrehSoft.Utensils.Parsing.Parsers
 {

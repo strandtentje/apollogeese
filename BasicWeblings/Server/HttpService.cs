@@ -3,8 +3,8 @@ using System.Web;
 using System.Net;
 using System.Collections.Generic;
 using BorrehSoft.ApolloGeese.Duckling;
-using L = BorrehSoft.Utensils.Log.Secretary;
-using BorrehSoft.Utensils.Settings;
+using L = BorrehSoft.BorrehSoft.Utensils.Collections.Log.Secretary;
+using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
 using System.Diagnostics;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Server

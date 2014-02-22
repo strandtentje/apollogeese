@@ -1,6 +1,6 @@
 using System;
 
-namespace BorrehSoft.Utensils
+namespace BorrehSoft.Utensils.Collections.Settings
 {
 	public class MissingSettingException : Exception
 	{

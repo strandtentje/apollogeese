@@ -37,8 +37,6 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Parsing\ParsingSession.cs" />
     <Compile Include="Parsing\ParsingException.cs" />
-    <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Settings\SettingsParser.cs" />
     <Compile Include="Parsing\Parsers\IdentifierParser.cs" />
     <Compile Include="Parsing\Parsers\AssignmentParser.cs" />
     <Compile Include="Parsing\Parsers\ValueParser.cs" />
@@ -49,23 +47,28 @@
     <Compile Include="Tuple.cs" />
     <Compile Include="Parsing\Parsers\ConcatenationParser.cs" />
     <Compile Include="Parsing\Parsers\AnyParser.cs" />
-    <Compile Include="List.cs" />
     <Compile Include="Log\Secretary.cs" />
-    <Compile Include="Settings\MissingSettingException.cs" />
-    <Compile Include="PluginCollection.cs" />
     <Compile Include="StreamTools.cs" />
-    <Compile Include="Settings\IncludeParser.cs" />
-    <Compile Include="Map.cs" />
-    <Compile Include="StringList.cs" />
     <Compile Include="Caching\FileCache.cs" />
+    <Compile Include="Collections\Settings\IncludeParser.cs" />
+    <Compile Include="Collections\Settings\MissingSettingException.cs" />
+    <Compile Include="Collections\Settings\Settings.cs" />
+    <Compile Include="Collections\Settings\SettingsParser.cs" />
+    <Compile Include="Collections\List.cs" />
+    <Compile Include="Collections\Map.cs" />
+    <Compile Include="Collections\PluginCollection.cs" />
+    <Compile Include="Collections\StringList.cs" />
+    <Compile Include="Collections\Maps\SerializingMap.cs" />
+    <Compile Include="Collections\Maps\WatchableMap.cs" />
+    <Compile Include="Collections\Maps\ItemChangedEventHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Parsing\" />
-    <Folder Include="Settings\" />
     <Folder Include="Parsing\Parsers\" />
     <Folder Include="Log\" />
-    <Folder Include="Parsing\Web\" />
     <Folder Include="Caching\" />
+    <Folder Include="Collections\" />
+    <Folder Include="Collections\Maps\" />
   </ItemGroup>
 </Project>

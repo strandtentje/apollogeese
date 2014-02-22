@@ -1,12 +1,12 @@
 using System;
-using BorrehSoft.Utensils;
+using BorrehSoft.BorrehSoft.Utensils.Collections;
 
 namespace BorrehSoft.ApolloGeese.Duckling.HTML
 {
 	/// <summary>
 	/// Html attribute.
 	/// </summary>
-	public class HtmlAttribute : BorrehSoft.Utensils.Tuple<string, string>
+	public class HtmlAttribute : BorrehSoft.BorrehSoft.Utensils.Collections.Tuple<string, string>
 	{
 		public HtmlAttribute (string key, string value) : base(key, value)
 		{

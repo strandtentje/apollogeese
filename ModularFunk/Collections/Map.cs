@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
-namespace BorrehSoft.Utensils
+namespace BorrehSoft.Utensils.Collections
 {
 	/// <summary>
 	/// Easy to use map using the this[] property.
@@ -16,85 +16,19 @@ namespace BorrehSoft.Utensils
 		/// <value>The name.</value>
 		public string Name { get; set; }
 
-		public delegate T Parser(string data);
-
-		/// <summary>
-		/// Adds elements from string stream.
-		/// </summary>
-		/// <param name="data">Data to parse</param>
-		/// <param name="parser">String parser for element value.</param>
-		/// <param name="assigner">Value-assigning character.</param>
-		/// <param name="concatenator">Concatenator of assignments.</param>
-		public void AddFromString(string source, Parser parser, char assigner, char concatenator)
-		{
-			StringBuilder buffer = new StringBuilder ();
-
-			string identifier = "";
-
-			int inByte;
-			string id, data;
-
-			foreach(char c in source)
-			{
-				if (c == concatenator)
-				{
-					this [identifier] = parser (buffer.ToString ());
-					buffer.Clear ();
-				}
-				else if (c == assigner)
-				{
-					identifier = buffer.ToString ();
-					buffer.Clear();
-				}
-				else {
-					buffer.Append(c);
-				}
-			}
-
-			if (buffer.Length > 0) {
-				this [identifier] = parser (buffer.ToString ());
-				buffer.Clear ();
-			}
-		}
-
-		/// <summary>
-		/// Writes the pairs using the supplied write method.
-		/// </summary>
-		/// <param name="writeMethod">Write method.</param>
-		/// <param name="connector">Connector.</param>
-		/// <param name="seperator">Seperator.</param>
-		public void WritePairsTo(Action<string> writeMethod, char connector, char seperator)
-		{
-			foreach (KeyValuePair<string, T> kvp in arse) {
-				writeMethod (kvp.Key);
-				writeMethod (connector.ToString());
-				writeMethod (kvp.Value.ToString());
-				writeMethod (seperator.ToString());
-			}
-		}
-
-		/// <summary>
-		/// Writes the pairs to the supplied stringbuilder using a format.
-		/// </summary>
-		/// <param name="builder">Builder.</param>
-		/// <param name="format">Format.</param>
-		public void WritePairsTo(StringBuilder builder, string format)
-		{
-			foreach (KeyValuePair<string, T> kvp in arse) 
-				builder.AppendFormat (format, kvp.Key, kvp.Value.ToString ());
-		}
-
 		/// <summary>
 		/// The arse.
 		/// </summary>
-		private Dictionary<string, T> arse = new Dictionary<string, T> ();
+		private Dictionary<string, T> backEnd = new Dictionary<string, T> ();
 
 		/// <summary>
-		/// Gets the names.
+		/// Gets the back end.
 		/// </summary>
-		/// <returns>The names.</returns>
-		public ICollection<string> GetNames() {
-			return arse.Keys;
+		/// <value>The back end.</value>
+		public Dictionary<string, T> BackEnd {
+			get {
+				return backEnd;
+			}
 		}
 
 		/// <summary>
@@ -108,7 +42,7 @@ namespace BorrehSoft.Utensils
 		/// </param>
 		public void AssertItem(string key, object source)
 		{
-			if (!arse.ContainsKey (key))
+			if (!backEnd.ContainsKey (key))
 				throw new KeyNotFoundException (
 					string.Format ("{0} expected the key '{1}' in the Map '{2}'", 
 				               source.ToString (), key, Name));
@@ -118,7 +52,7 @@ namespace BorrehSoft.Utensils
 		/// Gets the amount of mappings
 		/// </summary>
 		/// <value>The length.</value>
-		public int Length { get { return arse.Count; } }
+		public int Length { get { return backEnd.Count; } }
 
 		/// <summary>
 		/// Gets or sets the item with the specified name.
@@ -127,14 +61,14 @@ namespace BorrehSoft.Utensils
 		public T this[string name]
 		{
 			get	{
-				if (arse.ContainsKey (name))
-					return arse [name];
+				if (backEnd.ContainsKey (name))
+					return backEnd [name];
 				return default(T);
 			}
 			set {
-				if (arse.ContainsKey (name))
-					arse.Remove (name);
-				arse.Add (name, value);
+				if (backEnd.ContainsKey (name))
+					backEnd.Remove (name);
+				backEnd.Add (name, value);
 			}
 		}
 
@@ -199,7 +133,8 @@ namespace BorrehSoft.Utensils
 		public Map<T> Clone ()
 		{
 			return new Map<T> () {
-				arse = new Dictionary<string, T>(this.arse)
+				backEnd = new Dictionary<string, T>(this.backEnd),
+				Name = this.Name
 			};
 		}
 	}

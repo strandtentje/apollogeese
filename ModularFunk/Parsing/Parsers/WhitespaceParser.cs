@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace BorrehSoft.Utensils.Parsing.Parsers
+namespace BorrehSoft.Utensils
 {
 	public class WhitespaceParser : Parser
 	{

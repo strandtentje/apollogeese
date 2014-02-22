@@ -3,7 +3,7 @@ using BorrehSoft.Utensils.Parsing;
 using BorrehSoft.Utensils.Parsing.Parsers;
 using System.Collections.Generic;
 
-namespace BorrehSoft.Utensils.Settings
+namespace BorrehSoft.Utensils.Collections.Settings
 {
 	/// <summary>
 	/// Settings parser.

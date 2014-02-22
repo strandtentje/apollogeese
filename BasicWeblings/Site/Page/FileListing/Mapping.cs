@@ -1,13 +1,13 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.Utensils.Settings;
+using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
 using System.Net;
-using BorrehSoft.Utensils;
+using BorrehSoft.BorrehSoft.Utensils.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Web;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.BorrehSoft.Utensils.Collections.Log;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
 

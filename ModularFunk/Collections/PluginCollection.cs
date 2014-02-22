@@ -3,35 +3,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Utensils
+namespace BorrehSoft.Utensils.Collections
 {
 	/// <summary>
 	/// Plugin collection.
 	/// </summary>
-	public class PluginCollection<T>
+	public class PluginCollection<T> : Map<T>
 	{
-		class PluginNotLoadedException : Exception
-		{
-			public PluginNotLoadedException (string name) : base(string.Format("Couldn't find plugin named {0}", name))	{ }
-		}
-
-		Dictionary<string, Type> butt =
-			new Dictionary<string, Type> ();
-
-		public Type this[string name]
-		{
-			get { 
-				if (butt.ContainsKey(name))
-					return butt [name];
-				else
-					throw new PluginNotLoadedException (name);
-			}
-			set {
-				if (butt.ContainsKey (name))
-					butt.Remove (name);
-				butt.Add (name, value);
-			}
-		}
 
 		/// <summary>
 		/// Gets the constructed type by name.
@@ -40,7 +18,7 @@ namespace BorrehSoft.Utensils
 		/// <param name="name">Name.</param>
 		public T GetConstructed(string name)
 		{
-			return (T)Activator.CreateInstance (butt[name]);
+			return (T)Activator.CreateInstance (this[name]);
 		}
 
 		/// <summary>
@@ -65,7 +43,7 @@ namespace BorrehSoft.Utensils
 		public void AddFile (string file)
 		{			
 			Secretary.Report (6, "Adding plugin from file:", file);
-			AppendMatchingTypesTo (butt, typeof(T), Assembly.LoadFrom (file));
+			AppendMatchingTypes (typeof(T), Assembly.LoadFrom (file));
 		}
 
 		/// <summary>
@@ -74,12 +52,12 @@ namespace BorrehSoft.Utensils
 		/// <param name="registry">Dictionary to register newly matched types in.</param>
 		/// <param name="match">Type to match with.</param>
 		/// <param name="assembly">Assembly to load from.</param>
-		static void AppendMatchingTypesTo (Dictionary<string, Type> registry, Type match, Assembly assembly)
+		public void AppendMatchingTypes (Type match, Assembly assembly)
 		{
 			foreach (Type potential in assembly.GetTypes())
 				if (match.IsAssignableFrom (potential)) {
 					Secretary.Report (7, "Type matched:", potential.Name);
-					registry.Add (potential.Name, potential);
+					this[potential.Name] = potential;
 				}
 		}
 	}

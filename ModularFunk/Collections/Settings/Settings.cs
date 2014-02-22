@@ -4,7 +4,7 @@ using System.IO;
 using BorrehSoft.Utensils.Parsing;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Utensils.Settings
+namespace BorrehSoft.Utensils.Collections.Settings
 {
 	/// <summary>
 	/// Settings data structure; stores objects by key. May be

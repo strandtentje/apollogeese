@@ -3,8 +3,8 @@ using System.IO;
 using System.Net;
 using System.Web;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.Utensils;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.BorrehSoft.Utensils.Collections;
+using BorrehSoft.BorrehSoft.Utensils.Collections.Log;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using System.Collections.Specialized;
 
