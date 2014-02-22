@@ -1,7 +1,7 @@
 using System;
 using System.Text.RegularExpressions;
 
-namespace BorrehSoft.Utensils
+namespace BorrehSoft.Utensils.Parsing.Parsers
 {
 	public class ValueParser<T> : Parser
 	{

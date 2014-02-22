@@ -8,6 +8,10 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML.Entities
 	/// </summary>
 	public class TextualEntity : HtmlEntity
 	{
+		/// <summary>
+		/// Gets or sets the body text.
+		/// </summary>
+		/// <value>The body.</value>
 		public string Body { get; set; }
 
 		public TextualEntity (string Body) : base("")

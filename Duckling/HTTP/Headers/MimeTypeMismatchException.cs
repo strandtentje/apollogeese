@@ -1,11 +1,4 @@
 using System;
-using BorrehSoft.BorrehSoft.Utensils.Collections;
-using System.IO;
-using System.Collections.Specialized;
-using System.Text;
-using System.Net;
-using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace BorrehSoft.ApolloGeese.Duckling.Http.Headers
 {

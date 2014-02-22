@@ -1,6 +1,6 @@
 using System;
 
-namespace BorrehSoft.Utensils
+namespace BorrehSoft.Utensils.Collections.Maps
 {
 	/// <summary>
 	/// Item changed event handler.

@@ -1,12 +1,11 @@
 using System;
-using BorrehSoft.BorrehSoft.Utensils.Collections;
 
 namespace BorrehSoft.ApolloGeese.Duckling.HTML
 {
 	/// <summary>
 	/// Html attribute.
 	/// </summary>
-	public class HtmlAttribute : BorrehSoft.BorrehSoft.Utensils.Collections.Tuple<string, string>
+	public class HtmlAttribute : Tuple<string, string>
 	{
 		public HtmlAttribute (string key, string value) : base(key, value)
 		{
@@ -19,7 +18,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML
 		/// <returns>A <see cref="System.String"/> that represents the current <see cref="BorrehSoft.ApolloGeese.Duckling.HtmlAttribute"/>.</returns>
 		public override string ToString ()
 		{
-			return string.Format (" {0}={1}", Key, Value);
+			return string.Format (" {0}={1}", Item1, Item2);
 		}
 	}
 }

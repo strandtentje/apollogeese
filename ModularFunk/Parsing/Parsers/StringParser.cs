@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace BorrehSoft.Utensils
+namespace BorrehSoft.Utensils.Parsing.Parsers
 {
 	public class StringParser : Parser
 	{

@@ -3,9 +3,8 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 
-namespace BorrehSoft.Utensils
+namespace BorrehSoft.Utensils.Collections
 {
-
 	/// <summary>
 	/// List of string chunks, useful methods inside!
 	/// </summary>

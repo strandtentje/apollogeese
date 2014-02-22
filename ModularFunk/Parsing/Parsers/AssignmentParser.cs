@@ -1,7 +1,7 @@
 using System;
-using BorrehSoft.BorrehSoft.Utensils.Collections.Parsing;
+using BorrehSoft.Utensils.Parsing;
 
-namespace BorrehSoft.Utensils
+namespace BorrehSoft.Utensils.Parsing.Parsers
 {
 	public class AssignmentParser : Parser
 	{

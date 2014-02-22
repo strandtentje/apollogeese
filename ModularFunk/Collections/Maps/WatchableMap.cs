@@ -1,6 +1,6 @@
 using System;
 
-namespace BorrehSoft.Utensils
+namespace BorrehSoft.Utensils.Collections.Maps
 {
 	/// <summary>
 	/// A regular map, but it raises an event when an item is changed.

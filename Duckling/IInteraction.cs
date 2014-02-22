@@ -1,16 +1,3 @@
-using System;
-using System.Web;
-using System.Net;
-using System.Collections.Generic;
-using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.BorrehSoft.Utensils.Collections;
-using System.Text;
-using System.IO;
-using System.Collections.Specialized;
-using System.Security;
-using System.Security.Cryptography;
-using GList = System.Collections.Generic.List<string>;
-
 namespace BorrehSoft.ApolloGeese.Duckling
 {
 	/// <summary>
@@ -72,4 +59,3 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		object this [string name] { get; set; }
 	}
 }
-

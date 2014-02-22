@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 
-namespace BorrehSoft.Utensils.Collections
+namespace BorrehSoft.Utensils.Collections.Maps
 {
 	/// <summary>
 	/// A regular map with added functionality of parsing and composing.

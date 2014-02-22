@@ -1,12 +1,13 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.BorrehSoft.Utensils.Collections;
-using BorrehSoft.BorrehSoft.Utensils.Collections.Log;
-using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
-using L = BorrehSoft.BorrehSoft.Utensils.Collections.Log.Secretary;
-using OL = BorrehSoft.BorrehSoft.Utensils.Collections.List<object>;
+using BorrehSoft.Utensils.Collections;
+using OL = BorrehSoft.Utensils.Collections.List<object>;
 using System.Collections.Generic;
 using System.Reflection;
+using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utensils.Collections.Settings;
+using System.Text.RegularExpressions;
 
 namespace BorrehSoft.ApolloGeese
 {
@@ -46,6 +47,8 @@ namespace BorrehSoft.ApolloGeese
 			Console.ReadLine();
 		}
 
+		static Regex branchNameMatcher = new Regex ("(.+)_branch");
+
 		/// <summary>
 		/// Loads a tree of services.
 		/// </summary>
@@ -57,14 +60,14 @@ namespace BorrehSoft.ApolloGeese
 
 			Secretary.Report (6, "Entered branch for", type);
 
-			Settings modconf = (Settings)config ["modconf"];
+			Settings moduleConfiguration = (Settings)config ["modconf"];
 
 			Secretary.Report (7, "Constructing and Initializing node for", type);
-			Service svc = plugins.GetConstructed (type);
+			Service newService = plugins.GetConstructed (type);
 
-			if (!svc.TryInitialize (modconf)) {
+			if (!newService.TryInitialize (moduleConfiguration)) {
 				Secretary.Report (6, "This module produced an error on initialization: ",
-				                  svc.InitErrorMessage, 
+				                  newService.InitErrorMessage, 
 				                  " but we're continuing anyways, because we've balls.");
 			}
 
@@ -72,18 +75,18 @@ namespace BorrehSoft.ApolloGeese
 
 			Secretary.Report (6, "Branching within...");
 
-			foreach (string branch in config.GetNames()) {
-				int brIx = branch.IndexOf ("_branch");
+			foreach (KeyValuePair<string, object> nameAndBranch in config.BackEnd) {
+				Match branchName = branchNameMatcher.Match (nameAndBranch.Key);
 
-				if (brIx > -1) {
-					Settings treeConf = (Settings)config [branch];
-					svc.RegisterBranch (branch.Remove(brIx), LoadTree (treeConf));
+				if (branchName.Success) {
+					Settings treeConf = nameAndBranch.Value as Settings;
+					newService.Branches [branchName.Groups[1]] = LoadTree (treeConf);
 				}
 			}
 
-			Secretary.Report (7, type, "now has", svc.BranchCount.ToString(), "branches.");
+			Secretary.Report (7, type, "now has", newService.Branches.BackEnd.Count, "branches.");
 
-			return svc;
+			return newService;
 		}
 	}
 }

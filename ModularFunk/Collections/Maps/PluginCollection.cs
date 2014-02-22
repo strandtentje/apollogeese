@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Reflection;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Utensils.Collections
+namespace BorrehSoft.Utensils.Collections.Maps
 {
 	/// <summary>
 	/// Plugin collection.
 	/// </summary>
 	public class PluginCollection<T> : Map<T>
 	{
-
 		/// <summary>
 		/// Gets the constructed type by name.
 		/// </summary>
