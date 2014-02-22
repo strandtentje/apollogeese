@@ -27,7 +27,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 		protected override void Initialize (Settings modSettings)
 		{
-			Branches.Touch ("http");
+			Branches ["http"] = Stub;
 
 			string temporary;
 
@@ -69,7 +69,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 			parameters ["Session"] = givenCookie;
 
-			return Branches["http"] ("http", parameters);
+			return Branches["http"].TryProcess(parameters);
 		}
 	}
 }

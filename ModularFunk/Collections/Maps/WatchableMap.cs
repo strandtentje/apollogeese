@@ -29,7 +29,7 @@ namespace BorrehSoft.Utensils.Collections.Maps
 
 				ItemChanged (this, 
 				            new ItemChangedEventArgs<T> (
-					PreviousValue, NewValue));
+					name, PreviousValue, NewValue));
 			}
 		}
 	}

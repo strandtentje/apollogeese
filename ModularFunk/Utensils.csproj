@@ -57,8 +57,8 @@
     <Compile Include="Collections\StringList.cs" />
     <Compile Include="Collections\Maps\SerializingMap.cs" />
     <Compile Include="Collections\Maps\WatchableMap.cs" />
-    <Compile Include="Collections\Maps\ItemChangedEventHandler.cs" />
     <Compile Include="Collections\Maps\PluginCollection.cs" />
+    <Compile Include="Collections\Maps\ItemChangedEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

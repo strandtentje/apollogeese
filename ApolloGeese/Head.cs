@@ -1,7 +1,6 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections;
-using OL = BorrehSoft.Utensils.Collections.List<object>;
 using System.Collections.Generic;
 using System.Reflection;
 using BorrehSoft.Utensils.Collections.Maps;
@@ -36,15 +35,14 @@ namespace BorrehSoft.ApolloGeese
 
 			Settings configuration = Settings.FromFile ("apollogeese.conf");
 
-			foreach (object pluInFileObj in (OL)configuration ["plugins"])
+			foreach (object pluInFileObj in (configuration ["plugins"] as IEnumerable<object>))
 				plugins.AddFile ((string)pluInFileObj);
 
-			Secretary.Report (5, "Loading Branches");
-			foreach (object config in (OL)configuration["trees"]) {
+			foreach (object config in (configuration["trees"] as IEnumerable<object>)) {
 				LoadTree ((Settings)config);
 			}
-
-			Console.ReadLine();
+						
+			Secretary.Report (5, "Loaded Branches");
 		}
 
 		static Regex branchNameMatcher = new Regex ("(.+)_branch");
@@ -56,24 +54,13 @@ namespace BorrehSoft.ApolloGeese
 		/// <param name="config">Config.</param>
 		static Service LoadTree (Settings config)
 		{
-			string type = (string)config ["type"];
+			string type; Settings moduleConfiguration;
+			Service newService; bool succesfulInit;
 
-			Secretary.Report (6, "Entered branch for", type);
-
-			Settings moduleConfiguration = (Settings)config ["modconf"];
-
-			Secretary.Report (7, "Constructing and Initializing node for", type);
-			Service newService = plugins.GetConstructed (type);
-
-			if (!newService.TryInitialize (moduleConfiguration)) {
-				Secretary.Report (6, "This module produced an error on initialization: ",
-				                  newService.InitErrorMessage, 
-				                  " but we're continuing anyways, because we've balls.");
-			}
-
-			Secretary.Report (8, "Aforementioned finished.");
-
-			Secretary.Report (6, "Branching within...");
+			type = (string)config ["type"];
+			moduleConfiguration = (Settings)config ["modconf"];
+			newService = plugins.GetConstructed (type);
+			succesfulInit = newService.TryInitialize (moduleConfiguration);
 
 			foreach (KeyValuePair<string, object> nameAndBranch in config.BackEnd) {
 				Match branchName = branchNameMatcher.Match (nameAndBranch.Key);
@@ -84,9 +71,13 @@ namespace BorrehSoft.ApolloGeese
 				}
 			}
 
-			Secretary.Report (7, type, "now has", newService.Branches.BackEnd.Count, "branches.");
-
-			return newService;
+			Secretary.Report (5, type, "now has", newService.Branches.BackEnd.Count, "branches.");
+			if (succesfulInit) return newService;
+			Secretary.Report (5, 
+			                  type,
+			                  " produced an error on initialization: ",
+			                  newService.InitErrorMessage);
+			return NewsStyleUriParser;
 		}
 	}
 }
