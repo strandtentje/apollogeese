@@ -8,6 +8,11 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML
 	/// </summary>
 	public class HtmlAttribute : BorrehSoft.Utensils.Tuple<string, string>
 	{
+		public HtmlAttribute (string key, string value) : base(key, value)
+		{
+
+		}
+
 		/// <summary>
 		/// Returns a <see cref="System.String"/> that represents the current <see cref="BorrehSoft.ApolloGeese.Duckling.HtmlAttribute"/>.
 		/// </summary>

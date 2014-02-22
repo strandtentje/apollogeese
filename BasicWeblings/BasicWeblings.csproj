@@ -48,6 +48,7 @@
     <Compile Include="Site\Page\FileListing\Mapping.cs" />
     <Compile Include="Site\Page\Template.cs" />
     <Compile Include="Site\HtmlComposer.cs" />
+    <Compile Include="Site\HtmlInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

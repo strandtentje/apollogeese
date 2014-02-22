@@ -19,6 +19,23 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	public interface IInteraction 
 	{
 		/// <summary>
+		/// Gets the root interaction, typically the one that invoked the chain.
+		/// This usually, in case of a website, ends you up with an IHttpInteraction.
+		/// </summary>
+		/// <value>
+		/// The root interaction.
+		/// </value>
+		IInteraction RootInteraction { get; }
+
+		/// <summary>
+		/// Gets the parent interaction.
+		/// </summary>
+		/// <value>
+		/// The parent interaction.
+		/// </value>
+		IInteraction ParentInteraction { get; }
+
+		/// <summary>
 		/// Tries to get a string from the luggage
 		/// </summary>
 		/// <returns>

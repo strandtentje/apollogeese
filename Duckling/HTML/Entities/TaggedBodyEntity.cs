@@ -6,7 +6,10 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML.Entities
 {
 	public class TaggedBodyEntity : HtmlEntity
 	{
-		List<HtmlEntity> Children = new List<HtmlEntity>();
+		public TaggedBodyEntity(string name, params HtmlAttribute[] attributes) : base(name, attributes)
+		{}
+
+		public List<HtmlEntity> Children = new List<HtmlEntity>();
 
 		public override void WriteUsingCallback (FormattedWriter WriteMethod)
 		{

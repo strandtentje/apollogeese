@@ -8,18 +8,11 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML.Entities
 	/// </summary>
 	public class TextualEntity : HtmlEntity
 	{
-		public TextualEntity () : base("")
-		{
-			this.Body = "";
-		}
+		public string Body { get; set; }
 
 		public TextualEntity (string Body) : base("")
 		{
 			this.Body = Body;
-		}
-
-		public override string Body {
-			get; set;
 		}
 
 		public override void WriteUsingCallback (FormattedWriter WriteMethod)
@@ -29,4 +22,3 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML.Entities
 
 	}
 }
-

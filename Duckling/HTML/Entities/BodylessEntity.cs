@@ -5,10 +5,8 @@ namespace BorrehSoft.ApolloGeese.Duckling.Html.Entities
 {
 	public class BodylessEntity : HtmlEntity
 	{
-		public override string Body {
-			get {
-				return "";
-			}
+		public BodylessEntity () : base("")
+		{
 		}
 
 		/// <summary>

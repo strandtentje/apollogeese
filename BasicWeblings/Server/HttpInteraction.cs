@@ -27,6 +27,18 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			this.Response = Response;
 		}
 
+		public IInteraction RootInteraction {
+			get {
+				return this;
+			}
+		}
+
+		public IInteraction ParentInteraction {
+			get {
+				return this;
+			}
+		}
+
 		#region Request
 		HttpListenerRequest _request;
 
