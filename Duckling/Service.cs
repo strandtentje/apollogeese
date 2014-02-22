@@ -1,9 +1,10 @@
 using System;
-using System.Net;
 using System.Collections.Generic;
-using BorrehSoft.Utensils.Settings;
-using BorrehSoft.Utensils.Log;
+using System.Net;
 using BorrehSoft.Utensils;
+using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utensils.Collections;
 
 namespace BorrehSoft.ApolloGeese.Duckling
 {
@@ -110,15 +111,9 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <returns>True when the Process was completed succesfully</returns>
 		protected abstract bool Process (IInteraction parameters);
 
-		public Map<Service> Branches = new Map<Service>();
-
 		/// <summary>
-		/// Registers a branch on the specified pin name.
-		/// If another branch already exists on this pin, 
-		/// this branch will be disconnected.
+		/// The branches.
 		/// </summary>
-		/// <param name="pin">Pin name.</param>
-		/// <param name="branch">Branch.</param>
-		public abstract void RegisterBranch (string pin, Service branch);
+		public Map<Service> Branches = new Map<Service>();
 	}
 }

@@ -8,7 +8,7 @@ namespace BorrehSoft.Utensils.Collections.Maps
 	/// <summary>
 	/// Plugin collection.
 	/// </summary>
-	public class PluginCollection<T> : Map<T>
+	public class PluginCollection<T> : Map<Type>
 	{
 		/// <summary>
 		/// Gets the constructed type by name.
@@ -61,4 +61,3 @@ namespace BorrehSoft.Utensils.Collections.Maps
 		}
 	}
 }
-

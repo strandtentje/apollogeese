@@ -1,3 +1,6 @@
+using System.Text;
+using System.Text.RegularExpressions;
+
 namespace BorrehSoft.ApolloGeese.Duckling.Http.Headers
 {
 	/// <summary>

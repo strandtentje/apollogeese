@@ -50,7 +50,22 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML.Entities
 			this.ClosingTag = ClosingTag;
 		}
 
+		/// <summary>
+		/// Passes this element and its default children as a string to the supplied callback.
+		/// </summary>
+		/// <param name="WriteMethod">Write method.</param>
 		public override void WriteUsingCallback (FormattedWriter WriteMethod)
+		{
+			WriteUsingCallback (WriteMethod, this.Children);
+		}
+
+		/// <summary>
+		/// Passes this element and the specified children as a string to the supplied callback.
+		/// Carefully re-evaluate your life decisions if you end up using this.
+		/// </summary>
+		/// <param name="WriteMethod">Write method.</param>
+		/// <param name="Children">Children.</param>
+		public void WriteUsingCallback (FormattedWriter WriteMethod, IEnumerable<HtmlEntity> Children)
 		{
 			WriteMethod(OpeningTag, Name,
 			            Attributes.ToString());

@@ -77,4 +77,3 @@ namespace BorrehSoft.ApolloGeese.Duckling.Http
 		}
 	}
 }
-

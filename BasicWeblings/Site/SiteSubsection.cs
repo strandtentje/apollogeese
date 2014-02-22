@@ -1,24 +1,12 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
-using System.Net;
-using System.Collections.Generic;
-using BorrehSoft.BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site
 {
 	public class SiteSubsection : Service
 	{
-		private string[] branches;
-		private Map<object> BranchNames = new Map<object>();
-
-		public override string[] AdvertisedBranches {
-			get {
-				return branches;
-			}
-		}
-
 		public override string Description {
 			get {
 				return "The root to a webservice which provides webpage data " +
@@ -28,8 +16,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 		protected override void Initialize (Settings modSettings)
 		{
-			branches = new string[BranchNames.Length];
-			BranchNames.GetNames ().CopyTo (branches, 0);
+
 		}
 
 		protected override bool Process (IInteraction uncastParameters)
@@ -38,10 +25,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 			string branchId;
 
-			if (parameters.URL.EndOfSeries)	branchId = "";
+			if (parameters.URL.EndOfSeries)	branchId = "main";
 			else branchId = parameters.URL.ReadUrlChunk ();
 
-			return RunBranch (branchId, parameters);
+			return Branches [branchId].TryProcess (uncastParameters); // RunBranch (branchId, parameters);
 		}
 	}
 }

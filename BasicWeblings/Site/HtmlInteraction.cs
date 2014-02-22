@@ -1,9 +1,8 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Duckling.HTML;
-using BorrehSoft.BorrehSoft.Utensils.Collections;
 using BorrehSoft.ApolloGeese.Duckling.Http;
+using BorrehSoft.Utensils.Collections;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {

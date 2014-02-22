@@ -3,8 +3,8 @@ using System.Web;
 using System.Net;
 using System.Collections.Generic;
 using BorrehSoft.ApolloGeese.Duckling;
-using L = BorrehSoft.BorrehSoft.Utensils.Collections.Log.Secretary;
-using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
+using L = BorrehSoft.Utensils.Log.Secretary;
+using BorrehSoft.Utensils.Collections.Settings;
 using System.Diagnostics;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Server
@@ -16,18 +16,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 	{
 		private HttpListener listener = new HttpListener();
 		private bool MeasurePerformance = true;
-
-		/// <summary>
-		/// Gets a value indicating whether this instance is deaf for passed-on requests.
-		/// This is true for HttpService for it is the component with the httplistener.
-		/// </summary>
-		/// <value>true</value>
-		/// <c>false</c>
-		public override bool IsDeaf {
-			get {
-				return true;
-			}
-		}
 
 		public override string[] AdvertisedBranches {
 			get {
@@ -110,7 +98,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 
 		protected override bool Process (IInteraction parameters)
 		{
-			return RunBranch ("http", parameters);
+			return false;
 		}
 	}
 }

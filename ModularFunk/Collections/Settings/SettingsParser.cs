@@ -53,16 +53,15 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		/// </param>
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
-			object parsedAssignmentList;
+			object assignments;
 
-			if (base.ParseMethod (session, out parsedAssignmentList) > 0) {
-				List<object> assignments = (List<object>)parsedAssignmentList;
+			if (base.ParseMethod (session, out assignments) > 0) {
 
 				Settings map = new Settings ();
 
-				foreach (object assignment in assignments) {
-					Tuple<string, object> t = (Tuple<string, object>)assignment;
-					map [t.Key] = t.Value;
+				foreach (object assignment in (assignments as IEnumerable<object>)) {
+					Tuple<string, object> t = assignment as Tuple<string, object>;
+					map [t.Item1] = t.Item2;
 				}
 
 				result = map;

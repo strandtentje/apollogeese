@@ -2,8 +2,8 @@ using System;
 using System.Text.RegularExpressions;
 using System.Web;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.BorrehSoft.Utensils.Collections;
-using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utensils.Collections.Settings;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 {

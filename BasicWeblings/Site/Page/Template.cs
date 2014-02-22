@@ -1,10 +1,10 @@
 using System;
 using System.Text.RegularExpressions;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utensils.Collections.Settings;
 using System.Net;
 using System.IO;
-using BorrehSoft.BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utensils.Collections;
 using Stringtionary = System.Collections.Generic.Dictionary<string, string>;
 using System.Text;
 using BorrehSoft.ApolloGeese.Duckling.Http;

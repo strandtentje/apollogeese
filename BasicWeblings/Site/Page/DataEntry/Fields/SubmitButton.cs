@@ -1,7 +1,7 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.BorrehSoft.Utensils.Collections;
-using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utensils.Collections.Settings;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 {

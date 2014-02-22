@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utensils", "ModularFunk\Ute
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duckling", "Duckling\Duckling.csproj", "{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Datatables", "Datatables\Datatables.csproj", "{7F439F1A-EBB2-41FD-8896-BD2CAB0310A4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicWeblings", "BasicWeblings\BasicWeblings.csproj", "{3E51D2C9-9409-4F18-A50A-5D81323E3B29}"
 EndProject
 Global
@@ -29,10 +27,6 @@ Global
 		{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}.Debug|x86.Build.0 = Debug|Any CPU
 		{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}.Release|x86.ActiveCfg = Release|Any CPU
 		{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}.Release|x86.Build.0 = Release|Any CPU
-		{7F439F1A-EBB2-41FD-8896-BD2CAB0310A4}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{7F439F1A-EBB2-41FD-8896-BD2CAB0310A4}.Debug|x86.Build.0 = Debug|Any CPU
-		{7F439F1A-EBB2-41FD-8896-BD2CAB0310A4}.Release|x86.ActiveCfg = Release|Any CPU
-		{7F439F1A-EBB2-41FD-8896-BD2CAB0310A4}.Release|x86.Build.0 = Release|Any CPU
 		{C942E5BC-B6C5-4DF1-808C-71736F045B3D}.Debug|x86.ActiveCfg = Debug|x86
 		{C942E5BC-B6C5-4DF1-808C-71736F045B3D}.Debug|x86.Build.0 = Debug|x86
 		{C942E5BC-B6C5-4DF1-808C-71736F045B3D}.Release|x86.ActiveCfg = Release|x86

@@ -1,6 +1,8 @@
 using System;
 using System.Data.Linq;
 using BorrehSoft.Utensils.Collections;
+using System.Collections.Generic;
+using System.Text;
 
 namespace BorrehSoft.Utensils.Parsing.Parsers
 {
@@ -10,9 +12,13 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 
 		public override string ToString ()
 		{
+			StringBuilder stringBuilder = new StringBuilder ();
+
+			foreach (Parser parser in AcceptedParsers)
+				stringBuilder.Append (parser + ", ");
+
 			return string.Format (
-				"One-a those: {0}", 
-				string.Join (" or ", AcceptedParsers.ToStringArray ()));
+				"One-a those: {0}", stringBuilder.ToString());
 		}
 
 		public AnyParser (params Parser[] AcceptedParsers)

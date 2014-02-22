@@ -7,7 +7,7 @@ namespace BorrehSoft.Utensils.Collections.Maps
 	/// </summary>
 	public class WatchableMap<T> : Map<T>
 	{
-		public event ItemChangedEventHandler ItemChanged;
+		public event ItemChangedEventHandler<T> ItemChanged;
 
 		/// <summary>
 		/// Gets or sets the item with the specified name and raises
@@ -28,7 +28,7 @@ namespace BorrehSoft.Utensils.Collections.Maps
 					return;
 
 				ItemChanged (this, 
-				            new ItemChangedEventArgs (
+				            new ItemChangedEventArgs<T> (
 					PreviousValue, NewValue));
 			}
 		}

@@ -5,7 +5,7 @@ namespace BorrehSoft.Utensils.Collections.Maps
 	/// <summary>
 	/// Item changed event handler.
 	/// </summary>
-	public delegate void ItemChangedEventHandler (object sender, ItemChangedEventArgs e);
+	public delegate void ItemChangedEventHandler<T> (object sender, ItemChangedEventArgs<T> e);
 
 	/// <summary>
 	/// Item changed event arguments.

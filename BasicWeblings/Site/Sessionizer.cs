@@ -1,27 +1,23 @@
 using System;
+using System.Collections.Generic;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.BorrehSoft.Utensils.Collections;
-using System.Net;
-using System.Security;
-using System.Security.Policy;
-using System.Security.Cryptography;
 using BorrehSoft.ApolloGeese.Duckling.Http;
+using BorrehSoft.Utensils.Collections.Settings;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site
 {
+	/// <summary>
+	/// Tags interactions with a (new) session cookie
+	/// </summary>
 	public class Sessionizer : Service
 	{
+		/// <summary>
+		/// The known sessions cookie strings
+		/// </summary>
 		public List<string> knownSessions = new List<string> ();
 
 		private TimeSpan cookieLife = new TimeSpan (1, 0, 0);
 		private string cookieName = "SES";
-
-		public override string[] AdvertisedBranches {
-			get {
-				return new string[] { "http" };
-			}
-		}
 
 		public override string Description {
 			get {
@@ -31,6 +27,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 		protected override void Initialize (Settings modSettings)
 		{
+			Branches.Touch ("http");
+
 			string temporary;
 
 			if (modSettings.TryGetString ("CookieLife", out temporary))
@@ -71,7 +69,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 			parameters ["Session"] = givenCookie;
 
-			return RunBranch ("http", parameters);
+			return Branches["http"] ("http", parameters);
 		}
 	}
 }
