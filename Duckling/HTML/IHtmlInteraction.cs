@@ -1,13 +1,23 @@
 using System;
+using BorrehSoft.ApolloGeese.Duckling.Html.Entities.Specialized;
 
 namespace BorrehSoft.ApolloGeese.Duckling.HTML
 {
+	/// <summary>
+	/// Interace to an html interaction.
+	/// </summary>
 	public interface IHtmlInteraction : IInteraction
 	{
-		IHtmlInteraction BaseHtmlInteraction { get; }
+		/// <summary>
+		/// Gets or sets the head element
+		/// </summary>
+		/// <value>The head element.</value>
+		HeadEntity Head { get; set; }
 
-		HtmlEntity BodyEntity { get; set; }
-
-		HtmlEntity HeadEntity { get; set; }
+		/// <summary>
+		/// Gets or sets the layout element.
+		/// </summary>
+		/// <value>The layout element.</value>
+		HtmlEntity Layout { get; set; }
 	}
 }

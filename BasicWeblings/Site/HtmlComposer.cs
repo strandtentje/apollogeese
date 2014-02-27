@@ -4,6 +4,7 @@ using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.ApolloGeese.Duckling.HTML.Entities;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.ApolloGeese.Duckling.Html.Entities.Specialized;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
@@ -34,8 +35,8 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		{
 			bool success;
 			TaggedBodyEntity 
-				rootEntity = new TaggedBodyEntity("html"),
-				headEntity = new TaggedBodyEntity("head"),
+				rootEntity = new TaggedBodyEntity ("html"),
+				headEntity = new HeadEntity (),
 				bodyEntity = new TaggedBodyEntity("body");
 
 			rootEntity.Children.Add(headEntity);

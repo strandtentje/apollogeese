@@ -3,6 +3,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.ApolloGeese.Duckling.HTML;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.Utensils.Collections;
+using BorrehSoft.ApolloGeese.Duckling.Html.Entities.Specialized;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
@@ -12,7 +13,26 @@ namespace BorrehSoft.Extensions.BasicWeblings
 	public class HtmlInteraction : Map<object>, IHtmlInteraction
 	{
 		private IInteraction parent;
-		private HtmlEntity htmlEntity;
+
+		public HtmlInteraction(IHtmlInteraction parent, HtmlEntity Layout)
+		{
+			this.parent = parent;
+			this.Head = parent.Head;
+			this.Layout = Layout;
+		}
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BorrehSoft.Extensions.BasicWeblings.HtmlInteraction"/> class.
+		/// </summary>
+		/// <param name='Parent'>
+		/// Parent.
+		/// </param>
+		public HtmlInteraction (IInteraction parent, HeadEntity Head, HtmlEntity Layout)
+		{
+			this.parent = parent;
+			this.Head = Head;
+			this.Layout = Layout;
+		}
 
 		public IInteraction RootInteraction { 
 			get {
@@ -26,22 +46,9 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			}
 		}
 
-		public HtmlEntity Entity {
-			get { return htmlEntity; }
-			set { htmlEntity = value; }
-		}
+		public HeadEntity Head { get; set; }
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BorrehSoft.Extensions.BasicWeblings.HtmlInteraction"/> class.
-		/// </summary>
-		/// <param name='Parent'>
-		/// Parent.
-		/// </param>
-		public HtmlInteraction (IInteraction parent, HtmlEntity htmlEntity)
-		{
-			this.parent = parent;
-			this.htmlEntity = htmlEntity;
-		}
+		public HtmlEntity Layout { get; set; }
 	}
 }
 
