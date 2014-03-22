@@ -51,7 +51,7 @@ namespace BorrehSoft.Utensils.Collections.Maps
 			}
 		}
 
-		public void WritePairsTo (FormattedWriter writeMethod, string format)
+		public void WriteUsingCallback (FormattedWriter writeMethod, string format)
 		{
 			foreach (KeyValuePair<string, T> kvp in BackEnd) 
 				writeMethod(format, kvp.Key, kvp.Value.ToString());
@@ -64,9 +64,9 @@ namespace BorrehSoft.Utensils.Collections.Maps
 		/// <param name="writeMethod">Write method.</param>
 		/// <param name="connector">Connector.</param>
 		/// <param name="seperator">Seperator.</param>
-		public void WritePairsTo(FormattedWriter writeMethod, char connector, char seperator)
+		public void WriteUsingCallback(FormattedWriter writeMethod, char connector, char seperator)
 		{
-			WritePairsTo(writeMethod, "{0}" + connector + "{1}" + seperator);
+			WriteUsingCallback(writeMethod, "{0}" + connector + "{1}" + seperator);
 		}
 
 		/// <summary>
@@ -74,9 +74,13 @@ namespace BorrehSoft.Utensils.Collections.Maps
 		/// </summary>
 		/// <param name="builder">Builder.</param>
 		/// <param name="format">Format.</param>
-		public void WritePairsTo(StringBuilder builder, string format)
+		public void WriteUsingCallback(StringBuilder builder, string format)
 		{
-			WritePairsTo(builder.AppendFormat, format);
+			FormattedWriter sblWriter = delegate(string f, string[] parameters) {
+				builder.AppendFormat(f, parameters);
+			};
+
+			WriteUsingCallback(sblWriter, format);
 		}
 	}
 }

@@ -12,6 +12,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Extensions.BasicWeblings.Server;
 using BorrehSoft.ApolloGeese.Duckling.HTML.Entities;
 using BorrehSoft.ApolloGeese.Duckling.HTML;
+using BorrehSoft.Utensils;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 {
@@ -62,10 +63,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 		{
 			Method = modSettings.GetString ("method", "POST");
 			
-			FormTag = new TaggedBodyEntity(
-				"form", 
-				new HtmlAttribute("action", ""),
-				new HtmlAttribute("method", Method.ToLower()));
+			FormTag = new TaggedBodyEntity("form");
+
+			FormTag.Attributes["action"] = "";
+			FormTag.Attributes["method"] = Method;
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -137,16 +138,16 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 				entryInteraction.RaiseInputAccepted (parameters);
 				success = Output.TryProcess(parameters);
 			} else {
-				TaggedBodyEntity.FormattedWriter write = httpInteraction.ResponseBody.Write;
+				FormattedWriter write = httpInteraction.ResponseBody.Write;
 
-				FormTag.OpenUsingCallback(write);
+				FormTag.OpenWithDelegate(write);
 
 				entryInteraction.RaiseFormDisplaying (
 					Writer: httpInteraction.ResponseBody, 
 					EntryAttempt: data.Length > 0);
 
 
-				FormTag.CloseUsingCallback(write);
+				FormTag.CloseWithDelegate(write);
 
 				success = true;
 			}

@@ -1,5 +1,6 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling.HTML;
+using BorrehSoft.Utensils;
 
 namespace BorrehSoft.ApolloGeese.Duckling.HTML.Entities
 {
@@ -9,33 +10,22 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML.Entities
 	/// </summary>
 	public class BodylessEntity : HtmlEntity
 	{
-		/// <summary>
-		/// The .Net-string-formatting Tag Template. Defaults to something useful
-		/// so you don't have to modify this.
-		/// </summary>
-		public string TagTemplate = "<{0}{1}>";
+		public override string TagCloser {
+			get {
+				return "/>";
+			}
+		}
 
-		public BodylessEntity (string Name, params HtmlAttribute[] Attributes) : base(Name, Attributes)
+		public BodylessEntity (string Name) : base(Name)
 		{
 
 		}
 
-		/// <summary>
-		/// Initializes a new instance of the <see cref="BorrehSoft.ApolloGeese.Duckling.Html.Entities.BodylessEntity"/> class.
-		/// </summary>
-		/// <param name="HasTerminatingSlash">If set to <c>true</c>, has terminating slash.</param>
-		/// <param name="TagTemplate">Tag template format.</param>
-		public BodylessEntity (string Name, string TagTemplate, params HtmlAttribute[] Attributes) : base(Name, Attributes)
+		public override void WriteWithDelegate (FormattedWriter WriteMethod)
 		{
-			this.TagTemplate = TagTemplate;
-		}
-
-		public override void WriteUsingCallback (FormattedWriter WriteMethod)
-		{
-			WriteMethod(TagTemplate,
-			            Name,
-			            Attributes.ToString());
-
+			WriteMethod(NameOpener, this.Name);
+			Attributes.WriteUsingCallback(WriteMethod);
+			WriteMethod(TagCloser);
 		}
 	}
 }

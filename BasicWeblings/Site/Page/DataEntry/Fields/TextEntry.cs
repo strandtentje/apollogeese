@@ -13,7 +13,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 		private Regex inputMatcher;
 		private BodylessEntity inputTag = new BodylessEntity(Name: "input");
 		private BodylessEntity faultyInputTag = new BodylessEntity(Name: "input");
-		private TextualEntity labelTag = new TextualEntity(Name: "input");	
+		private TextualEntity labelTag = new TextualEntity(Name: "label");	
 		private string id, type, label;
 
 		public override string Description {
@@ -35,9 +35,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 			set {
 				id = value;
 
-				inputTag.Attributes.Name = id;
-				faultyInputTag.Attributes.Name = id;
-				labelTag.Attributes.For = id;
+				inputTag.Attributes["name"] = id;
+				faultyInputTag.Attributes["name"] = id;
+				labelTag.Attributes["for"] = id;
 			}
 		}
 
@@ -54,8 +54,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 			set {
 				type = value;
 
-				inputTag.Attributes.Type = value;
-				faultyInputTag.Attributes.Type = value;
+				inputTag.Attributes["type"] = value;
+				faultyInputTag.Attributes["type"] = value;
 			}
 		}
 
@@ -72,7 +72,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 			set {
 				label = value;
 
-				labelTag.Attributes.Value = label;
+				labelTag.Body = label;
 			}
 		}
 
@@ -94,7 +94,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 				interaction.FormDisplaying += HandleFormDisplaying;
 				interaction.InputAccepted += HandleInputAccepted;
 
-				success = VerifyInput (interaction.Values [fieldName] ?? "");
+				success = VerifyInput (interaction.GetString(ID, ""));
 			}
 
 			return success;
@@ -119,14 +119,14 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 		/// <param name="e">Arguments relevant to displaying the form</param>
 		void HandleFormDisplaying (object sender, FormDisplayingEventArgs e)
 		{
-			labelTag.WriteUsingCallback(e.Writer.Write);
+			labelTag.WriteWithDelegate(e.Writer.Write);
 
 
-			string input = e.Values [fieldName];
+			string input = e.Values [ID];
 			if (!e.EntryAttempt || VerifyInput (input)) {
-				inputTag.WriteUsingCallback(e.Writer.Write);
+				inputTag.WriteWithDelegate(e.Writer.Write);
 			} else {
-				FaultyInputTag.WriteUsingCallback(e.Writer.Write);
+				faultyInputTag.WriteWithDelegate(e.Writer.Write);
 			}
 		}
 
@@ -138,8 +138,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 		/// <param name="e">Arguments relevant to processing the entries</param>
 		void HandleInputAccepted (object sender, InputAcceptedEventArgs e)
 		{
-			e.Parameters[fieldName] = e.Values [fieldName] ?? "";
+			e.Parameters[ID] = e.Values [ID] ?? "";
 		}
 	}
 }
-

@@ -67,17 +67,17 @@ namespace BorrehSoft.ApolloGeese
 
 				if (branchName.Success) {
 					Settings treeConf = nameAndBranch.Value as Settings;
-					newService.Branches [branchName.Groups[1]] = LoadTree (treeConf);
+					newService.Branches [branchName.Groups[1].Value] = LoadTree (treeConf);
 				}
 			}
 
-			Secretary.Report (5, type, "now has", newService.Branches.BackEnd.Count, "branches.");
+			Secretary.Report (5, type, "now has", newService.Branches.BackEnd.Count.ToString(), "branches.");
 			if (succesfulInit) return newService;
 			Secretary.Report (5, 
 			                  type,
 			                  " produced an error on initialization: ",
 			                  newService.InitErrorMessage);
-			return NewsStyleUriParser;
+			return newService;
 		}
 	}
 }

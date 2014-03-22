@@ -43,7 +43,6 @@
     <Compile Include="HTTP\Headers\MimeTypeMismatchException.cs" />
     <Compile Include="HTML\IHtmlInteraction.cs" />
     <Compile Include="HTML\HtmlEntity.cs" />
-    <Compile Include="HTML\HtmlAttribute.cs" />
     <Compile Include="HTML\HtmlAttributeCollection.cs" />
     <Compile Include="HTML\Entities\TextualEntity.cs" />
     <Compile Include="HTML\Entities\TaggedBodyEntity.cs" />

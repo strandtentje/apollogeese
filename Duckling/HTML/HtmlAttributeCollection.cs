@@ -12,9 +12,15 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML
 	/// </summary>
 	public class HtmlAttributeCollection : SerializingMap<object>
 	{
-		public void WritePairsTo(FormattedWriter WriteMethod)
+		/// <summary>
+		/// Writes the attributes using a callback
+		/// </summary>
+		/// <param name='WriteMethod'>
+		/// Write method.
+		/// </param>
+		public void WriteUsingCallback(FormattedWriter WriteMethod)
 		{
-			WritePairsTo(WriteMethod, " {0}=\"{1}\"");		
+			WriteUsingCallback(WriteMethod, " {0}=\"{1}\"");		
 		}
 
 		/// <summary>

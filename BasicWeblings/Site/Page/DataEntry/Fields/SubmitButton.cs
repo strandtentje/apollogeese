@@ -8,7 +8,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 {
 	public class SubmitButton : Service
 	{
-		BodylessEntity ButtonTag = new BodylessEntity() { Name = "input" };
+		BodylessEntity ButtonTag = new BodylessEntity("input");
 
 		public override string Description {
 			get {
@@ -31,7 +31,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 
 		void HandleFormDisplaying (object sender, FormDisplayingEventArgs e)
 		{
-			ButtonTag.WriteUsingCallback(e.Writer.Write);
+			ButtonTag.WriteWithDelegate(e.Writer.Write);
 		}
 	}
 }
