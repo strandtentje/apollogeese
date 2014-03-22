@@ -49,6 +49,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML
 		public HtmlEntity (string Name)
 		{
 			this.Name = Name;
+			this.Attributes = new HtmlAttributeCollection();
 		}
 
 		/// <summary>

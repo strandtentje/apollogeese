@@ -57,7 +57,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 		/// <summary>
 		/// The branch-name regex-matcher.
 		/// </summary>
-		static Regex branchMatcher = new Regex ("\\w+field");
+		static Regex branchMatcher = new Regex ("\\w+_field");
 
 		protected override void Initialize (Settings modSettings)
 		{
