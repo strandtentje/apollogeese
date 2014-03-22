@@ -10,6 +10,12 @@ namespace BorrehSoft.Utensils.Collections
 	/// </summary>
 	public class Map<T>
 	{
+		public Map() { }
+
+		public Map(Map<T> origin) {
+			this.backEnd = origin.backEnd;
+		}
+
 		/// <summary>
 		/// Gets or sets the name.
 		/// </summary>

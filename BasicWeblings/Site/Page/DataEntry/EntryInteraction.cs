@@ -12,12 +12,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 		public event InputAcceptedEventHandler InputAccepted;
 		public event FormDisplayingEventHandler FormDisplaying;
 
-		public Map<string> Values { get; private set; }
-
-		public EntryInteraction (IInteraction Parent, Map<string> Values)
+		public EntryInteraction (IInteraction Parent, Map<object> Values) : base(Values)
 		{
 			this.Parent = Parent;
-			this.Values = Values;
 		}
 
 		public IInteraction Parent {
@@ -34,7 +31,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 			if (InputAccepted == null)
 				return;
 
-			InputAccepted (this, new InputAcceptedEventArgs (parameters, this.Values));
+			InputAccepted (this, new InputAcceptedEventArgs (parameters));
 		}
 
 		public void RaiseFormDisplaying (StreamWriter Writer, bool EntryAttempt)
@@ -42,7 +39,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 			if (FormDisplaying == null)
 				return;
 
-			FormDisplaying (this, new FormDisplayingEventArgs (Writer, EntryAttempt, this.Values));
+			FormDisplaying (this, new FormDisplayingEventArgs (Writer, EntryAttempt));
 		}
 	}
 }

@@ -60,7 +60,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 			StreamWriter body;
 			MimeType type;
 			int cursor = 0;
-			bool success = true;
 			string groupName, lugValue;
 
 			parameters = uncastParameters as IHttpInteraction;
@@ -74,12 +73,17 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 
 					groupName = replaceable.Groups[1].Value;
 
-					if (!Branches[groupName].TryProcess(parameters))
+					Service branch = Branches[groupName];
+
+					// Get new answers from within
+					if ((branch == null) || !branch.TryProcess(parameters))
 					{
-						success = false;
+						// Before consulting the already known values
 						string chunk = "";
 						if (parameters.TryGetString(groupName, out chunk) || settings.TryGetString(groupName, out chunk))
+						{
 							parameters.ResponseBody.Write(chunk);
+						}
 					}
 
 					cursor = replaceable.Index + replaceable.Length;
@@ -90,7 +94,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 				if (cursor < rawTemplate.Length)
 					parameters.ResponseBody.Write(rawTemplate.Substring(cursor));
 
-				return success;
 			}
 			catch (Exception ex) {
 				// Forward the exception but append a cursor position and a message
@@ -103,7 +106,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 					ex.Message), ex);
 			}
 
-			return false;
+			return true;
 		}
 	}
 }

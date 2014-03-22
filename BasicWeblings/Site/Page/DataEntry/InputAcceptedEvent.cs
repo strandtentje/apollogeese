@@ -26,16 +26,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 		/// <value>The parameters.</value>
 		public IInteraction Parameters { get; set; }
 
-		/// <summary>
-		/// Gets the values.
-		/// </summary>
-		/// <value>The values.</value>
-		public Map<string> Values { get; private set; }
-
-		public InputAcceptedEventArgs (IInteraction Parameters, Map<string> Values)
+		public InputAcceptedEventArgs (IInteraction Parameters)
 		{
 			this.Parameters = Parameters;
-			this.Values = Values;
 		}
 	}
 }

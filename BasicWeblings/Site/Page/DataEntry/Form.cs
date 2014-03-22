@@ -52,7 +52,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 		/// <summary>
 		/// The output block.
 		/// </summary>
-		private Service Output;
+		private Service Output = Stub;
 
 		/// <summary>
 		/// The branch-name regex-matcher.
@@ -71,7 +71,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
-			if (e.Name == "Output") {
+			if (e.Name == "output") {
 				Output = e.NewValue;
 			} else if (branchMatcher.IsMatch (e.Name)) {
 				if (e.PreviousValue != null) {
@@ -94,12 +94,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 		/// <returns><c>true</c>, if get body map was tryed, <c>false</c> otherwise.</returns>
 		/// <param name="httpInteraction">Http interaction.</param>
 		/// <param name="givenData">Given data.</param>
-		bool TryGetBodyMap (IHttpInteraction httpInteraction, out SerializingMap<string> givenData)
+		bool TryGetBodyMap (IHttpInteraction httpInteraction, out SerializingMap<object> givenData)
 		{
 			bool validRequest = false;
 			string body = "";
 
-			givenData = new SerializingMap<string> ();
+			givenData = new SerializingMap<object> ();
 
 			if (Method == httpInteraction.RequestMethod) {
 				if (Method == "POST") {
@@ -120,7 +120,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 
 		protected override bool Process (IInteraction parameters)
 		{
-			SerializingMap<string> data = new SerializingMap<string>();
+			SerializingMap<object> data = new SerializingMap<object>();
 
 			IHttpInteraction httpInteraction = parameters as IHttpInteraction;
 

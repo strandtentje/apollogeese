@@ -22,7 +22,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 		protected override bool Process (IInteraction parameters) { 
 			Secretary.Report (5, "Warning: Stub hit.");
-			return true; 
+			return false; 
 		}
 
 		public static Service Instance {

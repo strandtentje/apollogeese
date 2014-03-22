@@ -121,8 +121,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 		{
 			labelTag.WriteWithDelegate(e.Writer.Write);
 
+			EntryInteraction interaction = sender as EntryInteraction;
 
-			string input = e.Values [ID];
+			string input = interaction.GetString(ID, "");
 			if (!e.EntryAttempt || VerifyInput (input)) {
 				inputTag.WriteWithDelegate(e.Writer.Write);
 			} else {
@@ -138,7 +139,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 		/// <param name="e">Arguments relevant to processing the entries</param>
 		void HandleInputAccepted (object sender, InputAcceptedEventArgs e)
 		{
-			e.Parameters[ID] = e.Values [ID] ?? "";
+			EntryInteraction interaction = sender as EntryInteraction;
+
+			e.Parameters[ID] = interaction [ID] ?? "";
 		}
 	}
 }

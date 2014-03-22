@@ -34,20 +34,13 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 		public bool EntryAttempt { get; private set; }
 
 		/// <summary>
-		/// Gets the values.
-		/// </summary>
-		/// <value>The values.</value>
-		public Map<string> Values { get; private set; }
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Extensions.BasicWeblings.FormDisplayingEventArgs"/> class.
 		/// </summary>
 		/// <param name="Write">Write.</param>
-		public FormDisplayingEventArgs (StreamWriter Writer, bool EntryAttempt, Map<string> Values)
+		public FormDisplayingEventArgs (StreamWriter Writer, bool EntryAttempt)
 		{
 			this.Writer = Writer;
 			this.EntryAttempt = EntryAttempt;
-			this.Values = Values;
 		}
 	}
 }
