@@ -1,45 +1,44 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Duckling/HTML/Entities/TaggedBodyEntity.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="BasicWeblings/Site/HtmlInteraction.cs">
     <Files>
-      <File FileName="BasicWeblings/Site/SiteSubsection.cs" Line="34" Column="3" />
-      <File FileName="BasicWeblings/Site/Sessionizer.cs" Line="80" Column="15" />
-      <File FileName="BasicWeblings/Server/HttpInteraction.cs" Line="11" Column="1" />
-      <File FileName="Duckling/Service.cs" Line="68" Column="12" />
-      <File FileName="Geese/bin/Debug/apollogeese.conf" Line="1" Column="1" />
-      <File FileName="ApolloGeese/Head.cs" Line="55" Column="33" />
+      <File FileName="BasicWeblings/Site/SiteSubsection.cs" Line="50" Column="49" />
+      <File FileName="BasicWeblings/Site/Sessionizer.cs" Line="45" Column="17" />
+      <File FileName="BasicWeblings/Server/HttpInteraction.cs" Line="18" Column="57" />
+      <File FileName="Duckling/Service.cs" Line="63" Column="4" />
+      <File FileName="Geese/bin/Debug/apollogeese.conf" Line="9" Column="1" />
+      <File FileName="ApolloGeese/Head.cs" Line="64" Column="4" />
       <File FileName="Duckling/HTTP/RequestHeaders.cs" Line="1" Column="1" />
-      <File FileName="BasicWeblings/Server/HttpService.cs" Line="93" Column="65" />
+      <File FileName="BasicWeblings/Server/HttpService.cs" Line="39" Column="4" />
       <File FileName="ModularFunk/Parsing/Parsers/ValueParser.cs" Line="1" Column="1" />
-      <File FileName="Duckling/HTTP/IHttpInteraction.cs" Line="1" Column="1" />
+      <File FileName="Duckling/HTTP/IHttpInteraction.cs" Line="10" Column="3" />
       <File FileName="Duckling/HTML/HtmlEntity.cs" Line="1" Column="1" />
       <File FileName="Duckling/HTML/HtmlAttributeCollection.cs" Line="1" Column="1" />
-      <File FileName="Duckling/HTML/HtmlAttribute.cs" Line="1" Column="1" />
+      <File FileName="Duckling/HTML/HtmlAttribute.cs" Line="8" Column="52" />
       <File FileName="Duckling/IInteraction.cs" Line="29" Column="3" />
-      <File FileName="BasicWeblings/Site/HtmlComposer.cs" Line="46" Column="50" />
-      <File FileName="BasicWeblings/Site/Page/Template.cs" Line="29" Column="3" />
+      <File FileName="BasicWeblings/Site/HtmlComposer.cs" Line="37" Column="31" />
+      <File FileName="BasicWeblings/Site/Page/Template.cs" Line="65" Column="4" />
       <File FileName="BasicWeblings/Site/Page/FileListing/Mapping.cs" Line="15" Column="2" />
-      <File FileName="BasicWeblings/Site/Page/FileListing/FileService.cs" Line="36" Column="4" />
+      <File FileName="BasicWeblings/Site/Page/FileListing/FileService.cs" Line="18" Column="25" />
       <File FileName="BasicWeblings/Site/Page/DataEntry/InputAcceptedEvent.cs" Line="14" Column="40" />
       <File FileName="BasicWeblings/Site/Page/DataEntry/FormDisplayingEvent.cs" Line="20" Column="42" />
-      <File FileName="BasicWeblings/Site/Page/DataEntry/Form.cs" Line="95" Column="4" />
-      <File FileName="BasicWeblings/Site/Page/DataEntry/EntryInteraction.cs" Line="3" Column="17" />
-      <File FileName="BasicWeblings/Site/Page/DataEntry/Fields/SubmitButton.cs" Line="13" Column="9" />
-      <File FileName="BasicWeblings/Site/Page/DataEntry/Fields/TextEntry.cs" Line="20" Column="9" />
+      <File FileName="BasicWeblings/Site/Page/DataEntry/Form.cs" Line="122" Column="18" />
+      <File FileName="BasicWeblings/Site/Page/DataEntry/EntryInteraction.cs" Line="10" Column="59" />
+      <File FileName="BasicWeblings/Site/Page/DataEntry/Fields/SubmitButton.cs" Line="18" Column="3" />
+      <File FileName="BasicWeblings/Site/Page/DataEntry/Fields/TextEntry.cs" Line="15" Column="1" />
       <File FileName="Duckling/HTML/Entities/TextualEntity.cs" Line="1" Column="1" />
-      <File FileName="Duckling/HTML/Entities/TaggedBodyEntity.cs" Line="81" Column="1" />
-      <File FileName="Duckling/HTML/Entities/BodylessEntity.cs" Line="1" Column="1" />
-      <File FileName="BasicWeblings/Site/HtmlInteraction.cs" Line="19" Column="36" />
-      <File FileName="Duckling/HTML/IHtmlInteraction.cs" Line="11" Column="38" />
+      <File FileName="Duckling/HTML/Entities/TaggedBodyEntity.cs" Line="86" Column="4" />
+      <File FileName="Duckling/HTML/Entities/BodylessEntity.cs" Line="23" Column="55" />
+      <File FileName="BasicWeblings/Site/HtmlInteraction.cs" Line="44" Column="9" />
+      <File FileName="Duckling/HTML/IHtmlInteraction.cs" Line="2" Column="43" />
       <File FileName="ModularFunk/StreamTools.cs" Line="39" Column="36" />
       <File FileName="ModularFunk/Caching/FileCache.cs" Line="37" Column="21" />
       <File FileName="ModularFunk/Collections/Maps/ItemChangedEvent.cs" Line="18" Column="34" />
       <File FileName="ModularFunk/Collections/Maps/WatchableMap.cs" Line="32" Column="12" />
       <File FileName="ModularFunk/Collections/Settings/SettingsParser.cs" Line="32" Column="17" />
       <File FileName="ModularFunk/Collections/Maps/PluginCollection.cs" Line="42" Column="36" />
-      <File FileName="ModularFunk/Collections/Map.cs" Line="83" Column="28" />
-      <File FileName="Duckling/StubService.cs" Line="20" Column="45" />
-      <File FileName="Duckling/HTML/Entities/Specialized/HeadEntity.cs" Line="1" Column="1" />
+      <File FileName="Duckling/StubService.cs" Line="13" Column="1" />
+      <File FileName="Duckling/HTML/Entities/Specialized/HeadEntity.cs" Line="30" Column="32" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -55,12 +54,13 @@
                 </Node>
                 <Node name="FileListing" expanded="True" />
               </Node>
+              <Node name="HtmlInteraction.cs" selected="True" />
             </Node>
           </Node>
           <Node name="Duckling" expanded="True">
             <Node name="HTML" expanded="True">
               <Node name="Entities" expanded="True">
-                <Node name="Specialized" expanded="True" selected="True" />
+                <Node name="Specialized" expanded="True" />
               </Node>
             </Node>
             <Node name="HTTP" expanded="True" />
@@ -84,17 +84,28 @@
       </Pad>
       <Pad Id="ClassPad">
         <State expanded="True">
-          <Node name="Duckling" expanded="True">
+          <Node name="BasicWeblings" expanded="True">
             <Node name="BorrehSoft" expanded="True">
               <Node name="ApolloGeese" expanded="True">
                 <Node name="Duckling" expanded="True">
-                  <Node name="BorrehSoft.ApolloGeese.Duckling.IInteraction" expanded="True" />
                   <Node name="HTML" expanded="True">
-                    <Node name="BorrehSoft.ApolloGeese.Duckling.HTML.HtmlAttributeCollection" expanded="True" />
-                    <Node name="BorrehSoft.ApolloGeese.Duckling.HTML.IHtmlInteraction" expanded="True" selected="True" />
+                    <Node name="Entities" expanded="True">
+                      <Node name="Specialized" expanded="True" />
+                    </Node>
                   </Node>
-                  <Node name="Http" expanded="True">
-                    <Node name="BorrehSoft.ApolloGeese.Duckling.Http.IHttpInteraction" expanded="True" />
+                </Node>
+              </Node>
+              <Node name="Extensions" expanded="True">
+                <Node name="BasicWeblings" expanded="True">
+                  <Node name="Server" expanded="True">
+                    <Node name="BorrehSoft.Extensions.BasicWeblings.Server.HttpService" selected="True" />
+                  </Node>
+                  <Node name="Site" expanded="True">
+                    <Node name="Page" expanded="True">
+                      <Node name="DataEntry" expanded="True">
+                        <Node name="Fields" expanded="True" />
+                      </Node>
+                    </Node>
                   </Node>
                 </Node>
               </Node>
@@ -109,7 +120,7 @@
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
-      <Breakpoint file="/home/rob/Bureaublad/ApolloGeese/RegularHttpServer/CacheService.cs" line="33" column="1" />
+      <Breakpoint file="/home/rob/Bureaublad/ApolloGeese/RegularHttpServer/CacheService.cs" line="33" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches>

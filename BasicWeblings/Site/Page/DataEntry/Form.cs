@@ -8,14 +8,18 @@ using BorrehSoft.Utensils.Collections;
 using System.Web;
 using System.Text;
 using System.Text.RegularExpressions;
+using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Extensions.BasicWeblings.Server;
+using BorrehSoft.ApolloGeese.Duckling.HTML.Entities;
+using BorrehSoft.ApolloGeese.Duckling.HTML;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 {
+	/// <summary>
+	/// A form on a webpage displaying connected fields or -when filled correctly- whatever is connected to output
+	/// </summary>
 	public class Form : Service
 	{
-		HtmlTag FormTag = new HtmlTag ("form");
-
-		#region Request Eater
 		/// <summary>
 		/// Gets or sets the method.
 		/// </summary>
@@ -23,128 +27,131 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 		public string Method { get; set; }
 
 		/// <summary>
-		/// Tries to get a map of whatever message body there is (POST/GET);
+		///  Gets the description of this service. (Cool bonus: May change! Woo!) May be used as page titles 
 		/// </summary>
-		/// <returns><c>true</c>, if get body map was tryed, <c>false</c> otherwise.</returns>
-		/// <param name="httpInteraction">Http interaction.</param>
-		/// <param name="givenData">Given data.</param>
-		bool TryGetBodyMap (IHttpInteraction httpInteraction, out Map<string> givenData)
-		{
-			int startOfQuery; string body;
-
-			givenData = new Map<string> ();
-
-			if ((Method == "POST") && IsPost (httpInteraction)) {
-				body = httpInteraction.RequestBody.ReadToEnd ();
-				if (body.Length < 1)
-					return false;
-			} else if ((Method == "GET") && IsGet (httpInteraction)) {
-				body = httpInteraction.URL [httpInteraction.URL.Count - 1];
-				startOfQuery = body.IndexOf ('?');
-				if (startOfQuery > -1) {
-					body = body.Substring (startOfQuery + 1);
-				} else {
-					return false;
-				}
-			} else {
-				return false;
-			}
-
-			givenData.AddFromString(body, HttpUtility.UrlDecode, '=', '&');
-
-			return true;
-		}
-
-		/// <summary>
-		/// Determines if the specified httpInteraction has a GET request.
-		/// </summary>
-		/// <returns><c>true</c> if is get the specified httpInteraction; otherwise, <c>false</c>.</returns>
-		/// <param name="httpInteraction">Http interaction.</param>
-		static bool IsGet (IHttpInteraction httpInteraction)
-		{
-			return httpInteraction.RequestMethod.ToUpper () == "GET";
-		}
-
-		/// <summary>
-		/// Determines if the specified httpInteraction has a POST request.
-		/// </summary>
-		/// <returns><c>true</c> if is post the specified httpInteraction; otherwise, <c>false</c>.</returns>
-		/// <param name="httpInteraction">Http interaction.</param>
-		static bool IsPost (IHttpInteraction httpInteraction)
-		{
-			return httpInteraction.RequestMethod.ToUpper () == "POST";
-		}
-		#endregion
-
-		static string branchRegex = "field[0-9]+";
-		static Regex branchMatcher = new Regex (branchRegex);
-
-		public override string[] AdvertisedBranches {
-			get { return new string[] { branchRegex, "process" }; }
-		}
-
+		/// <value>
+		/// The name of this service
+		/// </value>
 		public override string Description {
 			get {
 				return "Form, area with multiple data entry fields.";
 			}
 		}
 
+		/// <summary>
+		/// The form tag.
+		/// </summary>
+		private TaggedBodyEntity FormTag;
+
+		/// <summary>
+		/// The inputs.
+		/// </summary>
+		private List<Service> Inputs = new List<Service>();
+
+		/// <summary>
+		/// The output block.
+		/// </summary>
+		private Service Output;
+
+		/// <summary>
+		/// The branch-name regex-matcher.
+		/// </summary>
+		static Regex branchMatcher = new Regex ("\\w+field");
+
 		protected override void Initialize (Settings modSettings)
 		{
-			FormTag.Attributes ["action"] = "";
-
-			object fieldsObject;
-
 			Method = modSettings.GetString ("method", "POST");
+			
+			FormTag = new TaggedBodyEntity(
+				"form", 
+				new HtmlAttribute("action", ""),
+				new HtmlAttribute("method", Method.ToLower()));
+		}
 
-			FormTag.Attributes ["method"] = Method.ToLower ();
+		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
+		{
+			if (e.Name == "Output") {
+				Output = e.NewValue;
+			} else if (branchMatcher.IsMatch (e.Name)) {
+				if (e.PreviousValue != null) {
+					if (Inputs.Contains(e.PreviousValue)) {
+						Inputs.Remove(e.PreviousValue);
+					}
+				}
+				if (e.NewValue != null) {
+					if (!Inputs.Contains(e.NewValue))
+					{
+						Inputs.Add(e.NewValue);
+					}
+				}
+			}
+		}
 
-			FormTag.Rerender ();
+		/// <summary>
+		/// Tries to get a map of whatever message body there is (POST/GET);
+		/// </summary>
+		/// <returns><c>true</c>, if get body map was tryed, <c>false</c> otherwise.</returns>
+		/// <param name="httpInteraction">Http interaction.</param>
+		/// <param name="givenData">Given data.</param>
+		bool TryGetBodyMap (IHttpInteraction httpInteraction, out SerializingMap<string> givenData)
+		{
+			bool validRequest = false;
+			string body = "";
+
+			givenData = new SerializingMap<string> ();
+
+			if (Method == httpInteraction.RequestMethod) {
+				if (Method == "POST") {
+					body = httpInteraction.RequestBody.ReadToEnd ();
+					validRequest = body.Length > 0;
+				} else if (Method == "GET") {
+					string fullUrl = httpInteraction.URL [httpInteraction.URL.Count - 1];
+					body = fullUrl.Substring (body.IndexOf ('?') + 1);
+					validRequest = fullUrl.Length > body.Length;
+				}
+			}
+
+			if (validRequest)
+				givenData.AddFromString(body, HttpUtility.UrlDecode, '=', '&');
+
+			return validRequest;
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			#region Allocating for this thread...
-			IHttpInteraction httpInteraction; 
-			EntryInteraction entryInteraction;
-			Map<string> data; bool success;
-			StringBuilder confirmation;
-			Action<string> write;
-			#endregion
+			SerializingMap<string> data = new SerializingMap<string>();
 
-			data = new Map<string>();
-			httpInteraction = parameters as IHttpInteraction;
+			IHttpInteraction httpInteraction = parameters as IHttpInteraction;
 
-			// Store POST/GET into data
-			success = TryGetBodyMap (httpInteraction, out data);
+			bool success = TryGetBodyMap (httpInteraction, out data);
 
-			// Put the parsed data into an interaction to be used by
-			// fields in this form.
-			entryInteraction = new EntryInteraction (Values: data);
+			EntryInteraction entryInteraction = new EntryInteraction (Parent: parameters, Values: data);
 
-			// Inform all fields about the new input and check if they're
-			// cool with the input.
-			foreach (string branch in ConnectedBranches.Keys) 
-				if (branchMatcher.IsMatch (branch)) 
-					success &= RunBranch (branch, entryInteraction);	
-
+			foreach(Service input in Inputs)
+				success &= input.TryProcess(entryInteraction);
+			
+			// If all fields were cool with the new input, let them push 
+			// the input (optionally parsed) into the main interaction, 
+			// and branch off to the submission-branch.
 			if (success) {
-				// If all fields were cool with the new input, let them push 
-				// the input (optionally parsed) into the main interaction, 
-				// and branch off to the submission-branch.
 				entryInteraction.RaiseInputAccepted (parameters);
-				return RunBranch ("process", parameters);
+				success = Output.TryProcess(parameters);
 			} else {
-				write = httpInteraction.ResponseBody.Write;
-				// If not all fields were cool with the new input, let each
-				// field write its markup back to the client.
-				write (FormTag.Head);
+				TaggedBodyEntity.FormattedWriter write = httpInteraction.ResponseBody.Write;
+
+				FormTag.OpenUsingCallback(write);
+
 				entryInteraction.RaiseFormDisplaying (
 					Writer: httpInteraction.ResponseBody, 
 					EntryAttempt: data.Length > 0);
-				write (FormTag.Tail);
-				return true;
+
+
+				FormTag.CloseUsingCallback(write);
+
+				success = true;
 			}
+
+			return success;
 		}
 	}
 }

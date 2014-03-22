@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling.Html.Entities.Specialized;
+using BorrehSoft.ApolloGeese.Duckling.HTML.Entities.Specialized;
 
 namespace BorrehSoft.ApolloGeese.Duckling.HTML
 {

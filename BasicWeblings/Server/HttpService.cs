@@ -6,6 +6,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using L = BorrehSoft.Utensils.Log.Secretary;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Diagnostics;
+using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Server
 {
@@ -15,13 +16,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 	public class HttpService : Service
 	{
 		private HttpListener listener = new HttpListener();
+		private Service httpBranch;
 		private bool MeasurePerformance = true;
-
-		public override string[] AdvertisedBranches {
-			get {
-			return new string[] { "http" };
-			}
-		}
 
 		public override string Description {
 			get {
@@ -48,6 +44,14 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 
 			listener.Start ();
 			listener.BeginGetContext (RequestMade, listener);
+
+			Branches["http"] = Stub;
+		}
+
+		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
+		{
+			if (e.Name == "http")
+				httpBranch = e.NewValue;
 		}
 
 		/// <summary>
@@ -98,7 +102,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 
 		protected override bool Process (IInteraction parameters)
 		{
-			return false;
+			return httpBranch.TryProcess(parameters);
 		}
 	}
 }

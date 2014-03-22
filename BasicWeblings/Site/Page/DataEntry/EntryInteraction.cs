@@ -14,9 +14,19 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 
 		public Map<string> Values { get; private set; }
 
-		public EntryInteraction (Map<string> Values)
+		public EntryInteraction (IInteraction Parent, Map<string> Values)
 		{
+			this.Parent = Parent;
 			this.Values = Values;
+		}
+
+		public IInteraction Parent {
+			get;
+			private set;
+		}
+
+		public IInteraction Root {
+			get { return this.Parent.Root; }
 		}
 
 		public void RaiseInputAccepted (IInteraction parameters)

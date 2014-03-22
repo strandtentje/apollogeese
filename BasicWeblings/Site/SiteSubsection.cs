@@ -32,7 +32,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 			Branches ["default"] = Stub;
 		}
 
-		protected override void HandleItemChanged (object sender, ItemChangedEventArgs<Service> e)
+		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			if (e.Name == "main") Main = e.NewValue;
 			if (e.Name == "default") Default = e.NewValue;
@@ -47,7 +47,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 			if (parameters.URL.EndOfSeries)
 				Branch = Main;
 			else {
-				Branch = Branch [parameters.URL.ReadUrlChunk ()] ?? Stub;
+				Branch = Branches [parameters.URL.ReadUrlChunk ()] ?? Stub;
 				if (Branch == Stub)
 					Branch = Default;
 			}

@@ -8,8 +8,11 @@ using BorrehSoft.Utensils.Collections;
 
 namespace BorrehSoft.Utensils
 {
+	public delegate void FormattedWriter(string format, params string[] parameters);
+
 	public static class HttpInterations
 	{
+
 		public static void WriteHTML(HttpListenerResponse response, string strData)
 		{
 			byte[] data = Encoding.ASCII.GetBytes (strData);

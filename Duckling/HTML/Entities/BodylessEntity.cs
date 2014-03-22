@@ -1,7 +1,7 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling.HTML;
 
-namespace BorrehSoft.ApolloGeese.Duckling.Html.Entities
+namespace BorrehSoft.ApolloGeese.Duckling.HTML.Entities
 {
 	/// <summary>
 	/// An HTML entity with only a body and an optional terminating slash
@@ -10,25 +10,23 @@ namespace BorrehSoft.ApolloGeese.Duckling.Html.Entities
 	public class BodylessEntity : HtmlEntity
 	{
 		/// <summary>
-		/// Indicates whether this entity will render with or without
-		/// a terminating slash. Defaults to false.
-		/// </summary>
-		public bool HasTerminatingSlash;
-
-		/// <summary>
 		/// The .Net-string-formatting Tag Template. Defaults to something useful
 		/// so you don't have to modify this.
 		/// </summary>
-		public string TagTemplate;
+		public string TagTemplate = "<{0}{1}>";
+
+		public BodylessEntity (string Name, params HtmlAttribute[] Attributes) : base(Name, Attributes)
+		{
+
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.ApolloGeese.Duckling.Html.Entities.BodylessEntity"/> class.
 		/// </summary>
 		/// <param name="HasTerminatingSlash">If set to <c>true</c>, has terminating slash.</param>
 		/// <param name="TagTemplate">Tag template format.</param>
-		public BodylessEntity (bool HasTerminatingSlash = false, string TagTemplate = "<{0}{1}{2}>") : base("")
+		public BodylessEntity (string Name, string TagTemplate, params HtmlAttribute[] Attributes) : base(Name, Attributes)
 		{
-			this.HasTerminatingSlash = HasTerminatingSlash;
 			this.TagTemplate = TagTemplate;
 		}
 
@@ -36,8 +34,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.Html.Entities
 		{
 			WriteMethod(TagTemplate,
 			            Name,
-			            Attributes.ToString(),
-			            (HasTerminatingSlash ? " /" : ""));
+			            Attributes.ToString());
 
 		}
 	}

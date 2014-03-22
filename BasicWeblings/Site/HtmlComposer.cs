@@ -4,8 +4,6 @@ using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.ApolloGeese.Duckling.HTML.Entities;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.ApolloGeese.Duckling.Html.Entities.Specialized;
-
 namespace BorrehSoft.Extensions.BasicWeblings
 {
 	public class HtmlComposer : Service
@@ -25,7 +23,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			Doctype = modSettings.GetString("doctype", "<!DOCTYPE HTML>");
 		}
 
-		protected override void HandleItemChanged (object sender, ItemChangedEventArgs<Service> e)
+		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			if (e.Name = "html")
 				Html = e.NewValue;

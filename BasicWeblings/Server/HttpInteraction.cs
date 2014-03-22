@@ -28,13 +28,13 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			this.Response = Response;
 		}
 
-		public IInteraction RootInteraction {
+		public IInteraction Root {
 			get {
 				return this;
 			}
 		}
 
-		public IInteraction ParentInteraction {
+		public IInteraction Parent {
 			get {
 				return this;
 			}
@@ -122,5 +122,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 
 		public StreamWriter ResponseBody { get; private set; }
 		#endregion
+	
 	}
 }

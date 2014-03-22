@@ -30,17 +30,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 		private string templateFile, rawTemplate, chunkPattern, title, defaultEncoding;
 
 		/// <summary>
-		/// HTML Template Service will expose Branches which have been defined
-		/// in the template (if set)
-		/// </summary>
-		/// <value>The advertised branches.</value>
-		public override string[] AdvertisedBranches {
-			get {
-				return templateVariables.ToStringArray ();
-			}
-		}
-
-		/// <summary>
 		/// Returns the title with this service.
 		/// </summary>
 		/// <value>The title of this page</value>
@@ -60,6 +49,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 			rawTemplate = File.ReadAllText (templateFile);
 
 			replaceables = templateVariables.AddUniqueRegexMatches (rawTemplate, chunkPattern);
+
+			foreach(string templateVariable in templateVariables)
+				Branches[templateVariable] = Stub;
 		}
 
 		protected override bool Process (IInteraction uncastParameters)
@@ -82,7 +74,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 
 					groupName = replaceable.Groups[1].Value;
 
-					if (!RunBranch (groupName, parameters))
+					if (!Branches[groupName].TryProcess(parameters))
 					{
 						success = false;
 						string chunk = "";

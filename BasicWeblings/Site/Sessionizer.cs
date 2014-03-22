@@ -40,9 +40,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 				cookieName = temporary;
 		}
 
-		protected override void HandleItemChanged (object sender, ItemChangedEventArgs<Service> e)
+		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
-			if (e.Name = "http") 
+			if (e.Name == "http") 
 				Http = e.NewValue;
 		}
 

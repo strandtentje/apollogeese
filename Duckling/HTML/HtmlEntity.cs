@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using BorrehSoft.Utensils;
 
 namespace BorrehSoft.ApolloGeese.Duckling.HTML
 {
@@ -32,8 +33,6 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML
 			this.Name = Name;
 			this.Attributes = new HtmlAttributeCollection(Attributes);
 		}
-
-		public delegate void FormattedWriter(string format, params string[] parameters);
 
 		/// <summary>
 		/// Passes this element as a string to the supplied callback.

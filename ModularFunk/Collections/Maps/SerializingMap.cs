@@ -1,6 +1,7 @@
 using System;
 using System.Text;
 using System.Collections.Generic;
+using BorrehSoft.Utensils;
 
 namespace BorrehSoft.Utensils.Collections.Maps
 {
@@ -50,20 +51,22 @@ namespace BorrehSoft.Utensils.Collections.Maps
 			}
 		}
 
+		public void WritePairsTo (FormattedWriter writeMethod, string format)
+		{
+			foreach (KeyValuePair<string, T> kvp in BackEnd) 
+				writeMethod(format, kvp.Key, kvp.Value.ToString());
+
+		}
+
 		/// <summary>
 		/// Writes the pairs using the supplied write method.
 		/// </summary>
 		/// <param name="writeMethod">Write method.</param>
 		/// <param name="connector">Connector.</param>
 		/// <param name="seperator">Seperator.</param>
-		public void WritePairsTo(Action<string> writeMethod, char connector, char seperator)
+		public void WritePairsTo(FormattedWriter writeMethod, char connector, char seperator)
 		{
-			foreach (KeyValuePair<string, T> kvp in BackEnd) {
-				writeMethod (kvp.Key);
-				writeMethod (connector.ToString());
-				writeMethod (kvp.Value.ToString());
-				writeMethod (seperator.ToString());
-			}
+			WritePairsTo(writeMethod, "{0}" + connector + "{1}" + seperator);
 		}
 
 		/// <summary>
@@ -73,8 +76,7 @@ namespace BorrehSoft.Utensils.Collections.Maps
 		/// <param name="format">Format.</param>
 		public void WritePairsTo(StringBuilder builder, string format)
 		{
-			foreach (KeyValuePair<string, T> kvp in BackEnd) 
-				builder.AppendFormat (format, kvp.Key, kvp.Value.ToString ());
+			WritePairsTo(builder.AppendFormat, format);
 		}
 	}
 }

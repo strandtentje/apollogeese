@@ -19,14 +19,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.FileListing
 			}
 		}
 
-		static string[] branches = new string[] { };
-
-		public override string[] AdvertisedBranches {
-			get {
-				return branches;
-			}
-		}
-
 		List<Mapping> mappings = new List<Mapping>();
 
 		protected override void Initialize (Settings modSettings)

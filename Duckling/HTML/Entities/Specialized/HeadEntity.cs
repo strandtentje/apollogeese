@@ -1,7 +1,7 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling.HTML.Entities;
 
-namespace BorrehSoft.ApolloGeese.Duckling.Html.Entities.Specialized
+namespace BorrehSoft.ApolloGeese.Duckling.HTML.Entities.Specialized
 {
 	/// <summary>
 	/// HTML Head entity.
@@ -25,7 +25,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.Html.Entities.Specialized
 					return "";
 				return title.Body;
 			} set {
-				if (title = null) {
+				if (title == null) {
 					title = new TextualEntity (value, "title");
 					this.Children.Add (title);
 				}

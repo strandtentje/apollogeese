@@ -22,13 +22,6 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// </summary>
 		/// <value>The name of this service</value>
 		public abstract string Description { get; }
-		/// <summary>
-		/// Gets an array of branch names this service advertises with.
-		/// This is primarly of use in the SFC GUI tool, which doesn't
-		/// exist yet at the time of writing this.
-		/// </summary>
-		/// <value>The advertised branches.</value>
-		public abstract string[] AdvertisedBranches { get; }
 
 		/// <summary>
 		/// Gets the error message that caused 'TryInitialize' to fail.
@@ -48,7 +41,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 			try
 			{
-				Branches.ItemChanged += HandleItemChanged;
+				Branches.ItemChanged += HandleBranchChanged;
 				Initialize(modSettings);
 				InitErrorMessage = "";
 				succesful = true;
@@ -65,7 +58,9 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			return succesful;
 		}
 
-		protected abstract void HandleItemChanged (object sender, ItemChangedEventArgs<Service> e);
+		protected virtual void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e) {
+
+		}
 
 		/// <summary>
 		/// Tries to process and leaves a ProcessErrorMessage set if applicable.

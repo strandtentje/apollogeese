@@ -67,13 +67,23 @@ namespace BorrehSoft.ApolloGeese.Duckling.HTML.Entities
 		/// <param name="Children">Children.</param>
 		public void WriteUsingCallback (FormattedWriter WriteMethod, IEnumerable<HtmlEntity> Children)
 		{
-			WriteMethod(OpeningTag, Name,
-			            Attributes.ToString());
+			OpenUsingCallback(WriteMethod);
 
 			foreach(HtmlEntity entity in Children)
 				entity.WriteUsingCallback(WriteMethod);
 
 
+			CloseUsingCallback(WriteMethod);
+		}
+
+		public void OpenUsingCallback(FormattedWriter WriteMethod) 
+		{			
+			WriteMethod(OpeningTag, Name,
+			            Attributes.ToString());
+		}
+
+		public void CloseUsingCallback(FormattedWriter WriteMethod)
+		{			
 			WriteMethod(ClosingTag, Name);
 		}
 	}

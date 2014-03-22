@@ -3,7 +3,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.ApolloGeese.Duckling.HTML;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.Utensils.Collections;
-using BorrehSoft.ApolloGeese.Duckling.Html.Entities.Specialized;
+using BorrehSoft.ApolloGeese.Duckling.HTML.Entities.Specialized;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
@@ -34,13 +34,13 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			this.Layout = Layout;
 		}
 
-		public IInteraction RootInteraction { 
+		public IInteraction Root { 
 			get {
-				return parent.RootInteraction; 
+				return parent.Root; 
 			}
 		}
 
-		public IInteraction ParentInteraction {
+		public IInteraction Parent {
 			get {
 				return parent;
 			}

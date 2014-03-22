@@ -12,7 +12,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <value>
 		/// The root interaction.
 		/// </value>
-		IInteraction RootInteraction { get; }
+		IInteraction Root { get; }
 
 		/// <summary>
 		/// Gets the parent interaction.
@@ -20,7 +20,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <value>
 		/// The parent interaction.
 		/// </value>
-		IInteraction ParentInteraction { get; }
+		IInteraction Parent { get; }
 
 		/// <summary>
 		/// Tries to get a string from the luggage

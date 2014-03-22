@@ -4,23 +4,17 @@ using System.Web;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.ApolloGeese.Duckling.HTML.Entities;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 {
 	public class TextEntry : Service
 	{
-		Regex InputMatcher;
-		HtmlTag InputTag = new HtmlTag ("input", DontClose: true);
-		HtmlTag FaultyInputTag = new HtmlTag ("input", DontClose: true);
-		HtmlTag LabelTag = new HtmlTag ("label");
-
-		string labelBase, entireLabel, fieldName;
-
-		public override string[] AdvertisedBranches {
-			get {
-				return new string[] { };
-			}
-		}
+		private Regex inputMatcher;
+		private BodylessEntity inputTag = new BodylessEntity(Name: "input");
+		private BodylessEntity faultyInputTag = new BodylessEntity(Name: "input");
+		private TextualEntity labelTag = new TextualEntity(Name: "input");	
+		private string id, type, label;
 
 		public override string Description {
 			get {
@@ -28,41 +22,81 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 			}
 		}
 
+		/// <summary>
+		/// Gets or sets the name/for of this input.
+		/// </summary>
+		/// <value>
+		/// The name/for
+		/// </value>
+		public string ID {
+			get {
+				return id;
+			}
+			set {
+				id = value;
+
+				inputTag.Attributes.Name = id;
+				faultyInputTag.Attributes.Name = id;
+				labelTag.Attributes.For = id;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the type.
+		/// </summary>
+		/// <value>
+		/// The type.
+		/// </value>
+		public string Type {
+			get {
+				return type;
+			}
+			set {
+				type = value;
+
+				inputTag.Attributes.Type = value;
+				faultyInputTag.Attributes.Type = value;
+			}
+		}
+
+		/// <summary>
+		/// Gets or sets the label.
+		/// </summary>
+		/// <value>
+		/// The label.
+		/// </value>
+		public string Label {
+			get {
+				return label;
+			}
+			set {
+				label = value;
+
+				labelTag.Attributes.Value = label;
+			}
+		}
 
 		protected override void Initialize (Settings modSettings)
 		{		
-			InputMatcher = new Regex (modSettings.GetString ("regexconstraint", ".*"));
+			inputMatcher = new Regex (modSettings.GetString ("regexconstraint", ".*"));
 
-			InputTag.Attributes ["type"] = FaultyInputTag.Attributes ["type"] = 
-					modSettings.GetString ("type", "text");
-
-			if (modSettings.TryGetString ("name", out fieldName)) 
-				InputTag.Attributes ["name"] = 
-					FaultyInputTag.Attributes ["name"] = 
-					LabelTag.Attributes ["for"] = 
-					fieldName;
-									
-			if (!modSettings.TryGetString ("label", out labelBase)) labelBase = "";
-
-			InputTag.Attributes ["value"] = FaultyInputTag.Attributes ["value"] = "{0}";
-
-			InputTag.Rerender (); FaultyInputTag.Rerender (); LabelTag.Rerender ();
-
-			entireLabel = LabelTag.Head + labelBase + LabelTag.Tail;
-
+			ID = modSettings["name"] as string ?? "missingno";
+			Type = modSettings["type"] as string ?? "text";
+			Label = modSettings["label"] as string ?? "Field";
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
+			bool success = false;
 			EntryInteraction interaction = parameters as EntryInteraction;
 			
-			if (interaction == null)
-				return false;
+			if (interaction != null) {
+				interaction.FormDisplaying += HandleFormDisplaying;
+				interaction.InputAccepted += HandleInputAccepted;
 
-			interaction.FormDisplaying	+= HandleFormDisplaying;
-			interaction.InputAccepted += HandleInputAccepted;
+				success = VerifyInput (interaction.Values [fieldName] ?? "");
+			}
 
-			bool success = VerifyInput (interaction.Values [fieldName] ?? "");
 			return success;
 		}
 
@@ -73,7 +107,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 		/// <param name="str">String to verify.</param>
 		bool VerifyInput (string str)
 		{
-			return InputMatcher.IsMatch (str);
+			return inputMatcher.IsMatch (str);
 		}
 
 		/// <summary>
@@ -85,15 +119,15 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 		/// <param name="e">Arguments relevant to displaying the form</param>
 		void HandleFormDisplaying (object sender, FormDisplayingEventArgs e)
 		{
-			e.Writer.Write (entireLabel);
+			labelTag.WriteUsingCallback(e.Writer.Write);
 
-			string input = e.Values [fieldName] ?? "";
-			HtmlTag appropriateTag;
 
-			appropriateTag = (e.EntryAttempt && !VerifyInput (input)) ? FaultyInputTag : InputTag;
-
-			e.Writer.Write (appropriateTag.Head, HttpUtility.HtmlAttributeEncode (input));
-			e.Writer.Write (appropriateTag.Tail);
+			string input = e.Values [fieldName];
+			if (!e.EntryAttempt || VerifyInput (input)) {
+				inputTag.WriteUsingCallback(e.Writer.Write);
+			} else {
+				FaultyInputTag.WriteUsingCallback(e.Writer.Write);
+			}
 		}
 
 		/// <summary>
