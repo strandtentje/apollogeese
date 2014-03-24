@@ -27,7 +27,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 		/// </summary>
 		private StringList templateVariables = new StringList();
 
-		private string templateFile, rawTemplate, chunkPattern, title, defaultEncoding;
+		private string templateFile, rawTemplate, chunkPattern, title;
 
 		/// <summary>
 		/// Returns the title with this service.
@@ -57,10 +57,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 		protected override bool Process (IInteraction uncastParameters)
 		{
 			IHttpInteraction parameters;
-			StreamWriter body;
 			MimeType type;
 			int cursor = 0;
-			string groupName, lugValue;
+			string groupName;
 
 			parameters = uncastParameters as IHttpInteraction;
 			type = MimeType.Text.Html; type.Encoding = Encoding.UTF8;

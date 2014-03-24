@@ -14,24 +14,23 @@
       <File FileName="Duckling/HTTP/IHttpInteraction.cs" Line="10" Column="3" />
       <File FileName="Duckling/HTML/HtmlEntity.cs" Line="1" Column="1" />
       <File FileName="Duckling/HTML/HtmlAttributeCollection.cs" Line="1" Column="1" />
-      <File FileName="Duckling/HTML/HtmlAttribute.cs" Line="8" Column="52" />
       <File FileName="Duckling/IInteraction.cs" Line="29" Column="3" />
-      <File FileName="BasicWeblings/Site/HtmlComposer.cs" Line="37" Column="31" />
+      <File FileName="BasicWeblings/Site/HtmlComposer.cs" Line="37" Column="17" />
       <File FileName="BasicWeblings/Site/Page/Template.cs" Line="65" Column="4" />
       <File FileName="BasicWeblings/Site/Page/FileListing/Mapping.cs" Line="15" Column="2" />
       <File FileName="BasicWeblings/Site/Page/FileListing/FileService.cs" Line="18" Column="25" />
       <File FileName="BasicWeblings/Site/Page/DataEntry/InputAcceptedEvent.cs" Line="14" Column="40" />
       <File FileName="BasicWeblings/Site/Page/DataEntry/FormDisplayingEvent.cs" Line="20" Column="42" />
-      <File FileName="BasicWeblings/Site/Page/DataEntry/Form.cs" Line="122" Column="18" />
+      <File FileName="BasicWeblings/Site/Page/DataEntry/Form.cs" Line="122" Column="4" />
       <File FileName="BasicWeblings/Site/Page/DataEntry/EntryInteraction.cs" Line="10" Column="59" />
       <File FileName="BasicWeblings/Site/Page/DataEntry/Fields/SubmitButton.cs" Line="18" Column="3" />
       <File FileName="BasicWeblings/Site/Page/DataEntry/Fields/TextEntry.cs" Line="15" Column="1" />
       <File FileName="Duckling/HTML/Entities/TextualEntity.cs" Line="1" Column="1" />
-      <File FileName="Duckling/HTML/Entities/TaggedBodyEntity.cs" Line="86" Column="4" />
-      <File FileName="Duckling/HTML/Entities/BodylessEntity.cs" Line="23" Column="55" />
+      <File FileName="Duckling/HTML/Entities/TaggedBodyEntity.cs" Line="65" Column="1" />
+      <File FileName="Duckling/HTML/Entities/BodylessEntity.cs" Line="23" Column="1" />
       <File FileName="BasicWeblings/Site/HtmlInteraction.cs" Line="44" Column="9" />
       <File FileName="Duckling/HTML/IHtmlInteraction.cs" Line="2" Column="43" />
-      <File FileName="ModularFunk/StreamTools.cs" Line="39" Column="36" />
+      <File FileName="ModularFunk/StreamTools.cs" Line="39" Column="1" />
       <File FileName="ModularFunk/Caching/FileCache.cs" Line="37" Column="21" />
       <File FileName="ModularFunk/Collections/Maps/ItemChangedEvent.cs" Line="18" Column="34" />
       <File FileName="ModularFunk/Collections/Maps/WatchableMap.cs" Line="32" Column="12" />
@@ -42,10 +41,9 @@
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True">
+        <State expanded="True" selected="True">
           <Option id="ShowAllFiles" value="True" />
           <Node name="BasicWeblings" expanded="True">
-            <Node name="References" expanded="True" />
             <Node name="Server" expanded="True" />
             <Node name="Site" expanded="True">
               <Node name="Page" expanded="True">
@@ -54,7 +52,6 @@
                 </Node>
                 <Node name="FileListing" expanded="True" />
               </Node>
-              <Node name="HtmlInteraction.cs" selected="True" />
             </Node>
           </Node>
           <Node name="Duckling" expanded="True">

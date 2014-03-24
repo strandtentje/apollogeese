@@ -25,9 +25,6 @@ namespace BorrehSoft.Utensils.Collections.Maps
 
 			string identifier = "";
 
-			int inByte;
-			string id, data;
-
 			foreach(char c in source)
 			{
 				if (c == concatenator)

@@ -76,6 +76,11 @@ namespace BorrehSoft.ApolloGeese.Duckling.Http.Headers
 			}
 		}
 
+		public override int GetHashCode ()
+		{
+			return PlainTextName.GetHashCode ();
+		}
+
 		/// <param name="a">The alpha component.</param>
 		/// <param name="b">The blue component.</param>
 		public static bool operator ==(MimeType a, MimeType b)

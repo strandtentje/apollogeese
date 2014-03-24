@@ -48,7 +48,6 @@
     <Compile Include="Parsing\Parsers\AnyParser.cs" />
     <Compile Include="Log\Secretary.cs" />
     <Compile Include="StreamTools.cs" />
-    <Compile Include="Caching\FileCache.cs" />
     <Compile Include="Collections\Settings\IncludeParser.cs" />
     <Compile Include="Collections\Settings\MissingSettingException.cs" />
     <Compile Include="Collections\Settings\Settings.cs" />
@@ -65,7 +64,6 @@
     <Folder Include="Parsing\" />
     <Folder Include="Parsing\Parsers\" />
     <Folder Include="Log\" />
-    <Folder Include="Caching\" />
     <Folder Include="Collections\" />
     <Folder Include="Collections\Maps\" />
   </ItemGroup>

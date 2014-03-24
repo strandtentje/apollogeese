@@ -44,17 +44,14 @@
     <Compile Include="Site\Page\DataEntry\FormDisplayingEvent.cs" />
     <Compile Include="Site\Page\DataEntry\InputAcceptedEvent.cs" />
     <Compile Include="Site\Page\DataEntry\Fields\SubmitButton.cs" />
-    <Compile Include="Site\Page\FileListing\FileService.cs" />
-    <Compile Include="Site\Page\FileListing\Mapping.cs" />
     <Compile Include="Site\Page\Template.cs" />
-    <Compile Include="Site\HtmlComposer.cs" />
-    <Compile Include="Site\HtmlInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Server\" />
     <Folder Include="Site\" />
     <Folder Include="Site\Page\" />
+    <Folder Include="Site\Page\DataDisplay\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">

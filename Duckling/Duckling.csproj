@@ -41,7 +41,6 @@
     <Compile Include="HTTP\ResponseHeaders.cs" />
     <Compile Include="HTTP\Headers\MimeType.cs" />
     <Compile Include="HTTP\Headers\MimeTypeMismatchException.cs" />
-    <Compile Include="HTML\IHtmlInteraction.cs" />
     <Compile Include="HTML\HtmlEntity.cs" />
     <Compile Include="HTML\HtmlAttributeCollection.cs" />
     <Compile Include="HTML\Entities\TextualEntity.cs" />
