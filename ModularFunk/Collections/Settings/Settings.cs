@@ -35,7 +35,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 
 			Settings config = (Settings)result;
 
-			Secretary.Report (5, "Settings finished loading from: ", file, ", ", config.Length.ToString(), " root entries.");
+			Secretary.Report (5, "Settings finished loading from: ", file);
 
 			return config;
 		}
