@@ -8,9 +8,11 @@ namespace BorrehSoft.Utensils.Collections
 	/// <summary>
 	/// Easy to use map using the this[] property.
 	/// </summary>
-	public class Map<T>
+	public class Map<T> 
 	{
-		public Map() { }
+		public Map() { 
+		
+		}
 
 		public Map(Map<T> origin) {
 			this.backEnd = origin.backEnd;
@@ -23,42 +25,70 @@ namespace BorrehSoft.Utensils.Collections
 		public string Name { get; set; }
 
 		/// <summary>
-		/// The arse.
+		/// Gets the dictionary.
 		/// </summary>
-		private Dictionary<string, T> backEnd = new Dictionary<string, T> ();
-
-		/// <summary>
-		/// Gets the back end.
-		/// </summary>
-		/// <value>The back end.</value>
-		public Dictionary<string, T> BackEnd {
+		/// <value>
+		/// The dictionary.
+		/// </value>
+		public virtual Dictionary<string, T> Dictionary {
 			get {
 				return backEnd;
 			}
 		}
 
 		/// <summary>
-		/// Asserts the presence of an item.
+		/// The arse.
+		/// </summary>
+		private Dictionary<string, T> backEnd = new Dictionary<string, T> ();
+	
+		/// <summary>
+		/// Determines whether this instance has the specified key.
+		/// </summary>
+		/// <returns>
+		/// <c>true</c> if this instance has the specified key; otherwise, <c>false</c>.
+		/// </returns>
+		/// <param name='key'>
+		/// If set to <c>true</c> key.
+		/// </param>
+		public virtual bool Has(string key) {
+			return backEnd.ContainsKey(key);
+		}
+
+		/// <summary>
+		/// Deletes the key.
 		/// </summary>
 		/// <param name='key'>
 		/// Key.
 		/// </param>
-		/// <param name='source'>
-		/// Source.
-		/// </param>
-		public void AssertItem(string key, object source)
+		protected virtual void Delete (string key)
 		{
-			if (!backEnd.ContainsKey (key))
-				throw new KeyNotFoundException (
-					string.Format ("{0} expected the key '{1}' in the Map '{2}'", 
-				               source.ToString (), key, Name));
+			backEnd.Remove(key);
 		}
 
 		/// <summary>
-		/// Gets the amount of mappings
+		/// Adds the item with specified key.
 		/// </summary>
-		/// <value>The length.</value>
-		public int Length { get { return backEnd.Count; } }
+		/// <param name='key'>
+		/// Key.
+		/// </param>
+		/// <param name='value'>
+		/// Value.
+		/// </param>
+		protected virtual void Add(string key, T value)
+		{
+			backEnd.Add(key, value);
+		}
+
+		/// <summary>
+		/// Get item at the specified key.
+		/// </summary>
+		/// <param name='key'>
+		/// Key.
+		/// </param>
+		public virtual T Get(string key)
+		{
+			return backEnd[key];
+		}
 
 		/// <summary>
 		/// Gets or sets the item with the specified name.
@@ -67,14 +97,14 @@ namespace BorrehSoft.Utensils.Collections
 		public T this[string name]
 		{
 			get	{
-				if (backEnd.ContainsKey (name))
-					return backEnd [name];
+				if (this.Has(name))
+					return this.Get(name);
 				return default(T);
 			}
 			set {
-				if (backEnd.ContainsKey (name))
-					backEnd.Remove (name);
-				backEnd.Add (name, value);
+				if (this.Has(name))
+					this.Delete(name);
+				this.Add (name, value);
 			}
 		}
 
