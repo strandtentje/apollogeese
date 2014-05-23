@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Collections.Generic;
 using BorrehSoft.Utensils;
+using System.IO;
 
 namespace BorrehSoft.Utensils.Collections.Maps
 {
@@ -50,7 +51,7 @@ namespace BorrehSoft.Utensils.Collections.Maps
 
 		public void WriteUsingCallback (FormattedWriter writeMethod, string format)
 		{
-			foreach (KeyValuePair<string, T> kvp in BackEnd) 
+			foreach (KeyValuePair<string, T> kvp in base.Dictionary) 
 				writeMethod(format, kvp.Key, kvp.Value.ToString());
 
 		}
