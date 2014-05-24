@@ -47,7 +47,6 @@
     <Compile Include="Parsing\Parsers\ConcatenationParser.cs" />
     <Compile Include="Parsing\Parsers\AnyParser.cs" />
     <Compile Include="Log\Secretary.cs" />
-    <Compile Include="StreamTools.cs" />
     <Compile Include="Collections\Settings\IncludeParser.cs" />
     <Compile Include="Collections\Settings\MissingSettingException.cs" />
     <Compile Include="Collections\Settings\Settings.cs" />
@@ -58,6 +57,22 @@
     <Compile Include="Collections\Maps\WatchableMap.cs" />
     <Compile Include="Collections\Maps\PluginCollection.cs" />
     <Compile Include="Collections\Maps\ItemChangedEvent.cs" />
+    <Compile Include="Random.cs" />
+    <Compile Include="Collections\WaitingQueue.cs" />
+    <Compile Include="Streaming\HtmlTools.cs" />
+    <Compile Include="Streaming\FormattedWriter.cs" />
+    <Compile Include="Streaming\MapParser.cs" />
+    <Compile Include="Streaming\ExtendedReader.cs" />
+    <Compile Include="Streaming\ExtendedWriter.cs" />
+    <Compile Include="Collections\Maps\StreamingMap.cs" />
+    <Compile Include="Collections\Maps\CombinedMap.cs" />
+    <Compile Include="Collections\Maps\Search\SearchMap.cs" />
+    <Compile Include="Collections\Maps\Search\IIndexable.cs" />
+    <Compile Include="Collections\Maps\Search\BooleanOperator.cs" />
+    <Compile Include="Collections\Bureaucracy.cs" />
+    <Compile Include="Hash.cs" />
+    <Compile Include="Collections\CleverSet.cs" />
+    <Compile Include="Collections\MultiDict.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -66,5 +81,7 @@
     <Folder Include="Log\" />
     <Folder Include="Collections\" />
     <Folder Include="Collections\Maps\" />
+    <Folder Include="Streaming\" />
+    <Folder Include="Collections\Maps\Search\" />
   </ItemGroup>
 </Project>
