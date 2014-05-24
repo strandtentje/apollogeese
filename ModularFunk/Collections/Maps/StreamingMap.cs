@@ -70,7 +70,7 @@ namespace BorrehSoft.Utensils.Collections.Maps
 			{
 				sIdent = kvp.Key;
 
-				if (value.GetType() == typeof(long))
+				if (kvp.Value.GetType() == typeof(long))
 				{
 					value = (long)kvp.Value;
 
