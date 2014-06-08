@@ -62,5 +62,6 @@
     <Folder Include="HTML\" />
     <Folder Include="HTML\Entities\" />
     <Folder Include="HTML\Entities\Specialized\" />
+    <Folder Include="Multi\" />
   </ItemGroup>
 </Project>

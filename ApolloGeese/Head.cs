@@ -62,7 +62,7 @@ namespace BorrehSoft.ApolloGeese
 			newService = plugins.GetConstructed (type);
 			succesfulInit = newService.TryInitialize (moduleConfiguration);
 
-			foreach (KeyValuePair<string, object> nameAndBranch in config.BackEnd) {
+			foreach (KeyValuePair<string, object> nameAndBranch in config.Dictionary) {
 				Match branchName = branchNameMatcher.Match (nameAndBranch.Key);
 
 				if (branchName.Success) {
@@ -71,7 +71,6 @@ namespace BorrehSoft.ApolloGeese
 				}
 			}
 
-			Secretary.Report (5, type, "now has", newService.Branches.BackEnd.Count.ToString(), "branches.");
 			if (succesfulInit) return newService;
 			Secretary.Report (5, 
 			                  type,

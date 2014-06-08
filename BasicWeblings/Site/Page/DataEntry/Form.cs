@@ -144,7 +144,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 
 				entryInteraction.RaiseFormDisplaying (
 					Writer: httpInteraction.ResponseBody, 
-					EntryAttempt: data.Length > 0);
+					EntryAttempt: data.Dictionary.Count > 0);
 
 
 				FormTag.CloseWithDelegate(write);

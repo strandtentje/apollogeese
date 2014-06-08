@@ -1,13 +1,13 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|x86" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="BasicWeblings/Site/HtmlInteraction.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Geese/bin/Debug/apollogeese.conf">
     <Files>
-      <File FileName="BasicWeblings/Site/SiteSubsection.cs" Line="50" Column="49" />
+      <File FileName="BasicWeblings/Site/SiteSubsection.cs" Line="57" Column="3" />
       <File FileName="BasicWeblings/Site/Sessionizer.cs" Line="45" Column="17" />
       <File FileName="BasicWeblings/Server/HttpInteraction.cs" Line="18" Column="57" />
       <File FileName="Duckling/Service.cs" Line="63" Column="4" />
       <File FileName="Geese/bin/Debug/apollogeese.conf" Line="9" Column="1" />
-      <File FileName="ApolloGeese/Head.cs" Line="64" Column="4" />
+      <File FileName="ApolloGeese/Head.cs" Line="72" Column="5" />
       <File FileName="Duckling/HTTP/RequestHeaders.cs" Line="1" Column="1" />
       <File FileName="BasicWeblings/Server/HttpService.cs" Line="39" Column="4" />
       <File FileName="ModularFunk/Parsing/Parsers/ValueParser.cs" Line="1" Column="1" />
@@ -15,68 +15,29 @@
       <File FileName="Duckling/HTML/HtmlEntity.cs" Line="1" Column="1" />
       <File FileName="Duckling/HTML/HtmlAttributeCollection.cs" Line="1" Column="1" />
       <File FileName="Duckling/IInteraction.cs" Line="29" Column="3" />
-      <File FileName="BasicWeblings/Site/HtmlComposer.cs" Line="37" Column="17" />
       <File FileName="BasicWeblings/Site/Page/Template.cs" Line="65" Column="4" />
-      <File FileName="BasicWeblings/Site/Page/FileListing/Mapping.cs" Line="15" Column="2" />
-      <File FileName="BasicWeblings/Site/Page/FileListing/FileService.cs" Line="18" Column="25" />
       <File FileName="BasicWeblings/Site/Page/DataEntry/InputAcceptedEvent.cs" Line="14" Column="40" />
       <File FileName="BasicWeblings/Site/Page/DataEntry/FormDisplayingEvent.cs" Line="20" Column="42" />
-      <File FileName="BasicWeblings/Site/Page/DataEntry/Form.cs" Line="122" Column="4" />
-      <File FileName="BasicWeblings/Site/Page/DataEntry/EntryInteraction.cs" Line="10" Column="59" />
+      <File FileName="BasicWeblings/Site/Page/DataEntry/Form.cs" Line="147" Column="41" />
+      <File FileName="BasicWeblings/Site/Page/DataEntry/EntryInteraction.cs" Line="47" Column="1" />
       <File FileName="BasicWeblings/Site/Page/DataEntry/Fields/SubmitButton.cs" Line="18" Column="3" />
       <File FileName="BasicWeblings/Site/Page/DataEntry/Fields/TextEntry.cs" Line="15" Column="1" />
       <File FileName="Duckling/HTML/Entities/TextualEntity.cs" Line="1" Column="1" />
       <File FileName="Duckling/HTML/Entities/TaggedBodyEntity.cs" Line="65" Column="1" />
       <File FileName="Duckling/HTML/Entities/BodylessEntity.cs" Line="23" Column="1" />
-      <File FileName="BasicWeblings/Site/HtmlInteraction.cs" Line="44" Column="9" />
-      <File FileName="Duckling/HTML/IHtmlInteraction.cs" Line="2" Column="43" />
-      <File FileName="ModularFunk/StreamTools.cs" Line="39" Column="1" />
-      <File FileName="ModularFunk/Caching/FileCache.cs" Line="37" Column="21" />
       <File FileName="ModularFunk/Collections/Maps/ItemChangedEvent.cs" Line="18" Column="34" />
       <File FileName="ModularFunk/Collections/Maps/WatchableMap.cs" Line="32" Column="12" />
       <File FileName="ModularFunk/Collections/Settings/SettingsParser.cs" Line="32" Column="17" />
       <File FileName="ModularFunk/Collections/Maps/PluginCollection.cs" Line="42" Column="36" />
       <File FileName="Duckling/StubService.cs" Line="13" Column="1" />
       <File FileName="Duckling/HTML/Entities/Specialized/HeadEntity.cs" Line="30" Column="32" />
+      <File FileName="ModularFunk/Collections/Maps/SerializingMap.cs" Line="12" Column="36" />
+      <File FileName="ModularFunk/Collections/Map.cs" Line="33" Column="15" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
-        <State expanded="True" selected="True">
+        <State expanded="True">
           <Option id="ShowAllFiles" value="True" />
-          <Node name="BasicWeblings" expanded="True">
-            <Node name="Server" expanded="True" />
-            <Node name="Site" expanded="True">
-              <Node name="Page" expanded="True">
-                <Node name="DataEntry" expanded="True">
-                  <Node name="Fields" expanded="True" />
-                </Node>
-                <Node name="FileListing" expanded="True" />
-              </Node>
-            </Node>
-          </Node>
-          <Node name="Duckling" expanded="True">
-            <Node name="HTML" expanded="True">
-              <Node name="Entities" expanded="True">
-                <Node name="Specialized" expanded="True" />
-              </Node>
-            </Node>
-            <Node name="HTTP" expanded="True" />
-          </Node>
-          <Node name="Geese" expanded="True">
-            <Node name="bin" expanded="True">
-              <Node name="Debug" expanded="True" />
-            </Node>
-          </Node>
-          <Node name="Utensils" expanded="True">
-            <Node name="Caching" expanded="True" />
-            <Node name="Collections" expanded="True">
-              <Node name="Maps" expanded="True" />
-              <Node name="Settings" expanded="True" />
-            </Node>
-            <Node name="Parsing" expanded="True">
-              <Node name="Parsers" expanded="True" />
-            </Node>
-          </Node>
         </State>
       </Pad>
       <Pad Id="ClassPad">

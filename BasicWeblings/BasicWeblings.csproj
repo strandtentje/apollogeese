@@ -45,6 +45,8 @@
     <Compile Include="Site\Page\DataEntry\InputAcceptedEvent.cs" />
     <Compile Include="Site\Page\DataEntry\Fields\SubmitButton.cs" />
     <Compile Include="Site\Page\Template.cs" />
+    <Compile Include="Site\Page\DataDisplay\IterableInteraction.cs" />
+    <Compile Include="Site\Page\DataDisplay\Querier.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
