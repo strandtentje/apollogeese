@@ -21,7 +21,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		}
 
 		protected override bool Process (IInteraction parameters) { 
-			Secretary.Report (5, "Warning: Stub hit.");
+			Secretary.Report (5, "Warning: Stub hit.", parameters.ToString());
 			return false; 
 		}
 
