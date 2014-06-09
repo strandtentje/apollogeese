@@ -36,8 +36,17 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 
 		public IInteraction Parent {
 			get {
-				return this;
+				return null;
 			}
+		}
+
+		public IInteraction GetClosest (Type t)
+		{
+			for (IInteraction current = this; (current != null); current = current.Parent) {
+				if (t.IsAssignableFrom(current.GetType())) return current;
+			}
+
+			throw new Exception("No interaction in chain was of specified type");
 		}
 
 		#region Request

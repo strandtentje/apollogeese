@@ -1,3 +1,5 @@
+using System;
+
 namespace BorrehSoft.ApolloGeese.Duckling
 {
 	/// <summary>
@@ -21,6 +23,8 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// The parent interaction.
 		/// </value>
 		IInteraction Parent { get; }
+
+		IInteraction GetClosest(Type t);
 
 		/// <summary>
 		/// Tries to get a string from the luggage

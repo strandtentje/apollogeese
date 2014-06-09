@@ -26,6 +26,15 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 			get { return this.Parent.Root; }
 		}
 
+		public IInteraction GetClosest (Type t)
+		{
+			for (IInteraction current = this; (current != null); current = current.Parent) {
+				if (t.IsAssignableFrom(current.GetType())) return current;
+			}
+
+			throw new Exception("No interaction in chain was of specified type");
+		}
+
 		public void RaiseInputAccepted (IInteraction parameters)
 		{
 			if (InputAccepted == null)
