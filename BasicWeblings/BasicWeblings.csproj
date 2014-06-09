@@ -31,6 +31,11 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\MySql.Data.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -45,8 +50,8 @@
     <Compile Include="Site\Page\DataEntry\InputAcceptedEvent.cs" />
     <Compile Include="Site\Page\DataEntry\Fields\SubmitButton.cs" />
     <Compile Include="Site\Page\Template.cs" />
-    <Compile Include="Site\Page\DataDisplay\IterableInteraction.cs" />
     <Compile Include="Site\Page\DataDisplay\Querier.cs" />
+    <Compile Include="Site\Page\DataDisplay\ResultInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
