@@ -54,36 +54,39 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 				Branches[templateVariable] = Stub;
 		}
 
-		protected override bool Process (IInteraction uncastParameters)
+		protected override bool Process (IInteraction source)
 		{
-			IHttpInteraction parameters;
+			IHttpInteraction target;
 			MimeType type;
 			int cursor = 0;
 			string groupName;
 
-			parameters = uncastParameters as IHttpInteraction;
+			target = (IHttpInteraction)source.GetClosest(typeof(IHttpInteraction));
 			type = MimeType.Text.Html; type.Encoding = Encoding.UTF8;
 
-			parameters.ResponseHeaders.ContentType = type;
+			target.ResponseHeaders.ContentType = type;
 
 			try	{
 				foreach (Match replaceable in replaceables) {
-					parameters.ResponseBody.Write(rawTemplate.Substring (cursor, replaceable.Index - cursor));
+					target.ResponseBody.Write(rawTemplate.Substring (cursor, replaceable.Index - cursor));
 
 					groupName = replaceable.Groups[1].Value;
 
 					Service branch = Branches[groupName];
 
-					// Get new answers from within
-					if ((branch == null) || !branch.TryProcess(parameters))
-					{
-						// Before consulting the already known values
-						string chunk = "";
-						if (parameters.TryGetString(groupName, out chunk) || settings.TryGetString(groupName, out chunk))
+					if ((branch ?? Stub) == Stub) {
+						string chunk;
+						if (source.TryGetString(groupName, out chunk))
 						{
-							parameters.ResponseBody.Write(chunk);
+							target.ResponseBody.Write(chunk);
 						}
-					}
+						else 
+						{
+							target.ResponseBody.Write("Unavailable.");
+						}
+					} else if (!branch.TryProcess(source)) {
+						target.ResponseBody.Write("Unavailable.");
+					}				
 
 					cursor = replaceable.Index + replaceable.Length;
 				}
@@ -91,7 +94,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 				// In the very likely event the cursor is not at the end of the document,
 				// the last bit of the document needs to be written to the body as well.
 				if (cursor < rawTemplate.Length)
-					parameters.ResponseBody.Write(rawTemplate.Substring(cursor));
+					target.ResponseBody.Write(rawTemplate.Substring(cursor));
 
 			}
 			catch (Exception ex) {
