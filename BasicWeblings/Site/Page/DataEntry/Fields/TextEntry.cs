@@ -14,6 +14,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 		private BodylessEntity inputTag = new BodylessEntity(Name: "input");
 		private BodylessEntity faultyInputTag = new BodylessEntity(Name: "input");
 		private TextualEntity labelTag = new TextualEntity(Name: "label");	
+		private bool escapeHtml;
 		private string id, type, label;
 
 		public override string Description {
@@ -83,6 +84,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 			ID = modSettings["name"] as string ?? "missingno";
 			Type = modSettings["type"] as string ?? "text";
 			Label = modSettings["label"] as string ?? "Field";
+			escapeHtml = bool.Parse(modSettings.GetString("htmlescape", "False"));
 		}
 
 		protected override bool Process (IInteraction parameters)
@@ -141,7 +143,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 		{
 			EntryInteraction interaction = sender as EntryInteraction;
 
-			e.Parameters[ID] = interaction [ID] ?? "";
+			string data = interaction.GetString(ID, "");
+
+			if (escapeHtml) data = HttpUtility.HtmlEncode(data);
+
+			e.Parameters[ID] = data;
 		}
 	}
 }
