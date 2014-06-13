@@ -39,6 +39,15 @@ namespace BorrehSoft.Utensils.Collections.Settings
 
 			return config;
 		}
+
+		public bool GetBool (string id, bool otherwise)
+		{
+			if (base.Has(id))
+				return (bool)base[id];
+
+			return otherwise;
+		}
+
 	}
 }
 

@@ -70,7 +70,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 			                                 modSettings ["db"],
 			                                 modSettings ["user"],
 			                                 modSettings ["pass"],
-			                                 bool.Parse (modSettings.GetString("pool", "False")));
+			                                 (bool)modSettings.GetBool("pool", true));
 
 			Connection = new MySqlConnection (ConnectionString);
 

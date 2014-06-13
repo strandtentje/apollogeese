@@ -84,7 +84,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 			ID = modSettings["name"] as string ?? "missingno";
 			Type = modSettings["type"] as string ?? "text";
 			Label = modSettings["label"] as string ?? "Field";
-			escapeHtml = bool.Parse(modSettings.GetString("htmlescape", "False"));
+			escapeHtml = modSettings.GetBool("htmlescape", false);
 		}
 
 		protected override bool Process (IInteraction parameters)
