@@ -1,6 +1,8 @@
 using System;
 using System.IO;
 using BorrehSoft.Utensils.Parsing.Parsers;
+using System.Collections.Generic;
+using BorrehSoft.Utensils.Collections;
 
 namespace BorrehSoft.Utensils.Parsing
 {
@@ -11,6 +13,10 @@ namespace BorrehSoft.Utensils.Parsing
 	/// </summary>
 	public class ParsingSession
 	{
+		private Stack<string> context = new List<string>();
+
+		private Stack<int> offsets = new Stack<int>();
+
 		public Parser whitespaceParser;
 		/// <summary>
 		/// Gets the data to be parsed
@@ -19,6 +25,34 @@ namespace BorrehSoft.Utensils.Parsing
 		/// The data.
 		/// </value>
 		public string Data { get; set; }
+
+		/// <summary>
+		/// Context Stack Name, i.e., if we're currently processing the item Alittle in Had of Mary, this will say
+		/// Mary.Had.Alittle
+		/// </summary>
+		/// <value>
+		/// The name of the context.
+		/// </value>
+		public string ContextName {
+			get {
+				return string.Join(".", context.ToArray());
+			}
+		}
+
+		/// <summary>
+		/// Gets a list representing context names from parentmost to childmost.
+		/// </summary>
+		/// <value>
+		/// The context.
+		/// </value>
+		public Stack<string> Context {
+			get { return context; }
+			private set { 
+				this.context = value;
+			}
+		}
+
+		public Map<object> References { get; private set; }
 
 		/// <summary>
 		/// Gets or sets the current line index, readout intended
@@ -46,6 +80,7 @@ namespace BorrehSoft.Utensils.Parsing
 		public ParsingSession(string data, Parser whitespaceParser)
 		{
 			this.whitespaceParser = whitespaceParser;
+			this.References = new Map<object>();
 			this.Data = data;
 			this.Offset = 0;
 			this.CurrentLine = 0;
@@ -75,6 +110,49 @@ namespace BorrehSoft.Utensils.Parsing
 		public static ParsingSession FromFile(string file, Parser whitespaceParser)
 		{
 			return new ParsingSession (File.ReadAllText (file), whitespaceParser);
+		}
+
+		/// <summary>
+		/// Deepens the context with the supplied identifier.
+		/// </summary>
+		/// <param name='identifier'>
+		/// Identifier.
+		/// </param>
+		public void DeepenContext (string identifier)
+		{
+			Context.Push(identifier);
+		}
+
+		public void ContextRegister(object reference)
+		{
+			References[ContextName] = reference;
+		}
+
+		/// <summary>
+		/// Brings the context back to the surface by one.
+		/// </summary>
+		/// <param name='identifier'>
+		/// Identifier.
+		/// </param>
+		public void SurfaceContext (string identifier)
+		{
+			if (Context.Peek() == identifier) {
+				Context.Pop();
+			} else {
+				throw new Exception(string.Format(
+					"A little accident occured where a deepened context wasn't surfaced properly. Line/Offset/Col/Context/Attempt: {0}/{1}/{2}/{3}/{4}",
+					this.CurrentLine, this.Offset, this.CurrentColumn, this.ContextName, identifier));
+			}
+		}
+
+		public void PushOffset()
+		{
+			this.offsets.Push(this.Offset);
+		}
+
+		public void PopOffset()
+		{
+			this.Offset = this.offsets.Pop();
 		}
 	}
 }

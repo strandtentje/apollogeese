@@ -15,19 +15,25 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			return "Settings, accolade-enclosed block with zero or more assignments";
 		}
 
+		Dictionary<string, Action<object[]>> statements = new Dictionary<string, Action<object[]>>();
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Utensils.Settings.SettingsParser"/> class.
 		/// </summary>
 		public SettingsParser() : base('{', '}', ';')
 		{
 			ConcatenationParser listParser = new ConcatenationParser ('[', ']', ',');
+
 			AssignmentParser assignmentParser = new AssignmentParser ();
+
+			StatementParser statementParser = new StatementParser();
+
 
 			AnyParser valueParser = new AnyParser (
 				new ValueParser<int> (int.TryParse), 
 				new ValueParser<float> (float.TryParse),
 				new ValueParser<bool> (bool.TryParse, "(True|False|true|false)"), 
-				new IdentifierParser (),
+				new ReferenceParser (),
 				new StringParser (), 
 				listParser, 
 				this

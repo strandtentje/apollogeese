@@ -18,22 +18,30 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 		{
 			object identifier, value;
 
+			session.PushOffset();
+
 			// dick
 			if (identifierParser.Run (session, out identifier) > -1) {
+				session.DeepenContext(identifier);
 				// = 
 				if (coupler.Run (session) > -1) {
+					// "something";
 					if (InnerParser.Run (session, out value) > 0) {
+						session.ContextRegister(value);
+						session.SurfaceContext(identifier);
 						result = new Tuple<string, object> ((string)identifier, value);
 						return 1;
 					} else {
-						throw new ParsingException (session, InnerParser);
+						session.PopOffset();
+						return -1;
 					}
 				} else {
-					throw new ParsingException (session, coupler, (string)identifier);
+					session.PopOffset();
+					return -1;
 				}
 			}
 
-			result = null;
+			session.PopOffset();
 			return -1;
 		}
 	}
