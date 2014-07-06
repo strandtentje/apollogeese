@@ -186,3 +186,5 @@ UpgradeLog*.htm
 FakesAssemblies/
 
 *.userprefs
+
+*.gz
