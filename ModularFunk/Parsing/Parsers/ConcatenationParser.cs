@@ -43,7 +43,6 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 					result = target;
 					return target.Count;
 				} else {
-
 					string trail, ahead;
 					trail = session.GetTrail();
 					ahead = session.GetAhead();

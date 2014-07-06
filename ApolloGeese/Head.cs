@@ -28,9 +28,9 @@ namespace BorrehSoft.ApolloGeese
 		{
 			(new Secretary (
 				string.Format (
-				"{0}\\ApolloGeese\\{1}.log",
+				"{0}.log",
 				Environment.SpecialFolder.ApplicationData,
-				DateTime.Now.ToString ("u"))) { globVerbosity = 10 }).ReportHere (
+				DateTime.Now.ToString ("yyyy-MM-dd--THHmmsszz"))) { globVerbosity = 10 }).ReportHere (
 				0, "Logfile Opened");
 
 			Settings configuration = Settings.FromFile ("apollogeese.conf");
