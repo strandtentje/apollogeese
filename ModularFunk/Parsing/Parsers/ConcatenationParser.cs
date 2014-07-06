@@ -21,9 +21,9 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 
 		public ConcatenationParser (char openerChar, char closerChar, char couplerChar)
 		{
-			this.opener			 = new CharacterParser (openerChar);
-			this.closer			 = new CharacterParser (closerChar);
-			this.coupler 		 = new CharacterParser (couplerChar);
+			this.opener = new CharacterParser (openerChar);
+			this.closer = new CharacterParser (closerChar);
+			this.coupler = new CharacterParser (couplerChar);
 		}
 
 		internal override int ParseMethod (ParsingSession session, out object result)
