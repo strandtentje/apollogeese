@@ -20,15 +20,17 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 
 			session.PushOffset();
 
+			result = null;
+
 			// dick
 			if (identifierParser.Run (session, out identifier) > -1) {
-				session.DeepenContext(identifier);
+				session.DeepenContext(identifier as String);
 				// = 
 				if (coupler.Run (session) > -1) {
 					// "something";
 					if (InnerParser.Run (session, out value) > 0) {
 						session.ContextRegister(value);
-						session.SurfaceContext(identifier);
+						session.SurfaceContext(identifier as String);
 						result = new Tuple<string, object> ((string)identifier, value);
 						return 1;
 					} else {

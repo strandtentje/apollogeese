@@ -4,7 +4,19 @@ using System.Text;
 namespace BorrehSoft.Utensils.Parsing.Parsers
 {
 	public class IdentifierParser : Parser
-	{
+	{		
+		public Func<char, bool> Validator { get; private set; }
+
+		public IdentifierParser()
+		{
+			this.Validator = IsAlphaNumericUsc;
+		}
+
+		public IdentifierParser (Func<char, bool> Validator)
+		{
+			this.Validator = Validator;
+		}
+
 		public override string ToString ()
 		{
 			return "Identifier";
@@ -28,8 +40,9 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 			else 
 				return -1;
 
-			while(IsAlphaNumericUsc(session.Data[session.Offset]))
-				resultBuilder.Append (session.Data [session.Offset++]);
+			while (Validator(session.Data[session.Offset])) {
+				resultBuilder.Append (session.Data [session.Offset++]);			
+			}
 
 			result = resultBuilder.ToString();
 			return resultBuilder.Length;

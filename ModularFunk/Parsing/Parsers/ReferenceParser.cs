@@ -4,26 +4,39 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 {
 	public class ReferenceParser : IdentifierParser
 	{
+		public ReferenceParser() : base(ReferenceValidator)
+		{
+		}
+
+		static bool ReferenceValidator(char ch)
+		{
+			return IsAlphaNumericUsc(ch) || (ch == '.');
+		}
+
+		public override string ToString ()
+		{
+			return "Valid Reference";
+		}
+
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
+			int succescode = 0;
 			object unparsedIdentifier;
 
-			base.ParseMethod (session, out unparsedIdentifier);
+			result = null;
 
-			string identifier = unparsedIdentifier as String;
+			if (base.ParseMethod (session, out unparsedIdentifier) > 0) {
+				string identifier = unparsedIdentifier as String;
 
-			if (identifier == null) {
-				throw new NullReferenceException (
-					"Tried parsing an identifier which turned out not to be textual." +
-					"How did you manage that?"
-				);
+				if (session.References.Has (identifier)) {
+					result = session.References [identifier];
+					succescode = result.GetHashCode ();
+				} else {
+					throw new ParsingException(session, this, identifier);
+				}
 			}
 
-			if (session.References.Has (identifier)) {
-				result = session.References[identifier];
-			}
-
-			throw new NullReferenceException(string.Format("{0} refers to nothing at all (yet?)", identifier));
+			return succescode;
 		}
 	}
 }

@@ -13,9 +13,9 @@ namespace BorrehSoft.Utensils.Parsing
 	/// </summary>
 	public class ParsingSession
 	{
-		private Stack<string> context = new List<string>();
+		private Stack<string> context = new Stack<string>();
 
-		private Stack<int> offsets = new Stack<int>();
+		private Stack<ParsingBookmark> offsets = new Stack<ParsingBookmark>();
 
 		public Parser whitespaceParser;
 		/// <summary>
@@ -35,9 +35,30 @@ namespace BorrehSoft.Utensils.Parsing
 		/// </value>
 		public string ContextName {
 			get {
-				return string.Join(".", context.ToArray());
+				string[] contextname = context.ToArray();
+				Array.Reverse(contextname);
+				return string.Join(".", contextname);
 			}
 		}
+
+		public string GetAhead (int nchar = 24)
+		{
+			int len = Math.Min(nchar, Data.Length - this.Offset);
+
+			return Data.Substring(this.Offset, len);
+		}
+
+		public string GetTrail(int nchar = 24)
+		{
+			int startpos = this.Offset - Math.Min(nchar, this.Offset);
+			int len = Math.Min(nchar, this.Offset);
+
+			return Data.Substring(startpos, len);
+		}
+
+		public string Ahead { get { return GetAhead (); } }
+
+		public string Trail { get { return GetTrail (); } }
 
 		/// <summary>
 		/// Gets a list representing context names from parentmost to childmost.
@@ -76,6 +97,8 @@ namespace BorrehSoft.Utensils.Parsing
 		/// </summary>
 		/// <value>The current column.</value>
 		public int CurrentColumn { get; set; }
+
+
 
 		public ParsingSession(string data, Parser whitespaceParser)
 		{
@@ -147,12 +170,12 @@ namespace BorrehSoft.Utensils.Parsing
 
 		public void PushOffset()
 		{
-			this.offsets.Push(this.Offset);
+			this.offsets.Push(new ParsingBookmark(this.Offset, this.CurrentLine, this.CurrentColumn));
 		}
 
 		public void PopOffset()
 		{
-			this.Offset = this.offsets.Pop();
+			this.Offset = this.offsets.Pop().Offset;
 		}
 	}
 }

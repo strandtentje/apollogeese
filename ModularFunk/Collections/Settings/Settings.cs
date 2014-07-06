@@ -46,8 +46,21 @@ namespace BorrehSoft.Utensils.Collections.Settings
 				return (bool)base[id];
 
 			return otherwise;
-		}
+		}		
 
+		public Settings GetSubsettings (string name)
+		{
+			Settings subsettings = this[name] as Settings;
+
+			if (subsettings == null) Secretary.Report(8, "No subsettings at ", name);
+
+			return subsettings ?? new Settings();
+		}		
+
+		public object Tag {
+			get;
+			set;
+		}
 	}
 }
 

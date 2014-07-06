@@ -19,6 +19,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
+			throw new NotImplementedException();
 
 		}
 	}
