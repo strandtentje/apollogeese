@@ -41,7 +41,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 				return -1;
 
 			while (Validator(session.Data[session.Offset])) {
-				resultBuilder.Append (session.Data [session.Offset++]);			
+				resultBuilder.Append (session.Data [session.Offset++]);
 			}
 
 			result = resultBuilder.ToString();
