@@ -38,8 +38,10 @@ namespace BorrehSoft.ApolloGeese
 			foreach (object pluInFileObj in (configuration ["plugins"] as IEnumerable<object>))
 				plugins.AddFile ((string)pluInFileObj);
 
-			foreach (object config in (configuration["trees"] as IEnumerable<object>)) {
-				LoadTree ((Settings)config);
+			Settings instances = configuration.GetSubsettings("instances");
+
+			foreach (Settings instance in instances.Dictionary.Values) {
+				LoadTree (instance);
 			}
 						
 			Secretary.Report (5, "Loaded Branches");
@@ -54,28 +56,36 @@ namespace BorrehSoft.ApolloGeese
 		/// <param name="config">Config.</param>
 		static Service LoadTree (Settings config)
 		{
-			string type; Settings moduleConfiguration;
-			Service newService; bool succesfulInit;
+			string type;
+			Settings moduleConfiguration;
+			Service newService;
+			bool succesfulInit;
 
-			type = (string)config ["type"];
-			moduleConfiguration = (Settings)config ["modconf"];
-			newService = plugins.GetConstructed (type);
-			succesfulInit = newService.TryInitialize (moduleConfiguration);
+			if (config.Tag is Service) {
+				newService = config.Tag as Service;
+			} else {
+				type = (string)config ["type"];
+				moduleConfiguration = (Settings)config ["modconf"];
+				newService = plugins.GetConstructed (type);
+				succesfulInit = newService.TryInitialize (moduleConfiguration);
 
-			foreach (KeyValuePair<string, object> nameAndBranch in config.Dictionary) {
-				Match branchName = branchNameMatcher.Match (nameAndBranch.Key);
+				foreach (KeyValuePair<string, object> nameAndBranch in config.Dictionary) {
+					Match branchName = branchNameMatcher.Match (nameAndBranch.Key);
 
-				if (branchName.Success) {
-					Settings treeConf = nameAndBranch.Value as Settings;
-					newService.Branches [branchName.Groups[1].Value] = LoadTree (treeConf);
+					if (branchName.Success) {
+						Settings treeConf = nameAndBranch.Value as Settings;
+						newService.Branches [branchName.Groups [1].Value] = LoadTree (treeConf);
+					}
 				}
+
+				if (!succesfulInit) {
+					Secretary.Report (5, type, " produced an error on initialization: ",
+				                  newService.InitErrorMessage);
+				}
+
+				config.Tag = newService;
 			}
 
-			if (succesfulInit) return newService;
-			Secretary.Report (5, 
-			                  type,
-			                  " produced an error on initialization: ",
-			                  newService.InitErrorMessage);
 			return newService;
 		}
 	}

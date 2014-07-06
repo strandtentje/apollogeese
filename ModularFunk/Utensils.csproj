@@ -75,6 +75,8 @@
     <Compile Include="Collections\MultiDict.cs" />
     <Compile Include="Parsing\Parsers\ReferenceParser.cs" />
     <Compile Include="Collections\Settings\StatementParser.cs" />
+    <Compile Include="Collections\Maps\NetworkMap.cs" />
+    <Compile Include="Parsing\ParsingBookmark.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
