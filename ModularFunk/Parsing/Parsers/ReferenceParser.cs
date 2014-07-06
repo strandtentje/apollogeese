@@ -30,7 +30,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 
 				if (session.References.Has (identifier)) {
 					result = session.References [identifier];
-					succescode = result.GetHashCode ();
+					succescode = 1;
 				} else {
 					throw new ParsingException(session, this, identifier);
 				}
