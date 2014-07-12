@@ -22,11 +22,14 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		/// </summary>
 		/// <param name="Request">Request.</param>
 		/// <param name="Response">Response.</param>
-		public HttpInteraction(HttpListenerRequest Request, HttpListenerResponse Response)
+		public HttpInteraction(HttpListenerRequest Request, HttpListenerResponse Response, bool IsTainted = false)
 		{
+			this.IsTainted = IsTainted;
 			this.Request = Request;
 			this.Response = Response;
 		}
+
+		public bool IsTainted { get; private set; }
 
 		public IInteraction Root {
 			get {
@@ -48,6 +51,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 
 			throw new Exception("No interaction in chain was of specified type");
 		}
+
 
 		#region Request
 		HttpListenerRequest _request;
@@ -103,10 +107,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			get { return _response; }
 			set {
 				_response = value;
-				_responseHeaders = new ResponseHeaders (value.Headers);
-				ResponseBody = new StreamWriter (value.OutputStream);
+				if (!IsTainted) SetHeadAndBodyFromResponse(value);
 			}
 		}
+
+
 
 		/// <summary>
 		/// Gets or sets the status code for the HTTP response
@@ -119,6 +124,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			set {
 				Response.StatusCode = value;
 			}
+		}
+
+		void SetHeadAndBodyFromResponse (HttpListenerResponse value)
+		{			
+			_responseHeaders = new ResponseHeaders (value.Headers);
+			ResponseBody = new StreamWriter (value.OutputStream);
 		}
 
 		ResponseHeaders _responseHeaders;
