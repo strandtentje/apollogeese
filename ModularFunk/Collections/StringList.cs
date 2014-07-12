@@ -9,7 +9,7 @@ namespace BorrehSoft.Utensils.Collections
 	/// <summary>
 	/// List of string chunks, useful methods inside!
 	/// </summary>
-	public class StringList : List<string>
+	public class StringList : Queue<string>
 	{
 		public delegate string DecoderMethod (string inString);		
 
@@ -17,6 +17,11 @@ namespace BorrehSoft.Utensils.Collections
 		/// Initializes a new instance of the <see cref="BorrehSoft.Utensils.StringList"/> class.
 		/// </summary>
 		public StringList() {	}
+
+		public string Original {
+			get;
+			private set;
+		}
 
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Utensils.StringList"/> class,
@@ -26,17 +31,19 @@ namespace BorrehSoft.Utensils.Collections
 		/// <param name="seperator">Seperator.</param>
 		public StringList (string data, char seperator, DecoderMethod decoder = null)
 		{
-			string[] dataChunks =  data.Trim (seperator).Split (seperator);
-
+			this.Original = data;
 			this.Seperator = seperator;
 
-			if (decoder == null) {
-				this.AddRange (dataChunks);
-			} else {
-				foreach (string dataChunk in dataChunks) {
-					this.Add (HttpUtility.UrlDecode (dataChunk));
-				}
-			}
+			string[] dataChunks = data.Trim (seperator).Split (seperator);
+
+			if (decoder == null) 
+				foreach(string dataChunk in dataChunks)
+					this.Enqueue(dataChunk);
+
+			else 
+				foreach (string dataChunk in dataChunks) 
+					this.Enqueue (decoder (dataChunk));
+
 		}
 
 		/// <summary>
@@ -52,7 +59,7 @@ namespace BorrehSoft.Utensils.Collections
 			foreach (Match chunkMatch in replaceables) {
 				string chunkName = chunkMatch.Groups [1].Value;
 				if (!this.Contains (chunkName))
-					this.Add (chunkName);
+					this.Enqueue (chunkName);
 				/* if ((modSettings [chunkName] != null) && 
 					(!defaultVariables.ContainsKey (chunkName)))
 					defaultVariables.Add (chunkName, (string)modSettings [chunkName]); */
@@ -91,45 +98,11 @@ namespace BorrehSoft.Utensils.Collections
 		/// </returns>
 		public string ReadToEnd ()
 		{
-			PreviousCursor = Cursor;
-			Cursor = Count;
+			string combined = string.Join("/", this.ToArray());
 
-			return string.Join(
-				Seperator.ToString(), 
-				ToArray(), 
-				Cursor, Count - Cursor);
-		}
+			this.Clear();
 
-		/// <summary>
-		/// Reads a chunk and shifts the /-cursor once.
-		/// </summary>
-		/// <returns>The URL chunk.</returns>
-		public string ReadUrlChunk()
-		{
-			PreviousCursor = Cursor;
-
-			Cursor++;
-
-			return this [Cursor];
-		}
-
-		/// <summary>
-		/// Rewinds the cursor back one position.
-		/// </summary>
-		public void RewindUrl()
-		{
-			Cursor = PreviousCursor;
-		}
-
-		/// <summary>
-		/// Checks if the cursor is currently at the end of the string
-		/// </summary>
-		/// <returns><c>true</c>, if cursor is at end, <c>false</c> otherwise.</returns>
-		public bool EndOfSeries
-		{
-			get {
-				return Cursor >= Count;
-			}
+			return combined;
 		}
 	}
 }
