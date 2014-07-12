@@ -10,7 +10,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.Http.Headers
 	{
 		public override string ToString ()
 		{
-			return PlainTextName + "; charset=" + Encoding.WebName;
+			return PlainTextName + (Encoding != null ? "; charset=" + Encoding.WebName : "");
 		}
 
 		public MimeType(string PlainTextName)
