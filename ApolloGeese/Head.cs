@@ -7,6 +7,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Text.RegularExpressions;
+using BorrehSoft.Utensils;
 
 namespace BorrehSoft.ApolloGeese
 {
@@ -18,22 +19,20 @@ namespace BorrehSoft.ApolloGeese
 	{
 		static PluginCollection<Service> plugins = new PluginCollection<Service> ();
 
-		/// <summary>
-		/// The entry point of the program, where the program control starts and ends.
-		/// </summary>
-		/// <param name='args'>
-		/// The command-line arguments.
-		/// </param>
-		static void Main (string[] args)
+		static void StartLog(string folder)
 		{
-			(new Secretary (
-				string.Format (
-				"{0}.log",
-				Environment.SpecialFolder.ApplicationData,
-				DateTime.Now.ToString ("yyyy-MM-dd--THHmmsszz"))) { globVerbosity = 10 }).ReportHere (
-				0, "Logfile Opened");
+			string time = DateTime.Now.ToString ("yyyy-MM-dd--THHmmsszz");
 
-			Settings configuration = Settings.FromFile ("apollogeese.conf");
+			Secretary logger = new Secretary (string.Format ("{0}/{1}.log",	folder, time));
+
+			logger.globVerbosity = 10;
+
+			logger.ReportHere (0, "Logfile Opened");
+		}
+
+		static void RunConfig (string config)
+		{
+			Settings configuration = Settings.FromFile (config);
 
 			foreach (object pluInFileObj in (configuration ["plugins"] as IEnumerable<object>))
 				plugins.AddFile ((string)pluInFileObj);
@@ -45,6 +44,37 @@ namespace BorrehSoft.ApolloGeese
 			}
 						
 			Secretary.Report (5, "Loaded Branches");
+		}
+
+		static void Help()
+		{
+
+		}
+
+		/// <summary>
+		/// The entry point of the program, where the program control starts and ends.
+		/// </summary>
+		/// <param name='args'>
+		/// The command-line arguments.
+		/// </param>
+		static void Main (string[] args)
+		{
+			int currentArgIx = 0;
+			string currentArg;
+
+			string config = "apollogeese.conf", logfolder = ".";
+
+			while (currentArgIx < args.Length) {
+				currentArg = args [currentArgIx++];
+
+				if (currentArg == "-c")
+					config = args [currentArgIx++];
+				if (currentArg == "-l")
+					logfolder = args [currentArgIx++];
+			}
+
+			StartLog(logfolder);
+			RunConfig(config);
 		}
 
 		static Regex branchNameMatcher = new Regex ("(.+)_branch");
