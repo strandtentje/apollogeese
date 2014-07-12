@@ -106,7 +106,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry
 					body = httpInteraction.RequestBody.ReadToEnd ();
 					validRequest = body.Length > 0;
 				} else if (Method == "GET") {
-					string fullUrl = httpInteraction.URL [httpInteraction.URL.Count - 1];
+					string fullUrl = httpInteraction.URL.Original;
 					body = fullUrl.Substring (body.IndexOf ('?') + 1);
 					validRequest = fullUrl.Length > body.Length;
 				}

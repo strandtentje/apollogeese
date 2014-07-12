@@ -9,7 +9,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BorrehSoft.Extensions.BasicWeblings</RootNamespace>
     <AssemblyName>BasicWeblings</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,7 +34,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="MySql.Data">
-      <HintPath>..\..\Downloads\v4.0\mysql.data.dll</HintPath>
+      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\MySql.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +52,8 @@
     <Compile Include="Site\Page\Template.cs" />
     <Compile Include="Site\Page\DataDisplay\Querier.cs" />
     <Compile Include="Site\Page\DataDisplay\ResultInteraction.cs" />
+    <Compile Include="Site\Page\Fileserver.cs" />
+    <Compile Include="Site\Cache.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
