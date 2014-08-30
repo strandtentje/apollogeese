@@ -16,6 +16,8 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// </summary>
 	public abstract class Service
 	{
+		private Settings configuration;
+
 		/// <summary>
 		/// Gets the description of this service. (Cool bonus: May change! Woo!)
 		/// May be used as page titles
@@ -30,12 +32,23 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		public string InitErrorMessage { get; private set; }
 
 		/// <summary>
+		/// Gets the settings.
+		/// </summary>
+		/// <returns>
+		/// The settings.
+		/// </returns>
+		public Settings GetSettings ()
+		{
+			return configuration;
+		}		
+
+		/// <summary>
 		/// Tries to Initialize and leaves the an InitErrorMessage set if applicable.
 		/// When no error is produced, the errormessage will remain blank.
 		/// </summary>
 		/// <returns><c>true</c>, if initialize was succesful, <c>false</c> otherwise.</returns>
 		/// <param name="modSettings">Mod settings.</param>
-		public bool TryInitialize(Settings modSettings)
+		public bool SetSettings(Settings modSettings)
 		{
 			bool succesful;
 
