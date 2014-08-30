@@ -29,6 +29,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 				new ValueParser<int> (int.TryParse), 
 				new ValueParser<float> (float.TryParse),
 				new ValueParser<bool> (bool.TryParse, "(True|False|true|false)"), 
+				new FilenameParser (),
 				new ReferenceParser (),
 				new StringParser (), 
 				listParser, 

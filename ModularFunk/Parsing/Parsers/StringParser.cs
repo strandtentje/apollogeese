@@ -11,6 +11,11 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 			return "A quotation-mark enclosed, backslash-escaped string.";
 		}
 
+		/// <summary>
+		/// Regex that distinguishes quotationmark-enclosed strings.
+		/// I probably nicked this from a StackOverflow answer.
+		/// TODO: Find the person, buy them a beer and give crebit where due.
+		/// </summary>
 		Regex stringRegex = new Regex(@"""[^""\\]*(?:\\.[^""\\]*)*""");
 
 		internal override int ParseMethod (ParsingSession session, out object result)

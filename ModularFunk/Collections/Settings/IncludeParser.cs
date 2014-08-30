@@ -18,6 +18,35 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			return string.Format ("include \"filename\"");
 		}
 
+		/// <summary>
+		/// Includes a file into a session.
+		/// </summary>
+		/// <returns>
+		/// The included file length
+		/// </returns>
+		/// <param name='fileName'>
+		/// File name.
+		/// </param>
+		/// <param name='session'>
+		/// Session.
+		/// </param>
+		int IncludeFileIntoSession (string fileName, ParsingSession session)
+		{
+			if (File.Exists (fileName)) {
+				Directory.SetCurrentDirectory((new FileInfo(fileName)).Directory.FullName); 
+
+				string fileData = File.ReadAllText (fileName);
+
+				session.Data = session.Data.Insert (
+					session.Offset, 
+					fileData);
+
+				return fileData.Length;
+			} else {
+				throw new Exception ("During parsing, file not found: " + fileName);
+			}
+		}
+
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
 			object identObj; string identifier;
@@ -36,17 +65,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 					value = (string)valueObj;
 
 					if (identifier.ToLower () == "include") {
-						if (File.Exists (value)) {
-							string fileData = File.ReadAllText (value);
-
-							session.Data = session.Data.Insert (
-								session.Offset, 
-								fileData);
-
-							return fileData.Length;
-						} else {
-							throw new Exception ("During parsing, file not found: " + value);
-						}
+						return IncludeFileIntoSession(value, session);
 					} else {
 						throw new ParsingException (session, identifierEater, "include");
 					}
