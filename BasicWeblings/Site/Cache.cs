@@ -11,7 +11,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		public override string Description {
 			get {
-				return "Caches HttpResponses"
+				return "Caches HttpResponses";
 			}
 		}
 	}
