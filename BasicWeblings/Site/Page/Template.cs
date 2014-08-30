@@ -9,6 +9,7 @@ using Stringtionary = System.Collections.Generic.Dictionary<string, string>;
 using System.Text;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
+using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 {
@@ -29,6 +30,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 
 		private string templateFile, rawTemplate, chunkPattern, title;
 
+		public bool WillCheckForTemplateUpdates { get; private set; }
+
+		public DateTime LastTemplateUpdate { get; private set; }
+
 		/// <summary>
 		/// Returns the title with this service.
 		/// </summary>
@@ -42,9 +47,37 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 			title = (string)modSettings ["title"];
 			chunkPattern = (string)modSettings ["chunkpattern"];
 			templateFile = (string)modSettings ["templatefile"];
+			WillCheckForTemplateUpdates = modSettings.GetBool("checkfortemplateupdates", true);
 			settings = modSettings;
 
-			// Find all replacable chunks in the template document.
+			if (WillCheckForTemplateUpdates)
+				CheckForTemplateUpdates();
+			else
+				LoadTemplateAndRegisterReplacableSegments();
+		}
+
+		/// <summary>
+		/// Checks for template updates.
+		/// </summary>
+		private void CheckForTemplateUpdates ()
+		{
+			FileInfo info = new FileInfo(templateFile);
+
+			if ((LastTemplateUpdate == null) || 
+			    (LastTemplateUpdate != info.LastWriteTime)) {
+
+				LastTemplateUpdate = info.LastWriteTime;
+				LoadTemplateAndRegisterReplacableSegments ();
+
+				Secretary.Report(5, "Template file was updated: ", templateFile);
+			} 
+		}
+
+		/// <summary>
+		/// Loads the template and register replacable segments.
+		/// </summary>
+		private void LoadTemplateAndRegisterReplacableSegments ()
+		{
 			if (chunkPattern == null) chunkPattern = @"\{% ([a-z]+) %\}";
 			rawTemplate = File.ReadAllText (templateFile);
 
@@ -75,10 +108,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 					Service branch = Branches[groupName];
 
 					if ((branch ?? Stub) == Stub) {
-						string chunk;
-						if (source.TryGetString(groupName, out chunk))
+						object chunk;
+						if (source.TryGetValue(groupName, out chunk))
 						{
-							target.ResponseBody.Write(chunk);
+							target.ResponseBody.Write(chunk.ToString());
 						}
 						else 
 						{
