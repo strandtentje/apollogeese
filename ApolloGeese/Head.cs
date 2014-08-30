@@ -46,11 +46,6 @@ namespace BorrehSoft.ApolloGeese
 			Secretary.Report (5, "Loaded Branches");
 		}
 
-		static void Help()
-		{
-
-		}
-
 		/// <summary>
 		/// The entry point of the program, where the program control starts and ends.
 		/// </summary>
@@ -59,20 +54,20 @@ namespace BorrehSoft.ApolloGeese
 		/// </param>
 		static void Main (string[] args)
 		{
-			int currentArgIx = 0;
-			string currentArg;
+			Queue<string> CommandLineArguments = new Queue<string> (args);
 
 			string config = "apollogeese.conf", logfolder = ".";
 
-			while (currentArgIx < args.Length) {
-				currentArg = args [currentArgIx++];
-
-				if (currentArg == "-c")
-					config = args [currentArgIx++];
-				if (currentArg == "-l")
-					logfolder = args [currentArgIx++];
+			while (CommandLineArguments.Count > 0) {
+				string paramAhead = CommandLineArguments.Dequeue();
+				if (paramAhead.ToLower() == "-c") 
+					config = CommandLineArguments.Dequeue();
+				else if (paramAhead.ToLower() == "-l")
+					logfolder = CommandLineArguments.Dequeue();
+				else 
+					Secretary.Report(5, "Unknown command line parameter: ", paramAhead);
 			}
-
+		
 			StartLog(logfolder);
 			RunConfig(config);
 		}
@@ -97,7 +92,7 @@ namespace BorrehSoft.ApolloGeese
 				type = (string)config ["type"];
 				moduleConfiguration = (Settings)config ["modconf"];
 				newService = plugins.GetConstructed (type);
-				succesfulInit = newService.TryInitialize (moduleConfiguration);
+				succesfulInit = newService.SetSettings (moduleConfiguration);
 
 				foreach (KeyValuePair<string, object> nameAndBranch in config.Dictionary) {
 					Match branchName = branchNameMatcher.Match (nameAndBranch.Key);
