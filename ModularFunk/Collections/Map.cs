@@ -90,6 +90,14 @@ namespace BorrehSoft.Utensils.Collections
 			return backEnd[key];
 		}
 
+		public T Get(string key, T defaultValue)
+		{
+			if (backEnd.ContainsKey(key))
+				return backEnd[key];
+			else
+				return defaultValue;
+		}
+
 		/// <summary>
 		/// Gets or sets the item with the specified name.
 		/// </summary>
