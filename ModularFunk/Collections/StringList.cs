@@ -36,13 +36,19 @@ namespace BorrehSoft.Utensils.Collections
 
 			string[] dataChunks = data.Trim (seperator).Split (seperator);
 
-			if (decoder == null) 
-				foreach(string dataChunk in dataChunks)
-					this.Enqueue(dataChunk);
-
-			else 
-				foreach (string dataChunk in dataChunks) 
-					this.Enqueue (decoder (dataChunk));
+			if (decoder == null) {
+				foreach (string dataChunk in dataChunks) {
+					if (dataChunk.Length != 0) {
+						this.Enqueue (dataChunk);
+					}
+				}
+			} else {
+				foreach (string dataChunk in dataChunks) {
+					if (dataChunk.Length != 0) {
+						this.Enqueue (decoder (dataChunk));
+					}
+				}
+			}
 
 		}
 
