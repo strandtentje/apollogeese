@@ -36,7 +36,9 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 
 				while (coupled && (InnerParser.Run(session, out parsed) > 0)) {
 					target.Add (parsed);
-					coupled = coupler.Run (session) > 0;
+					coupled = false;
+					while (coupler.Run (session) > 0)
+						coupled = true;
 				}
 
 				if (closer.Run (session) > 0) {
