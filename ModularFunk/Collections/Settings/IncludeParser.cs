@@ -9,7 +9,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 	public class IncludeParser : WhitespaceParser
 	{
 		private IdentifierParser identifierEater = new IdentifierParser();
-		private StringParser valueEater = new StringParser ();
+		private AnyParser valueEater = new AnyParser (new FilenameParser(), new StringParser());
 		private object dummy;
 		private CharacterParser hashtagEater = new CharacterParser('#');
 
@@ -49,34 +49,34 @@ namespace BorrehSoft.Utensils.Collections.Settings
 
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
-			object identObj; string identifier;
-			object valueObj; string value;
+			int resultCount;
+			object identObj;
+			string identifier;
+			object valueObj;
+			string value;
 
 			result = null;
 
-			//      #bla
-			base.ParseMethod (session, out dummy); 									// consume whitespaces
-			if (hashtagEater.ParseMethod (session, out dummy) > -1) {				// consume hashtag
-				if ((identifierEater.ParseMethod (session, out identObj) > -1) && 	// consume and assign identifier
-					(base.ParseMethod (session, out dummy) > 0) && 						// consume opener to include file
-					(valueEater.ParseMethod (session, out valueObj) > 0)) 				// consume closer to include file
-				{
-					identifier = (string)identObj;
-					value = (string)valueObj;
+			resultCount = base.ParseMethod (session, out dummy); 
 
-					if (identifier.ToLower () == "include") {
-						return IncludeFileIntoSession(value, session);
-					} else {
-						throw new ParsingException (session, identifierEater, "include");
-					}
-				}
-				else {
-					throw new ParsingException (session, this, "#");
-				}
+			if (hashtagEater.ParseMethod (session, out dummy) > 0) {
+				if (identifierEater.ParseMethod (session, out identObj) < 0)
+					throw new ParsingException (session, identifierEater, session.Trail);
+
+				if (base.ParseMethod (session, out dummy) < 1)
+					throw new ParsingException (session, this, session.Trail);
+
+				if (valueEater.ParseMethod (session, out valueObj) < 0)
+					throw new ParsingException (session, valueEater, session.Trail);
+
+				identifier = (string)identObj;
+				value = (string)valueObj;
+
+				if (identifier.ToLower () == "include") 
+					resultCount = IncludeFileIntoSession (value, session);
 			}
-			else {
-				return 1;
-			}
+
+			return resultCount;
 		}
 	}
 }
