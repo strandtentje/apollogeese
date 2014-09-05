@@ -84,7 +84,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 			replaceables = templateVariables.AddUniqueRegexMatches (rawTemplate, chunkPattern);
 
 			foreach(string templateVariable in templateVariables)
-				Branches[templateVariable] = Stub;
+				if (!Branches.Has(templateVariable))
+					Branches[templateVariable] = Stub;
 		}
 
 		protected override bool Process (IInteraction source)
@@ -98,6 +99,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 			type = MimeType.Text.Html; type.Encoding = Encoding.UTF8;
 
 			target.ResponseHeaders.ContentType = type;
+
+			if (WillCheckForTemplateUpdates) CheckForTemplateUpdates();
 
 			try	{
 				foreach (Match replaceable in replaceables) {
