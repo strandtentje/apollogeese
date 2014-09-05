@@ -52,6 +52,8 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		{
 			bool succesful;
 
+			modSettings = modSettings ?? new Settings();
+
 			try
 			{
 				Branches.ItemChanged += HandleBranchChanged;
