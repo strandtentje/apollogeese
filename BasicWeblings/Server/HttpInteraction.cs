@@ -66,7 +66,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			{ 
 				_request = value; 
 				URL = new StringList (value.RawUrl, '/');
-				RequestHeaders = new RequestHeaders (value.Headers);
+
+				RequestHeaders = new RequestHeaders (value.Headers, Request.Cookies);
 				RequestBody = new StreamReader (value.InputStream);
 			}
 		}

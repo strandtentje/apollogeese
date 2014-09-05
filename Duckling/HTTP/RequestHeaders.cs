@@ -11,7 +11,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.Http
 	public class RequestHeaders
 	{
 		public NameValueCollection Backend;
-		public Map<string> Cookies;
+		public Map<string> Cookies = new Map<string>();
 
 		public RequestHeaders (NameValueCollection Backend)
 		{
@@ -20,16 +20,11 @@ namespace BorrehSoft.ApolloGeese.Duckling.Http
 			// SetCookies (Backend.GetValues ("Cookie"));
 		}
 
-		void SetCookies (string[] cookieHeaders)
+		public RequestHeaders (NameValueCollection headers, CookieCollection cookiesFromRequest)
 		{
-			string[] splitCookie;
-
-			foreach (string cookieSpec in cookieHeaders) {
-				foreach (string cookiePair in cookieSpec.Split(';')) {
-					splitCookie = cookiePair.Split ('=');
-					Cookies [splitCookie [0]] = splitCookie [1];
-				}
-			}
+			this.Backend = headers;
+			foreach (Cookie cookie in cookiesFromRequest) 
+				this.Cookies[cookie.Name] = cookie.Value;
 		}
 	}
 }

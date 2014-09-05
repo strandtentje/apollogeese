@@ -50,7 +50,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 		{
 			IHttpInteraction parameters = (IHttpInteraction)uncastParameters;
 
-			string givenCookie = parameters.RequestHeaders.Cookies [cookieName];
+			string givenCookie = parameters.RequestHeaders.Cookies.Get(cookieName, null);
 
 			if ((givenCookie == null) ||		// In case of a null sescookie
 				(givenCookie.Length == 0) ||    // an empty sescookie
@@ -67,6 +67,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 					cookieValue = Convert.ToBase64String (
 						Guid.NewGuid ().ToByteArray ());
+
+					Console.WriteLine(string.Format("guid length {0}", cookieValue.Length));
+
 				} while (knownSessions.Contains(cookieValue));
 								
 				parameters.ResponseHeaders.SetCookie (cookieName, cookieValue);
