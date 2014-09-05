@@ -54,6 +54,8 @@
     <Compile Include="Site\Page\DataDisplay\ResultInteraction.cs" />
     <Compile Include="Site\Page\Fileserver.cs" />
     <Compile Include="Site\Cache.cs" />
+    <Compile Include="Site\Page\DataDisplay\QueryConnection.cs" />
+    <Compile Include="Site\Page\DataDisplay\QueryCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

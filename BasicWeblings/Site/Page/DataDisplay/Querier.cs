@@ -27,19 +27,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 			}
 		}
 
-		/// <summary>
-		/// The connection string template.
-		/// </summary>
-		public const string ConnectionStringTemplate = 
-			"Server={0}; Database={1}; User ID={2}; Password={3}; Pooling={4};";
-
-		/// <summary>
-		/// Gets the connection string.
-		/// </summary>
-		/// <value>
-		/// The connection string.
-		/// </value>
-		public string ConnectionString { get; private set; }
 
 		/// <summary>
 		/// Gets the connection.
@@ -47,17 +34,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 		/// <value>
 		/// The connection.
 		/// </value>
-		public IDbConnection Connection { get; private set; }
-
-		/// <summary>
-		/// Gets the query text.
-		/// </summary>
-		/// <value>
-		/// The query text.
-		/// </value>
-		public string QueryText { get; private set; }
-
-		public List<string> OrderedParameters { get; private set; }
+		public QueryConnection Connection { get; private set; }
 
 		protected override void Initialize (Settings modSettings)
 		{
@@ -66,60 +43,16 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 			Branches ["iterator"] = Stub;
 			Branches ["successful"] = Stub;
 
-			InitializeConnection(
-					modSettings ["host"], modSettings ["db"], 			                     
-					modSettings ["user"], modSettings ["pass"],
+			Connection = new QueryConnection(
+					(string)modSettings ["host"], (string)modSettings ["db"], 			                     
+					(string)modSettings ["user"], (string)modSettings ["pass"],
 					(bool)modSettings.GetBool("pool", true));
 
-			InitializeQuery(modSettings["query"],
+
+			Connection.SetDefaultCommandQuery((string)modSettings["query"],
 			             modSettings.Get("params", null) as List<object>);
 		}
 
-		/// <summary>
-		/// Initializes the connection.
-		/// </summary>
-		/// <param name='databasehost'>
-		/// Databasehost.
-		/// </param>
-		/// <param name='databasename'>
-		/// Databasename.
-		/// </param>
-		/// <param name='user'>
-		/// User.
-		/// </param>
-		/// <param name='password'>
-		/// Password.
-		/// </param>
-		/// <param name='usepool'>
-		/// Usepool.
-		/// </param>
-		private void InitializeConnection (string databasehost, string databasename, string user, string password, bool usepool)
-		{
-			ConnectionString = string.Format (ConnectionStringTemplate, databasehost, databasename, user, password, usepool);
-
-			Connection = new MySqlConnection (ConnectionString);
-			Connection.Open ();
-		}
-
-		/// <summary>
-		/// Prepares the query.
-		/// </summary>
-		/// <param name='QueryTextFile'>
-		/// Query text file.
-		/// </param>
-		/// <param name='queryParameters'>
-		/// Query parameters.
-		/// </param>
-		private void InitializeQuery (string QueryTextFile, List<object> queryParameters = null)
-		{
-			this.QueryText = File.ReadAllText(QueryTextFile);
-
-			this.OrderedParameters = new List<string> ();
-
-			if (queryParameters != null) 
-				foreach(object p in queryParameters) 
-					this.OrderedParameters.Add((string)p);
-		}
 
 		/// <summary>
 		/// Handles the branch changed.
@@ -138,72 +71,148 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 			if (e.Name == "successful") successful = e.NewValue;
 		}
 
-		private IDbCommand GetCommand ()
-		{
-			IDbCommand Command = Connection.CreateCommand ();
-			Command.CommandText = QueryText;
-			Command.Prepare ();
-
-			return Command;
-		}
-
-		private IDbDataParameter SetCommandParameter (IDbCommand command, string name, string value)
-		{
-			IDbDataParameter parameter = command.CreateParameter();
-			parameter.ParameterName = name;
-			parameter.Value = parameter[name];
-			command.Parameters.Add(parameter);
-		}
-
+		/// <summary>
+		/// Executes a parameterized command.
+		/// </summary>
+		/// <returns>
+		/// The parameterized command.
+		/// </returns>
+		/// <param name='parameters'>
+		/// Parameters.
+		/// </param>
 		private IDataReader ExecuteParameterizedCommand (IInteraction parameters)
 		{
-			IDbCommand Command = this.GetCommand();
+			QueryCommand Command = Connection.GetDefaultCommand();
 
-			foreach (string paramname in OrderedParameters) 
-				SetCommandParameter(Command, paramname, parameters[paramname]);
+			foreach (string paramname in Connection.DefaultOrderedParameters) 
+				Command.SetParameter(paramname, parameters[paramname]);
 
-			return Command.ExecuteReader ();
+			return Command.Run ();
 		}
 
-		private ResultInteraction GetResultInteraction (IDataReader reader, IInteraction parameters, ref int resultCount)
+		/// <summary>
+		/// Gets a result interaction.
+		/// </summary>
+		/// <returns>
+		/// Result interaction.
+		/// </returns>
+		/// <param name='reader'>
+		/// Reader.
+		/// </param>
+		/// <param name='parameters'>
+		/// Parameters.
+		/// </param>
+		/// <param name='resultCount'>
+		/// Result count.
+		/// </param>
+		protected virtual ResultInteraction GetResultInteraction (IDataReader reader, IInteraction parameters, ref int resultCount)
 		{
-			ResultInteraction resultline = none;
+			ResultInteraction resultline = null;
 
 			if (reader.Read ()) {
 				resultline = new ResultInteraction(parameters, reader);
 				resultCount++;
 			}
+
+			return resultline;
 		}
 
-		private bool GetResultsToBranches (IInteraction parameters)
-		{			
-			int resultCount = 0;
+		/// <summary>
+		/// Branch for multiple results. 
+		/// </summary>
+		/// <returns>
+		/// Succesful branch executiong
+		/// </returns>
+		/// <param name='IteratorDelegate'>
+		/// Callback to iterate with
+		/// </param>
+		/// <param name='FirstResult'>
+		/// Result that was first acquired.
+		/// </param>
+		/// <param name='NextResult'>
+		/// Result that was acquired after that
+		/// </param>
+		/// <param name='DataReader'>
+		/// Reader to acquire the remainder of the results from.
+		/// </param>
+		/// <param name='ParentParameters'>
+		/// Parameters passed down from parent node.
+		/// </param>
+		protected virtual bool BranchForMultipleResults (Func<ResultInteraction, bool> IteratorDelegate, ResultInteraction FirstResult, ResultInteraction NextResult, IDataReader DataReader, IInteraction ParentParameters)
+		{	
 			bool success = true;
-			IDataReader 
-				reader = ExecuteParameterizedCommand (parameters);
-			ResultInteraction 
-				firstResult = GetResultInteraction (reader, parameters, ref resultCount),
-			 	nextResult = GetResultInteraction(reader, parameters, ref resultCount);
 
-			if (resultCount == 0) return none.TryProcess (parameters);
-			if ((resultCount == 1) && (single != Stub)) return single.TryProcess(firstResult);
+			if (FirstResult != null) {
+				success &= IteratorDelegate (FirstResult);
 
-			success &= iterator.TryProcess(firstResult);
+				if (NextResult != null) {
+					int resultCount = 2;
 
-			while(resultCount > 1) {
-				success &= iterator.TryProcess(nextResult);
-				resultCount--;
-				nextResult = GetResultInteraction(reader, parameters, ref resultCount);
+					while (resultCount > 1) {
+						success &= IteratorDelegate (NextResult);
+						resultCount--;
+						NextResult = GetResultInteraction (DataReader, ParentParameters, ref resultCount);
+					}
+				}
 			}
+
+			return success;
+		}
+
+		/// <summary>
+		/// Gets the results to branches.
+		/// </summary>
+		/// <returns>
+		/// True if all branches executed succesfully
+		/// </returns>
+		/// <param name='ParentParameters'>
+		/// Parent parameters
+		/// </param>
+		/// <param name='IterateResultsBranchDelegate'>
+		/// Process method for result iteration
+		/// </param>
+		/// <param name='SingleResultBranchDelegate'>
+		/// Process method for single result
+		/// </param>
+		/// <param name='NoResultBranchDelegate'>
+		/// Process method for no results; will use parentparameters
+		/// </param>
+		protected bool GetResultsToBranches (IInteraction ParentParameters, 
+		                                     Func<ResultInteraction, bool> IterateResultsBranchDelegate = null,
+		                                     Func<ResultInteraction, bool> SingleResultBranchDelegate = null,
+		                                     Func<IInteraction, bool> NoResultBranchDelegate = null)
+		{			
+			int resultCount; 
+			bool success;
+			IDataReader reader;
+			ResultInteraction firstResult, nextResult;
+
+			resultCount = 0;
+			reader = ExecuteParameterizedCommand (ParentParameters);
+
+			firstResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
+			nextResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
+
+			success = true;
+
+			if ((resultCount == 0) && (NoResultBranchDelegate != Stub.TryProcess)) 
+				success = NoResultBranchDelegate (ParentParameters);
+
+			else if ((resultCount == 1) && (SingleResultBranchDelegate != Stub.TryProcess)) 
+				success = SingleResultBranchDelegate (firstResult);	
+
+			else if (IterateResultsBranchDelegate != Stub.TryProcess)
+				success = BranchForMultipleResults(IterateResultsBranchDelegate, firstResult, nextResult, reader, ParentParameters);
+
+			reader.Close();
 
 			return success;
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			if (GetResultsToBranches(parameters))
-				return successful.TryProcess (parameters);
+			return GetResultsToBranches(parameters, iterator.TryProcess, single.TryProcess, none.TryProcess) && 
+				successful.TryProcess (parameters);
 		}
 	}
 }
-
