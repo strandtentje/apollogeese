@@ -52,10 +52,13 @@
     <Compile Include="Site\Page\Template.cs" />
     <Compile Include="Site\Page\DataDisplay\Querier.cs" />
     <Compile Include="Site\Page\DataDisplay\ResultInteraction.cs" />
-    <Compile Include="Site\Page\Fileserver.cs" />
     <Compile Include="Site\Cache.cs" />
     <Compile Include="Site\Page\DataDisplay\QueryConnection.cs" />
     <Compile Include="Site\Page\DataDisplay\QueryCommand.cs" />
+    <Compile Include="Site\Filesystem\Fileserver.cs" />
+    <Compile Include="Site\Filesystem\FilesystemBrowser.cs" />
+    <Compile Include="Site\Filesystem\FilesystemItemInteraction.cs" />
+    <Compile Include="Site\Filesystem\Tarballer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -63,6 +66,7 @@
     <Folder Include="Site\" />
     <Folder Include="Site\Page\" />
     <Folder Include="Site\Page\DataDisplay\" />
+    <Folder Include="Site\Filesystem\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">

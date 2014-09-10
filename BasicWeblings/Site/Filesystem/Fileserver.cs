@@ -5,8 +5,9 @@ using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
+using System.Web;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 {
 	public class Fileserver : Service
 	{
@@ -16,6 +17,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		Settings mimeTypes;
 		Service notFoundBranch, badRequestBranch;
+		bool optionalMimetypes;
 		string rootPath;
 
 		public override string Description {
@@ -28,6 +30,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		{
 			mimeTypes = (modSettings["allowedmimetypes"] as Settings) ?? new Settings();
 			rootPath = modSettings.GetString("rootpath", ".");
+			optionalMimetypes = modSettings.GetBool("optionalmimetypes", false);
 
 			Branches["notfound"] = Stub;
 			Branches["badrequest"] = Stub;
@@ -42,18 +45,18 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		protected override bool Process (IInteraction uncastParameters)
 		{
 			IHttpInteraction parameters;
-			string trimmedrootpath, trimmedurl, finalpath, extension, mimeType;
+			string trimmedrootpath, trimmedurl, finalpath, extension, mimeType = "application/octet-stream";
 
 			parameters = uncastParameters as IHttpInteraction;
 			trimmedrootpath = rootPath.TrimEnd ('/');
-			trimmedurl = parameters.URL.ReadToEnd ().TrimStart ('/');
+			trimmedurl = HttpUtility.UrlDecode(parameters.URL.ReadToEnd ().TrimStart ('/'));
 			finalpath = string.Format ("{0}/{1}", trimmedrootpath, trimmedurl);
 
 			FileInfo sourcefile = new FileInfo (finalpath);
 
 			extension = sourcefile.Extension.TrimStart ('.').ToLower();
 
-			if (mimeTypes.TryGetString(extension, out mimeType)) {
+			if (mimeTypes.TryGetString(extension, out mimeType) || optionalMimetypes) {
 				if (sourcefile.Exists) {
 					parameters.ResponseHeaders.ContentType = new MimeType(mimeType);
 					parameters.ResponseHeaders.ContentLength = sourcefile.Length;
