@@ -74,11 +74,13 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 								
 				parameters.ResponseHeaders.SetCookie (cookieName, cookieValue);
 
+				givenCookie = cookieValue;
+
 				// Yes, I made the Sescookie-creation loop around in case of a duplicate
 				// gloBALLY UNIQUE IDENTIFIER now hand me my tinfoil hat.
 			}
 
-			parameters ["Session"] = givenCookie;
+			parameters ["session"] = givenCookie;
 
 			return Http.TryProcess(parameters);
 		}
