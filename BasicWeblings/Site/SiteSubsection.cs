@@ -44,10 +44,14 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 			Service Branch;
 
-			if (parameters.URL.Count == 0)
+			if (parameters.URL.Count == 0) {
 				Branch = Main;
+				parameters["branchname"] = "main";
+			}
 			else {
-				Branch = Branches [parameters.URL.Dequeue ()] ?? Stub;
+				string branchName = parameters.URL.Dequeue ();
+				parameters["branchname"] = branchName;
+				Branch = Branches [branchName] ?? Stub;
 				if (Branch == Stub)
 					Branch = Default;
 			}
