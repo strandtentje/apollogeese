@@ -18,6 +18,16 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	{
 		private Settings configuration;
 
+		public bool IsLogging {
+			get;
+			set;
+		}
+
+		public string[] LoggingParameters {
+			get;
+			set;
+		}
+
 		/// <summary>
 		/// Gets the description of this service. (Cool bonus: May change! Woo!)
 		/// May be used as page titles
@@ -64,7 +74,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			catch(Exception ex) {
 				InitErrorMessage = ex.Message;
 				Secretary.Report (0, 
-				                 string.Format (
+				                  string.Format (
 					"Initialization for Service {0} failed with the following message:\n{1}", 
 					Description, InitErrorMessage));
 				succesful = false;
@@ -91,6 +101,21 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 			try
 			{
+				if (IsLogging)		
+				{
+					Secretary.Report(5, "Arrived at: ", this.Description);
+					Secretary.Report(5, "Parameters: ");
+					if (LoggingParameters != null) {
+						foreach(string parName in LoggingParameters)
+						{
+							string parValue;
+							if (parameters.TryGetString(parName, out parValue)) {
+								Secretary.Report(5, parName, parValue);
+							}
+						}
+					}
+				}
+
 				succesful = Process(parameters);
 				ProcessErrorMessage = "";
 			}
