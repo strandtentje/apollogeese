@@ -17,9 +17,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 	/// <summary>
 	/// Querier; queries.
 	/// </summary>
-	public class Querier : Service
+	public abstract class Querier : Service
 	{
 		private Service none, single, iterator, successful;
+		private bool useAffectedRowcount;
 
 		public override string Description {
 			get {
@@ -34,7 +35,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 		/// <value>
 		/// The connection.
 		/// </value>
-		public QueryConnection Connection { get; private set; }
+		public IQueryConnection Connection { get; private set; }
+
+		protected abstract IQueryConnection CreateConnection(Settings modSettings);
 
 		protected override void Initialize (Settings modSettings)
 		{
@@ -43,14 +46,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 			Branches ["iterator"] = Stub;
 			Branches ["successful"] = Stub;
 
-			Connection = new QueryConnection(
-					(string)modSettings ["host"], (string)modSettings ["db"], 			                     
-					(string)modSettings ["user"], (string)modSettings ["pass"],
-					(bool)modSettings.GetBool("pool", true));
-
+			Connection = CreateConnection(modSettings);
 
 			Connection.SetDefaultCommandQuery((string)modSettings["query"],
 			             modSettings.Get("params", null) as List<object>);
+
+			useAffectedRowcount = modSettings.GetBool("useaffectedrowcount", false);
 		}
 
 
@@ -82,7 +83,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 		/// </param>
 		private IDataReader ExecuteParameterizedCommand (IInteraction parameters)
 		{
-			QueryCommand Command = Connection.GetDefaultCommand();
+			IQueryCommand Command = Connection.GetDefaultCommand();
 
 			foreach (string paramname in Connection.DefaultOrderedParameters) 
 				Command.SetParameter(paramname, parameters[paramname]);
@@ -178,9 +179,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 		/// Process method for no results; will use parentparameters
 		/// </param>
 		protected bool GetResultsToBranches (IInteraction ParentParameters, 
-		                                     Func<ResultInteraction, bool> IterateResultsBranchDelegate = null,
-		                                     Func<ResultInteraction, bool> SingleResultBranchDelegate = null,
-		                                     Func<IInteraction, bool> NoResultBranchDelegate = null)
+		                                     Func<ResultInteraction, bool> IterateResultsBranchDelegate,
+		                                     Func<ResultInteraction, bool> SingleResultBranchDelegate,
+		                                     Func<IInteraction, bool> NoResultBranchDelegate)
 		{			
 			int resultCount; 
 			bool success;
@@ -189,6 +190,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 
 			resultCount = 0;
 			reader = ExecuteParameterizedCommand (ParentParameters);
+
+			if (useAffectedRowcount) {
+				return reader.RecordsAffected > 0;
+			}
 
 			firstResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
 			nextResult = GetResultInteraction (reader, ParentParameters, ref resultCount);

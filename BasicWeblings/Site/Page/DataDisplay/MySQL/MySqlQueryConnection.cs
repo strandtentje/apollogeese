@@ -6,7 +6,7 @@ using System.IO;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 {
-	public class QueryConnection
+	public class MySqlQueryConnection : IQueryConnection
 	{
 		/// <summary>
 		/// The connection string template.
@@ -21,8 +21,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 		/// The connection string.
 		/// </value>
 		public string ConnectionString { get; private set; }
-
-		
+				
 		/// <summary>
 		/// Gets the connection.
 		/// </summary>
@@ -47,7 +46,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 		/// </value>
 		public List<string> DefaultOrderedParameters { get; private set; }
 
-		public QueryConnection (string databasehost, string databasename, string user, string password, bool usepool)
+		public MySqlQueryConnection (string databasehost, string databasename, string user, string password, bool usepool)
 		{
 			ConnectionString = string.Format (ConnectionStringTemplate, databasehost, databasename, user, password, usepool);
 
@@ -66,9 +65,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 					this.DefaultOrderedParameters.Add((string)p);
 		}
 
-		public QueryCommand GetDefaultCommand()
+		public IQueryCommand GetDefaultCommand()
 		{
-			return new QueryCommand(this, DefaultQueryText);
+			return new MySqlQueryCommand(this, DefaultQueryText);
 		}
 	}
 }
