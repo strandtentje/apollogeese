@@ -84,15 +84,22 @@ namespace BorrehSoft.ApolloGeese
 			string type;
 			Settings moduleConfiguration;
 			Service newService;
-			bool succesfulInit;
+			bool succesfulInit, log;
+			string[] logparams;
 
 			if (config.Tag is Service) {
 				newService = config.Tag as Service;
 			} else {
 				type = (string)config ["type"];
 				moduleConfiguration = (Settings)config ["modconf"];
+
+				log = config.GetBool("log", false);
+				logparams = config.GetString("logparams", "").Split(',');
+
 				newService = plugins.GetConstructed (type);
 				succesfulInit = newService.SetSettings (moduleConfiguration);
+				newService.IsLogging = log;
+				newService.LoggingParameters = logparams;
 
 				foreach (KeyValuePair<string, object> nameAndBranch in config.Dictionary) {
 					Match branchName = branchNameMatcher.Match (nameAndBranch.Key);
