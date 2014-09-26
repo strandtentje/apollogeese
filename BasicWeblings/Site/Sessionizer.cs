@@ -15,10 +15,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 		/// <summary>
 		/// The known sessions cookie strings
 		/// </summary>
-		public List<string> knownSessions = new List<string> ();
+		public static List<string> knownSessions = new List<string> ();
 
 		private Service Http;
 		private TimeSpan cookieLife = new TimeSpan (1, 0, 0);
+		private bool closing;
 		private string cookieName = "SES";
 
 		public override string Description {
@@ -38,6 +39,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 			if (modSettings.TryGetString ("CookieName", out temporary))
 				cookieName = temporary;
+
+			closing = modSettings.GetBool("sessioncloser", false);
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -50,7 +53,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 		{
 			IHttpInteraction parameters = (IHttpInteraction)uncastParameters;
 
-			string givenCookie = parameters.RequestHeaders.Cookies.Get(cookieName, null);
+			string givenCookie = parameters.RequestHeaders.Cookies.Get (cookieName, null);
+
+			if (closing && (givenCookie != null)) {
+				knownSessions.Remove(givenCookie);
+			}
 
 			if ((givenCookie == null) ||		// In case of a null sescookie
 				(givenCookie.Length == 0) ||    // an empty sescookie
@@ -75,6 +82,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 				parameters.ResponseHeaders.SetCookie (cookieName, cookieValue);
 
 				givenCookie = cookieValue;
+
+				knownSessions.Add(givenCookie);
 
 				// Yes, I made the Sescookie-creation loop around in case of a duplicate
 				// gloBALLY UNIQUE IDENTIFIER now hand me my tinfoil hat.
