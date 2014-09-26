@@ -9,7 +9,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	{
 		static StubService instance;
 
-		private StubService() {}
+		public StubService() {}
 
 		public override string Description { get { return "Nothing here."; } }
 
