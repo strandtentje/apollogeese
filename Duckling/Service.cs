@@ -77,6 +77,10 @@ namespace BorrehSoft.ApolloGeese.Duckling
 				                  string.Format (
 					"Initialization for Service {0} failed with the following message:\n{1}", 
 					Description, InitErrorMessage));
+
+				for(Exception inner = ex; inner != null; inner = inner.InnerException)
+					Secretary.Report(0, "Inner: ", inner.Message);
+				
 				succesful = false;
 			}
 
