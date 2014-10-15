@@ -61,5 +61,9 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// Name.
 		/// </param>
 		object this [string name] { get; set; }
+
+		bool TryGetFallbackString(string id, out string luggage);
+
+		bool TryGetFallback (string id, out object luggage);
 	}
 }

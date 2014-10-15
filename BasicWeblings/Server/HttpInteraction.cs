@@ -15,7 +15,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 	/// Http interaction, offers extra utilities for interactions that resulted from an HTTP
 	/// server.
 	/// </summary>
-	public class HttpInteraction : Map<object>, IHttpInteraction
+	public class HttpInteraction : QuickInteraction
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Extensions.BasicWeblings.Server.HttpInteraction"/> class.
@@ -30,28 +30,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		}
 
 		public bool IsTainted { get; private set; }
-
-		public IInteraction Root {
-			get {
-				return this;
-			}
-		}
-
-		public IInteraction Parent {
-			get {
-				return null;
-			}
-		}
-
-		public IInteraction GetClosest (Type t)
-		{
-			for (IInteraction current = this; (current != null); current = current.Parent) {
-				if (t.IsAssignableFrom(current.GetType())) return current;
-			}
-
-			throw new Exception("No interaction in chain was of specified type");
-		}
-
 
 		#region Request
 		HttpListenerRequest _request;

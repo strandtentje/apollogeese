@@ -5,41 +5,53 @@ using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.Utensils.Collections;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 {
-	class FilesystemItemInteraction : Map<object>, IInteraction
-	{
-		IInteraction parent;
+	/// <summary>
+	/// Filesystem item interaction.
+	/// A rather ugly bastard. 
+	/// Good thing it's not 3000 lines of it.
+	/// </summary>
+	class FilesystemItemInteraction : QuickInteraction
+	{	
+		static Regex keywordMatcher = new Regex("[a-z]+|[0-9]+");
 
-		string rootFilesystem, name, fullPath, originalRequest;
+		string rootFilesystem, name, fullPath, baseUrl, relativePath;
 
-		public FilesystemItemInteraction (IInteraction parent, string rootFilesystem, string originalRequest)
+		public bool GenerateKeywords { get; set; }
+
+		public FilesystemItemInteraction (string rootPath, string file)
 		{
-			this.parent = parent;
+			this["rootfilesystem"] = rootFilesystem = rootPath;
+			this["fullpath"] = fullPath = file;
+			this["relativepath"] = relativePath = fullPath.Remove(0, rootFilesystem.Length);
+		}
+
+		public FilesystemItemInteraction (string baseUrl, string rootFilesystem, bool generateKeywords = true)
+		{
 			this.rootFilesystem = rootFilesystem;
-			this.originalRequest = originalRequest.Trim('/');
+			this.baseUrl = baseUrl;
+			this.GenerateKeywords = generateKeywords;
+		}
+
+		public FilesystemItemInteraction (IInteraction parent, string rootFilesystem, string originalRequest, bool generateKeywords = false) : base(parent)
+		{
+			this.rootFilesystem = rootFilesystem;
+			this.baseUrl = originalRequest.Trim('/');
+			this.GenerateKeywords = generateKeywords;
 		}		
 
-		public IInteraction Root {
-			get {
-				return Parent.Root;
-			}
-		}
-
-		public IInteraction Parent {
-			get {
-				return this.parent;
-			}
-		}
-
-		public IInteraction GetClosest (Type t)
+		static List<string> KeywordsFromString (string name)
 		{
-			for (IInteraction current = this; (current != null); current = current.Parent) {
-				if (t.IsAssignableFrom(current.GetType())) return current;
-			}
+			List<string> keywords = new List<string>();
 
-			throw new Exception("No interaction in chain was of specified type");
+			foreach(Match match in keywordMatcher.Matches(name))
+				keywords.Add(match.Value);
+
+			return keywords;
 		}
 
 		public void Assume (FileSystemInfo info)
@@ -47,19 +59,23 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 			this["rootfilesystem"] = rootFilesystem;
 			this["name"] = name = info.Name;
 
+			if (GenerateKeywords)
+				this["keywords"] = KeywordsFromString(name);
+
 			string url;
 
-			if (originalRequest.Length > 0)
-				url = string.Format("/{0}/{1}", originalRequest, name);
+			if (baseUrl.Length > 0)
+				url = string.Format("/{0}/{1}", baseUrl, name);
 			else
 				url = "/" + name;
 
 			this["url"] = url; 
 			this["fullpath"] = fullPath =  info.FullName;
+			this["relativepath"] = relativePath = fullPath.Remove(0, rootFilesystem.Length);
 
 			FileInfo fileInfo = info as FileInfo;
 
-			if (fileInfo != null)
+			if (fileInfo != null) 
 				this["filesize"] = Filesize(fileInfo.Length);
 			else 
 				this["filesize"] = "-";
@@ -70,7 +86,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 			"B", "kB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"
 		};
 
-		public static string Filesize (long count)
+	    static string Filesize (long count)
 		{
 			double approxSize = (double)count;
 			int suffix = 0;
