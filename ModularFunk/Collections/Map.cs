@@ -19,12 +19,6 @@ namespace BorrehSoft.Utensils.Collections
 		}
 
 		/// <summary>
-		/// Gets or sets the name.
-		/// </summary>
-		/// <value>The name.</value>
-		public string Name { get; set; }
-
-		/// <summary>
 		/// Gets the dictionary.
 		/// </summary>
 		/// <value>
@@ -177,8 +171,7 @@ namespace BorrehSoft.Utensils.Collections
 		public Map<T> Clone ()
 		{
 			return new Map<T> () {
-				backEnd = new Dictionary<string, T>(this.backEnd),
-				Name = this.Name
+				backEnd = new Dictionary<string, T>(this.backEnd)
 			};
 		}
 	}

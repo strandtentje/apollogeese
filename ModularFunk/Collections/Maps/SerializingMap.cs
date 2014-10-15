@@ -56,6 +56,24 @@ namespace BorrehSoft.Utensils.Collections.Maps
 
 		}
 
+		public void WriteUsingCallback (FormattedWriter writeMethod, Map<T> overrides, string format)
+		{
+			T value;
+
+			foreach (KeyValuePair<string, T> kvp in base.Dictionary) {
+				if (overrides.Dictionary.ContainsKey (kvp.Key)) 
+					value = overrides.Dictionary [kvp.Key];
+				else
+					value = kvp.Value;
+				writeMethod (format, kvp.Key, value.ToString ());
+			}
+
+			foreach (KeyValuePair<string, T> kvp in overrides.Dictionary) {
+
+			}
+		}
+
+
 		/// <summary>
 		/// Writes the pairs using the supplied write method.
 		/// </summary>
