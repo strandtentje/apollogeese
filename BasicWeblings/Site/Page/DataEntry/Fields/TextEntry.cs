@@ -36,8 +36,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 			set {
 				id = value;
 
-				inputTag.Attributes["name"] = id;
-				faultyInputTag.Attributes["name"] = id;
+				inputTag.Attributes["id"] = inputTag.Attributes["name"] = id;
+				faultyInputTag.Attributes["id"] = faultyInputTag.Attributes["name"] = id;
 				labelTag.Attributes["for"] = id;
 			}
 		}
@@ -90,7 +90,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataEntry.Fields
 		protected override bool Process (IInteraction parameters)
 		{
 			bool success = false;
-			EntryInteraction interaction = parameters as EntryInteraction;
+			EntryInteraction interaction = (EntryInteraction)parameters.GetClosest(typeof(EntryInteraction));
 			
 			if (interaction != null) {
 				interaction.FormDisplaying += HandleFormDisplaying;

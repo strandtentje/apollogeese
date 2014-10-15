@@ -48,6 +48,7 @@
     <Compile Include="HTML\Entities\BodylessEntity.cs" />
     <Compile Include="StubService.cs" />
     <Compile Include="HTML\Entities\Specialized\HeadEntity.cs" />
+    <Compile Include="QuickInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

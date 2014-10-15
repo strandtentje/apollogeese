@@ -90,9 +90,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		void EnterTree (HttpListenerContext context)
 		{
 			HttpInteraction parameters = new HttpInteraction (
-				context.Request, context.Response) { 
-				Name = "Basic Http Interaction" 
-			};
+				context.Request, context.Response);
 
 			if (!Process (parameters)) context.Response.StatusCode = 500;
 

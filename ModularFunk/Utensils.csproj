@@ -78,6 +78,7 @@
     <Compile Include="Collections\Maps\NetworkMap.cs" />
     <Compile Include="Parsing\ParsingBookmark.cs" />
     <Compile Include="Parsing\Parsers\FilenameParser.cs" />
+    <Compile Include="Collections\Maps\ObjectMap.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
