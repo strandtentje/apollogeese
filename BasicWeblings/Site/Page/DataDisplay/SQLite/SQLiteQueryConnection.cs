@@ -3,6 +3,7 @@ using Mono.Data.Sqlite;
 using System.Data;
 using System.Collections.Generic;
 using System.IO;
+using System.Data.Common;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 {
@@ -14,8 +15,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 
 		public SQLiteQueryConnection (string file)
 		{
-			connectionString = string.Format("Data Source:%s", file);
+			connectionString = string.Format("URI=file:{0}", file);
 			connection = new SqliteConnection(ConnectionString);
+			connection.Open();
 		}
 
 		public string ConnectionString { get { return connectionString; } }

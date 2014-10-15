@@ -21,10 +21,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 	{
 		private Service none, single, iterator, successful;
 		private bool useAffectedRowcount;
+		private string queryFile = "";
 
 		public override string Description {
 			get {
-				return "Queries and iterates with attached service.";
+				return string.Format("Iterator for results of {0}", queryFile);
 			}
 		}
 
@@ -48,10 +49,13 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 
 			Connection = CreateConnection(modSettings);
 
-			Connection.SetDefaultCommandQuery((string)modSettings["query"],
-			             modSettings.Get("params", null) as List<object>);
+			queryFile = (string)modSettings["query"];
+			Connection.SetDefaultCommandQuery(queryFile, modSettings.Get("params", null) as List<object>);
 
 			useAffectedRowcount = modSettings.GetBool("useaffectedrowcount", false);
+
+			if (modSettings.GetBool("runonce", false))
+				Connection.GetDefaultCommand().Run().Close();
 		}
 
 
@@ -83,10 +87,16 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
 		/// </param>
 		private IDataReader ExecuteParameterizedCommand (IInteraction parameters)
 		{
-			IQueryCommand Command = Connection.GetDefaultCommand();
+			IQueryCommand Command = Connection.GetDefaultCommand ();
 
-			foreach (string paramname in Connection.DefaultOrderedParameters) 
-				Command.SetParameter(paramname, parameters[paramname]);
+			object paramvalue;
+
+			foreach (string paramname in Connection.DefaultOrderedParameters) {
+				if (parameters.TryGetFallback (paramname, out paramvalue))
+					Command.SetParameter (paramname, paramvalue);
+				else
+					throw new Exception (string.Format("Parameter {0} not in interaction", paramname));
+			}
 
 			return Command.Run ();
 		}
