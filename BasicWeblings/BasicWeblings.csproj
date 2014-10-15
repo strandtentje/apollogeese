@@ -67,8 +67,12 @@
     <Compile Include="Site\Page\DataDisplay\SQLite\SQLiteQueryConnection.cs" />
     <Compile Include="Site\Page\DataDisplay\MySQL\MySqlQueryCommand.cs" />
     <Compile Include="Site\Page\DataDisplay\SQLite\SQLiteQueryCommand.cs" />
-    <Compile Include="Site\Filesystem\FilesystemChangeInteraction.cs" />
     <Compile Include="Site\Page\Write.cs" />
+    <Compile Include="Site\Filesystem\FilesystemChangeInteraction.cs" />
+    <Compile Include="IterateStringArray.cs" />
+    <Compile Include="IterateInteraction.cs" />
+    <Compile Include="Fork.cs" />
+    <Compile Include="LookupWriter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
