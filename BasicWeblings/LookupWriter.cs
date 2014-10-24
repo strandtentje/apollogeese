@@ -1,15 +1,18 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utensils;
+using System.Collections.Generic;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
 	public class LookupWriter : Service
 	{
-		string LookupName {
-			get;
-			set;
-		}
+		private string LookupKeyName { get; set; }
+		private string LookupName {	get; set; }
+		private MultiDict<string, IInteraction> thisLookup;
+		static private Dictionary<string, MultiDict<string, IInteraction>> lookupLookup = new Dictionary<string, MultiDict<string, IInteraction>>();
 
 		public override string Description {
 			get {
@@ -22,9 +25,17 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		}
 
-		protected override void Initialize (BorrehSoft.Utensils.Collections.Settings.Settings modSettings)
+		protected override void Initialize (Settings modSettings)
 		{
+			LookupKeyName = modSettings ["lookupkeyname"] as String;
+			LookupName = modSettings ["lookupname"] as String;
 
+			if (lookupLookup.ContainsKey (LookupName))
+				thisLookup = lookupLookup [LookupName];
+			else {
+				thisLookup = new MultiDict<string, IInteraction>();
+				lookupLookup.Add(LookupName, thisLookup);
+			}
 		}
 
 		protected override bool Process (IInteraction parameters)
