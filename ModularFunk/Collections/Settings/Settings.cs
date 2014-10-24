@@ -57,6 +57,16 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			return subsettings ?? new Settings();
 		}		
 
+		public int GetInt(string id, int otherwise)
+		{
+			int result;
+
+			if (base.Has(id) && int.TryParse(base.GetString(id, otherwise.ToString()) , out result))
+				return result;
+			else
+				return otherwise;
+		}
+
 		public object Tag {
 			get;
 			set;

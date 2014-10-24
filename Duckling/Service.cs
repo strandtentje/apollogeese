@@ -108,8 +108,9 @@ namespace BorrehSoft.ApolloGeese.Duckling
 				if (IsLogging)		
 				{
 					Secretary.Report(5, "Arrived at: ", this.Description);
-					Secretary.Report(5, "Parameters: ");
+
 					if (LoggingParameters != null) {
+						Secretary.Report(5, "Parameters: ");
 						foreach(string parName in LoggingParameters)
 						{
 							string parValue;

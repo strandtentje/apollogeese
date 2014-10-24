@@ -44,12 +44,6 @@
     <Compile Include="Server\HttpService.cs" />
     <Compile Include="Site\SiteSubsection.cs" />
     <Compile Include="Site\Sessionizer.cs" />
-    <Compile Include="Site\Page\DataEntry\Form.cs" />
-    <Compile Include="Site\Page\DataEntry\EntryInteraction.cs" />
-    <Compile Include="Site\Page\DataEntry\Fields\TextEntry.cs" />
-    <Compile Include="Site\Page\DataEntry\FormDisplayingEvent.cs" />
-    <Compile Include="Site\Page\DataEntry\InputAcceptedEvent.cs" />
-    <Compile Include="Site\Page\DataEntry\Fields\SubmitButton.cs" />
     <Compile Include="Site\Page\Template.cs" />
     <Compile Include="Site\Page\DataDisplay\ResultInteraction.cs" />
     <Compile Include="Site\Cache.cs" />
@@ -73,6 +67,7 @@
     <Compile Include="IterateInteraction.cs" />
     <Compile Include="Fork.cs" />
     <Compile Include="LookupWriter.cs" />
+    <Compile Include="Site\Page\DataEntry\PostedFields.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -83,6 +78,7 @@
     <Folder Include="Site\Filesystem\" />
     <Folder Include="Site\Page\DataDisplay\MySQL\" />
     <Folder Include="Site\Page\DataDisplay\SQLite\" />
+    <Folder Include="Site\Page\DataEntry\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">

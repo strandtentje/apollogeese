@@ -3,6 +3,7 @@ using System.Text;
 using System.Collections.Generic;
 using BorrehSoft.Utensils;
 using System.IO;
+using System.Diagnostics;
 
 namespace BorrehSoft.Utensils.Collections.Maps
 {
@@ -20,9 +21,15 @@ namespace BorrehSoft.Utensils.Collections.Maps
 		/// <param name="parser">String parser for element value.</param>
 		/// <param name="assigner">Value-assigning character.</param>
 		/// <param name="concatenator">Concatenator of assignments.</param>
-		public void AddFromString(string source, Parser parser, char assigner, char concatenator)
+		public void AddFromString (string source, Parser parser, char assigner, char concatenator, long limit = -1)
 		{
 			StringBuilder buffer = new StringBuilder ();
+			Stopwatch timeLimiter = null;
+
+			if (limit > -1) {
+				timeLimiter = new Stopwatch ();
+				timeLimiter.Start();
+			}
 
 			string identifier = "";
 
@@ -40,6 +47,15 @@ namespace BorrehSoft.Utensils.Collections.Maps
 				}
 				else {
 					buffer.Append(c);
+				}
+
+				if (timeLimiter != null)
+				{
+					if (timeLimiter.ElapsedMilliseconds > limit)
+					{
+						timeLimiter.Stop();
+						throw new TimeoutException();
+					}
 				}
 			}
 

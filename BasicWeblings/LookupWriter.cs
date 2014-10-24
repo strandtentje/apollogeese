@@ -21,6 +21,17 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		{
 
 		}
+
+		protected override void Initialize (BorrehSoft.Utensils.Collections.Settings.Settings modSettings)
+		{
+
+		}
+
+		protected override bool Process (IInteraction parameters)
+		{
+
+			return false;
+		}
 	}
 }
 

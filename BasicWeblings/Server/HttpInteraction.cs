@@ -15,7 +15,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 	/// Http interaction, offers extra utilities for interactions that resulted from an HTTP
 	/// server.
 	/// </summary>
-	public class HttpInteraction : QuickInteraction
+	public class HttpInteraction : QuickInteraction, IHttpInteraction
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Extensions.BasicWeblings.Server.HttpInteraction"/> class.
