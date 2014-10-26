@@ -41,12 +41,11 @@ namespace BorrehSoft.Utensils
 			this[key].Remove(value);
 		}
 
-		public void FillWith (List<TKey> keys, TValue value)
+		public void FillWith (IEnumerable<TKey> keys, TValue value)
 		{
 			foreach(TKey key in keys)
 				this.AppendTo(key, value);
 		}
-
 	}
 }
 

@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using System.Collections.Generic;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
+namespace BorrehSoft.Extensions.BasicWeblings.Data
 {
 	public interface IQueryConnection
 	{

@@ -45,40 +45,39 @@
     <Compile Include="Site\SiteSubsection.cs" />
     <Compile Include="Site\Sessionizer.cs" />
     <Compile Include="Site\Page\Template.cs" />
-    <Compile Include="Site\Page\DataDisplay\ResultInteraction.cs" />
     <Compile Include="Site\Cache.cs" />
     <Compile Include="Site\Filesystem\Fileserver.cs" />
     <Compile Include="Site\Filesystem\FilesystemBrowser.cs" />
     <Compile Include="Site\Filesystem\FilesystemItemInteraction.cs" />
     <Compile Include="Site\Filesystem\Tarballer.cs" />
     <Compile Include="Site\Filesystem\FilesystemIndexer.cs" />
-    <Compile Include="Site\Page\DataDisplay\IQueryCommand.cs" />
-    <Compile Include="Site\Page\DataDisplay\IQueryConnection.cs" />
-    <Compile Include="Site\Page\DataDisplay\Querier.cs" />
-    <Compile Include="Site\Page\DataDisplay\MySQL\MySqlQuerier.cs" />
-    <Compile Include="Site\Page\DataDisplay\MySQL\MySqlQueryConnection.cs" />
-    <Compile Include="Site\Page\DataDisplay\SQLite\SQLiteQuerier.cs" />
-    <Compile Include="Site\Page\DataDisplay\SQLite\SQLiteQueryConnection.cs" />
-    <Compile Include="Site\Page\DataDisplay\MySQL\MySqlQueryCommand.cs" />
-    <Compile Include="Site\Page\DataDisplay\SQLite\SQLiteQueryCommand.cs" />
     <Compile Include="Site\Page\Write.cs" />
     <Compile Include="Site\Filesystem\FilesystemChangeInteraction.cs" />
-    <Compile Include="IterateStringArray.cs" />
-    <Compile Include="IterateInteraction.cs" />
     <Compile Include="Fork.cs" />
-    <Compile Include="LookupWriter.cs" />
     <Compile Include="Site\Page\DataEntry\PostedFields.cs" />
+    <Compile Include="Lookup\LookupReader.cs" />
+    <Compile Include="Lookup\LookupWriter.cs" />
+    <Compile Include="Lookup\Lookups.cs" />
+    <Compile Include="Lookup\LookupEntry.cs" />
+    <Compile Include="Data\ResultInteraction.cs" />
+    <Compile Include="Data\IQueryCommand.cs" />
+    <Compile Include="Data\IQueryConnection.cs" />
+    <Compile Include="Data\Querier.cs" />
+    <Compile Include="Data\MySQL\MySqlQuerier.cs" />
+    <Compile Include="Data\MySQL\MySqlQueryConnection.cs" />
+    <Compile Include="Data\SQLite\SQLiteQuerier.cs" />
+    <Compile Include="Data\SQLite\SQLiteQueryConnection.cs" />
+    <Compile Include="Data\MySQL\MySqlQueryCommand.cs" />
+    <Compile Include="Data\SQLite\SQLiteQueryCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Server\" />
     <Folder Include="Site\" />
     <Folder Include="Site\Page\" />
-    <Folder Include="Site\Page\DataDisplay\" />
     <Folder Include="Site\Filesystem\" />
-    <Folder Include="Site\Page\DataDisplay\MySQL\" />
-    <Folder Include="Site\Page\DataDisplay\SQLite\" />
     <Folder Include="Site\Page\DataEntry\" />
+    <Folder Include="Lookup\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">

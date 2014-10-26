@@ -26,6 +26,8 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 		IInteraction GetClosest(Type t);
 
+		IInteraction Clone(IInteraction parent);
+
 		/// <summary>
 		/// Tries to get a string from the luggage
 		/// </summary>

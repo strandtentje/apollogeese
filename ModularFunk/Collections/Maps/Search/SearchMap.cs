@@ -39,7 +39,7 @@ namespace BorrehSoft.Utensils.Collections.Maps.Search
 		/// <param name='query'>
 		/// Search string. May contain boolean list modifiers such as OR and AND.
 		/// </param>
-		public CleverSet<T> Find (string[] query)
+		public CleverSet<T> Find (IEnumerable<string> query)
 		{
 			BooleanOperator 	currentOperator	= BooleanOperator.OR;
 			Queue<string> 		queryChain		= new Queue<string> (query);

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Data.Common;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
+namespace BorrehSoft.Extensions.BasicWeblings.Data.SQLite
 {
 	public class SQLiteQueryConnection : IQueryConnection
 	{

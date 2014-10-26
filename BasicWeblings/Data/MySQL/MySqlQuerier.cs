@@ -1,7 +1,7 @@
 using System;
 using BorrehSoft.Utensils.Collections.Settings;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
+namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
 {
 	public class MySqlQuerier : Querier
 	{

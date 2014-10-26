@@ -4,7 +4,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.IO;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
+namespace BorrehSoft.Extensions.BasicWeblings.Data.SQLite
 {
 	class SQLiteQueryCommand : IQueryCommand
 	{

@@ -43,7 +43,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			private set 
 			{ 
 				_request = value; 
-				URL = new StringList (value.RawUrl, '/');
+				this["url"] = URL = new StringList (value.RawUrl, '/');
 
 				RequestHeaders = new RequestHeaders (value.Headers, Request.Cookies);
 				RequestBody = new StreamReader (value.InputStream);

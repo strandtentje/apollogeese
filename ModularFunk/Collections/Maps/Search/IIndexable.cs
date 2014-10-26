@@ -14,7 +14,7 @@ namespace BorrehSoft.Utensils.Collections.Maps.Search
 		/// <value>
 		/// The keywords.
 		/// </value>
-		List<string> Keywords { get; }
+		IEnumerable<string> Keywords { get; }
 
 		string Meta { get; }
 	}

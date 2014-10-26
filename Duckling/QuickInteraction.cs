@@ -58,6 +58,11 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			throw new Exception("No interaction in chain was of specified type");
 		}
 
+		public IInteraction Clone (IInteraction parent)
+		{
+			return new QuickInteraction(parent, this);
+		}
+
 		public bool TryGetFallback (string id, out object luggage)
 		{
 			if (this.TryGetValue(id, out luggage))

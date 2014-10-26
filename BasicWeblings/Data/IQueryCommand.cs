@@ -1,7 +1,7 @@
 using System;
 using System.Data;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
+namespace BorrehSoft.Extensions.BasicWeblings.Data
 {
 	public interface IQueryCommand
 	{		

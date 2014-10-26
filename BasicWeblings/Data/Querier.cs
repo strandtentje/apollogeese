@@ -12,7 +12,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.IO;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
+namespace BorrehSoft.Extensions.BasicWeblings.Data
 {
 	/// <summary>
 	/// Querier; queries.

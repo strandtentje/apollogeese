@@ -3,12 +3,13 @@ using BorrehSoft.ApolloGeese.Duckling;
 using System.IO;
 using BorrehSoft.Utensils.Collections;
 using System.Text.RegularExpressions;
+using BorrehSoft.Utensils.Collections.Maps.Search;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 {
 	public class FilesystemChangeInteraction : QuickInteraction
 	{
-		FileInfo info;
+		FileSystemInfo info;
 		static Regex alphaNumerical = new Regex(@"\W|_");
 
 		/// <summary>
@@ -41,12 +42,20 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 			}
 		}
 
+		public bool IsDirectory { 
+			get {
+				return (bool)this["isdirectory"];
+			}
+		}
+
 		public FilesystemChangeInteraction (string fullPath)
 		{
 			info = new FileInfo(fullPath);
+	
 			this["name"] = info.Name;
 			this["fullname"] = info.FullName;
 			this["keywords"] = alphaNumerical.Split(info.Name.ToLower());
+			this["isdirectory"] = (this.info.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
 		}
 	}
 }

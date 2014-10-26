@@ -2,7 +2,7 @@ using System;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Page.DataDisplay
+namespace BorrehSoft.Extensions.BasicWeblings.Data.SQLite
 {
 	public class SQLiteQuerier : Querier
 	{

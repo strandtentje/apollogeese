@@ -4,7 +4,7 @@ using BorrehSoft.Utensils.Collections;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using System.Data;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.BasicWeblings.Data
 {
 	public class ResultInteraction : QuickInteraction
 	{
@@ -13,7 +13,6 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			for(int i = 0; i < reader.FieldCount; i++)
 				this[reader.GetName(i)] = reader.GetValue(i);
 		}
-
 
 		public override string ToString ()
 		{
