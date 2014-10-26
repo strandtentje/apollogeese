@@ -11,10 +11,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 		IEnumerable<string> keywords;
 		string meta;
 
-		public LookupEntry (IEnumerable<string> keywords, IInteraction Parameters)
+		public LookupEntry (IEnumerable<string> keywords, string meta, IInteraction Parameters)
 		{
 			this.keywords = keywords;
-			this.meta = Convert.ToBase64String((new Guid()).ToByteArray());
+			this.meta = meta;
 			this.Parameters = Parameters;
 		}
 
@@ -33,6 +33,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 				return this.meta;
 			}
 		}
+
+		public bool Exists { get; set; }
 
 		public int CompareTo(object other)
 		{
