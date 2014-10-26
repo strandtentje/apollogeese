@@ -54,7 +54,6 @@
     <Compile Include="Site\Page\Write.cs" />
     <Compile Include="Site\Filesystem\FilesystemChangeInteraction.cs" />
     <Compile Include="Fork.cs" />
-    <Compile Include="Site\Page\DataEntry\PostedFields.cs" />
     <Compile Include="Lookup\LookupReader.cs" />
     <Compile Include="Lookup\LookupWriter.cs" />
     <Compile Include="Lookup\Lookups.cs" />
@@ -69,6 +68,7 @@
     <Compile Include="Data\SQLite\SQLiteQueryConnection.cs" />
     <Compile Include="Data\MySQL\MySqlQueryCommand.cs" />
     <Compile Include="Data\SQLite\SQLiteQueryCommand.cs" />
+    <Compile Include="Site\Page\PostedFields.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
