@@ -10,8 +10,18 @@ namespace BorrehSoft.Utensils.Collections
 	/// </summary>
 	public class WaitingQueue<T>
 	{
+		public class Entry {
+			public Entry(T Item)
+			{
+				this.Item = Item;
+			}
+			public T Item;
+			public Semaphore Acquired = new Semaphore(0, 1);
+			public Thread OwningThread;
+		}
+
 		EventWaitHandle queueHolder = new EventWaitHandle(false, EventResetMode.AutoReset);
-		Queue<T> underlying = new Queue<T>();
+		Queue<Entry> underlying = new Queue<Entry>();
 
 		public WaitingQueue ()
 		{
@@ -22,17 +32,20 @@ namespace BorrehSoft.Utensils.Collections
 		/// </summary>
 		public T Dequeue ()
 		{
-			T outItem;
+			Entry outItem;
 
 			queueHolder.WaitOne ();
 			lock (underlying) {
 				outItem = underlying.Dequeue ();
+				outItem.OwningThread = Thread.CurrentThread;
+				outItem.Acquired.Release();
+
 				if (underlying.Count > 0)
 					queueHolder.Set();
 			}
 
-			return outItem;
-		}		
+			return outItem.Item;
+		}			
 
 		/// <summary>
 		/// Enqueue the specified inItem.
@@ -40,15 +53,24 @@ namespace BorrehSoft.Utensils.Collections
 		/// <param name='inItem'>
 		/// In item.
 		/// </param>
-		public void Enqueue (T inItem)
+		public Entry Enqueue (T inItem)
 		{
+			Entry newEntry = new Entry(inItem);
+
 			lock (underlying) {
-				underlying.Enqueue(inItem);
+				underlying.Enqueue(newEntry);
 				queueHolder.Set();
 			}
+
+			return newEntry;
 		}
 
-
+		public Thread WaitEnqueue(T inItem)
+		{
+			Entry entry = Enqueue(inItem);
+			entry.Acquired.WaitOne();
+			return entry.OwningThread;
+		}
 	}
 }
 
