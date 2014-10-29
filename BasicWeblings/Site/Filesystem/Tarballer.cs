@@ -59,7 +59,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 			bool success = false;
 
 			try {
-				p.StandardOutput.BaseStream.CopyTo (httpParameters.ResponseBody.BaseStream);
+				p.StandardOutput.BaseStream.CopyTo (httpParameters.OutgoingBody.BaseStream);
 				success = true;
 			} catch (Exception ex) {
 				Secretary.Report (5, "Tarring for", requestedPath, " failed with message ", ex.Message);

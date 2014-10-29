@@ -62,7 +62,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 					parameters.ResponseHeaders.ContentLength = sourcefile.Length;
 
 					FileStream sourceStream = sourcefile.OpenRead();
-					sourceStream.CopyTo(parameters.ResponseBody.BaseStream);
+					sourceStream.CopyTo(parameters.OutgoingBody.BaseStream);
 					sourceStream.Close();
 				} else {
 					parameters.StatusCode = 404;
