@@ -49,6 +49,8 @@
     <Compile Include="StubService.cs" />
     <Compile Include="HTML\Entities\Specialized\HeadEntity.cs" />
     <Compile Include="QuickInteraction.cs" />
+    <Compile Include="IOutgoingBodiedInteraction.cs" />
+    <Compile Include="IIncomingBodiedInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
