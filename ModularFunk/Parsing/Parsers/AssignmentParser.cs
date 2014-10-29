@@ -6,8 +6,13 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 	public class AssignmentParser : Parser
 	{
 		IdentifierParser identifierParser = new IdentifierParser();
-		CharacterParser coupler = new CharacterParser('=');
+		CharacterParser coupler;
 		public Parser InnerParser { get; set; }
+
+		public AssignmentParser(char couplerChar = '=')
+		{
+			coupler = new CharacterParser(couplerChar);
+		}
 
 		public override string ToString ()
 		{
