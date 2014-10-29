@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using BorrehSoft.Utensils.Parsing;
 using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utensils.Parsing.Parsers;
 
 namespace BorrehSoft.Utensils.Collections.Settings
 {
@@ -38,6 +39,19 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			Secretary.Report (5, "Settings finished loading from: ", file);
 
 			return config;
+		}
+
+		public static Settings FromJson (string data)
+		{
+			ParsingSession session = new ParsingSession(data, new WhitespaceParser());
+			SettingsParser parser = new SettingsParser(entitySe: ',', couplerChar: ':');
+
+			object result;
+
+			if (parser.Run(session, out result) < 0)
+				return new Settings();
+
+			return (Settings) result;
 		}
 
 		public bool GetBool (string id, bool otherwise)

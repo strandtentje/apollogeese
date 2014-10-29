@@ -18,14 +18,18 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Utensils.Settings.SettingsParser"/> class.
 		/// </summary>
-		public SettingsParser() : base('{', '}', ';')
+		public SettingsParser(
+			char startBlock = '{', char endBlock = '}', char entitySe = ';', 
+			char startArr = '[', char endArr = ']', char arrSe = ',',
+			char couplerChar = '=') : base(startBlock, endBlock, entitySe)
 		{
-			ConcatenationParser listParser = new ConcatenationParser ('[', ']', ',');
+			ConcatenationParser listParser = new ConcatenationParser (startArr, endArr, arrSe);
 
-			AssignmentParser assignmentParser = new AssignmentParser ();
+			AssignmentParser assignmentParser = new AssignmentParser (couplerChar);
 
 
 			AnyParser valueParser = new AnyParser (
+				new ValueParser<long> (long.TryParse),
 				new ValueParser<int> (int.TryParse), 
 				new ValueParser<float> (float.TryParse),
 				new ValueParser<bool> (bool.TryParse, "(True|False|true|false)"), 
