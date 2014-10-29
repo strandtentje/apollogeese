@@ -68,7 +68,13 @@
     <Compile Include="Data\SQLite\SQLiteQueryConnection.cs" />
     <Compile Include="Data\MySQL\MySqlQueryCommand.cs" />
     <Compile Include="Data\SQLite\SQLiteQueryCommand.cs" />
-    <Compile Include="Site\Page\PostedFields.cs" />
+    <Compile Include="Lookup\LookupExterminator.cs" />
+    <Compile Include="Client\HttpClient.cs" />
+    <Compile Include="Client\HttpResponseInteraction.cs" />
+    <Compile Include="Site\Page\FieldReader.cs" />
+    <Compile Include="Site\Page\PostFieldReader.cs" />
+    <Compile Include="Site\Page\JsonFieldReader.cs" />
+    <Compile Include="Client\HttpOutgoingInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -76,8 +82,8 @@
     <Folder Include="Site\" />
     <Folder Include="Site\Page\" />
     <Folder Include="Site\Filesystem\" />
-    <Folder Include="Site\Page\DataEntry\" />
     <Folder Include="Lookup\" />
+    <Folder Include="Client\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">
