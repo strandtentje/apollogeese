@@ -9,6 +9,8 @@ namespace BorrehSoft.Utensils.Collections.Maps.Search
 	/// </summary>
 	public class SearchMap<T> : Map<CleverSet<T>> where T : IIndexable
 	{
+		public CleverSet<T> AllItems = new CleverSet<T>();
+
 		/// <summary>
 		/// Add the specified item to this searchable map.
 		/// </summary>
@@ -31,6 +33,8 @@ namespace BorrehSoft.Utensils.Collections.Maps.Search
 				if (!targetSet.ContainsKey(item.Meta))
 					targetSet.Add (item.Meta, item);
 			}
+
+			AllItems.Add(item);
 		}
 
 		/// <summary>
@@ -87,5 +91,11 @@ namespace BorrehSoft.Utensils.Collections.Maps.Search
 		{
 			return base[keyword] ?? new CleverSet<T>();
 		}
+
+		public void RemoveByMeta (string meta)
+		{
+			AllItems.Remove(meta);
+		}
+
 	}
 }

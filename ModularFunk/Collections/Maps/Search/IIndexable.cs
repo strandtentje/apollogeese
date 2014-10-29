@@ -17,6 +17,8 @@ namespace BorrehSoft.Utensils.Collections.Maps.Search
 		IEnumerable<string> Keywords { get; }
 
 		string Meta { get; }
+
+		bool Exists { get; set; }
 	}
 }
 
