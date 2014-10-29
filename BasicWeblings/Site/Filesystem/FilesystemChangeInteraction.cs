@@ -48,10 +48,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 			}
 		}
 
-		public FilesystemChangeInteraction (string fullPath)
+		public FilesystemChangeInteraction (FileSystemInfo info)
 		{
-			info = new FileInfo(fullPath);
-	
+			this.info = info;	
 			this["name"] = info.Name;
 			this["fullname"] = info.FullName;
 			this["keywords"] = alphaNumerical.Split(info.Name.ToLower());
