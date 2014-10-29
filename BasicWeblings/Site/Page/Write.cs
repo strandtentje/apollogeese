@@ -27,7 +27,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 			bool success; string text; 
 
 			if (success = parameters.TryGetString (VariableName, out text)) {
-				interaction.ResponseBody.WriteLine (text);
+				interaction.OutgoingBody.WriteLine (text);
 			}
 
 			return success;

@@ -90,21 +90,24 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 
 		protected override bool Process (IInteraction source)
 		{
-			IHttpInteraction target;
+			IOutgoingBodiedInteraction target;
 			MimeType type;
 			int cursor = 0;
 			string groupName;
 
-			target = (IHttpInteraction)source.GetClosest(typeof(IHttpInteraction));
-			type = MimeType.Text.Html; type.Encoding = Encoding.UTF8;
+			target = (IOutgoingBodiedInteraction)source.GetClosest (typeof(IOutgoingBodiedInteraction));
 
-			target.ResponseHeaders.ContentType = type;
+			if (target is IHttpInteraction) {
+				type = MimeType.Text.Html;
+				type.Encoding = Encoding.UTF8;
+				((IHttpInteraction)target).ResponseHeaders.ContentType = type;
+			}
 
 			if (WillCheckForTemplateUpdates) CheckForTemplateUpdates();
 
 			try	{
 				foreach (Match replaceable in replaceables) {
-					target.ResponseBody.Write(rawTemplate.Substring (cursor, replaceable.Index - cursor));
+					target.OutgoingBody.Write(rawTemplate.Substring (cursor, replaceable.Index - cursor));
 
 					groupName = replaceable.Groups[1].Value;
 
@@ -114,14 +117,14 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 						object chunk;
 						if (source.TryGetValue(groupName, out chunk))
 						{
-							target.ResponseBody.Write(chunk.ToString());
+							target.OutgoingBody.Write(chunk.ToString());
 						}
 						else 
 						{
-							target.ResponseBody.Write("Unavailable.");
+							target.OutgoingBody.Write("Unavailable.");
 						}
 					} else if (!branch.TryProcess(source)) {
-						target.ResponseBody.Write("Unavailable.");
+						target.OutgoingBody.Write("Unavailable.");
 					}				
 
 					cursor = replaceable.Index + replaceable.Length;
@@ -130,7 +133,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 				// In the very likely event the cursor is not at the end of the document,
 				// the last bit of the document needs to be written to the body as well.
 				if (cursor < rawTemplate.Length)
-					target.ResponseBody.Write(rawTemplate.Substring(cursor));
+					target.OutgoingBody.Write(rawTemplate.Substring(cursor));
 
 			}
 			catch (Exception ex) {

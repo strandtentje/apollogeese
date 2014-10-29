@@ -6,7 +6,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.Http
 	/// <summary>
 	/// Parameters to an HTTP-related service-interaction.
 	/// </summary>
-	public interface IHttpInteraction : IInteraction
+	public interface IHttpInteraction : IInteraction, IOutgoingBodiedInteraction, IIncomingBodiedInteraction
 	{
 		/// <summary>
 		/// Gets the request  method.
@@ -32,7 +32,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.Http
 		/// Gets the request body.
 		/// </summary>
 		/// <value>The request body.</value>
-		StreamReader RequestBody { get; }
+		StreamReader IncomingBody { get; }
 
 		/// <summary>
 		/// Gets or sets the status code for the HTTP response
@@ -52,7 +52,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.Http
 		/// Gets the response body.
 		/// </summary>
 		/// <value>The response body.</value>
-		StreamWriter ResponseBody { get; }
+		StreamWriter OutgoingBody { get; }
 	}
 }
 

@@ -18,6 +18,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		private HttpListener listener = new HttpListener();
 		private Service httpBranch;
 		private bool MeasurePerformance = true;
+		private int maxRequestSize;
+		private int maxRequestTime;
 
 		public override string Description {
 			get {
@@ -27,12 +29,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 
 		protected override void Initialize (Settings modSettings)
 		{
-			if (modSettings ["MeasurePerformance"] is string) {
-				if (bool.TryParse ((string)modSettings ["MeasurePerformance"],
-				                   out MeasurePerformance)) {
-					MeasurePerformance = true;
-				}
-			}
+			MeasurePerformance = modSettings.GetBool("measureperformance", false);
 
 			listener.Stop ();
 			listener.Prefixes.Clear ();
@@ -94,8 +91,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 
 			if (!Process (parameters)) context.Response.StatusCode = 500;
 
-			parameters.RequestBody.Close ();
-			parameters.ResponseBody.Close ();
+			parameters.IncomingBody.Close ();
+			parameters.OutgoingBody.Close ();
 		}
 
 		protected override bool Process (IInteraction parameters)

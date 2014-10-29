@@ -46,7 +46,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 				this["url"] = URL = new StringList (value.RawUrl, '/');
 
 				RequestHeaders = new RequestHeaders (value.Headers, Request.Cookies);
-				RequestBody = new StreamReader (value.InputStream);
+				IncomingBody = new StreamReader (value.InputStream);
 			}
 		}
 
@@ -72,7 +72,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		/// Gets the request body.
 		/// </summary>
 		/// <value>The request body.</value>
-		public StreamReader RequestBody { get; private set; }
+		public StreamReader IncomingBody { get; private set; }
 		#endregion
 
 		#region Response		
@@ -108,7 +108,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		void SetHeadAndBodyFromResponse (HttpListenerResponse value)
 		{			
 			_responseHeaders = new ResponseHeaders (value.Headers);
-			ResponseBody = new StreamWriter (value.OutputStream);
+			OutgoingBody = new StreamWriter (value.OutputStream);
 		}
 
 		ResponseHeaders _responseHeaders;
@@ -119,7 +119,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		/// <value>The response headers.</value>
 		public ResponseHeaders ResponseHeaders { get { return _responseHeaders; } }
 
-		public StreamWriter ResponseBody { get; private set; }
+		public StreamWriter OutgoingBody { get; private set; }
 		#endregion
 	
 	}
