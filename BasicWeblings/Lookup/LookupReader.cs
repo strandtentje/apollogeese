@@ -40,15 +40,14 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 
 		protected override bool Process (IInteraction parameters)
 		{
-			/*
 			IEnumerable<string> keylist = Lookups.GetKeylist (parameters [this.LookupKeyName], KeyCap);
 			CleverSet<LookupEntry> results = thisLookup.Find (keylist);
 
-			foreach (LookupEntry result in results) {
+			foreach (LookupEntry result in results.Values) {
 				this.iterator.TryProcess(result.Parameters.Clone(parameters));
-			} */
+			} 
 
-			return false;
+			return true;
 		}
 	}
 }
