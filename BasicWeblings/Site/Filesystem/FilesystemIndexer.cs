@@ -34,10 +34,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 		private void WalkPath (object pathObject)
 		{
 			string path = (string)pathObject;
+
 			DirectoryInfo rootDirectory = new DirectoryInfo (path);
 			FileSystemInfo[] children = rootDirectory.GetFileSystemInfos ("*", SearchOption.AllDirectories);
-
-			string directory, file;
 
 			foreach (FileSystemInfo child in children) {
 				NewItem(child);
@@ -79,8 +78,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 		void NewItem (FileSystemInfo info)
 		{
-			if (info is FileInfo) newFile.TryProcess(new FilesystemChangeInteraction(info));
-			if (info is DirectoryInfo) newDirectory.TryProcess(new FilesystemChangeInteraction(info));
+			if (info is FileInfo) newFile.TryProcess(new FilesystemChangeInteraction(info, rootPath));
+			if (info is DirectoryInfo) newDirectory.TryProcess(new FilesystemChangeInteraction(info, rootPath));
 			infoCache[info.FullName] = info;
 		}
 

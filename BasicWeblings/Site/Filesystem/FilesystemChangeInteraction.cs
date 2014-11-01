@@ -48,11 +48,13 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 			}
 		}
 
-		public FilesystemChangeInteraction (FileSystemInfo info)
+		public FilesystemChangeInteraction (FileSystemInfo info, string rootPath = "")
 		{
 			this.info = info;	
 			this["name"] = info.Name;
 			this["fullname"] = info.FullName;
+			if (info.FullName.StartsWith(rootPath)) 
+				this["url"] = info.FullName.Remove(0, rootPath.Length);
 			this["keywords"] = alphaNumerical.Split(info.Name.ToLower());
 			this["isdirectory"] = (this.info.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
 		}
