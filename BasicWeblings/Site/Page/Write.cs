@@ -14,20 +14,25 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 		}
 
 		private string VariableName { get; set; }
+		private string Format { get; set; }
 
 		protected override void Initialize (Settings modSettings)
 		{
 			VariableName = modSettings.GetString("variablename", "");
+			Format = modSettings.GetString("format", "{0}");
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
 			IHttpInteraction interaction = (IHttpInteraction)parameters.GetClosest (typeof(IHttpInteraction));
 
-			bool success; string text; 
+			bool success = true;
+			string text; 
 
-			if (success = parameters.TryGetString (VariableName, out text)) {
-				interaction.OutgoingBody.WriteLine (text);
+			if (VariableName.Length == 0) {
+				interaction.OutgoingBody.WriteLine(Format);
+			} else if (success = parameters.TryGetString (VariableName, out text)) {
+				interaction.OutgoingBody.WriteLine (string.Format(Format, text));
 			}
 
 			return success;
