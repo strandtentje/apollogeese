@@ -46,14 +46,16 @@ namespace BorrehSoft.Utensils.Collections.Maps.Search
 		public CleverSet<T> Find (IEnumerable<string> query)
 		{
 			BooleanOperator 	currentOperator	= BooleanOperator.OR;
+			BooleanOperator		newOperator;
 			Queue<string> 		queryChain		= new Queue<string> (query);
 			CleverSet<T>		resultSet		= new CleverSet<T>();
 
 			while (queryChain.Count > 0) {
 				string shackle = queryChain.Dequeue();
 
-				if (!Enum.TryParse(shackle, out currentOperator))
-				{
+				if (Enum.TryParse(shackle, out newOperator)) {
+					currentOperator = newOperator;
+				} else {
 					CleverSet<T> nextSet = Find (shackle);
 
 					if (currentOperator == BooleanOperator.AND)	
