@@ -15,12 +15,15 @@ namespace BorrehSoft.Extensions.BasicWeblings
 	{
 		public override string Description {
 			get {
-				return string.Format("Registration of fields {0}", string.Join(",", FieldExpressions.Keys));
+				if (FieldExpressions == null)
+					return "Registration of no fields at all because you failed to set fieldregexes.";
+				else 
+					return string.Format("Registration of fields {0}", string.Join(",", FieldExpressions.Keys));
 			}
 		}		
 
 		public Dictionary<string, Regex> FieldExpressions { get; private set; }
-		private Service Succesful;
+		private Service Succesful, Form;
 
 		protected override void Initialize (Settings modSettings)
 		{
@@ -40,6 +43,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			if (e.Name == "successful") Succesful = e.NewValue;
+			if (e.Name == "form") Form = e.NewValue;
 		}
 
 		public abstract Map<object> Deserialize(string data);
@@ -50,9 +54,9 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			bool success = true;
 
 			IIncomingBodiedInteraction request = parameters as IIncomingBodiedInteraction;
-			QuickInteraction parsedData = new QuickInteraction ();
+			QuickInteraction parsedData = new QuickInteraction (parameters);
 
-			Map<object> postedData = Deserialize(request.IncomingBody.ReadToEnd ());
+			Map<object> postedData = Deserialize (request.IncomingBody.ReadToEnd ());
 
 			foreach (string fieldName in FieldExpressions.Keys) {
 				string fieldValue = postedData.GetString (fieldName, "");
@@ -64,12 +68,16 @@ namespace BorrehSoft.Extensions.BasicWeblings
 					}
 				} else {
 					failures++;
-					success &= Branches [string.Format ("%s_failure", fieldName)].TryProcess (parameters);
+					string failName = string.Format ("{0}_failure", fieldName);
+					Service failBranch = Branches [failName];
+					success &= failBranch.TryProcess (parameters);
 				}
 			}
 
 			if (failures == 0) {
-				success &= Succesful.TryProcess(parsedData);
+				success &= Succesful.TryProcess (parsedData);
+			} else {
+				success &= Form.TryProcess(parsedData);
 			}
 
 			return success;
