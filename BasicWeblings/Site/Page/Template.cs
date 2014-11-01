@@ -29,6 +29,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 		private StringList templateVariables = new StringList();
 
 		private string templateFile, rawTemplate, chunkPattern, title;
+		private string unsuppliedFormat, inacquirableFormat;
 
 		public bool WillCheckForTemplateUpdates { get; private set; }
 
@@ -48,6 +49,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 			chunkPattern = (string)modSettings ["chunkpattern"];
 			templateFile = (string)modSettings ["templatefile"];
 			WillCheckForTemplateUpdates = modSettings.GetBool("checkfortemplateupdates", true);
+			inacquirableFormat = modSettings.GetString("forwardfail", "Branch fail; {0}");
+			unsuppliedFormat = modSettings.GetString("backwardfail",  "No branch, not in fallback; {0}");
 			settings = modSettings;
 
 			if (WillCheckForTemplateUpdates)
@@ -121,10 +124,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 						}
 						else 
 						{
-							target.OutgoingBody.Write("Unavailable.");
+							target.OutgoingBody.Write(string.Format(unsuppliedFormat, groupName));
 						}
 					} else if (!branch.TryProcess(source)) {
-						target.OutgoingBody.Write("Unavailable.");
+						target.OutgoingBody.Write(string.Format(inacquirableFormat, groupName));
 					}				
 
 					cursor = replaceable.Index + replaceable.Length;
