@@ -46,7 +46,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			byte[] receivedBytes = udpClient.EndReceive (result, ref anyIP);
 			string receivedString = Encoding.ASCII.GetString (receivedBytes);
 
-			Secretary.Report("received", receivedString, "from", anyIP.ToString());
+			Secretary.Report(5, "received", receivedString, "from", anyIP.ToString());
 
 			if (receivedString == requestString) {
 				udpClient.Send(responseBytes, responseBytes.Length, anyIP);
@@ -55,14 +55,15 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			BeginAdvertising();
 		}
 
-		protected override void HandleBranchChanged (object sender)
+		protected override void HandleBranchChanged (object sender, BorrehSoft.Utensils.Collections.Maps.ItemChangedEventArgs<Service> e)
 		{
 
 		}
 
+
 		protected override bool Process (IInteraction parameters)
 		{
-
+			return false;
 		}
 	
 	}

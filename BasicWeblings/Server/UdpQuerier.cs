@@ -10,19 +10,36 @@ using BorrehSoft.Utensils.Collections.Maps;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.BasicWeblings.Server
 {
 	public class UdpQuerier : Service
 	{
-		class UdpQueryResult
+		class UdpQueryResult : QuickInteraction
 		{
 			public string HostIP { get; private set; }
 			public string ResultString { get; private set; }
 			public string Combined { get; private set; }
 			public DateTime CreationTime { get; private set; }
 
+			public override bool Has (string key)
+			{
+				return base.Has(key) ;
+			}
+
+			public override object Get (string key)
+			{
+				if (key == "hostip") return HostIP;
+				if (key == "resultstring") return ResultString;
+				if (key == "combined") return Combined;
+				if (key == "creationtime") return CreationTime.ToString("o");
+
+				return base.Get (key);
+			}
+
 			public UdpQueryResult (string hostIP, string resultString)
 			{
+				this["hostip"] = ""; this["resultstring"] = ""; this["combined"] = ""; this["creationtime"] = "";
+
 				this.HostIP = hostIP;
 				this.ResultString = resultString;
 				this.Combined = string.Format("{0}{1}", hostIP, resultString);
@@ -57,7 +74,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		protected override void Initialize (Settings modSettings)
 		{
-			queryInterval = int.Parse(modSettings.GetString("minutesbetweenqueries", 1)) * 60000;
+			queryInterval = int.Parse(modSettings.GetString("minutesbetweenqueries", "1")) * 60000;
 			IP = IPAddress.Parse(modSettings.GetString("ip", "255.255.255.255"));
 			Port = int.Parse(modSettings.GetString("port", "15325"));
 
@@ -69,7 +86,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			BeginGathering();
 		}
 
-		private void queryMethod()
+		private void queryMethod(object o)
 		{
 			IPEndPoint endpoint = new IPEndPoint(IP, Port);
 
@@ -108,7 +125,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		protected override bool Process (IInteraction parameters)
 		{
 			foreach (UdpQueryResult result in results.Values) 
-				iteratorBranch.TryProcess(new QuickInteraction(parameters, result));
+				iteratorBranch.TryProcess(new QuickInteraction());
 
 			return true;
 		}
