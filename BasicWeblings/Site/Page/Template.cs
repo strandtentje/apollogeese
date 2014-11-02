@@ -118,7 +118,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 
 					if ((branch ?? Stub) == Stub) {
 						object chunk;
-						if (source.TryGetValue(groupName, out chunk))
+						if (source.TryGetFallback(groupName, out chunk))
 						{
 							target.OutgoingBody.Write(chunk.ToString());
 						}
@@ -149,6 +149,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 					rawTemplate.Substring (cursor, 40), 
 					ex.Message), ex);
 			}
+
 
 			return true;
 		}
