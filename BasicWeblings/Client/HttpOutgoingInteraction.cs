@@ -8,12 +8,18 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 	{
 		private StreamWriter bodyWriter;
 
-		public HttpOutgoingInteraction (Stream bodyStream)
+		public HttpOutgoingInteraction (Stream bodyStream, IInteraction parent) : base(parent)
 		{
 			bodyWriter = new StreamWriter(bodyStream);
 		}
 
 		public StreamWriter OutgoingBody { get { return bodyWriter; } }
+
+		public void Done ()
+		{
+			OutgoingBody.Flush();
+		}
+
 	}
 }
 

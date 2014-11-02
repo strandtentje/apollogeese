@@ -4,6 +4,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Net.Sockets;
 using System.Net;
+using System.IO;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Client
 {
@@ -16,11 +17,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 		}
 
 		string hostname; int port;
-		Service outgoingBodyBranch, responseProcessor;
+		Service uriBranch, responseProcessor;
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
-			if (e.Name == "body") outgoingBodyBranch = e.NewValue;
+			if (e.Name == "uri") uriBranch = e.NewValue;
 			if (e.Name == "response") responseProcessor = e.NewValue;
 		}
 
@@ -32,16 +33,30 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 
 		protected override bool Process (IInteraction parameters)
 		{
-			bool outgoingSuccess, incomingSuccess;
+			bool success;
+			HttpOutgoingInteraction outgoingInteraction;
+			HttpResponseInteraction incomingInteraction;
+			WebRequest webRequest;
+			Stream responseStream;
 
-			using (TcpClient newClient = new TcpClient()) {
-				newClient.Connect (hostname, port);
+			using(MemoryStream uriComposingStream = new MemoryStream ()) {
+				outgoingInteraction = new HttpOutgoingInteraction (uriComposingStream, parameters);
 
-				outgoingSuccess = outgoingBodyBranch.TryProcess (new HttpOutgoingInteraction (newClient.GetStream ())); 
-				incomingSuccess = responseProcessor.TryProcess (new HttpResponseInteraction (newClient.GetStream ()));
-			}	
+				if (!uriBranch.TryProcess (outgoingInteraction))
+					throw new Exception("URI failed to compose");
 
-			return outgoingSuccess && incomingSuccess;
+				outgoingInteraction.Done();
+				uriComposingStream.Position = 0;
+
+				using(StreamReader uriReader = new StreamReader(uriComposingStream)) {				
+					webRequest = WebRequest.Create(uriReader.ReadToEnd());
+				}
+			}
+
+			responseStream  = webRequest.GetResponse().GetResponseStream();
+			incomingInteraction = new HttpResponseInteraction (responseStream, parameters);
+
+			return responseProcessor.TryProcess (incomingInteraction);
 		}
 	}
 }

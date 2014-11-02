@@ -8,7 +8,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 	{		
 		StreamReader bodyWriter; 
 
-		public HttpResponseInteraction (Stream bodyStream)
+		public HttpResponseInteraction (Stream bodyStream, IInteraction parent) : base(parent)
 		{
 			bodyWriter = new StreamReader(bodyStream);
 		}
