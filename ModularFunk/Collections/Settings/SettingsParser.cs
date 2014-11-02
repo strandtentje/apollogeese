@@ -29,8 +29,8 @@ namespace BorrehSoft.Utensils.Collections.Settings
 
 
 			AnyParser valueParser = new AnyParser (
-				new ValueParser<long> (long.TryParse),
 				new ValueParser<int> (int.TryParse), 
+				new ValueParser<long> (long.TryParse),
 				new ValueParser<float> (float.TryParse),
 				new ValueParser<bool> (bool.TryParse, "(True|False|true|false)"), 
 				new FilenameParser (),
