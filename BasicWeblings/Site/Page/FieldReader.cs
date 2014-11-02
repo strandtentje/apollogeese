@@ -53,7 +53,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			int number, failures = 0;
 			bool success = true;
 
-			IIncomingBodiedInteraction request = parameters as IIncomingBodiedInteraction;
+			IIncomingBodiedInteraction request = (IIncomingBodiedInteraction)parameters.GetClosest(typeof(IIncomingBodiedInteraction));
 			QuickInteraction parsedData = new QuickInteraction (parameters);
 
 			Map<object> postedData = Deserialize (request.IncomingBody.ReadToEnd ());
