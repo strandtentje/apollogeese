@@ -3,6 +3,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Text.RegularExpressions;
+using System.Globalization;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 {
@@ -35,13 +36,24 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 		protected override bool Process (IInteraction parameters)
 		{
 			IIncomingBodiedInteraction incoming = (IIncomingBodiedInteraction)parameters;
-			QuickInteraction parsed = new QuickInteraction(incoming);
-			Match results = matcher.Match(incoming.IncomingBody.ReadToEnd());
+			QuickInteraction parsed = new QuickInteraction (incoming);
+			Match results = matcher.Match (incoming.IncomingBody.ReadToEnd ());
 
-			foreach(string groupName in matcher.GetGroupNames())
-				parsed[groupName] = results.Groups[groupName].Value;			
+			foreach (string groupName in matcher.GetGroupNames()) {
+				int intValue; long longValue; double floatValue; string stringValue = results.Groups [groupName].Value;
 
-			successful.TryProcess(parsed);
+				if (int.TryParse(stringValue, out intValue)) {
+				    parsed [groupName] = intValue;
+				} else if (long.TryParse(stringValue, out longValue)) {
+					parsed [groupName] = longValue;
+				} else if (double.TryParse(stringValue, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture.NumberFormat, out floatValue)) {
+					parsed [groupName] = floatValue;
+				} else {
+					parsed [groupName] = stringValue;
+				}
+			}
+
+			return successful.TryProcess(parsed);
 		}
 	}
 }
