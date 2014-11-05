@@ -22,10 +22,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 		string rootPath;
 		Service newFile, deletedFile, newDirectory, deletedDirectory;
 		Map<FileSystemInfo> infoCache = new Map<FileSystemInfo>();
+		Regex KeywordSplitter;
 
 		protected override void Initialize (Settings modSettings)
 		{
 			rootPath = modSettings.GetString("rootpath", ".");
+			KeywordSplitter = new Regex(modSettings.GetString("keywordsplitregex", @"\W|_"));
 
 			Thread walkPathThread = new Thread(WalkPath);
 			walkPathThread.Start(rootPath);
@@ -72,14 +74,22 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 		void RemoveItem (FileSystemInfo info)
 		{	
 			infoCache.Dictionary.Remove(info.FullName);
-			if (info is FileInfo) deletedFile.TryProcess(new FilesystemChangeInteraction(info));
-			if (info is DirectoryInfo) deletedDirectory.TryProcess(new FilesystemChangeInteraction(info));
+
+			string[] keywords = KeywordSplitter.Split(info.Name.ToLower());
+			IInteraction removalInteraction = new FilesystemChangeInteraction(info, keywords);
+
+			if (info is FileInfo) deletedFile.TryProcess(removalInteraction);
+			if (info is DirectoryInfo) deletedDirectory.TryProcess(removalInteraction);
 		}
 
 		void NewItem (FileSystemInfo info)
 		{
-			if (info is FileInfo) newFile.TryProcess(new FilesystemChangeInteraction(info, rootPath));
-			if (info is DirectoryInfo) newDirectory.TryProcess(new FilesystemChangeInteraction(info, rootPath));
+			string[] keywords = KeywordSplitter.Split(info.Name.ToLower());
+			IInteraction newInteraction = new FilesystemChangeInteraction(info, keywords, rootPath);
+
+			if (info is FileInfo) newFile.TryProcess(newInteraction);
+			if (info is DirectoryInfo) newDirectory.TryProcess(newInteraction);
+
 			infoCache[info.FullName] = info;
 		}
 

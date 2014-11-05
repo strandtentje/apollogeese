@@ -37,10 +37,10 @@ namespace BorrehSoft.Utensils.Collections
 		/// </param>
 		public void PreserveOnlyFrom (CleverSet<T> nextSet)
 		{
-			IEnumerable<string> keyCache = base.Keys;
+			IEnumerable<string> keyCache = new List<string>(base.Keys);
 				
 			foreach(string key in keyCache)
-				if (!nextSet.ContainsKey(key))
+				if (!nextSet.ContainsKey(key) && base.ContainsKey(key))
 					base.Remove(key);
 		}
 

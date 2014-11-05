@@ -27,30 +27,23 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 			return thisLookup;
 		}
 		
-		public static IEnumerable<string> GetKeylist (object data, int maxLength = int.MaxValue)
-		{			
-			List<string> suppliedKeys = new List<string> ();
+		public static IEnumerable<string> GetKeylist (IEnumerable<string> kwSource, int maxLength = int.MaxValue)
+		{		
+			List<string> suppliedKeys = new List<string>();
 
-			if (data is String) 
-				suppliedKeys.Add (data as String);
+			int itemCount = 0;
 
-
-			if (data is IEnumerable<string>) {
-				IEnumerable<string> kwSource = data as IEnumerable<string>;
-				int itemCount = 0;
-
-				foreach(string keyword in kwSource) {
-					if (maxLength > itemCount)
-					{
-						suppliedKeys.Add(keyword);
-						itemCount++;
-					} 
-					else 
-					{
-						break;
-					}
+			foreach(string keyword in kwSource) {
+				if (maxLength > itemCount)
+				{
+					suppliedKeys.Add(keyword);
+					itemCount++;
+				} 
+				else 
+				{
+					break;
 				}
-			}	
+			}
 
 			return suppliedKeys;
 		}

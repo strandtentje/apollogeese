@@ -39,7 +39,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 		{
 			thisLookup.Add(new LookupEntry(
 				Lookups.GetKeylist(
-				parameters[LookupKeyName]),
+				parameters[LookupKeyName] as IEnumerable<string>),
 				parameters[MetaName] as String,
 				parameters));
 

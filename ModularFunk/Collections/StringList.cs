@@ -96,6 +96,16 @@ namespace BorrehSoft.Utensils.Collections
 		/// </value>
 		public char Seperator { get; private set; }
 
+		public string PeekToEnd()
+		{
+			return string.Join(Seperator.ToString(), this.ToArray());
+		}
+
+		public override string ToString ()
+		{
+			return PeekToEnd();
+		}
+
 		/// <summary>
 		/// Reads to the end of the series
 		/// </summary>
@@ -104,7 +114,7 @@ namespace BorrehSoft.Utensils.Collections
 		/// </returns>
 		public string ReadToEnd ()
 		{
-			string combined = string.Join("/", this.ToArray());
+			string combined = PeekToEnd();
 
 			this.Clear();
 

@@ -34,6 +34,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		#region Request
 		HttpListenerRequest _request;
 
+		string urlsection, querysection;
+
+		public string GetQuery { get { return querysection; } }
+
 		/// <summary>
 		/// Gets the request.
 		/// </summary>
@@ -43,11 +47,21 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			private set 
 			{ 
 				_request = value; 
-				this["url"] = URL = new StringList (value.RawUrl, '/');
+
+				SetUrl(value.RawUrl);
 
 				RequestHeaders = new RequestHeaders (value.Headers, Request.Cookies);
 				IncomingBody = new StreamReader (value.InputStream);
 			}
+		}
+
+		private void SetUrl(string rawurl) {
+			string[] parts = rawurl.Split(new char[] { '?' }, StringSplitOptions.RemoveEmptyEntries);
+ 			this["pathsection"] = urlsection = parts[0].Trim('/');
+
+			if (parts.Length > 1) this["querysection"] = querysection = parts[1];
+
+			this["url"] = URL = new StringList (urlsection, '/');
 		}
 
 		/// <summary>

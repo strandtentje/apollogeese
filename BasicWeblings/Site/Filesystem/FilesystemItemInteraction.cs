@@ -56,18 +56,20 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 
 		public void Assume (FileSystemInfo info)
 		{
-			this["rootfilesystem"] = rootFilesystem;
-			this["name"] = name = info.Name;
+			this ["rootfilesystem"] = rootFilesystem;
+			this ["name"] = name = info.Name;
 
 			if (GenerateKeywords)
-				this["keywords"] = KeywordsFromString(name);
+				this ["keywords"] = KeywordsFromString (name);
 
 			string url;
 
-			if (baseUrl.Length > 0)
-				url = string.Format("/{0}/{1}", baseUrl, name);
-			else
+			if (baseUrl.Length > 0) {
+				url = string.Format ("/{0}/{1}", baseUrl, name);
+				this ["parent"] = string.Format ("/{0}", baseUrl);
+			} else {
 				url = "/" + name;
+			}
 
 			this["url"] = url; 
 			this["fullpath"] = fullPath =  info.FullName;

@@ -27,15 +27,14 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		protected override void Initialize (Settings modSettings)
 		{
-			Settings fieldRegexes = modSettings.Get("fieldregexes", new object()) as Settings;
+			Settings fieldRegexes = modSettings.Get ("fieldregexes", new object ()) as Settings;
 
 			if (fieldRegexes == null) {
-				throw new Exception("Service requires fieldregexes to be assigned a block of assingments.");
+				throw new Exception ("Service requires fieldregexes to be assigned a block of assingments.");
 			} else {
-				FieldExpressions = new Dictionary<string, Regex>();
-				foreach(string fieldName in fieldRegexes.Dictionary.Keys)
-				{
-					FieldExpressions.Add(fieldName, new Regex(fieldRegexes[fieldName] as string));
+				FieldExpressions = new Dictionary<string, Regex> ();
+				foreach (string fieldName in fieldRegexes.Dictionary.Keys) {
+					FieldExpressions.Add (fieldName, new Regex (fieldRegexes [fieldName] as string));
 				}
 			}
 		}
@@ -46,6 +45,14 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			if (e.Name == "form") Form = e.NewValue;
 		}
 
+		public virtual string AcquireData (IInteraction parameters)
+		{
+			IIncomingBodiedInteraction request;
+			request = (IIncomingBodiedInteraction)parameters.GetClosest(typeof(IIncomingBodiedInteraction));
+
+			return request.IncomingBody.ReadToEnd ();
+		}
+
 		public abstract Map<object> Deserialize(string data);
 
 		protected override bool Process (IInteraction parameters)
@@ -53,10 +60,9 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			int number, failures = 0;
 			bool success = true;
 
-			IIncomingBodiedInteraction request = (IIncomingBodiedInteraction)parameters.GetClosest(typeof(IIncomingBodiedInteraction));
 			QuickInteraction parsedData = new QuickInteraction (parameters);
 
-			Map<object> postedData = Deserialize (request.IncomingBody.ReadToEnd ());
+			Map<object> postedData = Deserialize (AcquireData(parameters));
 
 			foreach (string fieldName in FieldExpressions.Keys) {
 				string fieldValue = postedData.GetString (fieldName, "");
@@ -64,13 +70,15 @@ namespace BorrehSoft.Extensions.BasicWeblings
 					if (int.TryParse (fieldValue, out number)) {
 						parsedData [fieldName] = number;
 					} else {
-						parsedData [fieldName] = fieldValue;
+						parsedData[fieldName] = fieldValue;
 					}
 				} else {
 					failures++;
 					string failName = string.Format ("{0}_failure", fieldName);
-					Service failBranch = Branches [failName];
-					success &= failBranch.TryProcess (parameters);
+					if (Branches.Has(failName)) {
+						Service failBranch = Branches [failName];
+						success &= failBranch.TryProcess (parameters);
+					}
 				}
 			}
 

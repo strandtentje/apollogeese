@@ -21,7 +21,9 @@ namespace BorrehSoft.Utensils.Collections.Maps.Search
 		{
 			CleverSet<T> targetSet;
 
-			foreach (string keyword in item.Keywords) {
+			foreach (string caseKeyword in item.Keywords) {
+				string keyword = caseKeyword.ToLower();
+
 				if (base.Has(keyword))
 				{
 					targetSet = base[keyword];
@@ -91,7 +93,7 @@ namespace BorrehSoft.Utensils.Collections.Maps.Search
 		/// </param>
 		public CleverSet<T> Find(string keyword)
 		{
-			return base[keyword] ?? new CleverSet<T>();
+			return base[keyword.ToLower()] ?? new CleverSet<T>();
 		}
 
 		public void RemoveByMeta (string meta)

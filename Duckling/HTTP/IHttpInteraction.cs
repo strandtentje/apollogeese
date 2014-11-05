@@ -22,6 +22,8 @@ namespace BorrehSoft.ApolloGeese.Duckling.Http
 		/// </value>
 		StringList URL { get; }
 
+		string GetQuery { get; }
+
 		/// <summary>
 		/// Gets the request headers.
 		/// </summary>

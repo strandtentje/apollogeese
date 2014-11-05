@@ -10,7 +10,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 	public class FilesystemChangeInteraction : QuickInteraction
 	{
 		FileSystemInfo info;
-		static Regex alphaNumerical = new Regex(@"\W|_");
 
 		/// <summary>
 		///  Gets or sets the filename. 
@@ -48,14 +47,17 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 			}
 		}
 
-		public FilesystemChangeInteraction (FileSystemInfo info, string rootPath = "")
+		public FilesystemChangeInteraction (FileSystemInfo info, string[] keywords, string rootPath = "")
 		{
 			this.info = info;	
-			this["name"] = info.Name;
-			this["fullname"] = info.FullName;
-			if (info.FullName.StartsWith(rootPath)) 
-				this["url"] = info.FullName.Remove(0, rootPath.Length);
-			this["keywords"] = alphaNumerical.Split(info.Name.ToLower());
+			this ["name"] = info.Name;
+			this ["fullname"] = info.FullName;
+			if (info.FullName.StartsWith (rootPath)) {
+				string url = info.FullName.Remove (0, rootPath.Length);
+				this ["url"] = url;
+				this ["parent"] = url.Remove(url.Length - info.Name.Length);
+			}
+			this["keywords"] = keywords;
 			this["isdirectory"] = (this.info.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
 		}
 	}

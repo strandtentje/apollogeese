@@ -6,6 +6,7 @@ using BorrehSoft.Utensils;
 using System.Collections.Generic;
 using BorrehSoft.Utensils.Collections.Maps.Search;
 using BorrehSoft.Utensils.Collections;
+using System.Text.RegularExpressions;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 {
@@ -16,6 +17,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 		private string LookupName {	get; set; }
 		private int KeyCap { get; set; }
 		private SearchMap<LookupEntry> thisLookup;
+		private Regex KeywordSplitter { get; set; }
 
 		public override string Description {
 			get {
@@ -34,20 +36,26 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 		{
 			LookupKeyName = modSettings ["lookupkeyname"] as String;
 			LookupName = modSettings ["lookupname"] as String;
+			KeywordSplitter = new Regex(modSettings.GetString("keywordsplitregex", @"\W|_"));
 			KeyCap = modSettings.GetInt("keycap", 6);
 			thisLookup = Lookups.Get(LookupName);
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			IEnumerable<string> keylist = Lookups.GetKeylist (parameters [this.LookupKeyName], KeyCap);
-			CleverSet<LookupEntry> results = thisLookup.Find (keylist);
+			string queryText;
+			bool success = parameters.TryGetFallbackString (this.LookupKeyName, out queryText);
 
-			foreach (LookupEntry result in results.Values) {
-				this.iterator.TryProcess(result.Parameters.Clone(parameters));
-			} 
+			if (success) {
+				IEnumerable<string> keylist = Lookups.GetKeylist (KeywordSplitter.Split(queryText), KeyCap);
+				CleverSet<LookupEntry> results = thisLookup.Find (keylist);
 
-			return true;
+				foreach (LookupEntry result in results.Values) {
+					this.iterator.TryProcess (result.Parameters.Clone (parameters));
+				} 
+			}
+
+			return success;
 		}
 	}
 }
