@@ -8,6 +8,7 @@ using System.Threading;
 using System.Collections.Generic;
 using BorrehSoft.Extensions.BasicWeblings.Site.Filesystem;
 using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site
 {
@@ -73,24 +74,36 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 	
 		void RemoveItem (FileSystemInfo info)
 		{	
-			infoCache.Dictionary.Remove(info.FullName);
+			try {
+				infoCache.Dictionary.Remove (info.FullName);
 
-			string[] keywords = KeywordSplitter.Split(info.Name.ToLower());
-			IInteraction removalInteraction = new FilesystemChangeInteraction(info, keywords);
+				string[] keywords = KeywordSplitter.Split (info.Name.ToLower ());
+				IInteraction removalInteraction = new FilesystemChangeInteraction (info, keywords);
 
-			if (info is FileInfo) deletedFile.TryProcess(removalInteraction);
-			if (info is DirectoryInfo) deletedDirectory.TryProcess(removalInteraction);
+				if (info is FileInfo)
+					deletedFile.TryProcess (removalInteraction);
+				if (info is DirectoryInfo)
+					deletedDirectory.TryProcess (removalInteraction);
+			} catch(Exception exception) {
+				Secretary.Report(5, "Removal of missing file failed; ", exception.Message);
+			}
 		}
 
 		void NewItem (FileSystemInfo info)
 		{
-			string[] keywords = KeywordSplitter.Split(info.Name.ToLower());
-			IInteraction newInteraction = new FilesystemChangeInteraction(info, keywords, rootPath);
+			try {
+				string[] keywords = KeywordSplitter.Split (info.Name.ToLower ());
+				IInteraction newInteraction = new FilesystemChangeInteraction (info, keywords, rootPath);
 
-			if (info is FileInfo) newFile.TryProcess(newInteraction);
-			if (info is DirectoryInfo) newDirectory.TryProcess(newInteraction);
+				if (info is FileInfo)
+					newFile.TryProcess (newInteraction);
+				if (info is DirectoryInfo)
+					newDirectory.TryProcess (newInteraction);
 
-			infoCache[info.FullName] = info;
+				infoCache [info.FullName] = info;
+			} catch (Exception exception) {
+				Secretary.Report(5, "Inclusion of new file failed; ", exception.Message);
+			}
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
