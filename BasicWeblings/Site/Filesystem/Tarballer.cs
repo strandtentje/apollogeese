@@ -45,9 +45,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 
 			string decodedPathFromURL = HttpUtility.UrlDecode (Path.Combine (urlArray));
 
+			while (decodedPathFromURL.ToLower().EndsWith(".tar"))
+				decodedPathFromURL = decodedPathFromURL.Remove(decodedPathFromURL.Length - 4);
+
 			string requestedPath = Path.Combine (rootFilesystem, decodedPathFromURL);
 
-			httpParameters.ResponseHeaders.ContentType = new MimeType ("application/octet-stream");
+			httpParameters.ResponseHeaders.ContentType = new MimeType ("application/tar");
 
 			ProcessStartInfo pStart = new ProcessStartInfo (tarCommand, "-cO .");
 			pStart.WorkingDirectory = requestedPath;
