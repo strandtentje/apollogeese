@@ -45,15 +45,23 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 			Service Branch;
 
 			if (parameters.URL.Count == 0) {
-				Branch = Main;
+				if (Main == Stub)
+					Branch = Default;
+				else 
+					Branch = Main;
+
 				parameters["branchname"] = "main";
 			}
 			else {
-				string branchName = parameters.URL.Dequeue ();
+				string branchName = parameters.URL.Peek();
+
 				parameters["branchname"] = branchName;
 				Branch = Branches [branchName] ?? Stub;
+
 				if (Branch == Stub)
 					Branch = Default;
+				else
+					parameters.URL.Dequeue();
 			}
 
 			return Branch.TryProcess (uncastParameters); // RunBranch (branchId, parameters);
