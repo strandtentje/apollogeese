@@ -34,16 +34,42 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 			walkPathThread.Start(rootPath);
 		}
 
+        private void IndexDirectory(string path)
+        {
+            string[] files = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly);
+            string[] directories = Directory.GetDirectories(path, "*", SearchOption.TopDirectoryOnly);
+
+            foreach (string childPath in files)
+            {
+                try
+                {
+                    NewItem(new FileInfo(childPath));
+                }
+                catch (Exception exception)
+                {
+                    Secretary.Report(5, exception.Message);
+                }
+            }
+
+            foreach (string childPath in directories)
+            {
+                try
+                {
+                    NewItem(new DirectoryInfo(childPath));
+                    IndexDirectory(childPath);
+                }
+                catch (Exception exception)
+                {
+                    Secretary.Report(5, exception.Message);
+                }
+            }
+        }
+
 		private void WalkPath (object pathObject)
 		{
 			string path = (string)pathObject;
 
-			DirectoryInfo rootDirectory = new DirectoryInfo (path);
-			FileSystemInfo[] children = rootDirectory.GetFileSystemInfos ("*", SearchOption.AllDirectories);
-
-			foreach (FileSystemInfo child in children) {
-				NewItem(child);
-			}
+            IndexDirectory(path);            
 
 			FileSystemWatcher futureChanges = new FileSystemWatcher(path);
 			futureChanges.Created += NewItemHandler;
