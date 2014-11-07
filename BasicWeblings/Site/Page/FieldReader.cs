@@ -24,10 +24,12 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		public Dictionary<string, Regex> FieldExpressions { get; private set; }
 		private Service Succesful, Form;
+		bool htmlEscape;
 
 		protected override void Initialize (Settings modSettings)
 		{
 			Settings fieldRegexes = modSettings.Get ("fieldregexes", new object ()) as Settings;
+			htmlEscape = modSettings.GetBool("escapehtml", true);
 
 			if (fieldRegexes == null) {
 				throw new Exception ("Service requires fieldregexes to be assigned a block of assingments.");
@@ -70,6 +72,8 @@ namespace BorrehSoft.Extensions.BasicWeblings
 					if (int.TryParse (fieldValue, out number)) {
 						parsedData [fieldName] = number;
 					} else {
+						if (htmlEscape)
+							fieldValue = HttpUtility.HtmlEncode(fieldValue);
 						parsedData[fieldName] = fieldValue;
 					}
 				} else {

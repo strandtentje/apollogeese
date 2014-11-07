@@ -48,6 +48,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			{ 
 				_request = value; 
 
+				this["remoteip"] = _request.RemoteEndPoint.Address.ToString();
+
 				SetUrl(value.RawUrl);
 
 				RequestHeaders = new RequestHeaders (value.Headers, Request.Cookies);
