@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -64,10 +64,7 @@
     <Compile Include="Data\Querier.cs" />
     <Compile Include="Data\MySQL\MySqlQuerier.cs" />
     <Compile Include="Data\MySQL\MySqlQueryConnection.cs" />
-    <Compile Include="Data\SQLite\SQLiteQuerier.cs" />
-    <Compile Include="Data\SQLite\SQLiteQueryConnection.cs" />
     <Compile Include="Data\MySQL\MySqlQueryCommand.cs" />
-    <Compile Include="Data\SQLite\SQLiteQueryCommand.cs" />
     <Compile Include="Lookup\LookupExterminator.cs" />
     <Compile Include="Client\HttpClient.cs" />
     <Compile Include="Client\HttpResponseInteraction.cs" />
@@ -81,14 +78,7 @@
     <Compile Include="Site\Page\GetFieldReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Server\" />
-    <Folder Include="Site\" />
-    <Folder Include="Site\Page\" />
-    <Folder Include="Site\Filesystem\" />
-    <Folder Include="Lookup\" />
-    <Folder Include="Client\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
