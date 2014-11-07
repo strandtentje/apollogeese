@@ -59,7 +59,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 			if (mimeTypes.TryGetString(extension, out mimeType) || optionalMimetypes) {
 				if (sourcefile.Exists) {
 					parameters.ResponseHeaders.ContentType = new MimeType(mimeType);
-					parameters.ResponseHeaders.ContentLength = sourcefile.Length;
+					// parameters.ResponseHeaders.ContentLength = sourcefile.Length;
 
 					FileStream sourceStream = sourcefile.OpenRead();
 					sourceStream.CopyTo(parameters.OutgoingBody.BaseStream);
