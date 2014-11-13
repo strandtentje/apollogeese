@@ -16,9 +16,9 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		public override string Description {
 			get {
 				if (FieldExpressions == null)
-					return "Registration of no fields at all because you failed to set fieldregexes.";
+					return "None";
 				else 
-					return string.Format("Registration of fields {0}", string.Join(",", FieldExpressions.Keys));
+					return string.Format(string.Join(",", FieldExpressions.Keys));
 			}
 		}		
 

@@ -18,7 +18,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 
 		public override string Description {
 			get {
-				return "Browses the filesystem";
+				return this.rootFilesystem;
 			}
 		}
 

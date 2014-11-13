@@ -18,7 +18,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 
 		public override string Description {
 			get {
-				return "Regex-parser of incoming data.";
+				return string.Join(", ", matcher.GetGroupNames());
 			}
 		}
 

@@ -13,7 +13,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 	{
 		public override string Description {
 			get {
-				return "A URL-based website subsection. Will branch based on URL chunk, where no URL chunk branches to 'main' and an unknown URL chunk branches to 'default'.";
+				return string.Join(", ", Branches.Dictionary.Keys);
 			}
 		}
 

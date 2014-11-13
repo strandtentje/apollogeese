@@ -16,6 +16,43 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// </summary>
 	public abstract class Service
 	{
+		public PluginCollection<Service> PossibleSiblingTypes {
+			get;
+			set;
+		}
+
+		public static Dictionary<int, Service> ModelLookup = new Dictionary<int, Service>();
+		private int modelID = -1;
+		private static int modelIDCounter;
+
+		/// <summary>
+		/// Numeric shorthand for this service, intended purpose: designer.
+		/// </summary>
+		/// <value>
+		/// The model ID
+		/// </value>
+		public int ModelID { 
+			get {
+				if (modelID == -1)	{
+					lock (Stub) 	
+						modelID = modelIDCounter++;
+					ModelLookup.Add(modelID, this);
+				}
+
+				return modelID;
+			} 
+			set {
+				lock (Stub)
+				{
+					if (value >= modelIDCounter) {
+						modelIDCounter = value + 1;
+						ModelLookup.Add(modelIDCounter, this);
+					}
+				}
+				modelID = value;
+			}
+		}
+
 		private Settings configuration;
 
 		public bool IsLogging {

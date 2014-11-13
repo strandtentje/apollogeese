@@ -9,7 +9,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 	{
 		public override string Description {
 			get {
-				return "Writer for single variable in interaction";
+				return Format;
 			}
 		}
 

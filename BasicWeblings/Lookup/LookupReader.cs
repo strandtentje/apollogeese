@@ -21,7 +21,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 
 		public override string Description {
 			get {
-				return "Allows for looking up earlier written data to named lookup " + this.LookupName;
+				return this.LookupName;
 			}
 		}
 

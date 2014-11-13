@@ -98,6 +98,7 @@ namespace BorrehSoft.ApolloGeese
 
 				newService = plugins.GetConstructed (type);
 				succesfulInit = newService.SetSettings (moduleConfiguration);
+				newService.PossibleSiblingTypes = plugins;
 				newService.IsLogging = log;
 				newService.LoggingParameters = logparams;
 

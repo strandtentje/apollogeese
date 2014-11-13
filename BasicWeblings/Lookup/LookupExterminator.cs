@@ -15,7 +15,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		public override string Description {
 			get {
-				return "Exterminator of lookup-entries";
+				return this.thisLookup + " by " + this.MetaName;
 			}
 		}
 

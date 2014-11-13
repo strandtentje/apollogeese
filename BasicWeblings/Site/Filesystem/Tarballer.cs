@@ -17,7 +17,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 	{
 		public override string Description {
 			get {
-				return "Returns tarball for directory at url";
+				return "tarballs";
 			}
 		}
 

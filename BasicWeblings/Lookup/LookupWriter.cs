@@ -17,7 +17,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 
 		public override string Description {
 			get {
-				return "Lookup " + this.LookupName;
+				return this.LookupName + " by " + this.MetaName;
 			}
 		}
 

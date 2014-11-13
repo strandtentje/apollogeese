@@ -12,7 +12,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 	{
 		public override string Description {
 			get {
-				return "Does outgoing HTTP-request";
+				return string.Format("{0}:{1}", hostname, port);
 			}
 		}
 

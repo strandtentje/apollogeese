@@ -24,7 +24,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 		public override string Description {
 			get {
-				return "Attaches/Reads out a session cookie";
+				return cookieName;
 			}
 		}
 

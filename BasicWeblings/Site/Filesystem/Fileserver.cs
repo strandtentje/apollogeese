@@ -22,7 +22,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 
 		public override string Description {
 			get {
-				return "Serves file specified by the remaining url relative to the path set in the configuration.";
+				return this.rootPath;
 			}
 		}
 

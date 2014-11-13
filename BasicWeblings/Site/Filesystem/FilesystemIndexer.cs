@@ -16,7 +16,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 	{
 		public override string Description {
 			get {
-				return "Walks the filesystem";
+				return this.rootPath;
 			}
 		}
 

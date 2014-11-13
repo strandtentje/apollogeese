@@ -62,6 +62,10 @@
       <Project>{3E51D2C9-9409-4F18-A50A-5D81323E3B29}</Project>
       <Name>BasicWeblings</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Designer\Designer.csproj">
+      <Project>{921E6907-9D5D-40FB-A4C1-5F0C56894AC0}</Project>
+      <Name>Designer</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Geese\bin\Debug\apollogeese.conf" />

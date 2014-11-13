@@ -25,7 +25,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 
 		public override string Description {
 			get {
-				return string.Format("Iterator for results of {0}", queryFile);
+				string[] segments = queryFile.Split('/');
+				return string.Format(segments[segments.Length - 1]);
 			}
 		}
 
