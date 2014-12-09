@@ -5,6 +5,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections;
 using System.Collections.Generic;
 using System.Web;
+using System.Text;
 
 namespace Designer
 {
@@ -18,7 +19,8 @@ namespace Designer
 
 		private Service 
 			Model, BlockView,
-			InteractionView, SiblingIterator;
+			InteractionView, SiblingIterator,
+			SettingIterator;
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
@@ -26,11 +28,14 @@ namespace Designer
 			if (e.Name == "block") BlockView = e.NewValue;
 			if (e.Name == "interaction") InteractionView = e.NewValue;
 			if (e.Name == "siblingiterator") SiblingIterator = e.NewValue;
+			if (e.Name == "settingiterator") SettingIterator = e.NewValue;
 		}
 
 		protected override void Initialize (Settings modSettings)
 		{
-
+			Branches["model"] = Stub; Branches["block"] = Stub;
+			Branches["interaction"] = Stub; Branches["siblingiterator"] = Stub;
+			Branches["settingiterator"] = Stub;
 		}
 
 		bool VisualizeInteraction (Service origin, string branchName, Service target, IInteraction parentParameters)
@@ -62,11 +67,14 @@ namespace Designer
 				ModelContext ["type"] = model.GetType ().Name;
 				ModelContext ["description"] =  HttpUtility.HtmlEncode(model.Description);
 
-				success &= BlockView.TryProcess (ModelContext);
+				foreach (KeyValuePair<string, Service> BranchTuple in model.Branches.Dictionary) {
+					success &= VisualizeBlock (BranchTuple.Value, parentParameters, history);
+				}
 
+				success &= BlockView.TryProcess (ModelContext);
+				
 				foreach (KeyValuePair<string, Service> BranchTuple in model.Branches.Dictionary) {
 					success &= VisualizeInteraction (model, BranchTuple.Key, BranchTuple.Value, parentParameters);
-					success &= VisualizeBlock (BranchTuple.Value, parentParameters, history);
 				}
 			}
 
@@ -76,7 +84,7 @@ namespace Designer
 		protected override bool Process (IInteraction parameters)
 		{
 			bool success = true;
-			SiblingInteraction siblings = new SiblingInteraction(parameters);
+			OutgoingIterator siblings = new OutgoingIterator(parameters, "siblings");
 
 			foreach (string name in PossibleSiblingTypes.Dictionary.Keys) {
 				siblings["typename"] = name;

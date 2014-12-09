@@ -9,7 +9,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 	public class IncludeParser : WhitespaceParser
 	{
 		private IdentifierParser identifierEater = new IdentifierParser();
-		private AnyParser valueEater = new AnyParser (new FilenameParser(), new StringParser());
+		private AnyParser valueEater = new AnyParser(new FilenameParser(), new StringParser());
 		private object dummy;
 		private CharacterParser hashtagEater = new CharacterParser('#');
 
@@ -32,10 +32,20 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		/// </param>
 		int IncludeFileIntoSession (string fileName, ParsingSession session)
 		{
-			if (File.Exists (fileName)) {
-				Directory.SetCurrentDirectory((new FileInfo(fileName)).Directory.FullName); 
+			string oldWorkingDirectory = Directory.GetCurrentDirectory();
 
-				string fileData = File.ReadAllText (fileName);
+			if (File.Exists (fileName)) {
+				FileInfo info = new FileInfo(fileName);
+				Directory.SetCurrentDirectory(info.Directory.FullName);
+
+				string fileData;
+
+				using(StreamReader reader = new StreamReader(info.OpenRead()))
+				{
+					fileData = reader.ReadToEnd();
+				}
+
+				fileData += string.Format("\r\n#pwd \"{0}\"", oldWorkingDirectory);
 
 				session.Data = session.Data.Insert (
 					session.Offset, 
@@ -74,6 +84,10 @@ namespace BorrehSoft.Utensils.Collections.Settings
 
 				if (identifier.ToLower () == "include") 
 					resultCount = IncludeFileIntoSession (value, session);
+
+				if (identifier.ToLower() == "pwd") {
+					Directory.SetCurrentDirectory(value);
+				}
 			}
 
 			return resultCount;

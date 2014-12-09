@@ -28,6 +28,12 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Production|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Production</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Web" />
@@ -76,6 +82,7 @@
     <Compile Include="Server\UdpQuerier.cs" />
     <Compile Include="Site\Page\RegexFieldReader.cs" />
     <Compile Include="Site\Page\GetFieldReader.cs" />
+    <Compile Include="Site\Filesystem\WorkingDirectory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

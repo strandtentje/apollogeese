@@ -4,26 +4,30 @@ using System.IO;
 
 namespace Designer
 {
-	public class SiblingInteraction : IOutgoingBodiedInteraction, QuickInteraction
+	public class OutgoingIterator : QuickInteraction, IOutgoingBodiedInteraction
 	{
+		string name;
 		StreamWriter outgoingBody;
 		MemoryStream body;
 
-		public SiblingInteraction (IInteraction parent) : base(parent)
+		public OutgoingIterator (IInteraction parent, string name) : base(parent)
 		{
+			this.name = name;
 			body = new MemoryStream();
 			outgoingBody = new StreamWriter(body);
 		}
 
 		public string GetFinished()
 		{
+			outgoingBody.Flush();
 			body.Position = 0;
 			StreamReader reader = new StreamReader(body);
-			string list = reader.ReadToEnd();
+			this[name] = reader.ReadToEnd();
 			reader.Close();
+			return this.GetString(name, "");
 		}
 
-		StreamWriter OutgoingBody { get { return outgoingBody; } }
+		public StreamWriter OutgoingBody { get { return outgoingBody; } }
 	}
 }
 

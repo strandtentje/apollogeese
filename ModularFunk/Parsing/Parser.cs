@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Globalization;
 
 namespace BorrehSoft.Utensils.Parsing
 {
@@ -53,6 +54,26 @@ namespace BorrehSoft.Utensils.Parsing
 		/// Result of Parse Action, if any.
 		/// </param>
 		internal abstract int ParseMethod(ParsingSession session, out object result);
+
+		public static object GetBestPossible (string stringValue)
+		{
+			bool boolValue; int intValue; long longValue; double floatValue; 
+			object output;
+
+			if (bool.TryParse(stringValue, out boolValue)) {
+				output = boolValue;
+			} else if (int.TryParse(stringValue, out intValue)) {
+			    output = intValue;
+			} else if (long.TryParse(stringValue, out longValue)) {
+				output = longValue;
+			} else if (double.TryParse(stringValue, NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture.NumberFormat, out floatValue)) {
+				output = floatValue;
+			} else {
+				output = stringValue;
+			}
+
+			return output;
+		}
 
 		internal static bool IsAlpha(char character)
 		{

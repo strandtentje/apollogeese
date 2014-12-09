@@ -15,6 +15,11 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			return "Settings, accolade-enclosed block with zero or more assignments";
 		}
 
+		AnyParser ValueParser;
+		AssignmentParser AssignmentParser;
+		IdentifierParser TypeIDParser;
+		ConcatenationParser ModconfParser;
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Utensils.Settings.SettingsParser"/> class.
 		/// </summary>
@@ -25,10 +30,9 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		{
 			ConcatenationParser listParser = new ConcatenationParser (startArr, endArr, arrSe);
 
-			AssignmentParser assignmentParser = new AssignmentParser (couplerChar);
+			AssignmentParser = new AssignmentParser (couplerChar);
 
-
-			AnyParser valueParser = new AnyParser (
+			ValueParser = new AnyParser (
 				new ValueParser<int> (int.TryParse), 
 				new ValueParser<long> (long.TryParse),
 				new ValueParser<float> (float.TryParse),
@@ -40,11 +44,23 @@ namespace BorrehSoft.Utensils.Collections.Settings
 				this
 			);			
 
-			listParser.InnerParser = valueParser;
-			assignmentParser.InnerParser = valueParser;
+			TypeIDParser = new IdentifierParser ();
+			ModconfParser = new ConcatenationParser ('(', ')', ',');
 
-			this.InnerParser = assignmentParser;
+			listParser.InnerParser = ValueParser;
+			AssignmentParser.InnerParser = ValueParser;
+			ModconfParser.InnerParser = AssignmentParser;
+			this.InnerParser = AssignmentParser;
 		}
+
+		private void AssignmentsToSettings(object assignments, Settings target)
+		{			
+			foreach (object assignment in (assignments as IEnumerable<object>)) {
+				Tuple<string, object> t = assignment as Tuple<string, object>;
+				target [t.Item1] = t.Item2;
+			}
+		}
+
 
 		/// <summary>
 		/// Parsing Method for the <see cref="BorrehSoft.Utensils.Settings"/> type.
@@ -60,23 +76,31 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		/// </param>
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
-			object assignments;
+			object assignments, uncastTypeid, uncastModconf;
+			Settings rootconf = new Settings(), modconf = new Settings ();
 
-			if (base.ParseMethod (session, out assignments) > 0) {
+			int successCode = -1;
+			bool Identifier = TypeIDParser.ParseMethod (session, out uncastTypeid) > 0;
 
-				Settings map = new Settings ();
+			if (Identifier && (ModconfParser.ParseMethod (session, out uncastModconf) > 0)) {
+				string typeid = uncastTypeid as string;
+				AssignmentsToSettings (uncastModconf, modconf);
 
-				foreach (object assignment in (assignments as IEnumerable<object>)) {
-					Tuple<string, object> t = assignment as Tuple<string, object>;
-					map [t.Item1] = t.Item2;
-				}
+				rootconf ["type"] = typeid;
+				rootconf ["modconf"] = modconf;
 
-				result = map;
-				return 1;
+				successCode = 1;
 			}
 
-			result = null;
-			return -1;
+			if (base.ParseMethod (session, out assignments) > 0) {
+				AssignmentsToSettings(assignments, rootconf);
+
+				successCode = 2;
+			}
+
+			result = rootconf;
+
+			return successCode;
 		}	
 	}
 }

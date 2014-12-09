@@ -49,7 +49,6 @@ namespace BorrehSoft.Utensils.Collections
 					}
 				}
 			}
-
 		}
 
 		/// <summary>

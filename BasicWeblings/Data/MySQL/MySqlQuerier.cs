@@ -7,6 +7,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
 	{
 		protected override IQueryConnection CreateConnection (Settings modSettings)
 		{		
+			if (modSettings.Has ("connectionstring")) {
+				return new MySqlQueryConnection((string)modSettings["connectionstring"]);
+			}
+
 			return new MySqlQueryConnection(
 					(string)modSettings ["host"], (string)modSettings ["db"], 			                     
 					(string)modSettings ["user"], (string)modSettings ["pass"],

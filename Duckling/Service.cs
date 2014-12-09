@@ -99,7 +99,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		{
 			bool succesful;
 
-			modSettings = modSettings ?? new Settings();
+			configuration = modSettings = modSettings ?? new Settings();
 
 			try
 			{
@@ -159,6 +159,8 @@ namespace BorrehSoft.ApolloGeese.Duckling
 				}
 
 				succesful = Process(parameters);
+				if (!succesful)
+					Secretary.Report(4, "Service", this.Description, "reported in as unsuccesful");
 				ProcessErrorMessage = "";
 			}
 			catch (Exception ex) {

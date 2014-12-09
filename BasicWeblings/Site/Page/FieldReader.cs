@@ -24,21 +24,24 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		public Dictionary<string, Regex> FieldExpressions { get; private set; }
 		private Service Succesful, Form;
-		bool htmlEscape;
+		bool htmlEscape, showFormBefore, showFormAfter;
 
 		protected override void Initialize (Settings modSettings)
 		{
-			Settings fieldRegexes = modSettings.Get ("fieldregexes", new object ()) as Settings;
-			htmlEscape = modSettings.GetBool("escapehtml", true);
+			Branches["successful"] = Stub;
+			Branches["form"] = Stub;
 
-			if (fieldRegexes == null) {
-				throw new Exception ("Service requires fieldregexes to be assigned a block of assingments.");
-			} else {
-				FieldExpressions = new Dictionary<string, Regex> ();
-				foreach (string fieldName in fieldRegexes.Dictionary.Keys) {
-					FieldExpressions.Add (fieldName, new Regex (fieldRegexes [fieldName] as string));
+			htmlEscape = modSettings.GetBool("escapehtml", true);
+			showFormBefore = modSettings.GetBool("showformbefore", false);
+			showFormAfter = modSettings.GetBool("showformafter", false);
+
+			FieldExpressions = new Dictionary<string, Regex> ();
+			foreach (string fieldName in modSettings.Dictionary.Keys) {
+				if (fieldName.StartsWith("field_")) {
+					FieldExpressions.Add (fieldName.Substring(6), new Regex (modSettings [fieldName] as string, RegexOptions.IgnoreCase));
 				}
 			}
+
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -59,11 +62,11 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		protected override bool Process (IInteraction parameters)
 		{
-			int number, failures = 0;
 			bool success = true;
+			int number, failures = 0;
 
 			QuickInteraction parsedData = new QuickInteraction (parameters);
-
+	
 			Map<object> postedData = Deserialize (AcquireData(parameters));
 
 			foreach (string fieldName in FieldExpressions.Keys) {
@@ -87,7 +90,9 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			}
 
 			if (failures == 0) {
+				if (showFormBefore) success &= Form.TryProcess(parsedData);
 				success &= Succesful.TryProcess (parsedData);
+				if (showFormAfter) success &= Form.TryProcess(parsedData);
 			} else {
 				success &= Form.TryProcess(parsedData);
 			}

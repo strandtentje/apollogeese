@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace BorrehSoft.Utensils.Parsing.Parsers
 {
@@ -21,18 +22,35 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
 			int succescode = 0;
-			object unparsedIdentifier;
-
+			object unparsedIdentifier, dummy;
+			CharacterParser leadingDot = new CharacterParser ('.');
+			List<string> contextString = null;
+			
 			result = null;
 
+			int bookmark = session.Offset;
+
+			while (leadingDot.ParseMethod(session, out dummy) > 0) {
+				if (contextString == null) { 
+					contextString = new List<string>(session.Context.ToArray());
+					contextString.Reverse();
+				}
+
+				contextString.RemoveAt(contextString.Count - 1);
+				succescode--;
+			}
+
+			string identifier = (contextString == null ? "" : string.Join(".", contextString.ToArray()) + ".");
+
 			if (base.ParseMethod (session, out unparsedIdentifier) > 0) {
-				string identifier = unparsedIdentifier as String;
+				identifier += unparsedIdentifier as String;
 
 				if (session.References.Has (identifier)) {
 					result = session.References [identifier];
 					succescode = 1;
 				} else {
-					throw new ParsingException(session, this, identifier);
+					session.Offset = bookmark;
+					succescode = -1;
 				}
 			}
 
@@ -40,4 +58,3 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 		}
 	}
 }
-

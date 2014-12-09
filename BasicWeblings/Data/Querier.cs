@@ -21,7 +21,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 	{
 		private Service none, single, iterator, successful;
 		private bool useAffectedRowcount;
-		private string queryFile = "";
+		private string queryFile = "", queryText = "";
 
 		public override string Description {
 			get {
@@ -50,8 +50,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 
 			Connection = CreateConnection(modSettings);
 
-			queryFile = (string)modSettings["query"];
-			Connection.SetDefaultCommandQuery(queryFile, modSettings.Get("params", null) as List<object>);
+			queryFile = modSettings.GetString("query", "");
+			queryText = modSettings["querytext"] as String ?? File.ReadAllText(queryFile);
+
+			Connection.SetDefaultCommandQuery(queryText, modSettings.Get("params", null) as List<object>);
 
 			useAffectedRowcount = modSettings.GetBool("useaffectedrowcount", false);
 

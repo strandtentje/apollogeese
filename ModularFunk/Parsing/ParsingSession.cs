@@ -13,9 +13,9 @@ namespace BorrehSoft.Utensils.Parsing
 	/// </summary>
 	public class ParsingSession
 	{
-		private Stack<string> context = new Stack<string>();
+		public string InteralWorkingDirectory;
 
-		private Stack<ParsingBookmark> offsets = new Stack<ParsingBookmark>();
+		private Stack<string> context = new Stack<string>();
 
 		public Parser whitespaceParser;
 		/// <summary>
@@ -166,16 +166,6 @@ namespace BorrehSoft.Utensils.Parsing
 					"A little accident occured where a deepened context wasn't surfaced properly. Line/Offset/Col/Context/Attempt: {0}/{1}/{2}/{3}/{4}",
 					this.CurrentLine, this.Offset, this.CurrentColumn, this.ContextName, identifier));
 			}
-		}
-
-		public void PushOffset()
-		{
-			this.offsets.Push(new ParsingBookmark(this.Offset, this.CurrentLine, this.CurrentColumn));
-		}
-
-		public void PopOffset()
-		{
-			this.Offset = this.offsets.Pop().Offset;
 		}
 	}
 }

@@ -40,7 +40,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 		protected override bool Process (IInteraction uncastParameters)
 		{
-			IHttpInteraction parameters = uncastParameters as IHttpInteraction;
+			IHttpInteraction parameters = (IHttpInteraction)uncastParameters.GetClosest(typeof(IHttpInteraction));
 
 			Service Branch;
 

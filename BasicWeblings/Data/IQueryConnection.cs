@@ -38,7 +38,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 		/// </value>
 		List<string> DefaultOrderedParameters { get; }
 
-		void SetDefaultCommandQuery(string QueryTextFile, List<object> queryParameters = null);
+		void SetDefaultCommandQuery(string QueryText, List<object> queryParameters = null);
 		
 		IQueryCommand GetDefaultCommand();
 	}

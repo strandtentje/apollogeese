@@ -41,7 +41,9 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 						coupled = true;
 				}
 
-				if (closer.Run (session) > 0) {
+				int closerResult = closer.Run (session);
+
+				if (closerResult > 0) {
 					result = target;
 					return target.Count;
 				} else {

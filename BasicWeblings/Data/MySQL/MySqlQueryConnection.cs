@@ -46,6 +46,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
 		/// </value>
 		public List<string> DefaultOrderedParameters { get; private set; }
 
+		public MySqlQueryConnection (string ConnectionString)
+		{
+			Connection = new MySqlConnection(ConnectionString);
+			Connection.Open ();
+		}
+
 		public MySqlQueryConnection (string databasehost, string databasename, string user, string password, bool usepool)
 		{
 			ConnectionString = string.Format (ConnectionStringTemplate, databasehost, databasename, user, password, usepool);
@@ -54,9 +60,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
 			Connection.Open ();
 		}
 
-		public void SetDefaultCommandQuery(string QueryTextFile, List<object> queryParameters = null)
+		public void SetDefaultCommandQuery(string QueryText, List<object> queryParameters = null)
 		{			
-			this.DefaultQueryText = File.ReadAllText(QueryTextFile);
+			this.DefaultQueryText = QueryText;
 
 			this.DefaultOrderedParameters = new List<string> ();
 

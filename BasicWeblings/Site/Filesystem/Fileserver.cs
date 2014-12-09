@@ -28,7 +28,16 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 
 		protected override void Initialize (Settings modSettings)
 		{
-			mimeTypes = (modSettings["allowedmimetypes"] as Settings) ?? new Settings();
+			mimeTypes = new Settings ();
+
+			if (modSettings.Has ("allowedmimetypes")) {
+				mimeTypes = modSettings["allowedmimetypes"] as Settings ?? new Settings();
+			} else {
+				foreach (string key in modSettings.Dictionary.Keys) 
+					if (key.StartsWith ("dot_"))				
+						mimeTypes [key.Substring (4)] = modSettings.GetString (key, "");
+			}
+
 			rootPath = modSettings.GetString("rootpath", ".");
 			optionalMimetypes = modSettings.GetBool("optionalmimetypes", false);
 

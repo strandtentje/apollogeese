@@ -28,6 +28,12 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Production|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Production</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data.Linq" />
@@ -76,7 +82,6 @@
     <Compile Include="Parsing\Parsers\ReferenceParser.cs" />
     <Compile Include="Collections\Settings\StatementParser.cs" />
     <Compile Include="Collections\Maps\NetworkMap.cs" />
-    <Compile Include="Parsing\ParsingBookmark.cs" />
     <Compile Include="Parsing\Parsers\FilenameParser.cs" />
     <Compile Include="Collections\Maps\ObjectMap.cs" />
   </ItemGroup>

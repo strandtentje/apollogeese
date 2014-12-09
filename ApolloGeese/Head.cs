@@ -74,6 +74,10 @@ namespace BorrehSoft.ApolloGeese
 
 		static Regex branchNameMatcher = new Regex ("(.+)_branch");
 
+		static void ConnectBranch (Service service, string branchname, Settings branchdata) {
+			service.Branches [branchname] = LoadTree (branchdata);
+		}
+
 		/// <summary>
 		/// Loads a tree of services.
 		/// </summary>
@@ -105,16 +109,20 @@ namespace BorrehSoft.ApolloGeese
 				foreach (KeyValuePair<string, object> nameAndBranch in config.Dictionary) {
 					Match branchName = branchNameMatcher.Match (nameAndBranch.Key);
 
-					if (branchName.Success) {
-						Settings treeConf = nameAndBranch.Value as Settings;
-						newService.Branches [branchName.Groups [1].Value] = LoadTree (treeConf);
-					}
+					if (branchName.Success) ConnectBranch(
+						newService, 
+						branchName.Groups [1].Value, 
+						nameAndBranch.Value as Settings);
 				}
 
-				if (!succesfulInit) {
-					Secretary.Report (5, type, " produced an error on initialization: ",
-				                  newService.InitErrorMessage);
-				}
+				Settings branches = config.GetSubsettings("branches");
+
+				foreach(KeyValuePair<string, object> nameAndBranch in branches.Dictionary) 
+					ConnectBranch(newService, nameAndBranch.Key, nameAndBranch.Value as Settings);
+
+				if (!succesfulInit) 
+					Secretary.Report (5, type, " produced an error on initialization: ", newService.InitErrorMessage);
+			
 
 				config.Tag = newService;
 			}
