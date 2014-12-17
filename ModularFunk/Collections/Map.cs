@@ -92,6 +92,18 @@ namespace BorrehSoft.Utensils.Collections
 				return defaultValue;
 		}
 
+		public T GetOrKeep(string key, Func<T> defaultFunction)
+		{
+			if (backEnd.ContainsKey (key)) {
+				return backEnd [key];
+			}
+			else {
+				T newt = defaultFunction ();
+				backEnd.Add (key, newt);
+				return newt;
+			}
+		}
+
 		/// <summary>
 		/// Gets or sets the item with the specified name.
 		/// </summary>
