@@ -45,7 +45,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 					fileData = reader.ReadToEnd();
 				}
 
-				fileData += string.Format("\r\n#pwd \"{0}\"", oldWorkingDirectory);
+				fileData = string.Format("{1}\r\n#pwd \"{0}\"", oldWorkingDirectory, fileData);
 
 				session.Data = session.Data.Insert (
 					session.Offset, 
