@@ -23,6 +23,8 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		}		
 
 		public Dictionary<string, Regex> FieldExpressions { get; private set; }
+		public Map<string> FieldDefaults { get; private set; }
+
 		private Service Succesful, Form;
 		bool htmlEscape, showFormBefore, showFormAfter;
 
@@ -36,12 +38,17 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			showFormAfter = modSettings.GetBool("showformafter", false);
 
 			FieldExpressions = new Dictionary<string, Regex> ();
+			FieldDefaults = new Map<string> ();
+
 			foreach (string fieldName in modSettings.Dictionary.Keys) {
 				if (fieldName.StartsWith("field_")) {
 					FieldExpressions.Add (fieldName.Substring(6), new Regex (modSettings [fieldName] as string, RegexOptions.IgnoreCase));
 				}
-			}
 
+				if (fieldName.StartsWith ("default_")) {
+					FieldDefaults [fieldName.Substring (8)] = modSettings [fieldName] as string;
+				}
+			}
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -80,6 +87,9 @@ namespace BorrehSoft.Extensions.BasicWeblings
 						parsedData[fieldName] = fieldValue;
 					}
 				} else {
+					if (FieldDefaults.Has (fieldName))
+						parsedData [fieldName] = FieldDefaults.GetString (fieldName, "");
+
 					failures++;
 					string failName = string.Format ("{0}_failure", fieldName);
 					if (Branches.Has(failName)) {
