@@ -84,6 +84,9 @@
     <Compile Include="Collections\Maps\NetworkMap.cs" />
     <Compile Include="Parsing\Parsers\FilenameParser.cs" />
     <Compile Include="Collections\Maps\ObjectMap.cs" />
+    <Compile Include="Log\Profiling\Profiler.cs" />
+    <Compile Include="Log\Profiling\Entry.cs" />
+    <Compile Include="Log\Profiling\Report.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -94,5 +97,6 @@
     <Folder Include="Collections\Maps\" />
     <Folder Include="Streaming\" />
     <Folder Include="Collections\Maps\Search\" />
+    <Folder Include="Log\Profiling\" />
   </ItemGroup>
 </Project>
