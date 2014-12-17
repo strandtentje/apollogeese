@@ -50,7 +50,7 @@
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>Duckling</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ModularFunk\Utensils.csproj">
+    <ProjectReference Include="..\Utensils\Utensils.csproj">
       <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
       <Name>Utensils</Name>
     </ProjectReference>

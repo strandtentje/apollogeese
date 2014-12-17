@@ -3,8 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geese", "ApolloGeese\Geese.csproj", "{C942E5BC-B6C5-4DF1-808C-71736F045B3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utensils", "ModularFunk\Utensils.csproj", "{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duckling", "Duckling\Duckling.csproj", "{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicWeblings", "BasicWeblings\BasicWeblings.csproj", "{3E51D2C9-9409-4F18-A50A-5D81323E3B29}"
@@ -12,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeeseUI", "GeeseUI\GeeseUI.csproj", "{33D47D04-FD02-4B1D-8865-504B6B5A95C1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Designer", "Designer\Designer.csproj", "{921E6907-9D5D-40FB-A4C1-5F0C56894AC0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utensils", "Utensils\Utensils.csproj", "{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

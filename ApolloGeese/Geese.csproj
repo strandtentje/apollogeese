@@ -60,10 +60,6 @@
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>Duckling</Name>
     </ProjectReference>
-    <ProjectReference Include="..\ModularFunk\Utensils.csproj">
-      <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
-      <Name>Utensils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\BasicWeblings\BasicWeblings.csproj">
       <Project>{3E51D2C9-9409-4F18-A50A-5D81323E3B29}</Project>
       <Name>BasicWeblings</Name>
@@ -71,6 +67,10 @@
     <ProjectReference Include="..\Designer\Designer.csproj">
       <Project>{921E6907-9D5D-40FB-A4C1-5F0C56894AC0}</Project>
       <Name>Designer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utensils\Utensils.csproj">
+      <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
+      <Name>Utensils</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
