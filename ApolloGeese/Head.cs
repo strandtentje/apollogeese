@@ -34,6 +34,7 @@ namespace BorrehSoft.ApolloGeese
 		{
 			Settings configuration = Settings.FromFile (config);
 
+
 			foreach (object pluInFileObj in (configuration ["plugins"] as IEnumerable<object>))
 				plugins.AddFile ((string)pluInFileObj);
 
@@ -94,7 +95,7 @@ namespace BorrehSoft.ApolloGeese
 			if (config.Tag is Service) {
 				newService = config.Tag as Service;
 			} else {
-				type = (string)config ["type"];
+				type = config.GetString ("type", "StubService");
 				moduleConfiguration = (Settings)config ["modconf"];
 
 				log = config.GetBool("log", false);
@@ -115,10 +116,12 @@ namespace BorrehSoft.ApolloGeese
 						nameAndBranch.Value as Settings);
 				}
 
-				Settings branches = config.GetSubsettings("branches");
+				if (config.Has ("branches")) {
+					Settings branches = config.GetSubsettings ("branches");
 
-				foreach(KeyValuePair<string, object> nameAndBranch in branches.Dictionary) 
-					ConnectBranch(newService, nameAndBranch.Key, nameAndBranch.Value as Settings);
+					foreach (KeyValuePair<string, object> nameAndBranch in branches.Dictionary) 
+						ConnectBranch (newService, nameAndBranch.Key, nameAndBranch.Value as Settings);
+				}
 
 				if (!succesfulInit) 
 					Secretary.Report (5, type, " produced an error on initialization: ", newService.InitErrorMessage);
