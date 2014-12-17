@@ -51,7 +51,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 		protected override bool Process (IInteraction uncastParameters)
 		{
-			IHttpInteraction parameters = (IHttpInteraction)uncastParameters;
+			IHttpInteraction parameters = (IHttpInteraction)uncastParameters.GetClosest (typeof(IHttpInteraction));
 
 			string givenCookie = parameters.RequestHeaders.Cookies.Get (cookieName, null);
 
@@ -91,7 +91,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 			parameters ["session"] = givenCookie;
 
-			return Http.TryProcess(parameters);
+			return Http.TryProcess(uncastParameters);
 		}
 	}
 }
