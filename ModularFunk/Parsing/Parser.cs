@@ -38,7 +38,29 @@ namespace BorrehSoft.Utensils.Parsing
 			if (this != session.whitespaceParser)
 				session.whitespaceParser.Run (session, out dummy);
 
-			return ParseMethod(session, out result);
+			if (session.ProfilingEnabled)
+				return ProfiledParseMethod (session, out result);
+			else 
+				return ParseMethod (session, out result);
+		}
+
+		public virtual string GetProfileName()
+		{
+			return this.GetType ().Name;
+		}
+
+		internal int ProfiledParseMethod(ParsingSession session, out object result)
+		{
+			int resultCode = 0;
+			object aresult = null;
+
+			session.ParsingProfiler.CheckIn (GetProfileName(), delegate() {
+				resultCode = ParseMethod(session, out aresult);
+			});
+
+			result = aresult;
+
+			return resultCode;
 		}
 
 		/// <summary>

@@ -3,6 +3,7 @@ using System.IO;
 using BorrehSoft.Utensils.Parsing.Parsers;
 using System.Collections.Generic;
 using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utensils.Log.Profiling;
 
 namespace BorrehSoft.Utensils.Parsing
 {
@@ -25,6 +26,9 @@ namespace BorrehSoft.Utensils.Parsing
 		/// The data.
 		/// </value>
 		public string Data { get; set; }
+
+		public bool ProfilingEnabled { get; private set; }
+		public Profiler ParsingProfiler;
 
 		/// <summary>
 		/// Context Stack Name, i.e., if we're currently processing the item Alittle in Had of Mary, this will say
@@ -100,13 +104,16 @@ namespace BorrehSoft.Utensils.Parsing
 
 
 
-		public ParsingSession(string data, Parser whitespaceParser)
+		public ParsingSession(string data, Parser whitespaceParser, bool profilingEnabled = false)
 		{
 			this.whitespaceParser = whitespaceParser;
 			this.References = new Map<object>();
 			this.Data = data;
 			this.Offset = 0;
 			this.CurrentLine = 0;
+			this.ProfilingEnabled = profilingEnabled;
+			if (profilingEnabled)
+				this.ParsingProfiler = new Profiler();
 		}
 
 		/// <summary>
@@ -118,9 +125,9 @@ namespace BorrehSoft.Utensils.Parsing
 		/// <param name='file'>
 		/// Filename to read serial data from.
 		/// </param>
-		public static ParsingSession FromFile(string file)
+		public static ParsingSession FromFile(string file, bool profilingEnabled = false)
 		{
-			return FromFile (file, new WhitespaceParser ());
+			return FromFile (file, new WhitespaceParser (), profilingEnabled);
 		}
 
 		/// <summary>
@@ -130,9 +137,9 @@ namespace BorrehSoft.Utensils.Parsing
 		/// <returns>The file.</returns>
 		/// <param name="file">File.</param>
 		/// <param name="whitespaceParser">Whitespace parser.</param>
-		public static ParsingSession FromFile(string file, Parser whitespaceParser)
+		public static ParsingSession FromFile(string file, Parser whitespaceParser, bool profilingEnabled = false)
 		{
-			return new ParsingSession (File.ReadAllText (file), whitespaceParser);
+			return new ParsingSession (File.ReadAllText (file), whitespaceParser, profilingEnabled);
 		}
 
 		/// <summary>
