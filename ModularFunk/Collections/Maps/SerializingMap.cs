@@ -33,15 +33,19 @@ namespace BorrehSoft.Utensils.Collections.Maps
 
 			string identifier = "";
 
+			bool expectingAssigner = true;
+
 			foreach(char c in source)
 			{
 				if (c == concatenator)
 				{
+					expectingAssigner = true;
 					this [identifier] = parser (buffer.ToString ());
 					buffer.Clear ();
 				}
-				else if (c == assigner)
+				else if (expectingAssigner && (c == assigner))
 				{
+					expectingAssigner = false;
 					identifier = buffer.ToString ();
 					buffer.Clear();
 				}
