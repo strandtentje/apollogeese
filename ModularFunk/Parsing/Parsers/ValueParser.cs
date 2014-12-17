@@ -15,6 +15,11 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 			this.valuePattern = new Regex(regexMatch);
 		}
 
+		public override string GetProfileName ()
+		{
+			return string.Format ("<{0}>Parser", typeof(T).Name);
+		}
+
 		/// <summary>
 		///  Method which parses data from session into resulting value of earlier
 	    ///  supplied type.
@@ -30,7 +35,10 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 		/// </param>
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
-			Match match = valuePattern.Match(session.Data.Substring(session.Offset));
+			// if you're going to put any value longer than 32 characters in the config file,
+			// you're doing something wrong.
+			int length = Math.Min (32, session.Data.Length - session.Offset);
+			Match match = valuePattern.Match(session.Data.Substring(session.Offset, length));
 
 			T aValue;
 
