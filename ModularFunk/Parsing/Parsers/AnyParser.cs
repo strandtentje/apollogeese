@@ -30,7 +30,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 		{
 			for (int iParser = 0; iParser < AcceptedParsers.Count; iParser++)
 				if (AcceptedParsers [iParser].Run (session, out result) > 0)
-					return iParser;
+					return iParser + 1;
 
 			result = null;
 			return -1;

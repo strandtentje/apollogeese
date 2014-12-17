@@ -31,7 +31,8 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 				if (coupler.Run (session) > -1) {
 					// "butt";
 					session.DeepenContext(identifier as String);
-					if (InnerParser.Run (session, out value) > 0) {
+					int iresult = InnerParser.Run (session, out value);
+					if (iresult > 0) {
 						session.ContextRegister(value);
 						session.SurfaceContext(identifier as String);
 						result = new Tuple<string, object> ((string)identifier, value);
