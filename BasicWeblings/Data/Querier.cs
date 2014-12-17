@@ -19,8 +19,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 	/// </summary>
 	public abstract class Querier : Service
 	{
-		private Service none, single, iterator, successful;
+		private Service none, single, iterator, successful, capreached;
 		private bool useAffectedRowcount;
+		private int resultCap = -1;
 		private string queryFile = "", queryText = "";
 
 		public override string Description {
@@ -47,11 +48,15 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 			Branches ["single"] = Stub;
 			Branches ["iterator"] = Stub;
 			Branches ["successful"] = Stub;
+			Branches ["capreached"] = Stub;
 
 			Connection = CreateConnection(modSettings);
 
 			queryFile = modSettings.GetString("query", "");
 			queryText = modSettings["querytext"] as String ?? File.ReadAllText(queryFile);
+			if (modSettings.Has ("resultcap")) {
+				resultCap = (int)modSettings["resultcap"];
+			}
 
 			Connection.SetDefaultCommandQuery(queryText, modSettings.Get("params", null) as List<object>);
 
@@ -77,6 +82,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 			if (e.Name == "single") single = e.NewValue;
 			if (e.Name == "iterator") iterator = e.NewValue;
 			if (e.Name == "successful") successful = e.NewValue;
+			if (e.Name == "capreached")	capreached = e.NewValue;
 		}
 
 		/// <summary>
@@ -152,20 +158,28 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 		/// <param name='ParentParameters'>
 		/// Parameters passed down from parent node.
 		/// </param>
-		protected virtual bool BranchForMultipleResults (Func<ResultInteraction, bool> IteratorDelegate, ResultInteraction FirstResult, ResultInteraction NextResult, IDataReader DataReader, IInteraction ParentParameters)
+		protected virtual bool BranchForMultipleResults (ResultInteraction FirstResult, ResultInteraction NextResult, IDataReader DataReader, IInteraction ParentParameters)
 		{	
 			bool success = true;
 
 			if (FirstResult != null) {
-				success &= IteratorDelegate (FirstResult);
+				success &= iterator.TryProcess (FirstResult);
 
 				if (NextResult != null) {
 					int resultCount = 2;
+					int totalResults = 2;
 
 					while (resultCount > 1) {
-						success &= IteratorDelegate (NextResult);
+						success &= iterator.TryProcess (NextResult);
 						resultCount--;
-						NextResult = GetResultInteraction (DataReader, ParentParameters, ref resultCount);
+
+						if ((resultCap > -1) && (totalResults >= resultCap)) {
+							resultCount = 0;
+							success &= capreached.TryProcess (ParentParameters);
+						} else {
+							NextResult = GetResultInteraction (DataReader, ParentParameters, ref resultCount);
+							totalResults++;
+						}
 					}
 				}
 			}
@@ -191,10 +205,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 		/// <param name='NoResultBranchDelegate'>
 		/// Process method for no results; will use parentparameters
 		/// </param>
-		protected bool GetResultsToBranches (IInteraction ParentParameters, 
-		                                     Func<ResultInteraction, bool> IterateResultsBranchDelegate,
-		                                     Func<ResultInteraction, bool> SingleResultBranchDelegate,
-		                                     Func<IInteraction, bool> NoResultBranchDelegate)
+		protected bool GetResultsToBranches (IInteraction ParentParameters)
 		{			
 			int resultCount; 
 			bool success;
@@ -213,14 +224,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 
 			success = true;
 
-			if ((resultCount == 0) && (NoResultBranchDelegate != Stub.TryProcess)) 
-				success = NoResultBranchDelegate (ParentParameters);
+			if ((resultCount == 0) && (none != Stub)) success = none.TryProcess (ParentParameters);
 
-			else if ((resultCount == 1) && (SingleResultBranchDelegate != Stub.TryProcess)) 
-				success = SingleResultBranchDelegate (firstResult);	
+			else if ((resultCount == 1) && (single != Stub)) success = single.TryProcess (firstResult);	
 
-			else if (IterateResultsBranchDelegate != Stub.TryProcess)
-				success = BranchForMultipleResults(IterateResultsBranchDelegate, firstResult, nextResult, reader, ParentParameters);
+			else if (iterator != Stub) success = BranchForMultipleResults(firstResult, nextResult, reader, ParentParameters);
 
 			reader.Close();
 
@@ -229,8 +237,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 
 		protected override bool Process (IInteraction parameters)
 		{
-			return GetResultsToBranches(parameters, iterator.TryProcess, single.TryProcess, none.TryProcess) && 
-				successful.TryProcess (parameters);
+			return GetResultsToBranches(parameters) && successful.TryProcess (parameters);
 		}
 	}
 }
