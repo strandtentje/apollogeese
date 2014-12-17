@@ -49,8 +49,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 			chunkPattern = (string)modSettings ["chunkpattern"];
 			templateFile = (string)modSettings ["templatefile"];
 			WillCheckForTemplateUpdates = modSettings.GetBool("checkfortemplateupdates", true);
-			inacquirableFormat = modSettings.GetString("forwardfail", "Branch fail; {0}");
-			unsuppliedFormat = modSettings.GetString("backwardfail",  "No branch, not in fallback; {0}");
+			inacquirableFormat = modSettings.GetString("forwardfail", "");
+			unsuppliedFormat = modSettings.GetString("backwardfail",  "");
 			settings = modSettings;
 
 			if (WillCheckForTemplateUpdates)
@@ -99,6 +99,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 			string groupName;
 
 			target = (IOutgoingBodiedInteraction)source.GetClosest (typeof(IOutgoingBodiedInteraction));
+
 
 			if (target is IHttpInteraction) {
 				type = MimeType.Text.Html;
