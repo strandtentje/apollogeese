@@ -8,6 +8,8 @@ using BorrehSoft.Utensils.Log;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using System.Collections.Specialized;
 using BorrehSoft.Utensils.Collections;
+using System.Collections.Generic;
+using System.Text;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Server
 {
@@ -58,10 +60,19 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		}
 
 		private void SetUrl(string rawurl) {
-			string[] parts = rawurl.Split(new char[] { '?' }, StringSplitOptions.RemoveEmptyEntries);
- 			this["pathsection"] = urlsection = parts[0].Trim('/');
+			Queue<string> parts = new Queue<string> (rawurl.Split ("?".ToCharArray(), StringSplitOptions.RemoveEmptyEntries));
+			StringBuilder queryBuilder = new StringBuilder ();
 
-			if (parts.Length > 1) this["querysection"] = querysection = parts[1];
+			this ["pathsection"] = urlsection = parts.Dequeue ().Trim ('/');
+
+			if (parts.Count > 0) queryBuilder.Append (parts.Dequeue ());
+
+			while (parts.Count > 0) {
+				queryBuilder.Append ('?');
+				queryBuilder.Append (parts.Dequeue ());
+			}
+
+			this ["querysection"] = querysection = queryBuilder.ToString ();
 
 			this["url"] = URL = new StringList (urlsection, '/');
 		}
