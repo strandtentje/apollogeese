@@ -83,6 +83,11 @@
     <Compile Include="Site\Page\RegexFieldReader.cs" />
     <Compile Include="Site\Page\GetFieldReader.cs" />
     <Compile Include="Site\Filesystem\WorkingDirectory.cs" />
+    <Compile Include="Relay\Relay.cs" />
+    <Compile Include="Relay\RelayEntry.cs" />
+    <Compile Include="Relay\RelayExit.cs" />
+    <Compile Include="Relay\RelayInteraction.cs" />
+    <Compile Include="Site\Page\LocalizedTemplate.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -95,5 +100,8 @@
       <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
       <Name>Utensils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Relay\" />
   </ItemGroup>
 </Project>
