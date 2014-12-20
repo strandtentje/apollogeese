@@ -23,6 +23,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 		private bool useAffectedRowcount;
 		private int resultCap = -1;
 		private string queryFile = "", queryText = "";
+		private Settings defaultParameters;
 
 		public override string Description {
 			get {
@@ -61,6 +62,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 			Connection.SetDefaultCommandQuery(queryText, modSettings.Get("params", null) as List<object>);
 
 			useAffectedRowcount = modSettings.GetBool("useaffectedrowcount", false);
+
+			defaultParameters = modSettings.GetSubsettings ("defaults");
 
 			if (modSettings.GetBool("runonce", false))
 				Connection.GetDefaultCommand().Run().Close();
@@ -101,10 +104,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 			object paramvalue;
 
 			foreach (string paramname in Connection.DefaultOrderedParameters) {
-				if (parameters.TryGetFallback (paramname, out paramvalue))
+				if (parameters.TryGetFallback (paramname, out paramvalue) || defaultParameters.TryGetValue(paramname, out paramvalue))
 					Command.SetParameter (paramname, paramvalue);
 				else
-					throw new Exception (string.Format("Parameter {0} not in interaction", paramname));
+					throw new Exception (string.Format("Parameter {0} not in interaction or defaults", paramname));
 			}
 
 			return Command.Run ();
