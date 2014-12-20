@@ -77,7 +77,11 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
 			object assignments, uncastTypeid, uncastModconf;
-			Settings rootconf = new Settings(), modconf = new Settings ();
+			Settings rootconf, modconf = new Settings ();
+
+			rootconf = session.References [session.ContextName] as Settings;
+			if (rootconf == null)
+				rootconf = new Settings ();
 
 			int successCode = -1;
 			bool Identifier = TypeIDParser.ParseMethod (session, out uncastTypeid) > 0;
