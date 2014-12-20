@@ -46,7 +46,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 		protected override void Initialize (Settings modSettings)
 		{
 			title = (string)modSettings ["title"];
-			chunkPattern = (string)modSettings ["chunkpattern"];
+			chunkPattern = modSettings.GetString ("chunkpattern", @"\{% ([a-z]+) %\}");
 			templateFile = (string)modSettings ["templatefile"];
 			WillCheckForTemplateUpdates = modSettings.GetBool("checkfortemplateupdates", true);
 			inacquirableFormat = modSettings.GetString("forwardfail", "");
@@ -81,7 +81,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 		/// </summary>
 		private void LoadTemplateAndRegisterReplacableSegments ()
 		{
-			if (chunkPattern == null) chunkPattern = @"\{% ([a-z]+) %\}";
 			rawTemplate = File.ReadAllText (templateFile);
 
 			replaceables = templateVariables.AddUniqueRegexMatches (rawTemplate, chunkPattern);
