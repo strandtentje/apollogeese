@@ -48,16 +48,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
 
 		public MySqlQueryConnection (string ConnectionString)
 		{
-			Connection = new MySqlConnection(ConnectionString);
-			Connection.Open ();
+			this.ConnectionString = ConnectionString;
 		}
 
 		public MySqlQueryConnection (string databasehost, string databasename, string user, string password, bool usepool)
 		{
-			ConnectionString = string.Format (ConnectionStringTemplate, databasehost, databasename, user, password, usepool);
-
-			Connection = new MySqlConnection (ConnectionString);
-			Connection.Open ();
+			this.ConnectionString = string.Format (ConnectionStringTemplate, databasehost, databasename, user, password, usepool);
 		}
 
 		public void SetDefaultCommandQuery(string QueryText, List<object> queryParameters = null)
@@ -73,6 +69,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
 
 		public IQueryCommand GetDefaultCommand()
 		{
+			if ((Connection == null) || (Connection.State == ConnectionState.Broken) || (Connection.State == ConnectionState.Closed)) {				
+				Connection = new MySqlConnection(ConnectionString);
+				Connection.Open ();
+			}
+
 			return new MySqlQueryCommand(this, DefaultQueryText);
 		}
 	}
