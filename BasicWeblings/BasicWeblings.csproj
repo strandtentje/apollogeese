@@ -87,7 +87,7 @@
     <Compile Include="Relay\RelayEntry.cs" />
     <Compile Include="Relay\RelayExit.cs" />
     <Compile Include="Relay\RelayInteraction.cs" />
-    <Compile Include="Site\Page\LocalizedTemplate.cs" />
+    <Compile Include="Site\Page\LocalizedTemplates.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
