@@ -40,9 +40,14 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			FieldExpressions = new Dictionary<string, Regex> ();
 			FieldDefaults = new Map<string> ();
 
+			RegexOptions regexOptions = RegexOptions.IgnoreCase;
+
+			if (modSettings.GetBool ("casesensitive", false))
+				regexOptions = RegexOptions.None;
+
 			foreach (string fieldName in modSettings.Dictionary.Keys) {
 				if (fieldName.StartsWith("field_")) {
-					FieldExpressions.Add (fieldName.Substring(6), new Regex (modSettings [fieldName] as string, RegexOptions.IgnoreCase));
+					FieldExpressions.Add (fieldName.Substring(6), new Regex (modSettings [fieldName] as string, regexOptions));
 				}
 
 				if (fieldName.StartsWith ("default_")) {
