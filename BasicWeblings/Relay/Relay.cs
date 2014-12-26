@@ -29,7 +29,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		protected override bool Process (IInteraction parameters)
 		{
-			RelayInteraction interaction = new RelayInteraction (parameters, this.Branches, this.modSettings);
+			RelayInteraction interaction = new RelayInteraction (parameters, this.Branches, this.modSettings, this.RelayName);
 
 			return RelayEntry.Get(this.RelayName).TryProcess (interaction);
 		}
