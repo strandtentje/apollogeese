@@ -40,6 +40,15 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// </value>
 		public IInteraction Parent { get { return parent; } }
 
+		public bool TryGetClosest(Type t, out IInteraction closest)
+		{			
+			for (closest = this; (closest != null); closest = closest.Parent)
+				if (t.IsAssignableFrom (closest.GetType ())) 
+					return true;
+
+			return false;
+		}
+
 		/// <summary>
 		/// Gets the closest interation of type
 		/// </summary>
@@ -51,12 +60,12 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// </param>
 		public IInteraction GetClosest (Type t)
 		{
-			for (IInteraction current = this; (current != null); current = current.Parent)
-				if (t.IsAssignableFrom(current.GetType())) 
-					return current;
+			IInteraction closest;
 
+			if (!TryGetClosest(t, out closest))
+				throw new Exception("No interaction in chain was of specified type");
 
-			throw new Exception("No interaction in chain was of specified type");
+			return closest;
 		}
 
 		public IInteraction Clone (IInteraction parent)

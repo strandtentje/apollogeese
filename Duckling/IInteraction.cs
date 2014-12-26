@@ -26,6 +26,8 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 		IInteraction GetClosest(Type t);
 
+		bool TryGetClosest (Type t, out IInteraction closest);
+
 		IInteraction Clone(IInteraction parent);
 
 		/// <summary>
