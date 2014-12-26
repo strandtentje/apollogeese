@@ -81,6 +81,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 		/// </summary>
 		private void LoadTemplateAndRegisterReplacableSegments ()
 		{
+			if (!File.Exists (templateFile))
+				File.Create (templateFile).Close();
+
 			rawTemplate = File.ReadAllText (templateFile);
 
 			replaceables = templateVariables.AddUniqueRegexMatches (rawTemplate, chunkPattern);
