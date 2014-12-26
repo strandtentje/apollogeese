@@ -13,6 +13,15 @@ namespace BorrehSoft.Utensils.Collections.Settings
 	/// </summary>
 	public class Settings : Map<object>
 	{
+		public Settings() {}
+
+		public Settings(Map<object> origin) : base(origin){}
+
+		public Settings Clone() 
+		{
+			return new Settings (base.Clone());
+		}
+
 		/// <summary>
 		/// Acquires settings from the file.
 		/// </summary>
