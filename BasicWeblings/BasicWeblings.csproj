@@ -88,6 +88,8 @@
     <Compile Include="Relay\RelayExit.cs" />
     <Compile Include="Relay\RelayInteraction.cs" />
     <Compile Include="Site\Page\LocalizedTemplates.cs" />
+    <Compile Include="Site\Page\VerificationInteraction.cs" />
+    <Compile Include="Site\Page\FailureWrapperInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
