@@ -26,7 +26,8 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		public Map<string> FieldDefaults { get; private set; }
 
 		private Service Succesful, Form;
-		bool htmlEscape, showFormBefore, showFormAfter;
+		private string failureVariable;
+		bool htmlEscape, showFormBefore, showFormAfter, mapErrorStrings;
 
 		protected override void Initialize (Settings modSettings)
 		{
@@ -36,6 +37,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			htmlEscape = modSettings.GetBool("escapehtml", true);
 			showFormBefore = modSettings.GetBool("showformbefore", false);
 			showFormAfter = modSettings.GetBool("showformafter", false);
+			failureVariable = modSettings.GetString ("failurevariable", "");
 
 			FieldExpressions = new Dictionary<string, Regex> ();
 			FieldDefaults = new Map<string> ();
@@ -62,6 +64,17 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			if (e.Name == "form") Form = e.NewValue;
 		}
 
+		/// <summary>
+		/// Deserialize the specified data.
+		/// </summary>
+		/// <param name="data">Data.</param>
+		public abstract Map<object> Deserialize(string data);
+
+		/// <summary>
+		/// Acquires the data from nearest incoming body
+		/// </summary>
+		/// <returns>The data.</returns>
+		/// <param name="parameters">Parameters.</param>
 		public virtual string AcquireData (IInteraction parameters)
 		{
 			IIncomingBodiedInteraction request;
@@ -70,47 +83,81 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			return request.IncomingBody.ReadToEnd ();
 		}
 
-		public abstract Map<object> Deserialize(string data);
-
-		protected override bool Process (IInteraction parameters)
+		/// <summary>
+		/// Processes the failures.
+		/// </summary>
+		/// <returns><c>true</c>, if failures were processed successfully, <c>false</c> otherwise.</returns>
+		/// <param name="faultyFields">Fields with failures.</param>
+		/// <param name="parameters">Parameters to use for calling failure branches.</param>
+		private bool ProcessFailures(List<string> faultyFields, IInteraction parameters)
 		{
 			bool success = true;
-			int number, failures = 0;
 
-			QuickInteraction parsedData = new QuickInteraction (parameters);
-	
-			Map<object> postedData = Deserialize (AcquireData(parameters));
-
-			foreach (string fieldName in FieldExpressions.Keys) {
-				string fieldValue = postedData.GetString (fieldName, "");
-				if (FieldExpressions [fieldName].IsMatch (fieldValue)) {
-					if (int.TryParse (fieldValue, out number)) {
-						parsedData [fieldName] = number;
-					} else {
-						if (htmlEscape)
-							fieldValue = HttpUtility.HtmlEncode(fieldValue);
-						parsedData[fieldName] = fieldValue;
-					}
-				} else {
-					if (FieldDefaults.Has (fieldName))
-						parsedData [fieldName] = FieldDefaults.GetString (fieldName, "");
-
-					failures++;
-					string failName = string.Format ("{0}_failure", fieldName);
-					if (Branches.Has(failName)) {
-						Service failBranch = Branches [failName];
-						success &= failBranch.TryProcess (parameters);
-					}
+			foreach (string fieldName in faultyFields) {
+				string failName = string.Format ("{0}_failure", fieldName);
+				if (Branches.Has (failName)) {
+					Service failBranch = Branches [failName];
+					success &= failBranch.TryProcess (parameters);
 				}
 			}
 
-			if (failures == 0) {
-				if (showFormBefore) success &= Form.TryProcess(parsedData);
-				success &= Succesful.TryProcess (parsedData);
-				if (showFormAfter) success &= Form.TryProcess(parsedData);
+			return success;
+		}
+
+		/// <summary>
+		/// Shows form for successful input
+		/// </summary>
+		/// <returns><c>true</c>, if successfully shown form, <c>false</c> otherwise.</returns>
+		/// <param name="parsedData">Parsed data.</param>
+		/// <param name="parameters">Parameters.</param>
+		private bool DoSuccessfulForm(VerificationInteraction parsedData, IInteraction parameters)
+		{
+			bool success = true;
+			
+			if (showFormBefore) success &= Form.TryProcess(parsedData);
+			success &= Succesful.TryProcess (parsedData);
+			if (showFormAfter) success &= Form.TryProcess(parsedData);
+
+			return success;
+		}
+
+		/// <summary>
+		/// Shows form for faulty input
+		/// </summary>
+		/// <returns><c>true</c>, if successfully shown form, <c>false</c> otherwise.</returns>
+		/// <param name="parsedData">Parsed data.</param>
+		/// <param name="parameters">Parameters.</param>
+		private bool DoFaultyForm(VerificationInteraction parsedData, IInteraction parameters)
+		{
+			bool success = true;
+
+			if (failureVariable.Length > 0) {
+				FailureWrapperInteraction failWrapParameters = new FailureWrapperInteraction (parameters);
+
+				success &= ProcessFailures (parsedData.FaultyFields, failWrapParameters);
+
+				parsedData [failureVariable] = failWrapParameters.GetTextAndClose ();
 			} else {
-				success &= Form.TryProcess(parsedData);
+				success &= ProcessFailures (parsedData.FaultyFields, parameters);
 			}
+
+			return success & Form.TryProcess(parsedData);
+		}
+
+		protected override bool Process (IInteraction parameters)
+		{
+			bool success = true; bool failures;
+			Map<object> postData;
+			VerificationInteraction parsedData;
+
+			postData = Deserialize (AcquireData (parameters));
+			parsedData = new VerificationInteraction (parameters, FieldExpressions) { HtmlEscape = htmlEscape };
+			parsedData.LoadFields (postData, FieldDefaults);
+
+			if (parsedData.FaultyFields.Count == 0) 
+				success &= DoSuccessfulForm (parsedData, parameters);
+			else 
+				success &= DoFaultyForm (parsedData, parameters);
 
 			return success;
 		}
