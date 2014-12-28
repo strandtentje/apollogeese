@@ -28,6 +28,11 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		{
 			BranchName = (string)modSettings ["branchname"];
 			RelayName = (string)modSettings ["relayname"];
+
+			if (BranchName == null)
+				throw new ConfigurationException ("branchname");
+			if (RelayName == null)
+				throw new ConfigurationException ("relayname");
 		}
 
 		protected override bool Process (IInteraction parameters)
