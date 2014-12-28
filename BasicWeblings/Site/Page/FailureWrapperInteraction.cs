@@ -38,11 +38,16 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		/// <returns>The text.</returns>
 		public string GetTextAndClose()
 		{
+			outgoingBody.Flush ();
+
+			string data;
 			body.Position = 0;
 
 			using (StreamReader reader = new StreamReader (body)) {
-				return reader.ReadToEnd ();
+				 data = reader.ReadToEnd ();
 			}
+
+			return data;
 		}
 	}
 }
