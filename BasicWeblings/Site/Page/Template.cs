@@ -46,7 +46,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 		protected override void Initialize (Settings modSettings)
 		{
 			title = (string)modSettings ["title"];
-			chunkPattern = modSettings.GetString ("chunkpattern", @"\{% ([a-z]+) %\}");
+			chunkPattern = modSettings.GetString ("chunkpattern", @"\{% ([a-z|\_]+) %\}");
 			templateFile = (string)modSettings ["templatefile"];
 			WillCheckForTemplateUpdates = modSettings.GetBool("checkfortemplateupdates", true);
 			inacquirableFormat = modSettings.GetString("forwardfail", "");
