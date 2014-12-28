@@ -26,7 +26,6 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		public Map<string> FieldDefaults { get; private set; }
 
 		private Service Succesful, Form;
-		private string failureVariable;
 		bool htmlEscape, showFormBefore, showFormAfter, mapErrorStrings;
 
 		protected override void Initialize (Settings modSettings)
@@ -37,7 +36,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			htmlEscape = modSettings.GetBool("escapehtml", true);
 			showFormBefore = modSettings.GetBool("showformbefore", false);
 			showFormAfter = modSettings.GetBool("showformafter", false);
-			failureVariable = modSettings.GetString ("failurevariable", "");
+			mapErrorStrings = modSettings.GetBool ("maperrors", false);
 
 			FieldExpressions = new Dictionary<string, Regex> ();
 			FieldDefaults = new Map<string> ();
@@ -84,27 +83,6 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		}
 
 		/// <summary>
-		/// Processes the failures.
-		/// </summary>
-		/// <returns><c>true</c>, if failures were processed successfully, <c>false</c> otherwise.</returns>
-		/// <param name="faultyFields">Fields with failures.</param>
-		/// <param name="parameters">Parameters to use for calling failure branches.</param>
-		private bool ProcessFailures(List<string> faultyFields, IInteraction parameters)
-		{
-			bool success = true;
-
-			foreach (string fieldName in faultyFields) {
-				string failName = string.Format ("{0}_failure", fieldName);
-				if (Branches.Has (failName)) {
-					Service failBranch = Branches [failName];
-					success &= failBranch.TryProcess (parameters);
-				}
-			}
-
-			return success;
-		}
-
-		/// <summary>
 		/// Shows form for successful input
 		/// </summary>
 		/// <returns><c>true</c>, if successfully shown form, <c>false</c> otherwise.</returns>
@@ -130,15 +108,19 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		private bool DoFaultyForm(VerificationInteraction parsedData, IInteraction parameters)
 		{
 			bool success = true;
-
-			if (failureVariable.Length > 0) {
-				FailureWrapperInteraction failWrapParameters = new FailureWrapperInteraction (parameters);
-
-				success &= ProcessFailures (parsedData.FaultyFields, failWrapParameters);
-
-				parsedData [failureVariable] = failWrapParameters.GetTextAndClose ();
-			} else {
-				success &= ProcessFailures (parsedData.FaultyFields, parameters);
+			
+			foreach (string fieldName in parsedData.FaultyFields) {
+				string failName = string.Format ("{0}_failure", fieldName);
+				if (Branches.Has (failName)) {
+					Service failBranch = Branches [failName];
+					if (mapErrorStrings) {
+						FailureWrapperInteraction failWrapParameters = new FailureWrapperInteraction (parameters);
+						success &= failBranch.TryProcess (failWrapParameters);
+						parsedData [failName] = failWrapParameters.GetTextAndClose ();
+					} else {
+						success &= failBranch.TryProcess (parameters);
+					}
+				}
 			}
 
 			return success & Form.TryProcess(parsedData);
