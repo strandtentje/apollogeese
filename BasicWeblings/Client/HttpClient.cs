@@ -16,8 +16,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 			}
 		}
 
-		string hostname; int port;
-		Service uriBranch, responseProcessor;
+		protected string hostname; protected int port;
+		protected Service uriBranch, responseProcessor;
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
@@ -27,17 +27,21 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 
 		protected override void Initialize (Settings modSettings)
 		{
-			hostname = modSettings["hostname"] as String;
-			port = modSettings.GetInt("port", 80);
+			hostname = (string)modSettings ["hostname"];
+			port = (int)modSettings["port"];
 		}
 
-		protected override bool Process (IInteraction parameters)
+		protected virtual Stream GetResponse(Stream request)
 		{
-			bool success;
+			using (StreamReader requestReader = new StreamReader(request)) {
+				return WebRequest.Create (requestReader.ReadToEnd()).GetResponse ().GetResponseStream ();
+			}
+		}
+
+		protected virtual Stream RequestForResponse(IInteraction parameters) 
+		{
 			HttpOutgoingInteraction outgoingInteraction;
-			HttpResponseInteraction incomingInteraction;
 			WebRequest webRequest;
-			Stream responseStream;
 
 			using(MemoryStream uriComposingStream = new MemoryStream ()) {
 				outgoingInteraction = new HttpOutgoingInteraction (uriComposingStream, parameters);
@@ -47,13 +51,17 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 
 				outgoingInteraction.Done();
 				uriComposingStream.Position = 0;
-
-				using(StreamReader uriReader = new StreamReader(uriComposingStream)) {				
-					webRequest = WebRequest.Create(uriReader.ReadToEnd());
-				}
+					
+				return GetResponse(uriComposingStream);
 			}
+		}
 
-			responseStream  = webRequest.GetResponse().GetResponseStream();
+		protected override bool Process (IInteraction parameters)
+		{			
+			Stream responseStream;
+			HttpResponseInteraction incomingInteraction;
+
+			responseStream = RequestForResponse (parameters);
 			incomingInteraction = new HttpResponseInteraction (responseStream, parameters);
 
 			return responseProcessor.TryProcess (incomingInteraction);
