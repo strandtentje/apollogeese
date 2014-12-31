@@ -90,6 +90,8 @@
     <Compile Include="Site\Page\LocalizedTemplates.cs" />
     <Compile Include="Site\Page\VerificationInteraction.cs" />
     <Compile Include="Site\Page\FailureWrapperInteraction.cs" />
+    <Compile Include="Client\GlobalTcpClient.cs" />
+    <Compile Include="Client\DoubleBufferedSplitter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
