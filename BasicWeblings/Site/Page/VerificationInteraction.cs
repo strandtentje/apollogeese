@@ -15,11 +15,24 @@ namespace BorrehSoft.Extensions.BasicWeblings
 	{
 		public Dictionary<string, Regex> FieldExpressions { get; private set; }
 		public List<string> FaultyFields { get; private set; }
+		public List<string> FallbackNames { get; private set; }
 		public bool HtmlEscape { get; set; }
 
 		public VerificationInteraction (IInteraction parameters, Dictionary<string, Regex> fieldExpressions) : base(parameters)
 		{
 			this.FieldExpressions = fieldExpressions;
+		}
+
+		private void ParseLoad(string fieldName, string fieldValue)
+		{
+			int number;
+			if (int.TryParse (fieldValue, out number)) {
+				this [fieldName] = number;
+			} else {
+				if (HtmlEscape)
+					fieldValue = HttpUtility.HtmlEncode (fieldValue);
+				this [fieldName] = fieldValue;
+			}
 		}
 
 		/// <summary>
@@ -31,22 +44,26 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		{			
 			FaultyFields = new List<string> ();
 
+			// if you squint your eyes you can already see the bugs in this
+			// code.
 			foreach (string fieldName in FieldExpressions.Keys) {
 				string fieldValue;
-				if (postedData.TryGetString(fieldName, out fieldValue) && FieldExpressions [fieldName].IsMatch (fieldValue)) {
-					int number;
-					if (int.TryParse (fieldValue, out number)) {
-						this [fieldName] = number;
+				if (postedData.TryGetString(fieldName, out fieldValue)) {
+					if (FieldExpressions [fieldName].IsMatch (fieldValue)) {
+						ParseLoad (fieldName, fieldValue);
 					} else {
-						if (HtmlEscape)
-							fieldValue = HttpUtility.HtmlEncode(fieldValue);
-						this[fieldName] = fieldValue;
+						if (fieldDefaults.TryGetValue (fieldName, out fieldValue)) {
+							this [fieldName] = fieldValue;
+						}							
+
+						FaultyFields.Add (fieldName);
 					}
 				} else {
-					if (fieldDefaults.Has (fieldName))
-						this [fieldName] = this.GetString (fieldName, "");
-
-					FaultyFields.Add (fieldName);
+					if (this.TryGetFallback (fieldName, out fieldValue)) {
+						this [fieldName] = fieldValue;
+					} else {
+						FaultyFields.Add (fieldName);
+					}
 				}
 			}
 		}
