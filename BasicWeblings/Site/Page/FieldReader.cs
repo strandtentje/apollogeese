@@ -22,8 +22,24 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			}
 		}		
 
+		/// <summary>
+		/// Gets the field verification regular expressions.
+		/// </summary>
+		/// <value>The field expressions.</value>
 		public Dictionary<string, Regex> FieldExpressions { get; private set; }
+
+		/// <summary>
+		/// Gets the field default values for missing fields
+		/// </summary>
+		/// <value>The field defaults.</value>
 		public Map<string> FieldDefaults { get; private set; }
+
+		/// <summary>
+		/// Get the names of the fields that are allowed to have their values 
+		/// be filled in or preserved from existing context
+		/// </summary>
+		/// <value>The interaction fallback names.</value>
+		public List<string> InteractionFallbackNames { get; private set; }
 
 		private Service Succesful, Form;
 		bool htmlEscape, showFormBefore, showFormAfter, mapErrorStrings;
@@ -40,6 +56,11 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 			FieldExpressions = new Dictionary<string, Regex> ();
 			FieldDefaults = new Map<string> ();
+			InteractionFallbackNames = new List<string> ();
+
+			if (modSettings.Has("allowfallback"))
+				foreach (object fbName in (IEnumerable<object>)modSettings["allowfallback"])
+					InteractionFallbackNames.Add ((string)fbName);
 
 			RegexOptions regexOptions = RegexOptions.IgnoreCase;
 
