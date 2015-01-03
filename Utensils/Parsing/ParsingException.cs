@@ -10,15 +10,15 @@ namespace BorrehSoft.Utensils.Parsing
 	/// </summary>
 	class ParsingException : Exception
 	{
-		public ParsingException (ParsingSession session, Parser parser, string after = "") : 
+		public ParsingException (ParsingSession session, Parser parser, string after = "(not given)", string before = "(not given)") : 
 			base (
 				string.Format(
-					"Expected {0} at line {1}, offset {2}, col {3}, after {4}", 
+				"Expected {0} at line {1}, offset {2}, col {3}, after {4}, before {5}", 
 					parser.ToString(), 
 					session.CurrentLine.ToString(), 
 					session.Offset.ToString(),
 					session.CurrentColumn.ToString(),
-					after))
+					after, before))
 		{
 		}
 	}
