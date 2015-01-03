@@ -40,14 +40,18 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 		/// </summary>
 		/// <value>The title of this page</value>
 		public override string Description {
-			get { return title; }
+			get { return (title ?? "").Length == 0 ? templateFile ?? "[FILE NOT SET]" : title; }
 		}
 
 		protected override void Initialize (Settings modSettings)
 		{
-			title = (string)modSettings ["title"];
+			title = modSettings.GetString ("title", "untitled");
 			chunkPattern = modSettings.GetString ("chunkpattern", @"\{% ([a-z|\_]+) %\}");
-			templateFile = (string)modSettings ["templatefile"];
+			if (modSettings.Has ("templatefile"))
+				templateFile = (string)modSettings ["templatefile"];
+			else
+				throw new Exception ("templatefile mandatory");
+
 			WillCheckForTemplateUpdates = modSettings.GetBool("checkfortemplateupdates", true);
 			inacquirableFormat = modSettings.GetString("forwardfail", "");
 			unsuppliedFormat = modSettings.GetString("backwardfail",  "");
