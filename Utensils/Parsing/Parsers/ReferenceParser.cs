@@ -50,7 +50,10 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 					succescode = 1;
 				} else {
 					session.Offset = bookmark;
-					succescode = -1;
+					if (succescode < 0)
+						throw new Exception ("Invalid Reference to " + identifier);
+					else 
+						succescode = -1;
 				}
 			}
 
