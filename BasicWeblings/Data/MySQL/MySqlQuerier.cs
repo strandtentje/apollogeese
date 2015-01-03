@@ -6,15 +6,22 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
 	public class MySqlQuerier : Querier
 	{
 		protected override IQueryConnection CreateConnection (Settings modSettings)
-		{		
-			if (modSettings.Has ("connectionstring")) {
-				return new MySqlQueryConnection((string)modSettings["connectionstring"]);
+		{	
+			Settings pickedSettings = modSettings;
+			string credsetName;
+
+			if (modSettings.TryGetString ("credset", out credsetName)) {
+				pickedSettings = CredentialsStore.Credentials.GetSubsettings (credsetName);
+			}
+
+			if (pickedSettings.Has ("connectionstring")) {
+				return new MySqlQueryConnection((string)pickedSettings["connectionstring"]);
 			}
 
 			return new MySqlQueryConnection(
-					(string)modSettings ["host"], (string)modSettings ["db"], 			                     
-					(string)modSettings ["user"], (string)modSettings ["pass"],
-					(bool)modSettings.GetBool("pool", true));
+					(string)pickedSettings ["host"], (string)pickedSettings ["db"], 			                     
+					(string)pickedSettings ["user"], (string)pickedSettings ["pass"],
+					(bool)pickedSettings.GetBool("pool", true));
 		}
 	}
 }
