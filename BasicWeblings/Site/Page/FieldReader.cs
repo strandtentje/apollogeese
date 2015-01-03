@@ -154,7 +154,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			VerificationInteraction parsedData;
 
 			postData = Deserialize (AcquireData (parameters));
-			parsedData = new VerificationInteraction (parameters, FieldExpressions) { HtmlEscape = htmlEscape };
+			parsedData = new VerificationInteraction (parameters, FieldExpressions, InteractionFallbackNames) { HtmlEscape = htmlEscape };
 			parsedData.LoadFields (postData, FieldDefaults);
 
 			if (parsedData.FaultyFields.Count == 0) 

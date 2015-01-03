@@ -18,9 +18,10 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		public List<string> FallbackNames { get; private set; }
 		public bool HtmlEscape { get; set; }
 
-		public VerificationInteraction (IInteraction parameters, Dictionary<string, Regex> fieldExpressions) : base(parameters)
+		public VerificationInteraction (IInteraction parameters, Dictionary<string, Regex> fieldExpressions, List<string> fallbackNames) : base(parameters)
 		{
 			this.FieldExpressions = fieldExpressions;
+			this.FallbackNames = fallbackNames;
 		}
 
 		private void ParseLoad(string fieldName, string fieldValue)
@@ -60,7 +61,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 					}
 				} else {
 					object fallbackObject;
-					if (this.TryGetFallback (fieldName, out fallbackObject)) {
+					if (FallbackNames.Contains(fieldName) && this.TryGetFallback (fieldName, out fallbackObject)) {
 						this [fieldName] = fallbackObject;
 					} else {
 						FaultyFields.Add (fieldName);
