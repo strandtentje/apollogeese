@@ -64,6 +64,10 @@ namespace BorrehSoft.Extensions.BasicWeblings
 					if (FallbackNames.Contains(fieldName) && this.TryGetFallback (fieldName, out fallbackObject)) {
 						this [fieldName] = fallbackObject;
 					} else {
+						if (fieldDefaults.TryGetString (fieldName, out fieldValue)) {
+							this [fieldName] = fieldValue;
+						}		
+
 						FaultyFields.Add (fieldName);
 					}
 				}
