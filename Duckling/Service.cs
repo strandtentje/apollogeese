@@ -112,8 +112,8 @@ namespace BorrehSoft.ApolloGeese.Duckling
 				InitErrorMessage = ex.Message;
 				Secretary.Report (0, 
 				                  string.Format (
-					"Initialization for Service {0} failed with the following message:\n{1}", 
-					Description, InitErrorMessage));
+					"Initialization for {2} {0} failed with the following message:\n{1}", 
+					Description, InitErrorMessage, this.GetType().Name));
 
 				for(Exception inner = ex; inner != null; inner = inner.InnerException)
 					Secretary.Report(0, "Inner: ", inner.Message);
