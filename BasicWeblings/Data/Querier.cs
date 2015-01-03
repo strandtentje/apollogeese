@@ -110,7 +110,19 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 					throw new Exception (string.Format("Parameter {0} not in interaction or defaults", paramname));
 			}
 
-			return Command.Run ();
+			try {
+				return Command.Run ();
+			} catch (Exception ex) {
+				if (ex is MySqlException) 
+					if (((MySqlException)ex).Number == 1054)
+						throw new Exception (
+							"SQL command failure; there's likely a malreference to the database within the query. Review query.",
+							ex);
+				
+				throw new Exception (
+					string.Format ("Running command with {0} parameters failed", Connection.DefaultOrderedParameters.Count), ex);					
+			}
+
 		}
 
 		/// <summary>
@@ -227,13 +239,13 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 
 			success = true;
 
+			if ((resultCount > 1) && (iterator != Stub)) success = BranchForMultipleResults(firstResult, nextResult, reader, ParentParameters);
+
+			reader.Close();
+
 			if ((resultCount == 0) && (none != Stub)) success = none.TryProcess (ParentParameters);
 
 			else if ((resultCount == 1) && (single != Stub)) success = single.TryProcess (firstResult);	
-
-			else if (iterator != Stub) success = BranchForMultipleResults(firstResult, nextResult, reader, ParentParameters);
-
-			reader.Close();
 
 			return success;
 		}
