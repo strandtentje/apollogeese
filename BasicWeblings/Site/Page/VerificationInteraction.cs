@@ -52,15 +52,16 @@ namespace BorrehSoft.Extensions.BasicWeblings
 					if (FieldExpressions [fieldName].IsMatch (fieldValue)) {
 						ParseLoad (fieldName, fieldValue);
 					} else {
-						if (fieldDefaults.TryGetValue (fieldName, out fieldValue)) {
+						if (fieldDefaults.TryGetString (fieldName, out fieldValue)) {
 							this [fieldName] = fieldValue;
 						}							
 
 						FaultyFields.Add (fieldName);
 					}
 				} else {
-					if (this.TryGetFallback (fieldName, out fieldValue)) {
-						this [fieldName] = fieldValue;
+					object fallbackObject;
+					if (this.TryGetFallback (fieldName, out fallbackObject)) {
+						this [fieldName] = fallbackObject;
 					} else {
 						FaultyFields.Add (fieldName);
 					}
