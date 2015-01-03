@@ -32,19 +32,28 @@ namespace BorrehSoft.ApolloGeese
 
 		static void RunConfig (string config)
 		{
-			Settings configuration = Settings.FromFile (config);
+			Settings configuration = null;
 
-
-			foreach (object pluInFileObj in (configuration ["plugins"] as IEnumerable<object>))
-				plugins.AddFile ((string)pluInFileObj);
-
-			Settings instances = configuration.GetSubsettings("instances");
-
-			foreach (Settings instance in instances.Dictionary.Values) {
-				LoadTree (instance);
+			try {
+				configuration = Settings.FromFile (config);	
+			} catch (Exception ex) {
+				Secretary.Report (0, "Failure during reading of clon:\n", ex.Message);
 			}
-						
-			Secretary.Report (5, "Loaded Branches");
+
+			if (configuration == null) {
+				Environment.Exit (1);
+			} else {
+				foreach (object pluInFileObj in (configuration ["plugins"] as IEnumerable<object>))
+					plugins.AddFile ((string)pluInFileObj);
+
+				Settings instances = configuration.GetSubsettings("instances");
+
+				foreach (Settings instance in instances.Dictionary.Values) {
+					LoadTree (instance);
+				}
+
+				Secretary.Report (5, "Loaded Branches");
+			}
 		}
 
 		/// <summary>
