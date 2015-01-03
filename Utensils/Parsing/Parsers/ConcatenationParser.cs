@@ -51,7 +51,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 					trail = session.GetTrail();
 					ahead = session.GetAhead();
 
-					throw new ParsingException (session, closer);
+					throw new ParsingException (session, closer, trail, ahead);
 				}
 			}
 
