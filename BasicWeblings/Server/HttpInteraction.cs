@@ -24,14 +24,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		/// </summary>
 		/// <param name="Request">Request.</param>
 		/// <param name="Response">Response.</param>
-		public HttpInteraction(HttpListenerRequest Request, HttpListenerResponse Response, bool IsTainted = false)
+		public HttpInteraction(HttpListenerRequest Request, HttpListenerResponse Response)
 		{
-			this.IsTainted = IsTainted;
 			this.Request = Request;
 			this.Response = Response;
 		}
-
-		public bool IsTainted { get; private set; }
 
 		#region Request
 		HttpListenerRequest _request;
@@ -113,7 +110,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			get { return _response; }
 			set {
 				_response = value;
-				if (!IsTainted) SetHeadAndBodyFromResponse(value);
+				_responseHeaders = new ResponseHeaders (value.Headers);
+				OutgoingBody = new StreamWriter (value.OutputStream);
 			}
 		}
 
@@ -130,12 +128,6 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			set {
 				Response.StatusCode = value;
 			}
-		}
-
-		void SetHeadAndBodyFromResponse (HttpListenerResponse value)
-		{			
-			_responseHeaders = new ResponseHeaders (value.Headers);
-			OutgoingBody = new StreamWriter (value.OutputStream);
 		}
 
 		ResponseHeaders _responseHeaders;
