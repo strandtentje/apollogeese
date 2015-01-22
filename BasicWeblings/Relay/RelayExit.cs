@@ -14,7 +14,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		public override string Description {
 			get {
-				return "Exit point for relayed flow";
+				return string.Format ("relayexit:{0}:{1}", RelayName, BranchName);
 			}
 		}
 

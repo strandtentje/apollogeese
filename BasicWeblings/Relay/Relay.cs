@@ -12,7 +12,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		public override string Description {
 			get {
-				return "Relay to other tree";
+				return string.Format ("relay:{0}", RelayName);
 			}
 		}
 
@@ -32,7 +32,8 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			RelayInteraction interaction = new RelayInteraction (parameters, this.Branches, this.modSettings, this.RelayName);
 
 			return Get(this.RelayName).TryProcess (interaction);
-		}			
+		}
+			
 
 		public RelayEntry Get(string name) 
 		{
@@ -40,4 +41,3 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		}
 	}
 }
-

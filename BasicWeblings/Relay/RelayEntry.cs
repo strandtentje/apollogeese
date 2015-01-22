@@ -13,7 +13,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		public override string Description {
 			get {
-				return "Entry point for relayed flow";
+				return string.Format ("relayentry:{0}", this.RelayName);
 			}
 		}
 
