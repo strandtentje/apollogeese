@@ -139,7 +139,19 @@ namespace BorrehSoft.Utensils.Parsing
 		/// <param name="whitespaceParser">Whitespace parser.</param>
 		public static ParsingSession FromFile(string file, Parser whitespaceParser, bool profilingEnabled = false)
 		{
-			return new ParsingSession (File.ReadAllText (file), whitespaceParser, profilingEnabled);
+			ParsingSession result = new ParsingSession (File.ReadAllText (file), whitespaceParser, profilingEnabled);
+			result.SourceFile = new FileInfo (file);
+
+			return result;
+		}
+
+		/// <summary>
+		/// Gets the source file.
+		/// </summary>
+		/// <value>The source file.</value>
+		public FileInfo SourceFile {
+			get;
+			private set;
 		}
 
 		/// <summary>
