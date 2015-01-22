@@ -8,6 +8,7 @@ using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Text.RegularExpressions;
 using BorrehSoft.Utensils;
+using BorrehSoft.ApolloGeese.Duckling.Loader;
 
 namespace BorrehSoft.ApolloGeese
 {
@@ -28,32 +29,6 @@ namespace BorrehSoft.ApolloGeese
 			logger.globVerbosity = 10;
 
 			logger.ReportHere (0, "Logfile Opened");
-		}
-
-		static void RunConfig (string config)
-		{
-			Settings configuration = null;
-
-			try {
-				configuration = Settings.FromFile (config);	
-			} catch (Exception ex) {
-				Secretary.Report (0, "Failure during reading of clon:\n", ex.Message);
-			}
-
-			if (configuration == null) {
-				Environment.Exit (1);
-			} else {
-				foreach (object pluInFileObj in (configuration ["plugins"] as IEnumerable<object>))
-					loader.AddPluginFile ((string)pluInFileObj);
-
-				Settings instances = configuration.GetSubsettings("instances");
-
-				foreach (Settings instance in instances.Dictionary.Values) {
-					loader.GetServiceForSettings (instance);
-				}
-
-				Secretary.Report (5, "Loaded Branches");
-			}
 		}
 
 		/// <summary>
@@ -79,7 +54,8 @@ namespace BorrehSoft.ApolloGeese
 			}
 		
 			StartLog(logfolder);
-			RunConfig(config);
+
+			InstanceLoader.GetInstances (config);
 		}
 	}
 }
