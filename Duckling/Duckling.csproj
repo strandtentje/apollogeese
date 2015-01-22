@@ -58,7 +58,9 @@
     <Compile Include="IOutgoingBodiedInteraction.cs" />
     <Compile Include="IIncomingBodiedInteraction.cs" />
     <Compile Include="ConfigurationException.cs" />
-    <Compile Include="Complinker.cs" />
+    <Compile Include="Loader\Complinker.cs" />
+    <Compile Include="Loader\InstanceLoader.cs" />
+    <Compile Include="Loader\CachedInstances.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -68,6 +70,7 @@
     <Folder Include="HTML\Entities\" />
     <Folder Include="HTML\Entities\Specialized\" />
     <Folder Include="Multi\" />
+    <Folder Include="Loader\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utensils\Utensils.csproj">

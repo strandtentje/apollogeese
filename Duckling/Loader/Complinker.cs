@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Collections.Maps;
 
-namespace BorrehSoft.ApolloGeese.Duckling
+namespace BorrehSoft.ApolloGeese.Duckling.Loader
 {
 	/// <summary>
 	/// Links and compiles into executable. Sort of. Mostly a rad name.
@@ -25,6 +25,43 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		private Regex branchNameMatcher = new Regex ("(.+)_branch");
 
 		/// <summary>
+		/// Gets the configuration.
+		/// </summary>
+		/// <value>The configuration.</value>
+		public Settings Configuration { get; private set; }
+
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BorrehSoft.ApolloGeese.Duckling.Complinker"/> class using
+		/// a configuration file defining service structure.
+		/// </summary>
+		/// <param name="config">Configuration file</param>
+		public Complinker(string config)
+		{
+			Configuration = Settings.FromFile (config);	
+
+			foreach (object pluInFileObj in (Configuration ["plugins"] as IEnumerable<object>))
+				AddPluginFile ((string)pluInFileObj);
+		}
+
+		/// <summary>
+		/// Gets the instances defined in the file
+		/// </summary>
+		/// <returns>The instances.</returns>
+		public IEnumerable<Service> GetInstances()
+		{
+			Settings configurations = Configuration.GetSubsettings("instances");
+			List<Service> instances = new List<Service> ();
+
+			foreach (Settings configuration in configurations.Dictionary.Values) {
+				instances.Add(GetServiceForSettings (configuration));
+            }
+
+            Secretary.Report (5, "Loaded Instances from ", Configuration.SourceFile.Name);
+
+			return instances;
+		}
+
+		/// <summary>
 		/// Adds a plugin file.
 		/// </summary>
 		/// <param name="str">Filename.</param>
@@ -40,15 +77,15 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <param name="branchname">Branchname.</param>
 		/// <param name="branchdata">Branchdata.</param>
 		private void ConnectBranch (Service service, string branchname, Settings branchdata) {
-			service.Branches [branchname] = GetServiceForSettings (branchdata);
+			service.Branches [branchname] = GetServiceForSettings (branchdata, service);
 		}
 
 		/// <summary>
-		/// Loads a tree of services.
+		/// Loads a tree of services in the existing context
 		/// </summary>
 		/// <returns>The tree.</returns>
 		/// <param name="config">Config.</param>
-		public Service GetServiceForSettings (Settings config)
+		private Service GetServiceForSettings (Settings config, Service parent = null)
 		{
 			string type;
 			Settings moduleConfiguration;
@@ -93,6 +130,13 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 				config.Tag = newService;
 			}
+
+			newService.Parent = parent;
+
+			if (newService.Parent == null)
+				newService.Root = newService;
+			else
+				newService.Root = newService.Parent.Root;
 
 			return newService;
 		}
