@@ -56,7 +56,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 			IHttpInteraction parameters;
 			string trimmedrootpath, trimmedurl, finalpath, extension, mimeType = "application/octet-stream";
 
-			parameters = uncastParameters as IHttpInteraction;
+			parameters = (IHttpInteraction)uncastParameters.GetClosest (typeof(IHttpInteraction));
 			trimmedrootpath = rootPath.TrimEnd ('/');
 			trimmedurl = HttpUtility.UrlDecode(parameters.URL.ReadToEnd ().TrimStart ('/'));
 			finalpath = string.Format ("{0}/{1}", trimmedrootpath, trimmedurl);
@@ -68,7 +68,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 			if (mimeTypes.TryGetString(extension, out mimeType) || optionalMimetypes) {
 				if (sourcefile.Exists) {
 					parameters.ResponseHeaders.ContentType = new MimeType(mimeType);
-					// parameters.ResponseHeaders.ContentLength = sourcefile.Length;
+					parameters.ResponseHeaders.ContentLength = sourcefile.Length;
 
 					FileStream sourceStream = sourcefile.OpenRead();
 					sourceStream.CopyTo(parameters.OutgoingBody.BaseStream);
