@@ -6,6 +6,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
 using System.Web;
+using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 {
@@ -69,9 +70,15 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 				if (sourcefile.Exists) {
 					parameters.ResponseHeaders.ContentType = new MimeType(mimeType);
 					parameters.ResponseHeaders.ContentLength = sourcefile.Length;
+					
+					Secretary.Report (5, 
+					                  "Fileserve:", sourcefile.Name, 
+					                  "Size:", sourcefile.Length.ToString(), 
+					                  "MIME:", mimeType);
 
 					FileStream sourceStream = sourcefile.OpenRead();
-					sourceStream.CopyTo(parameters.OutgoingBody.BaseStream);
+					sourceStream.CopyTo (parameters.OutgoingBody.BaseStream, 4096);										
+
 					sourceStream.Close();
 				} else {
 					parameters.StatusCode = 404;
