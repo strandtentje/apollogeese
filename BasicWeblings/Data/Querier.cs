@@ -254,5 +254,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 		{
 			return GetResultsToBranches(parameters) && successful.TryProcess (parameters);
 		}
+
+		public override void Dispose ()
+		{
+			base.Dispose ();
+			this.Connection.Connection.Close ();
+		}
 	}
 }

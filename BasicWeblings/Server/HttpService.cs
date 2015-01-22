@@ -99,6 +99,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		{
 			return httpBranch.TryProcess(parameters);
 		}
+
+		public override void Dispose ()
+		{
+			this.listener.Stop ();
+			this.listener.Close ();
+		}
 	}
 }
 
