@@ -100,7 +100,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			IIncomingBodiedInteraction request;
 			request = (IIncomingBodiedInteraction)parameters.GetClosest(typeof(IIncomingBodiedInteraction));
 
-			return request.IncomingBody.ReadToEnd ();
+			return request.GetIncomingBodyReader().ReadToEnd ();
 		}
 
 		/// <summary>

@@ -92,11 +92,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 			}
 		}
 
-		void BufferAndSplit (StreamReader incomingBody)
+		void BufferAndSplit (Stream incomingBody)
 		{
-			if (incoming != incomingBody.BaseStream) {
+			if (incoming != incomingBody) {
 				lock (accessingIncoming)
-					incoming = incomingBody.BaseStream;
+					incoming = incomingBody;
 
 				if (splitterThread == null) {
 					splitterThread = new Timer (Splitter, null, 10, interval);
@@ -118,7 +118,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 			BufferAndSplit (incomingData.IncomingBody);
 
 			lock(accessingOutgoing)
-				SourceBuffer.CopyTo (outgoingData.OutgoingBody.BaseStream);
+				SourceBuffer.CopyTo (outgoingData.OutgoingBody);
 
 			return true;
 		}

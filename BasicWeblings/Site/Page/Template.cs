@@ -115,9 +115,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 
 			if (WillCheckForTemplateUpdates) CheckForTemplateUpdates();
 
+			StreamWriter outputWriter = target.GetOutgoingBodyWriter ();
+
 			try	{
 				foreach (Match replaceable in replaceables) {
-					target.OutgoingBody.Write(rawTemplate.Substring (cursor, replaceable.Index - cursor));
+					outputWriter.Write(rawTemplate.Substring (cursor, replaceable.Index - cursor));
 
 					groupName = replaceable.Groups[1].Value;
 
@@ -127,14 +129,14 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 						object chunk;
 						if (source.TryGetFallback(groupName, out chunk))
 						{
-							target.OutgoingBody.Write(chunk.ToString());
+							outputWriter.Write(chunk.ToString());
 						}
 						else 
 						{
-							target.OutgoingBody.Write(string.Format(unsuppliedFormat, groupName));
+							outputWriter.Write(string.Format(unsuppliedFormat, groupName));
 						}
 					} else if (!branch.TryProcess(source)) {
-						target.OutgoingBody.Write(string.Format(inacquirableFormat, groupName));
+						outputWriter.Write(string.Format(inacquirableFormat, groupName));
 					}				
 
 					cursor = replaceable.Index + replaceable.Length;
@@ -143,8 +145,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 				// In the very likely event the cursor is not at the end of the document,
 				// the last bit of the document needs to be written to the body as well.
 				if (cursor < rawTemplate.Length)
-					target.OutgoingBody.Write(rawTemplate.Substring(cursor));
+					outputWriter.Write(rawTemplate.Substring(cursor));
 
+				outputWriter.Flush();
 			}
 			catch (Exception ex) {
 				// Forward the exception but append a cursor position and a message

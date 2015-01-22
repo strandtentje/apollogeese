@@ -2,6 +2,7 @@ using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Duckling.Http;
+using System.IO;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 {
@@ -29,10 +30,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 			bool success = true;
 			string text; 
 
+			StreamWriter writer = interaction.GetOutgoingBodyWriter ();
+
 			if (VariableName.Length == 0) {
-				interaction.OutgoingBody.WriteLine(Format);
+				writer.WriteLine(Format);
 			} else if (success = parameters.TryGetString (VariableName, out text)) {
-				interaction.OutgoingBody.WriteLine (string.Format(Format, text));
+				writer.WriteLine (string.Format(Format, text));
 			}
 
 			return success;

@@ -6,14 +6,26 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 {
 	public class HttpResponseInteraction : QuickInteraction, IIncomingBodiedInteraction
 	{		
-		StreamReader bodyWriter; 
+		private StreamReader writer = null;
+
+		public Stream IncomingBody { get; private set; }
+
+		public StreamReader GetIncomingBodyReader() { 
+			if (writer == null)
+				writer = new StreamReader (IncomingBody);
+
+			return writer;
+		}
 
 		public HttpResponseInteraction (Stream bodyStream, IInteraction parent) : base(parent)
 		{
-			bodyWriter = new StreamReader(bodyStream);
+			IncomingBody = bodyStream;
 		}
 
-		public StreamReader IncomingBody { get { return bodyWriter; } }
+		public bool HasReader()
+		{
+			return writer != null;
+		}
 	}
 }
 

@@ -17,19 +17,29 @@ namespace BorrehSoft.Extensions.BasicWeblings
 	/// </summary>
 	class FailureWrapperInteraction : QuickInteraction, IOutgoingBodiedInteraction
 	{
+		private MemoryStream body;
+		private StreamWriter writer = null;
+
 		public FailureWrapperInteraction (IInteraction parameters) : base(parameters)
 		{
 			body = new MemoryStream ();
-			outgoingBody = new StreamWriter (body);
 		}
 
-		private MemoryStream body;
-		private StreamWriter outgoingBody;
-
-		public StreamWriter OutgoingBody { 
+		public Stream OutgoingBody {
 			get {
-				return outgoingBody;
+				return body;
 			}
+		}
+
+		public StreamWriter GetOutgoingBodyWriter() {
+			if (writer == null)
+				writer = new StreamWriter (body);
+
+			return writer;
+		}
+
+		public bool HasWriter() {
+			return writer != null;
 		}
 
 		/// <summary>
@@ -38,7 +48,8 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		/// <returns>The text.</returns>
 		public string GetTextAndClose()
 		{
-			outgoingBody.Flush ();
+			if (HasWriter ())
+				GetOutgoingBodyWriter ().Flush ();
 
 			string data;
 			body.Position = 0;

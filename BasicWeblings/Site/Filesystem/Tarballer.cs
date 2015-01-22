@@ -37,7 +37,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 
 		protected override bool Process (IInteraction parameters)
 		{		
-			HttpInteraction httpParameters = parameters as HttpInteraction;
+			HttpInteraction httpParameters = (HttpInteraction)parameters.GetClosest(typeof(HttpInteraction));
 
 			string[] urlArray = httpParameters.URL.ToArray ();
 
@@ -62,7 +62,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 			bool success = false;
 
 			try {
-				p.StandardOutput.BaseStream.CopyTo (httpParameters.OutgoingBody.BaseStream);
+				if (httpParameters.HasWriter())				
+					throw new Exception ("can't serve files to outgoing stream that has a writer");
+
+				p.StandardOutput.BaseStream.CopyTo (httpParameters.OutgoingBody);
 				success = true;
 			} catch (Exception ex) {
 				Secretary.Report (5, "Tarring for", requestedPath, " failed with message ", ex.Message);

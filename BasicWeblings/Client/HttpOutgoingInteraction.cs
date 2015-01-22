@@ -6,14 +6,25 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 {
 	public class HttpOutgoingInteraction :  QuickInteraction, IOutgoingBodiedInteraction
 	{
-		private StreamWriter bodyWriter;
+		private StreamWriter writer = null;
+
+		public Stream OutgoingBody { get; private set; }
 
 		public HttpOutgoingInteraction (Stream bodyStream, IInteraction parent) : base(parent)
 		{
-			bodyWriter = new StreamWriter(bodyStream);
+			this.OutgoingBody = bodyStream;
 		}
 
-		public StreamWriter OutgoingBody { get { return bodyWriter; } }
+		public StreamWriter GetOutgoingBodyWriter() {
+			if (writer == null)
+				writer = new StreamWriter (OutgoingBody);
+
+			return writer;				                       
+		}
+
+		public bool HasWriter() {
+			return writer != null;
+		}	
 
 		public void Done ()
 		{

@@ -38,7 +38,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 		{
 			IIncomingBodiedInteraction incoming = (IIncomingBodiedInteraction)parameters;
 			QuickInteraction parsed = new QuickInteraction (incoming);
-			Match results = matcher.Match (incoming.IncomingBody.ReadToEnd ());
+			Match results = matcher.Match (incoming.GetIncomingBodyReader().ReadToEnd());
 
 			foreach (string groupName in matcher.GetGroupNames()) {
 				parsed [groupName] = Parser.GetBestPossible(results.Groups [groupName].Value);

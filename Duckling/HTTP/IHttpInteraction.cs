@@ -31,12 +31,6 @@ namespace BorrehSoft.ApolloGeese.Duckling.Http
 		RequestHeaders RequestHeaders { get; }
 
 		/// <summary>
-		/// Gets the request body.
-		/// </summary>
-		/// <value>The request body.</value>
-		StreamReader IncomingBody { get; }
-
-		/// <summary>
 		/// Gets or sets the status code for the HTTP response
 		/// </summary>
 		/// <value>
@@ -50,11 +44,6 @@ namespace BorrehSoft.ApolloGeese.Duckling.Http
 		/// <value>The response headers.</value>
 		ResponseHeaders ResponseHeaders { get; }
 
-		/// <summary>
-		/// Gets the response body.
-		/// </summary>
-		/// <value>The response body.</value>
-		StreamWriter OutgoingBody { get; }
 	}
 }
 

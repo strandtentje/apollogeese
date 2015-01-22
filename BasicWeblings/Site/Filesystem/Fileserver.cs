@@ -68,18 +68,22 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 
 			if (mimeTypes.TryGetString(extension, out mimeType) || optionalMimetypes) {
 				if (sourcefile.Exists) {
+					FileStream sourceStream = new FileStream (finalpath, FileMode.Open, FileAccess.Read);
+
 					parameters.ResponseHeaders.ContentType = new MimeType(mimeType);
-					parameters.ResponseHeaders.ContentLength = sourcefile.Length;
+					parameters.ResponseHeaders.ContentLength = sourceStream.Length;
 					
 					Secretary.Report (5, 
 					                  "Fileserve:", sourcefile.Name, 
 					                  "Size:", sourcefile.Length.ToString(), 
 					                  "MIME:", mimeType);
 
-					FileStream sourceStream = sourcefile.OpenRead();
-					sourceStream.CopyTo (parameters.OutgoingBody.BaseStream, 4096);										
+					if (parameters.HasWriter())
+					{
+						throw new Exception ("can't serve files to outgoing stream that has a writer");
+					}
 
-					sourceStream.Close();
+					sourceStream.CopyTo (parameters.OutgoingBody, 4096);										
 				} else {
 					parameters.StatusCode = 404;
 					notFoundBranch.TryProcess(uncastParameters);

@@ -16,6 +16,8 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// </summary>
 	public abstract class Service : IDisposable
 	{
+		public Map<object> Tags = new Map<object>();
+
 		public PluginCollection<Service> PossibleSiblingTypes {
 			get;
 			set;
