@@ -40,10 +40,14 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			SettingsParser parser = new SettingsParser();
 			object result;
 
-			if (parser.Run (session, out result) < 0)
-				return new Settings ();
+			Settings config;
 
-			Settings config = (Settings)result;
+			if (parser.Run (session, out result) < 0)
+				config = new Settings ();
+			else 
+				config = (Settings)result;
+
+			config.SourceFile = session.SourceFile;
 
 			Secretary.Report (5, "Settings finished loading from: ", file);
 
@@ -51,6 +55,8 @@ namespace BorrehSoft.Utensils.Collections.Settings
 
 			return config;
 		}
+
+		public FileInfo SourceFile { get; private set; }
 
 		public static Settings FromJson (string data)
 		{
