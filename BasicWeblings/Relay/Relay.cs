@@ -31,7 +31,12 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		{
 			RelayInteraction interaction = new RelayInteraction (parameters, this.Branches, this.modSettings, this.RelayName);
 
-			return RelayEntry.Get(this.RelayName).TryProcess (interaction);
+			return Get(this.RelayName).TryProcess (interaction);
+		}			
+
+		public RelayEntry Get(string name) 
+		{
+			return (RelayEntry)this.Root.Tags [string.Format ("relay.{0}", name)];
 		}
 	}
 }

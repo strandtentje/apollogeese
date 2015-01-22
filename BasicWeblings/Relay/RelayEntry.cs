@@ -26,19 +26,12 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		protected override void Initialize (Settings modSettings)
 		{
 			this.RelayName = (string)modSettings ["relayname"];
-			RelayEntries.Add (RelayName, this);
+			this.Root.Tags [string.Format ("relay.{0}", this.RelayName)] = this;
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
 			return Begin.TryProcess (parameters);
-		} 
-
-		private static Dictionary<string, RelayEntry> RelayEntries = new Dictionary<string, RelayEntry> ();
-
-		public static RelayEntry Get(string name) 
-		{
-			return RelayEntries [name];
 		}
 	}
 }
