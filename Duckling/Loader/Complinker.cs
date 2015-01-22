@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utensils.Collections;
 
 namespace BorrehSoft.ApolloGeese.Duckling.Loader
 {
@@ -17,7 +18,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.Loader
 		/// Collection of plugin libraries; each lib may and probably does
 		/// contain mulitple plugin services.
 		/// </summary>
-		private PluginCollection<Service> plugins = new PluginCollection<Service> ();
+		private static PluginCollection<Service> plugins = new PluginCollection<Service> ();
 
 		/// <summary>
 		/// The branch name matcher. Not so neat. Maybe parameterise this later?
@@ -35,25 +36,27 @@ namespace BorrehSoft.ApolloGeese.Duckling.Loader
 		/// a configuration file defining service structure.
 		/// </summary>
 		/// <param name="config">Configuration file</param>
-		public Complinker(string config)
+		public Complinker(string config, bool loadPlugins = false)
 		{
 			Configuration = Settings.FromFile (config);	
 
-			foreach (object pluInFileObj in (Configuration ["plugins"] as IEnumerable<object>))
-				AddPluginFile ((string)pluInFileObj);
+			if (loadPlugins) {
+				foreach (object pluInFileObj in (Configuration ["plugins"] as IEnumerable<object>))
+					AddPluginFile ((string)pluInFileObj);
+			}
 		}
 
 		/// <summary>
 		/// Gets the instances defined in the file
 		/// </summary>
 		/// <returns>The instances.</returns>
-		public IEnumerable<Service> GetInstances()
+		public Map<Service> GetInstances()
 		{
 			Settings configurations = Configuration.GetSubsettings("instances");
-			List<Service> instances = new List<Service> ();
+			Map<Service> instances = new Map<Service> ();
 
-			foreach (Settings configuration in configurations.Dictionary.Values) {
-				instances.Add(GetServiceForSettings (configuration));
+			foreach (KeyValuePair<string, object> kvp in configurations.Dictionary) {
+				instances[kvp.Key] = GetServiceForSettings ((Settings)kvp.Value);
             }
 
             Secretary.Report (5, "Loaded Instances from ", Configuration.SourceFile.Name);
@@ -65,7 +68,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.Loader
 		/// Adds a plugin file.
 		/// </summary>
 		/// <param name="str">Filename.</param>
-		public void AddPluginFile (string str)
+		public static void AddPluginFile (string str)
 		{
 			plugins.AddFile (str);
 		}
@@ -103,7 +106,15 @@ namespace BorrehSoft.ApolloGeese.Duckling.Loader
 				logparams = config.GetString("logparams", "").Split(',');
 
 				newService = plugins.GetConstructed (type);
+
+				newService.Parent = parent;
+				newService.Root = newService;
+
+				if (newService.Parent != null)
+					newService.Root = newService.Parent.Root;
+
 				succesfulInit = newService.SetSettings (moduleConfiguration);
+
 				newService.PossibleSiblingTypes = plugins;
 				newService.IsLogging = log;
 				newService.LoggingParameters = logparams;
@@ -131,12 +142,6 @@ namespace BorrehSoft.ApolloGeese.Duckling.Loader
 				config.Tag = newService;
 			}
 
-			newService.Parent = parent;
-
-			if (newService.Parent == null)
-				newService.Root = newService;
-			else
-				newService.Root = newService.Parent.Root;
 
 			return newService;
 		}

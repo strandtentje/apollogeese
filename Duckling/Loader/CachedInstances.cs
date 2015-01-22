@@ -1,16 +1,17 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using System.Collections.Generic;
+using BorrehSoft.Utensils.Collections;
 
 namespace BorrehSoft.ApolloGeese.Duckling.Loader
 {
 	public class CachedInstances : IDisposable
 	{
-		public IEnumerable<Service> Instances { get; private set; }
+		public Map<Service> Instances { get; private set; }
 
 		public DateTime LastChanged { get; private set; }
 
-		public CachedInstances(IEnumerable<Service> instances, DateTime lastChanged)
+		public CachedInstances(Map<Service> instances, DateTime lastChanged)
 		{
 			this.Instances = instances;
 			this.LastChanged = lastChanged;
@@ -18,7 +19,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.Loader
 
 		public void Dispose()
 		{
-			foreach (Service service in Instances)
+			foreach (Service service in Instances.Dictionary.Values)
 				service.Dispose ();
 		}
 	}

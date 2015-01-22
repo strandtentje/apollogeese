@@ -18,8 +18,6 @@ namespace BorrehSoft.ApolloGeese
 	/// </summary>
 	public class Head
 	{
-		static Complinker loader;
-
 		static void StartLog(string folder)
 		{
 			string time = DateTime.Now.ToString ("yyyy-MM-dd--THHmmsszz");
@@ -55,7 +53,7 @@ namespace BorrehSoft.ApolloGeese
 		
 			StartLog(logfolder);
 
-			InstanceLoader.GetInstances (config);
+			InstanceLoader.GetInstances (config, true);
 		}
 	}
 }
