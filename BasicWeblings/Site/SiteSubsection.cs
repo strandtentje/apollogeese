@@ -17,54 +17,29 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 			}
 		}
 
-		/// <summary>
-		/// The main service, provided if the URL terminates at this subsection
-		/// </summary>
-		Service Main;
-		/// <summary>
-		/// The default service, provided if the URL can't be deciphered at this subsection.
-		/// </summary>
-		Service Default;
-
 		protected override void Initialize (Settings modSettings)
 		{
 			Branches ["main"] = Stub;
 			Branches ["default"] = Stub;
 		}
 
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "main") Main = e.NewValue;
-			if (e.Name == "default") Default = e.NewValue;
-		}
-
 		protected override bool Process (IInteraction uncastParameters)
 		{
 			IHttpInteraction parameters = (IHttpInteraction)uncastParameters.GetClosest(typeof(IHttpInteraction));
 
-			Service Branch;
+			SubsectionInteraction interaction = new SubsectionInteraction (parameters);
 
-			if (parameters.URL.Count == 0) {
-				if (Main == Stub)
-					Branch = Default;
-				else 
-					Branch = Main;
+			Service branch = Stub;
 
-				parameters["branchname"] = "main";
-			}
-			else {
-				string branchName = parameters.URL.Peek();
+			if (branch == Stub) 
+				branch = Branches [interaction.BranchName] ?? Stub;
+			
+			if (branch == Stub)
+				branch = Branches ["default"];
+			else
+				interaction.Confirm ();
 
-				parameters["branchname"] = branchName;
-				Branch = Branches [branchName] ?? Stub;
-
-				if (Branch == Stub)
-					Branch = Default;
-				else
-					parameters.URL.Dequeue();
-			}
-
-			return Branch.TryProcess (uncastParameters); // RunBranch (branchId, parameters);
+			return branch.TryProcess (interaction);
 		}
 	}
 }
