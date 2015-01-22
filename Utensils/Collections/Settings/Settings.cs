@@ -37,6 +37,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			}
 
 			ParsingSession session = ParsingSession.FromFile(file, new IncludeParser());
+			Directory.SetCurrentDirectory (session.SourceFile.Directory.FullName);
 			SettingsParser parser = new SettingsParser();
 			object result;
 
@@ -83,7 +84,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		{
 			Settings subsettings = this[name] as Settings;
 
-			if (subsettings == null) Secretary.Report(8, "No subsettings at ", name);
+			// if (subsettings == null) Secretary.Report(8, "No subsettings at ", name);
 
 			return subsettings ?? new Settings();
 		}		
