@@ -30,7 +30,14 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <value>
 		/// The root interaction.
 		/// </value>
-		public IInteraction Root { get { return parent.Root; } }
+		public IInteraction Root { 
+			get { 
+				if (parent == null)
+					return this;
+				else 
+					return parent.Root; 
+			} 
+		}
 
 		/// <summary>
 		/// Gets the parent interaction.

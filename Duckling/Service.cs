@@ -14,11 +14,21 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// be part of a series of services that involve with
 	/// resolving an http-request.
 	/// </summary>
-	public abstract class Service
+	public abstract class Service : IDisposable
 	{
 		public PluginCollection<Service> PossibleSiblingTypes {
 			get;
 			set;
+		}
+
+		public Service Parent {
+			get;
+			internal set;
+		}
+
+		public Service Root {
+			get; 
+			internal set;
 		}
 
 		public static Dictionary<int, Service> ModelLookup = new Dictionary<int, Service>();
@@ -210,6 +220,11 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			get {
 				return StubService.Instance;
 			}
+		}
+
+		public virtual void Dispose() {
+			foreach (Service service in Branches.Dictionary.Values)
+				service.Dispose ();
 		}
 	}
 }
