@@ -97,6 +97,7 @@
     <Compile Include="Site\Page\SwitchTemplate.cs" />
     <Compile Include="Server\HttpInteraction.Request.cs" />
     <Compile Include="Server\HttpInteraction.Response.cs" />
+    <Compile Include="Relay\Module.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
