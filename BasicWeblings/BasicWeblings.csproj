@@ -93,6 +93,8 @@
     <Compile Include="Client\GlobalTcpClient.cs" />
     <Compile Include="Client\DoubleBufferedSplitter.cs" />
     <Compile Include="Data\CredentialsStore.cs" />
+    <Compile Include="Site\SubsectionInteraction.cs" />
+    <Compile Include="Site\Page\SwitchTemplate.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
