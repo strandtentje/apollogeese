@@ -29,7 +29,9 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		protected override bool Process (IInteraction parameters)
 		{
-			return InstanceLoader.GetInstances (file) [module].TryProcess (parameters);
+			// whoa
+			return InstanceLoader.GetInstances (file) [module].TryProcess (new JumpInteraction(parameters, Branches, GetSettings()));
+			// at least that's a very colourful oneliner depending on your IDE settings
 		}
 	}
 }

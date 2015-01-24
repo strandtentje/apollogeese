@@ -40,7 +40,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Linq" />
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\mysql.data.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Data.Sqlite" />
   </ItemGroup>
@@ -97,7 +97,9 @@
     <Compile Include="Site\Page\SwitchTemplate.cs" />
     <Compile Include="Server\HttpInteraction.Request.cs" />
     <Compile Include="Server\HttpInteraction.Response.cs" />
-    <Compile Include="Relay\Module.cs" />
+    <Compile Include="Module\JumpInteraction.cs" />
+    <Compile Include="Module\Module.cs" />
+    <Compile Include="Module\Return.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />
@@ -113,5 +115,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Relay\" />
+    <Folder Include="Module\" />
   </ItemGroup>
 </Project>
