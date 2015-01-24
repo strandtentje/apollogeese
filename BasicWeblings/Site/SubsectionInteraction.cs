@@ -11,7 +11,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 		public IHttpInteraction ParentHttp { get; private set; }
 		public bool HasTail { get; private set; }
 
-		public SubsectionInteraction(IHttpInteraction http) : base(http)
+		public SubsectionInteraction(IHttpInteraction http, IInteraction parent) : base(parent)
 		{
 			this.ParentHttp = http;
 

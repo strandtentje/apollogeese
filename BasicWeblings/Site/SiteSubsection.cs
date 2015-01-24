@@ -25,9 +25,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 		protected override bool Process (IInteraction uncastParameters)
 		{
-			IHttpInteraction parameters = (IHttpInteraction)uncastParameters.GetClosest(typeof(IHttpInteraction));
+			IHttpInteraction httpParameters = (IHttpInteraction)uncastParameters.GetClosest(typeof(IHttpInteraction));
 
-			SubsectionInteraction interaction = new SubsectionInteraction (parameters);
+			SubsectionInteraction interaction = new SubsectionInteraction (httpParameters, uncastParameters);
 
 			Service branch = Stub;
 
