@@ -12,7 +12,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
 		/// The connection string template.
 		/// </summary>
 		public const string ConnectionStringTemplate = 
-			"Server={0}; Database={1}; User ID={2}; Password={3}; Pooling={4};";
+			"Server={0}; Database={1}; User ID={2}; Password={3}; Pooling={4}; Allow User Variables=True;";
 
 		/// <summary>
 		/// Gets the connection string.
