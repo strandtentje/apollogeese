@@ -42,6 +42,7 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		public List<string> InteractionFallbackNames { get; private set; }
 
 		private Service Succesful, Form;
+		private Module FailureHandler;
 		bool htmlEscape, showFormBefore, showFormAfter, mapErrorStrings;
 
 		protected override void Initialize (Settings modSettings)
@@ -82,6 +83,8 @@ namespace BorrehSoft.Extensions.BasicWeblings
 		{
 			if (e.Name == "successful") Succesful = e.NewValue;
 			if (e.Name == "form") Form = e.NewValue;
+			if (e.Name == "failhandle")
+				FailureHandler = (Module)e.NewValue;
 		}
 
 		/// <summary>
@@ -132,14 +135,27 @@ namespace BorrehSoft.Extensions.BasicWeblings
 			
 			foreach (string fieldName in parsedData.FaultyFields) {
 				string failName = string.Format ("{0}_failure", fieldName);
-				if (Branches.Has (failName)) {
-					Service failBranch = Branches [failName];
+
+				Service handler; 
+				FailureWrapperInteraction fwInteraction = null; 
+				DirectedInteraction diInteraction;
+				IInteraction interaction = parameters;
+
+				handler = FailureHandler ?? Branches [failName];
+
+				if (handler != null) {
 					if (mapErrorStrings) {
-						FailureWrapperInteraction failWrapParameters = new FailureWrapperInteraction (parameters);
-						success &= failBranch.TryProcess (failWrapParameters);
-						parsedData [failName] = failWrapParameters.GetTextAndClose ();
-					} else {
-						success &= failBranch.TryProcess (parameters);
+						interaction = fwInteraction = new FailureWrapperInteraction (parameters);
+					}
+
+					if (FailureHandler != null) {
+						interaction = diInteraction = new DirectedInteraction (interaction, failName);
+					}
+
+					success &= handler.TryProcess (interaction);
+
+					if (fwInteraction != null) {
+						parsedData [failName] = fwInteraction.GetTextAndClose ();
 					}
 				}
 			}
