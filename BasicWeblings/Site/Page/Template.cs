@@ -33,6 +33,8 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 
 		public bool WillCheckForTemplateUpdates { get; private set; }
 
+		public bool ChecksContextFirst { get; private set; }
+
 		public DateTime LastTemplateUpdate { get; private set; }
 
 		/// <summary>
@@ -53,6 +55,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 				throw new Exception ("templatefile mandatory");
 
 			WillCheckForTemplateUpdates = modSettings.GetBool("checkfortemplateupdates", true);
+			ChecksContextFirst = modSettings.GetBool ("contextfirst", false);
 			inacquirableFormat = modSettings.GetString("forwardfail", "");
 			unsuppliedFormat = modSettings.GetString("backwardfail",  "");
 			settings = modSettings;
@@ -61,6 +64,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 				CheckForTemplateUpdates();
 			else
 				LoadTemplateAndRegisterReplacableSegments();
+
+			if (ChecksContextFirst) 
+				WriteElement = WriteContextFirst;
+			else
+				WriteElement = WriteBranchFirst;
 		}
 
 		/// <summary>
@@ -97,6 +105,45 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 					Branches[templateVariable] = Stub;
 		}
 
+		delegate void WriteElementDelegate(StreamWriter outputWriter, IInteraction source, string groupName);
+
+		WriteElementDelegate WriteElement;
+
+		void WriteBranchFirst (StreamWriter outputWriter, IInteraction source, string groupName)
+		{			
+			Service branch = Branches[groupName];
+
+			if ((branch ?? Stub) == Stub) {
+				object chunk;
+				if (source.TryGetFallback(groupName, out chunk))
+				{
+					outputWriter.Write(chunk.ToString());
+				}
+				else 
+				{
+					outputWriter.Write(string.Format(unsuppliedFormat, groupName));
+				}
+			} else if (!branch.TryProcess(source)) {
+				outputWriter.Write(string.Format(inacquirableFormat, groupName));
+			}		
+		}
+
+		void WriteContextFirst (StreamWriter outputWriter, IInteraction source, string groupName)
+		{			
+			object chunk;
+			if (source.TryGetFallback (groupName, out chunk)) {
+				outputWriter.Write (chunk.ToString ());
+			} else {
+				Service branch = Branches[groupName];
+
+				if ((branch ?? Stub) == Stub) {
+					outputWriter.Write(string.Format(unsuppliedFormat, groupName));
+				} else if (!branch.TryProcess(source)) {
+					outputWriter.Write(string.Format(inacquirableFormat, groupName));
+				}	
+			}				
+		}
+
 		protected override bool Process (IInteraction source)
 		{
 			IOutgoingBodiedInteraction target;
@@ -123,21 +170,7 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
 
 					groupName = replaceable.Groups[1].Value;
 
-					Service branch = Branches[groupName];
-
-					if ((branch ?? Stub) == Stub) {
-						object chunk;
-						if (source.TryGetFallback(groupName, out chunk))
-						{
-							outputWriter.Write(chunk.ToString());
-						}
-						else 
-						{
-							outputWriter.Write(string.Format(unsuppliedFormat, groupName));
-						}
-					} else if (!branch.TryProcess(source)) {
-						outputWriter.Write(string.Format(inacquirableFormat, groupName));
-					}				
+					WriteElement(outputWriter, source, groupName);							
 
 					cursor = replaceable.Index + replaceable.Length;
 				}
