@@ -10,16 +10,20 @@ namespace BorrehSoft.Extensions.BasicWeblings
 	{
 		public override string Description {
 			get {
-				return string.Format("module:{0}:{1}", file, module);
+				if (branchName == null)
+					return string.Format("module:{0}:directed", file);
+				else 
+					return string.Format("module:{0}:{1}", file, branchName);
 			}
 		}
 
-		string file, module;
+		string file, branchName = null;
 
 		protected override void Initialize (Settings modSettings)
 		{
 			file = (string)modSettings ["file"];
-			module = (string)modSettings ["branch"];
+			if (modSettings.Has("branch"))
+				branchName = (string)modSettings.Get ("branch");
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -29,7 +33,20 @@ namespace BorrehSoft.Extensions.BasicWeblings
 
 		protected override bool Process (IInteraction parameters)
 		{
-			return InstanceLoader.GetInstances (file) [module].TryProcess (new JumpInteraction(parameters, Branches, GetSettings()));
+			Service referredService;
+			JumpInteraction jumpInteraction;
+
+			string pickedBranchName;
+
+			if (branchName == null)
+				pickedBranchName = ((DirectedInteraction)parameters).BranchName;
+			else
+				pickedBranchName = branchName;
+
+			referredService = InstanceLoader.GetInstances (file) [pickedBranchName];
+			jumpInteraction = new JumpInteraction (parameters, Branches, GetSettings ());
+
+			return referredService.TryProcess (jumpInteraction);
 		}
 	}
 }
