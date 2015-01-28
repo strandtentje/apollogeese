@@ -13,9 +13,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 	public class LookupReader : Service
 	{
 		private Service iterator;
+		private Service capreached = Stub;
 		private string LookupKeyName { get; set; }
 		private string LookupName {	get; set; }
 		private int KeyCap { get; set; }
+		private int ResultCap { get; set; }
 		private SearchMap<LookupEntry> thisLookup;
 		private Regex KeywordSplitter { get; set; }
 
@@ -27,9 +29,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
-			if (e.Name == "iterator") {
+			if (e.Name == "iterator") 
 				this.iterator = e.NewValue;
-			}
+			if (e.Name == "capreached")
+				this.capreached = e.NewValue;
 		}
 
 		protected override void Initialize (Settings modSettings)
@@ -38,12 +41,13 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 			LookupName = modSettings ["lookupname"] as String;
 			KeywordSplitter = new Regex(modSettings.GetString("keywordsplitregex", @"\W|_"));
 			KeyCap = modSettings.GetInt("keycap", 6);
+			ResultCap = modSettings.GetInt ("resultcap", -1);
 			thisLookup = Lookups.Get(LookupName);
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			string queryText;
+			string queryText; int resultCount = 0;
 			bool success = parameters.TryGetFallbackString (this.LookupKeyName, out queryText);
 
 			if (success) {
@@ -51,7 +55,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 				CleverSet<LookupEntry> results = thisLookup.Find (keylist);
 
 				foreach (LookupEntry result in results.Values) {
-					this.iterator.TryProcess (result.Parameters.Clone (parameters));
+					if ((ResultCap != -1) && (resultCount++ >= ResultCap)) {
+						this.capreached.TryProcess (parameters);
+						break;
+					} else {
+						this.iterator.TryProcess (result.Parameters.Clone (parameters));
+					}
 				} 
 			}
 
