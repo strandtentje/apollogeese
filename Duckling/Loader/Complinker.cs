@@ -135,6 +135,8 @@ namespace BorrehSoft.ApolloGeese.Duckling.Loader
 						ConnectBranch (newService, nameAndBranch.Key, nameAndBranch.Value as Settings);
 				}
 
+				newService.InvokeAllBranchesLoaded ();
+
 				if (!succesfulInit) 
 					Secretary.Report (5, type, " produced an error on initialization: ", newService.InitErrorMessage);
 

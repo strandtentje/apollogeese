@@ -37,6 +37,16 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		private int modelID = -1;
 		private static int modelIDCounter;
 
+		internal void InvokeAllBranchesLoaded ()
+		{
+			if (AllBrancesLoaded != null) AllBrancesLoaded (this, new EventArgs ());
+		}
+
+		/// <summary>
+		/// Occurs when branches loaded.
+		/// </summary>
+		public event EventHandler AllBrancesLoaded;
+
 		/// <summary>
 		/// Numeric shorthand for this service, intended purpose: designer.
 		/// </summary>
