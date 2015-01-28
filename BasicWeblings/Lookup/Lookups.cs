@@ -13,6 +13,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 	{
 		static private Dictionary<string, SearchMap<LookupEntry>> lookupLookup = new Dictionary<string, SearchMap<LookupEntry>>();
 
+		public static void DropLookup(string lookupName) {
+			if (lookupLookup.ContainsKey(lookupName)) lookupLookup.Remove (lookupName);
+		}
+
 		public static SearchMap<LookupEntry> Get (string LookupName)
 		{
 			SearchMap<LookupEntry> thisLookup;
