@@ -81,7 +81,11 @@ namespace BorrehSoft.Utensils.Collections
 		/// </param>
 		public virtual T Get(string key)
 		{
-			return backEnd[key];
+			try {
+				return backEnd[key];
+			} catch(Exception ex) {
+				throw new Exception (string.Format ("failed to acquire {0} from the map", key), ex);
+			}
 		}
 
 		public T Get(string key, T defaultValue)
