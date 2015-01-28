@@ -92,11 +92,19 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		public int GetInt(string id, int otherwise)
 		{
 			int result;
+			object resultObject = base [id];
 
-			if (base.Has(id) && int.TryParse(base.GetString(id, otherwise.ToString()) , out result))
-				return result;
-			else
-				return otherwise;
+			if (resultObject != null) {
+				if (resultObject is int) {
+					return (int)resultObject;
+				} else if (resultObject is string) {
+					if (int.TryParse ((string)resultObject, out result)) {
+						return result;
+					}
+				}
+			}
+
+			return otherwise;
 		}
 
 		public object Tag {
