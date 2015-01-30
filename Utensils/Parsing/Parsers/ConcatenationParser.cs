@@ -45,7 +45,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 
 				if (closerResult > 0) {
 					result = target;
-					return target.Count;
+					return target.Count + 1;
 				} else {
 					string trail, ahead;
 					trail = session.GetTrail();
