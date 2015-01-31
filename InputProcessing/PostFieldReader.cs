@@ -4,8 +4,11 @@ using System.Web;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.ApolloGeese.Duckling;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
+namespace BorrehSoft.Extensions.InputProcessing
 {
+	/// <summary>
+	/// Reads fields from POST-body into context.
+	/// </summary>
 	public class PostFieldReader : FieldReader
 	{
 		public override Map<object> Deserialize (string data)

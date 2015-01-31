@@ -3,8 +3,11 @@ using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.InputProcessing
 {
+	/// <summary>
+	/// Reads fields from JSON-construction from incoming body into context
+	/// </summary>
 	public class JsonFieldReader : FieldReader
 	{
 		string[] readPath;

@@ -5,8 +5,11 @@ using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Web;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
+namespace BorrehSoft.Extensions.InputProcessing
 {
+	/// <summary>
+	/// Reads field values from user input suffixed to the request URl, after the question mark (?)
+	/// </summary>
 	public class GetFieldReader : FieldReader
 	{
 		public override string AcquireData (IInteraction parameters)

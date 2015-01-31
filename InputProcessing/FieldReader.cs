@@ -10,8 +10,11 @@ using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.InputProcessing
 {
+	/// <summary>
+	/// Generic FieldReader; intended for inheritance, like GetFieldReader and PostFieldReader do.
+	/// </summary>
 	public abstract class FieldReader : Service
 	{
 		public override string Description {

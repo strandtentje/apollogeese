@@ -9,8 +9,12 @@ using BorrehSoft.ApolloGeese.Http;
 using System.Web;
 using BorrehSoft.Utensils.Collections;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.InputProcessing
 {
+	/// <summary>
+	/// Interaction that represents precisely one field verification action.
+	/// Shouldn't go downstream unless error occured.
+	/// </summary>
 	class VerificationInteraction : QuickInteraction
 	{
 		public Dictionary<string, Regex> FieldExpressions { get; private set; }
