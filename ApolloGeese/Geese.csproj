@@ -60,10 +60,6 @@
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>Duckling</Name>
     </ProjectReference>
-    <ProjectReference Include="..\BasicWeblings\BasicWeblings.csproj">
-      <Project>{3E51D2C9-9409-4F18-A50A-5D81323E3B29}</Project>
-      <Name>BasicWeblings</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Designer\Designer.csproj">
       <Project>{921E6907-9D5D-40FB-A4C1-5F0C56894AC0}</Project>
       <Name>Designer</Name>
@@ -71,6 +67,42 @@
     <ProjectReference Include="..\Utensils\Utensils.csproj">
       <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
       <Name>Utensils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BasicHttpServer\BasicHttpServer.csproj">
+      <Project>{8C04E544-F8DF-4A27-A071-57DE8C407C72}</Project>
+      <Name>BasicHttpServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Auth\Auth.csproj">
+      <Project>{7D645A0A-7F18-408A-9D4A-EC98F2FC374D}</Project>
+      <Name>Auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Databases\Data.csproj">
+      <Project>{9E729FC7-F412-46E5-847F-488E2E97BE9C}</Project>
+      <Name>Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Filesystem\Filesystem.csproj">
+      <Project>{E5B87DA7-C47F-4FA3-A4C1-36DA206D9B7F}</Project>
+      <Name>Filesystem</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\FlowOfOperations\FlowOfOperations.csproj">
+      <Project>{FF10A427-5CC9-4C4F-8AAA-FE6D65D66AE7}</Project>
+      <Name>FlowOfOperations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InputProcessing\InputProcessing.csproj">
+      <Project>{D359A93F-705D-4C95-A2F9-C8FDEEE9C4D4}</Project>
+      <Name>InputProcessing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Navigation\Navigation.csproj">
+      <Project>{B02EA360-7127-409C-9223-9B33BB98E631}</Project>
+      <Name>Navigation</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Networking\Networking.csproj">
+      <Project>{A7867D50-C305-4B0D-BF56-A7BA83D4C26D}</Project>
+      <Name>Networking</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\OutputComposing\OutputComposing.csproj">
+      <Project>{8804751E-7D30-49ED-9EE6-198EFBE0A9F3}</Project>
+      <Name>OutputComposing</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

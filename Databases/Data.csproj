@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9E729FC7-F412-46E5-847F-488E2E97BE9C}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Data</RootNamespace>
+    <AssemblyName>Databases</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\mysql.data.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Data" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Databases\CredentialsStore.cs" />
+    <Compile Include="Databases\IQueryCommand.cs" />
+    <Compile Include="Databases\IQueryConnection.cs" />
+    <Compile Include="Databases\Querier.cs" />
+    <Compile Include="Databases\ResultInteraction.cs" />
+    <Compile Include="Databases\MySQL\MySqlQuerier.cs" />
+    <Compile Include="Databases\MySQL\MySqlQueryCommand.cs" />
+    <Compile Include="Databases\MySQL\MySqlQueryConnection.cs" />
+    <Compile Include="Lookup\LookupEntry.cs" />
+    <Compile Include="Lookup\LookupExterminator.cs" />
+    <Compile Include="Lookup\LookupReader.cs" />
+    <Compile Include="Lookup\LookupWriter.cs" />
+    <Compile Include="Lookup\Lookups.cs" />
+    <Compile Include="Cache.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Databases\" />
+    <Folder Include="Lookup\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Duckling\Duckling.csproj">
+      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
+      <Name>Duckling</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utensils\Utensils.csproj">
+      <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
+      <Name>Utensils</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Databases\SQLite\SQLiteQuerier.cs" />
+    <None Include="Databases\SQLite\SQLiteQueryCommand.cs" />
+    <None Include="Databases\SQLite\SQLiteQueryConnection.cs" />
+  </ItemGroup>
+</Project>
