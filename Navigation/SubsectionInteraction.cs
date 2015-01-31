@@ -4,13 +4,30 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections.Maps;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site
+namespace BorrehSoft.Extensions.Navigation
 {
+	/// <summary>
+	/// Subsection interaction, produced after program flow was altered by URL
+	/// </summary>
 	class SubsectionInteraction : QuickInteraction
 	{
+		/// <summary>
+		/// Gets the parent http interaction
+		/// </summary>
+		/// <value>The parent http interaction.</value>
 		public IHttpInteraction ParentHttp { get; private set; }
+
+		/// <summary>
+		/// Gets a value indicating whether this instance has more 'directory'-names
+		/// </summary>
+		/// <value><c>true</c> if this instance has more 'directory'-names; otherwise, <c>false</c>.</value>
 		public bool HasTail { get; private set; }
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BorrehSoft.Extensions.Navigation.SubsectionInteraction"/> class.
+		/// </summary>
+		/// <param name="http">Http.</param>
+		/// <param name="parent">Parent.</param>
 		public SubsectionInteraction(IHttpInteraction http, IInteraction parent) : base(parent)
 		{
 			this.ParentHttp = http;
@@ -24,12 +41,19 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 
 		}
 
+		/// <summary>
+		/// The branchname that was elected by the url section
+		/// </summary>
+		/// <value>The name of the branch.</value>
 		public string BranchName {
 			get {
 				return (string)this ["branchname"];
 			}
 		}
 
+		/// <summary>
+		/// Confirm this interaction was in correspondence with the given url.
+		/// </summary>
 		public void Confirm ()
 		{
 			if (HasTail) {
