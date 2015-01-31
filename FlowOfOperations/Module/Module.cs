@@ -2,7 +2,7 @@ using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.ApolloGeese.Duckling.Loader;
+using BorrehSoft.ApolloGeese.Loader;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {

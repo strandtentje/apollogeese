@@ -104,6 +104,10 @@
       <Project>{8804751E-7D30-49ED-9EE6-198EFBE0A9F3}</Project>
       <Name>OutputComposing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Loader\Loader.csproj">
+      <Project>{D7D1C556-3224-4410-90E6-EB44DF551FEA}</Project>
+      <Name>Loader</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Geese\bin\Debug\apollogeese.conf" />

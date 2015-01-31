@@ -3,7 +3,6 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using L = BorrehSoft.Utensils.Log.Secretary;
-using BorrehSoft.ApolloGeese.Duckling.Http;
 using System.Data;
 using System.Data.Common;
 using MySql.Data.MySqlClient;

@@ -6,7 +6,7 @@ using System.Net;
 using System.Collections.Generic;
 using BorrehSoft.Utensils.Collections;
 
-namespace BorrehSoft.ApolloGeese.Duckling.Http
+namespace BorrehSoft.ApolloGeese.Http
 {
 	public class RequestHeaders
 	{

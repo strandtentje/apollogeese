@@ -56,5 +56,9 @@
       <Project>{FF10A427-5CC9-4C4F-8AAA-FE6D65D66AE7}</Project>
       <Name>FlowOfOperations</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Http\Http.csproj">
+      <Project>{FC505C08-0BA6-46A0-90CE-147823D3F2A8}</Project>
+      <Name>Http</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

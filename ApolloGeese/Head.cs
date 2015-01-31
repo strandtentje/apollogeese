@@ -8,7 +8,7 @@ using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Text.RegularExpressions;
 using BorrehSoft.Utensils;
-using BorrehSoft.ApolloGeese.Duckling.Loader;
+using BorrehSoft.ApolloGeese.Loader;
 
 namespace BorrehSoft.ApolloGeese
 {

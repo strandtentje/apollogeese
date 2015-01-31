@@ -1,7 +1,8 @@
 using System.IO;
 using BorrehSoft.Utensils.Collections;
+using BorrehSoft.ApolloGeese.Duckling;
 
-namespace BorrehSoft.ApolloGeese.Duckling.Http
+namespace BorrehSoft.ApolloGeese.Http
 {
 	/// <summary>
 	/// Parameters to an HTTP-related service-interaction.

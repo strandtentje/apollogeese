@@ -7,8 +7,8 @@ using System.IO;
 using BorrehSoft.Utensils.Collections;
 using Stringtionary = System.Collections.Generic.Dictionary<string, string>;
 using System.Text;
-using BorrehSoft.ApolloGeese.Duckling.Http;
-using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
+using BorrehSoft.ApolloGeese.Http;
+using BorrehSoft.ApolloGeese.Http.Headers;
 using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Page

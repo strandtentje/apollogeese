@@ -4,8 +4,8 @@ using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading;
-using BorrehSoft.ApolloGeese.Duckling.Http;
-using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
+using BorrehSoft.ApolloGeese.Http;
+using BorrehSoft.ApolloGeese.Http.Headers;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Client
 {

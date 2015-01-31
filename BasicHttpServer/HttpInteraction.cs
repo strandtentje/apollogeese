@@ -6,7 +6,7 @@ using System.Net;
 using System.Text;
 using System.Web;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.ApolloGeese.Duckling.Http;
+using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Log;

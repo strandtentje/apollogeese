@@ -1,6 +1,6 @@
 using System;
 using System.Net;
-using BorrehSoft.ApolloGeese.Duckling.Http;
+using BorrehSoft.ApolloGeese.Http;
 using System.Collections.Generic;
 using System.Text;
 using BorrehSoft.Utensils.Collections;

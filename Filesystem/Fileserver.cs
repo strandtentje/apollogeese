@@ -3,8 +3,8 @@ using System.IO;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.ApolloGeese.Duckling.Http;
-using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
+using BorrehSoft.ApolloGeese.Http;
+using BorrehSoft.ApolloGeese.Http.Headers;
 using System.Web;
 using BorrehSoft.Utensils.Log;
 

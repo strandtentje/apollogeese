@@ -1,12 +1,13 @@
 using System;
-using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using BorrehSoft.Utensils.Log;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.ApolloGeese.Duckling.Loader
+namespace BorrehSoft.ApolloGeese.Loader
 {
 	/// <summary>
 	/// Links and compiles into executable. Sort of. Mostly a rad name.
@@ -107,11 +108,7 @@ namespace BorrehSoft.ApolloGeese.Duckling.Loader
 
 				newService = plugins.GetConstructed (type);
 
-				newService.Parent = parent;
-				newService.Root = newService;
-
-				if (newService.Parent != null)
-					newService.Root = newService.Parent.Root;
+				newService.SetAncestory (parent);
 
 				succesfulInit = newService.SetSettings (moduleConfiguration);
 

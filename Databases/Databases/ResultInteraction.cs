@@ -1,7 +1,6 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections;
-using BorrehSoft.ApolloGeese.Duckling.Http;
 using System.Data;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases

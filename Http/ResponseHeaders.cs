@@ -5,9 +5,9 @@ using System.Text;
 using System.Net;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
+using BorrehSoft.ApolloGeese.Http.Headers;
 
-namespace BorrehSoft.ApolloGeese.Duckling.Http
+namespace BorrehSoft.ApolloGeese.Http
 {
 	/// <summary>
 	/// Response headers.

@@ -5,7 +5,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using System.IO;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.ApolloGeese.Duckling.Loader
+namespace BorrehSoft.ApolloGeese.Loader
 {
 	/// <summary>
 	/// Instance loader; loads instances from files.

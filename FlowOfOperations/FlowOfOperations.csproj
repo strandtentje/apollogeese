@@ -58,5 +58,9 @@
       <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
       <Name>Utensils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Loader\Loader.csproj">
+      <Project>{D7D1C556-3224-4410-90E6-EB44DF551FEA}</Project>
+      <Name>Loader</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Text.RegularExpressions;
-using BorrehSoft.ApolloGeese.Duckling.Http;
+using BorrehSoft.ApolloGeese.Http;
 using System.Web;
 using BorrehSoft.Utensils.Collections;
 

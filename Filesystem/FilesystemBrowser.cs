@@ -3,7 +3,7 @@ using System.IO;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.ApolloGeese.Duckling.Http;
+using BorrehSoft.ApolloGeese.Http;
 using System.Web;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem

@@ -1,6 +1,6 @@
 using System;
 using System.Net;
-using BorrehSoft.ApolloGeese.Duckling.Http;
+using BorrehSoft.ApolloGeese.Http;
 using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer

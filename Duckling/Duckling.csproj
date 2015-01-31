@@ -42,26 +42,13 @@
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Service.cs" />
     <Compile Include="IInteraction.cs" />
-    <Compile Include="HTTP\IHttpInteraction.cs" />
-    <Compile Include="HTTP\RequestHeaders.cs" />
-    <Compile Include="HTTP\ResponseHeaders.cs" />
-    <Compile Include="HTTP\Headers\MimeType.cs" />
-    <Compile Include="HTTP\Headers\MimeTypeMismatchException.cs" />
     <Compile Include="StubService.cs" />
     <Compile Include="QuickInteraction.cs" />
     <Compile Include="IOutgoingBodiedInteraction.cs" />
     <Compile Include="IIncomingBodiedInteraction.cs" />
     <Compile Include="ConfigurationException.cs" />
-    <Compile Include="Loader\Complinker.cs" />
-    <Compile Include="Loader\InstanceLoader.cs" />
-    <Compile Include="Loader\CachedInstances.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="HTTP\" />
-    <Folder Include="HTTP\Headers\" />
-    <Folder Include="Loader\" />
-  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utensils\Utensils.csproj">
       <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>

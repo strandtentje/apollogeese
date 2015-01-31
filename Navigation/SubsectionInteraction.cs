@@ -1,7 +1,7 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.ApolloGeese.Duckling.Http;
+using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site

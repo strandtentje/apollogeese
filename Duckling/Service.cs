@@ -33,13 +33,37 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			internal set;
 		}
 
+		/// <summary>
+		/// Sets ancestory, useful on newly constructed services.
+		/// </summary>
+		/// <param name="parent">Parent.</param>
+		public void SetAncestory (Service parent)
+		{
+			if (Root == null) {				
+				Parent = parent;
+
+				if (Parent != null)
+					Root = Parent.Root;
+				else
+					Root = this;
+			} else {
+				throw new MethodAccessException ("Ancestory can only be set once");
+			}
+		}
+
 		public static Dictionary<int, Service> ModelLookup = new Dictionary<int, Service>();
 		private int modelID = -1;
 		private static int modelIDCounter;
+		private bool allBranchesAreLoaded = false;
 
-		internal void InvokeAllBranchesLoaded ()
+		public void InvokeAllBranchesLoaded ()
 		{
-			if (AllBrancesLoaded != null) AllBrancesLoaded (this, new EventArgs ());
+			if (allBranchesAreLoaded) {
+				throw new MethodAccessException ("This has already been done upon initialization");
+			} else {
+				allBranchesAreLoaded = true;
+				if (AllBrancesLoaded != null) AllBrancesLoaded (this, new EventArgs ());
+			}
 		}
 
 		/// <summary>

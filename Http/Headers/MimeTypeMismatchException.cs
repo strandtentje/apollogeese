@@ -1,6 +1,6 @@
 using System;
 
-namespace BorrehSoft.ApolloGeese.Duckling.Http.Headers
+namespace BorrehSoft.ApolloGeese.Http.Headers
 {
 	public class MimeTypeMismatchException : Exception
 	{

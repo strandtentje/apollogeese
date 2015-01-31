@@ -1,7 +1,7 @@
 using System;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.ApolloGeese.Duckling.Http;
+using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Web;
 

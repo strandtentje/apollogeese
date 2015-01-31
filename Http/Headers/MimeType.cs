@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace BorrehSoft.ApolloGeese.Duckling.Http.Headers
+namespace BorrehSoft.ApolloGeese.Http.Headers
 {
 	/// <summary>
 	/// MIME type.

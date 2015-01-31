@@ -3,7 +3,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using System.Collections.Generic;
 using BorrehSoft.Utensils.Collections;
 
-namespace BorrehSoft.ApolloGeese.Duckling.Loader
+namespace BorrehSoft.ApolloGeese.Loader
 {
 	public class CachedInstances : IDisposable
 	{
