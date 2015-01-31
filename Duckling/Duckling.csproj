@@ -47,13 +47,7 @@
     <Compile Include="HTTP\ResponseHeaders.cs" />
     <Compile Include="HTTP\Headers\MimeType.cs" />
     <Compile Include="HTTP\Headers\MimeTypeMismatchException.cs" />
-    <Compile Include="HTML\HtmlEntity.cs" />
-    <Compile Include="HTML\HtmlAttributeCollection.cs" />
-    <Compile Include="HTML\Entities\TextualEntity.cs" />
-    <Compile Include="HTML\Entities\TaggedBodyEntity.cs" />
-    <Compile Include="HTML\Entities\BodylessEntity.cs" />
     <Compile Include="StubService.cs" />
-    <Compile Include="HTML\Entities\Specialized\HeadEntity.cs" />
     <Compile Include="QuickInteraction.cs" />
     <Compile Include="IOutgoingBodiedInteraction.cs" />
     <Compile Include="IIncomingBodiedInteraction.cs" />
@@ -66,10 +60,6 @@
   <ItemGroup>
     <Folder Include="HTTP\" />
     <Folder Include="HTTP\Headers\" />
-    <Folder Include="HTML\" />
-    <Folder Include="HTML\Entities\" />
-    <Folder Include="HTML\Entities\Specialized\" />
-    <Folder Include="Multi\" />
     <Folder Include="Loader\" />
   </ItemGroup>
   <ItemGroup>
