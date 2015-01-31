@@ -12,6 +12,9 @@ using Proc = System.Diagnostics.Process;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 {
+	/// <summary>
+	/// Tarballer. Turns directories into balls of tar.
+	/// </summary>
 	public class Tarballer : Service
 	{
 		public override string Description {
