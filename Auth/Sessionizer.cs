@@ -5,7 +5,7 @@ using BorrehSoft.ApolloGeese.Duckling.Http;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site
+namespace BorrehSoft.ApolloGeese.Extensions.Auth
 {
 	/// <summary>
 	/// Tags interactions with a (new) session cookie

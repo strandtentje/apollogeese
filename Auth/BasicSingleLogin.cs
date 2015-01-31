@@ -5,8 +5,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 
-
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.ApolloGeese.Extensions.Auth
 {
 	public class BasicSingleLogin : Service
 	{
