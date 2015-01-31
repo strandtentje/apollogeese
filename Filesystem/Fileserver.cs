@@ -8,7 +8,7 @@ using BorrehSoft.ApolloGeese.Http.Headers;
 using System.Web;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
+namespace BorrehSoft.Extensions.Filesystem
 {
 	/// <summary>
 	/// Serves files from a directory from the filesystem.

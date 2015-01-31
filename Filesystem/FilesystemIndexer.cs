@@ -6,11 +6,10 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Threading;
 using System.Collections.Generic;
-using BorrehSoft.Extensions.BasicWeblings.Site.Filesystem;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site
+namespace BorrehSoft.Extensions.Filesystem
 {
 	/// <summary>
 	/// Indexes the filesystem at a certain root directory

@@ -10,7 +10,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Log;
 using Proc = System.Diagnostics.Process;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
+namespace BorrehSoft.Extensions.Filesystem
 {
 	/// <summary>
 	/// Tarballer. Turns directories into balls of tar.

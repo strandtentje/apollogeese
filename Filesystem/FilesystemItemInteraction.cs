@@ -8,7 +8,7 @@ using BorrehSoft.Utensils.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
+namespace BorrehSoft.Extensions.Filesystem
 {
 	/// <summary>
 	/// Filesystem item interaction.
