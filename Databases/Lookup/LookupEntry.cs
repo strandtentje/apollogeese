@@ -4,7 +4,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using System.Text;
 using System.Collections.Generic;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Lookup
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 {
 	/// <summary>
 	/// Entry in hashed lookup

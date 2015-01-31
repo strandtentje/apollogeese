@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Text;
 
-namespace Designer
+namespace BorrehSoft.ApolloGeese.Extensions.Designer
 {
 	public class FlowView : Service
 	{

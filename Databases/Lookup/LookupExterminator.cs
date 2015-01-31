@@ -2,10 +2,9 @@ using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Extensions.BasicWeblings.Lookup;
 using BorrehSoft.Utensils.Collections.Maps.Search;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 {
 	/// <summary>
 	/// Marks lookup-entries as non-existant.

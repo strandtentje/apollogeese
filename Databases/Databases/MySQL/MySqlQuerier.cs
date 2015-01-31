@@ -1,7 +1,7 @@
 using System;
 using BorrehSoft.Utensils.Collections.Settings;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.MySQL
 {
 	/// <summary>
 	/// A querier for MySQL-like databases. Works for PostgreSQL too, last time I checked

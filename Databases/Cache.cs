@@ -1,7 +1,7 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.ApolloGeese.Extensions.Data
 {
 	public abstract class Cache : Service
 	{

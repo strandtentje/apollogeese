@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using BorrehSoft.Utensils.Collections.Maps.Search;
 using System.Text.RegularExpressions;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Lookup
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 {
 	/// <summary>
 	/// Lookup writer.

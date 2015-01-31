@@ -8,7 +8,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using System.Diagnostics;
 using BorrehSoft.Utensils.Collections.Maps;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Server
+namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {
 	/// <summary>
 	/// Http server.

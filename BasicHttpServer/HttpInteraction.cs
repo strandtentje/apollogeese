@@ -11,7 +11,7 @@ using BorrehSoft.Utensils;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Server
+namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {
 	/// <summary>
 	/// Http interaction, offers extra utilities for interactions that resulted from an HTTP

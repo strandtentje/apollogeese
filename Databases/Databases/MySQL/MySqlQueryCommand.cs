@@ -1,7 +1,7 @@
 using System;
 using System.Data;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.MySQL
 {
 	/// <summary>
 	/// Command for MySQL connection

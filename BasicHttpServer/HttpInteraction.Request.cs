@@ -6,7 +6,7 @@ using System.Text;
 using BorrehSoft.Utensils.Collections;
 using System.IO;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Server
+namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {
 	/// <summary>
 	/// Request portion of HTTP interaction

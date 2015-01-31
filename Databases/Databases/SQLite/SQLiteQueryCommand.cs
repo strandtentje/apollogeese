@@ -4,7 +4,7 @@ using System.Data;
 using System.Collections.Generic;
 using System.IO;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Data.SQLite
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.SQLite
 {
 	class SQLiteQueryCommand : IQueryCommand
 	{

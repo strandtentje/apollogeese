@@ -3,7 +3,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 
-namespace Designer
+namespace BorrehSoft.ApolloGeese.Extensions.Designer
 {
 	public class Anchor : Service
 	{

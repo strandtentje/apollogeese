@@ -4,7 +4,7 @@ using BorrehSoft.Utensils;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps.Search;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Lookup
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 {
 	/// <summary>
 	/// A lookup for lookups. Static. Because I like to see the world burn beneath me.

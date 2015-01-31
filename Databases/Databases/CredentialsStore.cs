@@ -3,7 +3,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 {
 	/// <summary>
 	/// Static logon credentials storage so other services may easily access them using a single

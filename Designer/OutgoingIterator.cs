@@ -2,7 +2,7 @@ using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using System.IO;
 
-namespace Designer
+namespace BorrehSoft.ApolloGeese.Extensions.Designer
 {
 	public class OutgoingIterator : QuickInteraction, IOutgoingBodiedInteraction
 	{

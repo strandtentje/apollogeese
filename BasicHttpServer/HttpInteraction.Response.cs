@@ -3,7 +3,7 @@ using System.Net;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using System.IO;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Server
+namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {
 	/// <summary>
 	/// Outgoing portion of HTTP interaction.

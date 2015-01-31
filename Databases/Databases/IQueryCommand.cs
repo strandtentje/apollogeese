@@ -1,7 +1,7 @@
 using System;
 using System.Data;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Data
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 {
 	/// <summary>
 	/// Query Command interface.

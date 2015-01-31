@@ -2,7 +2,7 @@ using System;
 using System.Data;
 using System.Collections.Generic;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Data
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 {
 	/// <summary>
 	/// Querying-Connection interface

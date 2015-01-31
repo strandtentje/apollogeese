@@ -4,7 +4,7 @@ using BorrehSoft.Utensils.Collections;
 using BorrehSoft.ApolloGeese.Duckling.Http;
 using System.Data;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Data
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 {
 	/// <summary>
 	/// Interaction for query results.

@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.IO;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Data
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 {
 	/// <summary>
 	/// Querier; queries.

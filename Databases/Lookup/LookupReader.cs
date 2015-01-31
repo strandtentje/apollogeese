@@ -8,7 +8,7 @@ using BorrehSoft.Utensils.Collections.Maps.Search;
 using BorrehSoft.Utensils.Collections;
 using System.Text.RegularExpressions;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Lookup
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 {
 	/// <summary>
 	/// Reads one or multiple lookup entries for given keywords
