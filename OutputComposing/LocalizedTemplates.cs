@@ -7,7 +7,7 @@ using BorrehSoft.Extensions.BasicWeblings.Site.Page;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.OutputComposing
 {
 	/// <summary>
 	/// Wrapper for Map of Template to enable simple template localization

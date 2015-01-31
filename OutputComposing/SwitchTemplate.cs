@@ -3,7 +3,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.OutputComposing
 {
 	public class SwitchTemplate : Service
 	{

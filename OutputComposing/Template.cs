@@ -11,7 +11,7 @@ using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.ApolloGeese.Http.Headers;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Site.Page
+namespace BorrehSoft.Extensions.OutputComposing
 {
 	/// <summary>
 	/// Simple template service which fills 

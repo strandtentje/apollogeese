@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Net.Sockets;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Client
+namespace BorrehSoft.Extensions.Networking.TCP
 {
 	/// <summary>
 	/// Stateful TCP client that stays available for reading even until after

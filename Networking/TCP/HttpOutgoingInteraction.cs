@@ -2,7 +2,7 @@ using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using System.IO;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Client
+namespace BorrehSoft.Extensions.Networking.TCP
 {
 	/// <summary>
 	/// Outgoing Interaction for HTTP communications

@@ -1,20 +1,36 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Server
+namespace BorrehSoft.Extensions.Networking.UDP
 {
-	
+	/// <summary>
+	/// UDP query result.
+	/// </summary>
 	class UdpQueryResult : QuickInteraction
 	{
+		/// <summary>
+		/// Gets the host IP
+		/// </summary>
+		/// <value>The host I.</value>
 		public string HostIP { get; private set; }
-		public string ResultString { get; private set; }
-		public string Combined { get; private set; }
-		public DateTime CreationTime { get; private set; }
 
-		public override bool Has (string key)
-		{
-			return base.Has(key) ;
-		}
+		/// <summary>
+		/// Gets the result string.
+		/// </summary>
+		/// <value>The result string.</value>
+		public string ResultString { get; private set; }
+
+		/// <summary>
+		/// Gets the combined host IP and result string
+		/// </summary>
+		/// <value>The combined.</value>
+		public string Combined { get; private set; }
+
+		/// <summary>
+		/// Gets the creation time of this query result.
+		/// </summary>
+		/// <value>The creation time.</value>
+		public DateTime CreationTime { get; private set; }
 
 		public override object Get (string key)
 		{

@@ -10,7 +10,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 using System.Collections.Generic;
 using System.Collections;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Server
+namespace BorrehSoft.Extensions.Networking.UDP
 {
 	/// <summary>
 	/// UDP querier.

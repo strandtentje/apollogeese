@@ -7,7 +7,7 @@ using System.Threading;
 using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.ApolloGeese.Http.Headers;
 
-namespace BorrehSoft.Extensions.BasicWeblings.Client
+namespace BorrehSoft.Extensions.Networking.TCP
 {
 	/// <summary>
 	/// Reads data from IncomingInteraction into one buffer until a splitter sequence is detected, then swaps buffer so data may be read.
