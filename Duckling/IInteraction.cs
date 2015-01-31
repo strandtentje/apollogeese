@@ -24,10 +24,26 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// </value>
 		IInteraction Parent { get; }
 
+		/// <summary>
+		/// Gets the closest ancestor with the specified type.
+		/// </summary>
+		/// <returns>The closest ancestor with the specified type.</returns>
+		/// <param name="t">The specified type.</param>
 		IInteraction GetClosest(Type t);
 
+		/// <summary>
+		/// Tries to get the nearest ancestor with the specified type.
+		/// </summary>
+		/// <returns><c>true</c>, if the ancestor with the specified type was found.</returns>
+		/// <param name="t">Type to look for</param>
+		/// <param name="closest">Found ancestor</param>
 		bool TryGetClosest (Type t, out IInteraction closest);
 
+		/// <summary>
+		/// Clone this interaction, and give it a new parent. Don't
+		/// tell the biologists I can do this.
+		/// </summary>
+		/// <param name="parent">Parent.</param>
 		IInteraction Clone(IInteraction parent);
 
 		/// <summary>
@@ -66,8 +82,20 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// </param>
 		object this [string name] { get; set; }
 
+		/// <summary>
+		/// Same as TryGetFallback, but only succeeds if string is found.
+		/// </summary>
+		/// <returns><c>true</c>, if get fallback string was tryed, <c>false</c> otherwise.</returns>
+		/// <param name="id">Identifier.</param>
+		/// <param name="luggage">Luggage.</param>
 		bool TryGetFallbackString(string id, out string luggage);
 
+		/// <summary>
+		/// Scans from here to ancestors for data at specified name. Returns false if nothing found.
+		/// </summary>
+		/// <returns><c>true</c>, if get fallback was tryed, <c>false</c> otherwise.</returns>
+		/// <param name="id">Identifier.</param>
+		/// <param name="luggage">Luggage.</param>
 		bool TryGetFallback (string id, out object luggage);
 	}
 }
