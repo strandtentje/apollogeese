@@ -40,7 +40,6 @@
     <Compile Include="FilesystemIndexer.cs" />
     <Compile Include="FilesystemItemInteraction.cs" />
     <Compile Include="Tarballer.cs" />
-    <Compile Include="WorkingDirectory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
