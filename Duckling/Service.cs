@@ -18,20 +18,11 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	{
 		public Map<object> Tags = new Map<object>();
 
-		public PluginCollection<Service> PossibleSiblingTypes {
-			get;
-			set;
-		}
+		public PluginCollection<Service> PossibleSiblingTypes { get; set; }
 
-		public Service Parent {
-			get;
-			internal set;
-		}
+		public Service Parent { get; internal set; }
 
-		public Service Root {
-			get; 
-			internal set;
-		}
+		public Service Root { get; internal set; }
 
 		/// <summary>
 		/// Sets ancestory, useful on newly constructed services.
@@ -54,8 +45,12 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		public static Dictionary<int, Service> ModelLookup = new Dictionary<int, Service>();
 		private int modelID = -1;
 		private static int modelIDCounter;
+
 		private bool allBranchesAreLoaded = false;
 
+		/// <summary>
+		/// Raise AllBranchesLoaded-event after initialization
+		/// </summary>
 		public void InvokeAllBranchesLoaded ()
 		{
 			if (allBranchesAreLoaded) {
@@ -99,17 +94,22 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			}
 		}
 
+		/// <summary>
+		/// The configuration of this service
+		/// </summary>
 		private Settings configuration;
 
-		public bool IsLogging {
-			get;
-			set;
-		}
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is logging when it's hit
+		/// </summary>
+		/// <value><c>true</c> if this instance is logging; otherwise, <c>false</c>.</value>
+		public bool IsLogging { get; set; }
 
-		public string[] LoggingParameters {
-			get;
-			set;
-		}
+		/// <summary>
+		/// Gets or sets the parameters to log along.
+		/// </summary>
+		/// <value>The logging parameters.</value>
+		public string[] LoggingParameters { get; set; }
 
 		/// <summary>
 		/// Gets the description of this service. (Cool bonus: May change! Woo!)
