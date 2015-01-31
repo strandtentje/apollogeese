@@ -8,12 +8,19 @@ using System.IO;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Server
 {
+	/// <summary>
+	/// Request portion of HTTP interaction
+	/// </summary>
 	public partial class HttpInteraction
 	{
 		HttpListenerRequest _request;
 
 		string urlsection, querysection;
 
+		/// <summary>
+		/// Returns the URL-query (that is the query after the ? in the url)
+		/// </summary>
+		/// <value>The GET query.</value>
 		public string GetQuery { get { return querysection; } }
 
 		/// <summary>
@@ -35,6 +42,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			}
 		}
 
+		/// <summary>
+		/// Sets the URL that invoked this HTTP-interaction
+		/// </summary>
+		/// <param name="rawurl">Raw, textual URL string</param>
 		private void SetUrl(string rawurl) {
 			Queue<string> parts = new Queue<string> (rawurl.Split ("?".ToCharArray(), StringSplitOptions.RemoveEmptyEntries));
 			StringBuilder queryBuilder = new StringBuilder ();
@@ -79,10 +90,19 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 
 		private StreamReader reader = null;
 
+		/// <summary>
+		/// Gets a value indicating whether or not a reader has been produced for the stream
+		/// </summary>
+		/// <returns>true</returns>
+		/// <c>false</c>
 		public bool HasReader() {
 			return reader != null;
 		}
 
+		/// <summary>
+		/// Gets the incoming body reader.
+		/// </summary>
+		/// <returns>The incoming body reader.</returns>
 		public StreamReader GetIncomingBodyReader() {
 			if (reader == null)
 				reader = new StreamReader (IncomingBody);

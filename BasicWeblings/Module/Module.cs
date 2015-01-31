@@ -6,6 +6,9 @@ using BorrehSoft.ApolloGeese.Duckling.Loader;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
+	/// <summary>
+	/// Executes into branch from another file.
+	/// </summary>
 	public class Module : Service
 	{
 		public override string Description {

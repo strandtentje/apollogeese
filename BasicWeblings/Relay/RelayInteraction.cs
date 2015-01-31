@@ -5,6 +5,10 @@ using BorrehSoft.Utensils.Collections.Settings;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
+	/// <summary>
+	/// Interaction to do with Relays. Still don't use this.
+	/// </summary>
+	[Obsolete("Goes against design philosophy", false)]
 	public class RelayInteraction : QuickInteraction
 	{
 		public string RelayName { get; private set; }

@@ -6,6 +6,10 @@ using System.Collections.Generic;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
+	/// <summary>
+	/// Named entry point for switching to another point in branch. Don't use this, punk.
+	/// </summary>
+	[Obsolete("Goes against design philosophy", false)]
 	public class RelayEntry : Service
 	{
 		private string RelayName { get; set; }

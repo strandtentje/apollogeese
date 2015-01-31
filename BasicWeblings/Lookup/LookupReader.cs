@@ -10,15 +10,41 @@ using System.Text.RegularExpressions;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 {
+	/// <summary>
+	/// Reads one or multiple lookup entries for given keywords
+	/// </summary>
 	public class LookupReader : Service
 	{
 		private Service iterator;
 		private Service capreached = Stub;
+		/// <summary>
+		/// Gets or sets the name at which the lookup search query should reside within interactions
+		/// </summary>
+		/// <value>The name of the lookup key.</value>
 		private string LookupKeyName { get; set; }
+		/// <summary>
+		/// Gets or sets the name of the lookup.
+		/// </summary>
+		/// <value>The name of the lookup.</value>
 		private string LookupName {	get; set; }
+		/// <summary>
+		/// Gets or sets the maximum amount of allowed query words
+		/// </summary>
+		/// <value>The key cap.</value>
 		private int KeyCap { get; set; }
+		/// <summary>
+		/// Gets or sets the maximum amount of allowed results
+		/// </summary>
+		/// <value>The result cap.</value>
 		private int ResultCap { get; set; }
+		/// <summary>
+		/// The actual lookup this reader will use
+		/// </summary>
 		private SearchMap<LookupEntry> thisLookup;
+		/// <summary>
+		/// Gets or sets the keyword splitter used to turn a query string into seperate query words.
+		/// </summary>
+		/// <value>The keyword splitter.</value>
 		private Regex KeywordSplitter { get; set; }
 
 		public override string Description {

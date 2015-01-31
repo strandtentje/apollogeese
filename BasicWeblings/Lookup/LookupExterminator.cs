@@ -7,10 +7,26 @@ using BorrehSoft.Utensils.Collections.Maps.Search;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
+	/// <summary>
+	/// Marks lookup-entries as non-existant.
+	/// </summary>
 	public class LookupExterminator : Service
 	{
+		/// <summary>
+		/// Gets or sets the name of the lookup this exterminator mutates.
+		/// </summary>
+		/// <value>The name of the lookup.</value>
 		private string LookupName {	get; set; }
+
+		/// <summary>
+		/// Gets or sets the name at which the meta-id resides at the parameters
+		/// </summary>
+		/// <value>The name of the meta.</value>
 		private string MetaName { get; set; }
+
+		/// <summary>
+		/// The actual lookup this exterminator will mutate.
+		/// </summary>
 		private SearchMap<LookupEntry> thisLookup;
 
 		public override string Description {

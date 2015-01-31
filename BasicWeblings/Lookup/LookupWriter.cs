@@ -42,6 +42,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 		/// <value><c>true</c> if split keywords; otherwise, <c>false</c>.</value>
 		private bool SplitKeywords { get; set; }
 
+		/// <summary>
+		/// The lookup that is mutated by this writer.
+		/// </summary>
 		private SearchMap<LookupEntry> thisLookup;
 
 		public override string Description {

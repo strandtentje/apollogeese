@@ -41,6 +41,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 		/// </value>
 		public IQueryConnection Connection { get; private set; }
 
+		/// <summary>
+		/// Creates a connection.
+		/// </summary>
+		/// <returns>A connection.</returns>
+		/// <param name="modSettings">Connection settings</param>
 		protected abstract IQueryConnection CreateConnection(Settings modSettings);
 
 		protected override void Initialize (Settings modSettings)

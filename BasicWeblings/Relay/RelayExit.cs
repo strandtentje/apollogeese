@@ -5,7 +5,11 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.Extensions.BasicWeblings
-{
+{	
+	/// <summary>
+	/// Named exit point for switching back to original branch. Don't use this, punk.
+	/// </summary>
+	[Obsolete("Goes against design philosophy", false)]
 	public class RelayExit : Service
 	{
 		private string BranchName { get; set; }

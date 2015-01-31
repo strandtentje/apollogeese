@@ -5,6 +5,10 @@ using BorrehSoft.Utensils.Collections.Settings;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
+	/// <summary>
+	/// Escapes from the current module, back into one of the child branches
+	/// of the calling Module.
+	/// </summary>
 	public class Return : Service
 	{
 		private Service defaultBranch = Stub;

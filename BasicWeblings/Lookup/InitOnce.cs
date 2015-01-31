@@ -5,6 +5,10 @@ using BorrehSoft.Utensils.Collections.Settings;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
+	/// <summary>
+	/// Service that branches downstream once, when all downstream branches
+	/// have finished loading.
+	/// </summary>
 	public class InitOnce : Service
 	{
 		private Service begin;

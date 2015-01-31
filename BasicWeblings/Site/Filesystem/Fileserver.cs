@@ -10,15 +10,27 @@ using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 {
+	/// <summary>
+	/// Serves files from a directory from the filesystem.
+	/// </summary>
 	public class Fileserver : Service
 	{
 		public Fileserver ()
 		{
 		}
 
+		/// <summary>
+		/// Allowed mime types
+		/// </summary>
 		Settings mimeTypes;
 		Service notFoundBranch, badRequestBranch;
+		/// <summary>
+		/// Indicates whether mime-type matching is optional.
+		/// </summary>
 		bool optionalMimetypes;
+		/// <summary>
+		/// The root path to serve from
+		/// </summary>
 		string rootPath;
 
 		public override string Description {

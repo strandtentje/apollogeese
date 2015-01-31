@@ -8,6 +8,9 @@ using System.Web;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 {
+	/// <summary>
+	/// Branches the filesystem for each file and directory in the root path + a certain folder.
+	/// </summary>
 	public class FilesystemBrowser : Service
 	{
 		string rootFilesystem;

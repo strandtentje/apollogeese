@@ -5,6 +5,9 @@ using System.IO;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Server
 {
+	/// <summary>
+	/// Outgoing portion of HTTP interaction.
+	/// </summary>
 	public partial class HttpInteraction
 	{
 		HttpListenerResponse _response;
@@ -45,14 +48,27 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 		/// <value>The response headers.</value>
 		public ResponseHeaders ResponseHeaders { get { return _responseHeaders; } }
 
+		/// <summary>
+		/// Gets the outgoing body.
+		/// </summary>
+		/// <value>The outgoing body.</value>
 		public Stream OutgoingBody { get; private set; }
 
 		private StreamWriter writer = null;
 
+		/// <summary>
+		/// Gets a value indicating whether or not a writer has been produced for the stream
+		/// </summary>
+		/// <returns>true</returns>
+		/// <c>false</c>
 		public bool HasWriter() {
 			return writer != null;
 		}
 
+		/// <summary>
+		/// Gets the outgoing body writer.
+		/// </summary>
+		/// <returns>The outgoing body writer.</returns>
 		public StreamWriter GetOutgoingBodyWriter() {
 			if (writer == null)
 				writer = new StreamWriter(OutgoingBody);

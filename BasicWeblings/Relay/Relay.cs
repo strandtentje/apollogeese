@@ -5,6 +5,11 @@ using BorrehSoft.Utensils.Collections.Settings;
 
 namespace BorrehSoft.Extensions.BasicWeblings
 {
+	/// <summary>
+	/// Sort of a subroutine substitute. You should probably not use this.
+	/// Still there for legacy reasons.
+	/// </summary>
+	[Obsolete("Goes against design philosophy", false)]
 	public class Relay : Service
 	{
 		private Settings modSettings { get; set; }

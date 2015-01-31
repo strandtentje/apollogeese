@@ -12,6 +12,9 @@ using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site
 {
+	/// <summary>
+	/// Indexes the filesystem at a certain root directory
+	/// </summary>
 	public class FilesystemIndexer : Service
 	{
 		public override string Description {
@@ -20,8 +23,14 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 			}
 		}
 
+		/// <summary>
+		/// The root path to index.
+		/// </summary>
 		string rootPath;
 		Service newFile, deletedFile, newDirectory, deletedDirectory;
+		/// <summary>
+		/// A cache of filesystem informations
+		/// </summary>
 		Map<FileSystemInfo> infoCache = new Map<FileSystemInfo>();
 		Regex KeywordSplitter;
 
@@ -34,6 +43,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 			walkPathThread.Start(rootPath);
 		}
 
+		/// <summary>
+		/// Indexs a directory; recursive
+		/// </summary>
+		/// <param name="path">Path.</param>
         private void IndexDirectory(string path)
         {
             string[] files = Directory.GetFiles(path, "*", SearchOption.TopDirectoryOnly);
@@ -65,6 +78,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
             }
         }
 
+		/// <summary>
+		/// Helper method to start the directory indexing recursion.
+		/// </summary>
+		/// <param name="pathObject">Path object.</param>
 		private void WalkPath (object pathObject)
 		{
 			string path = (string)pathObject;
@@ -77,6 +94,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 			futureChanges.Renamed += RenameItemHandler;
 		}
 
+		/// <summary>
+		/// Handles new items
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		void NewItemHandler (object sender, FileSystemEventArgs e)
 		{
 			FileAttributes fileAttributes = File.GetAttributes(e.FullPath);
@@ -86,18 +108,32 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 				NewItem(new FileInfo(e.FullPath));
 		}	
 
+		/// <summary>
+		/// Handles removed items
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		void RemoveItemHandler (object sender, FileSystemEventArgs e)
 		{
 			if (infoCache.Has(e.FullPath))
 				RemoveItem(infoCache[e.FullPath]);
 		}
 
+		/// <summary>
+		/// Handles renamed items.
+		/// </summary>
+		/// <param name="sender">Sender.</param>
+		/// <param name="e">E.</param>
 		void RenameItemHandler (object sender, RenamedEventArgs e)
 		{
 			RemoveItemHandler(sender, e);
 			NewItemHandler(sender, e);
 		}
 	
+		/// <summary>
+		/// Removes an item.
+		/// </summary>
+		/// <param name="info">Info.</param>
 		void RemoveItem (FileSystemInfo info)
 		{	
 			try {
@@ -115,6 +151,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site
 			}
 		}
 
+		/// <summary>
+		/// Adds a new item
+		/// </summary>
+		/// <param name="info">Info.</param>
 		void NewItem (FileSystemInfo info)
 		{
 			try {

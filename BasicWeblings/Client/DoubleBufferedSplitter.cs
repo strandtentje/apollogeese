@@ -9,6 +9,9 @@ using BorrehSoft.ApolloGeese.Duckling.Http.Headers;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Client
 {
+	/// <summary>
+	/// Reads data from IncomingInteraction into one buffer until a splitter sequence is detected, then swaps buffer so data may be read.
+	/// </summary>
 	public class DoubleBufferedSplitter : Service
 	{
 		byte[] delimiter;
@@ -50,6 +53,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 			buffer = new byte[bufsize];
 		}
 
+		/// <summary>
+		/// Temporarily locks onto r/w ops and swaps the buffers.
+		/// </summary>
 		void SwapBuffers ()
 		{
 			lock (accessingOutgoing) {
@@ -67,6 +73,12 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 		byte[] buffer;
 		int length; int delimiterIndex = 0;
 
+		/// <summary>
+		/// Copies from Incoming to Outgoing until a splitter character
+		/// is detechted.
+		/// </summary>
+		/// <param name="p">We don't know what this guy does but I'm
+		/// anxious to take it away.</param>
 		void Splitter(object p)
 		{
 			if (!incoming.CanRead) {
@@ -92,6 +104,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 			}
 		}
 
+		/// <summary>
+		/// Makes incoming buffer when needed and then periodically checks if 
+		/// it can be filled or should be finished.
+		/// </summary>
+		/// <param name="incomingBody">Incoming body.</param>
 		void BufferAndSplit (Stream incomingBody)
 		{
 			if (incoming != incomingBody) {

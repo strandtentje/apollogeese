@@ -6,8 +6,8 @@ using BorrehSoft.Utensils.Collections.Settings;
 namespace BorrehSoft.Extensions.BasicWeblings
 {
 	/// <summary>
-	/// I don't see how, yet, but this is going to be a 
-	/// security risk at some point in time.
+	/// Static logon credentials storage so other services may easily access them using a single
+	/// token.
 	/// </summary>
 	public class CredentialsStore : Service
 	{

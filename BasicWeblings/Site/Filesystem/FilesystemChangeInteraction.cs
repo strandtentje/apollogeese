@@ -7,6 +7,9 @@ using BorrehSoft.Utensils.Collections.Maps.Search;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 {
+	/// <summary>
+	/// Used when a change in the filesystem occured
+	/// </summary>
 	public class FilesystemChangeInteraction : QuickInteraction
 	{
 		FileSystemInfo info;
@@ -35,18 +38,33 @@ namespace BorrehSoft.Extensions.BasicWeblings.Site.Filesystem
 			}
 		}
 
+		/// <summary>
+		/// Keywords associated with this file
+		/// </summary>
+		/// <value>The keywords.</value>
 		public string[] Keywords { 
 			get { 
 				return this["keywords"] as string[];
 			}
 		}
 
+		/// <summary>
+		/// Gets a value indicating whether this instance is a directory.
+		/// </summary>
+		/// <value><c>true</c> if this instance is directory; otherwise, <c>false</c> if it's a file.</value>
 		public bool IsDirectory { 
 			get {
 				return (bool)this["isdirectory"];
 			}
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="BorrehSoft.Extensions.BasicWeblings.Site.Filesystem.FilesystemChangeInteraction"/> class.
+		/// </summary>
+		/// <param name="info">File info</param>
+		/// <param name="keywords">Keywords this file associates with</param>
+		/// <param name="rootPath">Root that was being watched</param>
 		public FilesystemChangeInteraction (FileSystemInfo info, string[] keywords, string rootPath = "")
 		{
 			this.info = info;	

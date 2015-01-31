@@ -7,6 +7,10 @@ using System.Net.Sockets;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Client
 {
+	/// <summary>
+	/// Stateful TCP client that stays available for reading even until after
+	/// the initiating branch is done with it.
+	/// </summary>
 	public class GlobalTcpClient : HttpClient
 	{
 		private TcpClient singleClient = new TcpClient();
@@ -17,6 +21,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 			}
 		}
 
+		/// <summary>
+		/// Gets response stream for a new request stream
+		/// </summary>
+		/// <returns>The response.</returns>
+		/// <param name="body">Body.</param>
 		protected override Stream GetResponse (Stream body)
 		{
 			singleClient = new TcpClient (hostname, port);

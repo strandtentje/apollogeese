@@ -4,6 +4,9 @@ using System.Collections.Generic;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Data
 {
+	/// <summary>
+	/// Querying-Connection interface
+	/// </summary>
 	public interface IQueryConnection
 	{
 		/// <summary>
@@ -38,8 +41,17 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 		/// </value>
 		List<string> DefaultOrderedParameters { get; }
 
+		/// <summary>
+		/// Sets the default query for this connection
+		/// </summary>
+		/// <param name="QueryText">Query text.</param>
+		/// <param name="queryParameters">Query parameters.</param>
 		void SetDefaultCommandQuery(string QueryText, List<object> queryParameters = null);
-		
+
+		/// <summary>
+		/// Gets the default command for this connection
+		/// </summary>
+		/// <returns>The default command.</returns>
 		IQueryCommand GetDefaultCommand();
 	}
 }

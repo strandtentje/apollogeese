@@ -3,8 +3,16 @@ using BorrehSoft.Utensils.Collections.Settings;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
 {
+	/// <summary>
+	/// A querier for MySQL-like databases. Works for PostgreSQL too, last time I checked
+	/// </summary>
 	public class MySqlQuerier : Querier
 	{
+		/// <summary>
+		/// Creates the connection.
+		/// </summary>
+		/// <returns>The connection.</returns>
+		/// <param name="modSettings">Mod settings.</param>
 		protected override IQueryConnection CreateConnection (Settings modSettings)
 		{	
 			Settings pickedSettings = modSettings;

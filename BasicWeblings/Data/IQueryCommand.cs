@@ -3,8 +3,15 @@ using System.Data;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Data
 {
+	/// <summary>
+	/// Query Command interface.
+	/// </summary>
 	public interface IQueryCommand
 	{		
+		/// <summary>
+		/// Underlying IDbCommand for this query command.
+		/// </summary>
+		/// <value>The command.</value>
 		IDbCommand Command { get; }
 
 		/// <summary>
@@ -24,6 +31,9 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data
 		/// </param>
 		IDbDataParameter SetParameter (string name, object value);
 
+		/// <summary>
+		/// Run this query
+		/// </summary>
 		IDataReader Run();	
 	}
 }

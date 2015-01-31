@@ -103,6 +103,7 @@
     <Compile Include="Module\DirectedInteraction.cs" />
     <Compile Include="Site\BasicSingleLogin.cs" />
     <Compile Include="Lookup\InitOnce.cs" />
+    <Compile Include="Server\UdpQueryResult.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

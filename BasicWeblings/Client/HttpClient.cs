@@ -8,6 +8,9 @@ using System.IO;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Client
 {
+	/// <summary>
+	/// Http client, sends IOutgoing as request and produces IIncoming
+	/// </summary>
 	public class HttpClient : Service
 	{
 		public override string Description {
@@ -31,6 +34,11 @@ namespace BorrehSoft.Extensions.BasicWeblings.Client
 			port = (int)modSettings["port"];
 		}
 
+		/// <summary>
+		/// Reads request into web request body and returns response stream.
+		/// </summary>
+		/// <returns>The response.</returns>
+		/// <param name="request">Request.</param>
 		protected virtual Stream GetResponse(Stream request)
 		{
 			using (StreamReader requestReader = new StreamReader(request)) {

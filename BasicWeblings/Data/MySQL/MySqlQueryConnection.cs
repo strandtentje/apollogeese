@@ -6,6 +6,9 @@ using System.IO;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
 {
+	/// <summary>
+	/// My sql query connection.
+	/// </summary>
 	public class MySqlQueryConnection : IQueryConnection
 	{
 		/// <summary>
@@ -46,16 +49,35 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
 		/// </value>
 		public List<string> DefaultOrderedParameters { get; private set; }
 
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="BorrehSoft.Extensions.BasicWeblings.Data.MySQL.MySqlQueryConnection"/> class, using a precomposed connection string.
+		/// </summary>
+		/// <param name="ConnectionString">Connection string.</param>
 		public MySqlQueryConnection (string ConnectionString)
 		{
 			this.ConnectionString = ConnectionString;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the
+		/// <see cref="BorrehSoft.Extensions.BasicWeblings.Data.MySQL.MySqlQueryConnection"/> class.
+		/// </summary>
+		/// <param name="databasehost">Database Hostname</param>
+		/// <param name="databasename">Name of database</param>
+		/// <param name="user">Logon username</param>
+		/// <param name="password">Logon password</param>
+		/// <param name="usepool">If set to <c>true</c>, uses connection pool.</param>
 		public MySqlQueryConnection (string databasehost, string databasename, string user, string password, bool usepool)
 		{
 			this.ConnectionString = string.Format (ConnectionStringTemplate, databasehost, databasename, user, password, usepool);
 		}
 
+		/// <summary>
+		/// Sets the default query for this connection
+		/// </summary>
+		/// <param name="QueryText">Query text.</param>
+		/// <param name="queryParameters">Query parameters.</param>
 		public void SetDefaultCommandQuery(string QueryText, List<object> queryParameters = null)
 		{			
 			this.DefaultQueryText = QueryText;
@@ -67,6 +89,10 @@ namespace BorrehSoft.Extensions.BasicWeblings.Data.MySQL
 					this.DefaultOrderedParameters.Add((string)p);
 		}
 
+		/// <summary>
+		/// Gets the default command for this connection
+		/// </summary>
+		/// <returns>The default command.</returns>
 		public IQueryCommand GetDefaultCommand()
 		{
 			if ((Connection == null) || (Connection.State == ConnectionState.Broken) || (Connection.State == ConnectionState.Closed)) {				
