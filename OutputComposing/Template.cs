@@ -11,7 +11,7 @@ using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.ApolloGeese.Http.Headers;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Extensions.OutputComposing
+namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
 	/// <summary>
 	/// Simple template service which fills 

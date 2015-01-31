@@ -4,7 +4,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections.Maps;
 
-namespace BorrehSoft.Extensions.Navigation
+namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 {
 	/// <summary>
 	/// Subsection interaction, produced after program flow was altered by URL

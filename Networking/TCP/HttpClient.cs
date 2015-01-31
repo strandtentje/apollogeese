@@ -6,7 +6,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.IO;
 
-namespace BorrehSoft.Extensions.Networking.TCP
+namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 {
 	/// <summary>
 	/// Http client, sends IOutgoing as request and produces IIncoming

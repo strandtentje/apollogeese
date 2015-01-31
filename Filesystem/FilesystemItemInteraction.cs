@@ -8,7 +8,7 @@ using BorrehSoft.Utensils.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace BorrehSoft.Extensions.Filesystem
+namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 {
 	/// <summary>
 	/// Filesystem item interaction.

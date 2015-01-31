@@ -9,7 +9,7 @@ using BorrehSoft.ApolloGeese.Http;
 using System.Web;
 using BorrehSoft.Utensils.Collections;
 
-namespace BorrehSoft.Extensions.InputProcessing
+namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {
 	/// <summary>
 	/// Interaction that represents precisely one field verification action.

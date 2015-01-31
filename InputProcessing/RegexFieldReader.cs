@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using System.Globalization;
 using BorrehSoft.Utensils.Parsing;
 
-namespace BorrehSoft.Extensions.InputProcessing
+namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {
 	/// <summary>
 	/// Regex field reader. This is exactly what you think it is.

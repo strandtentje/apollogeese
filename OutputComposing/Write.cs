@@ -4,7 +4,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Http;
 using System.IO;
 
-namespace BorrehSoft.Extensions.OutputComposing
+namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
 	public class Write : Service
 	{

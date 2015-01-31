@@ -10,7 +10,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Log;
 using Proc = System.Diagnostics.Process;
 
-namespace BorrehSoft.Extensions.Filesystem
+namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 {
 	/// <summary>
 	/// Tarballer. Turns directories into balls of tar.

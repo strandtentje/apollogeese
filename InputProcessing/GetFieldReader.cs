@@ -5,7 +5,7 @@ using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Web;
 
-namespace BorrehSoft.Extensions.InputProcessing
+namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {
 	/// <summary>
 	/// Reads field values from user input suffixed to the request URl, after the question mark (?)

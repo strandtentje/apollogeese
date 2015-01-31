@@ -5,12 +5,12 @@ using System.Text.RegularExpressions;
 using System.Web;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.ApolloGeese.Http;
-using BorrehSoft.Extensions.FlowOfOperations.Module;
+using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 
-namespace BorrehSoft.Extensions.InputProcessing
+namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {
 	/// <summary>
 	/// Generic FieldReader; intended for inheritance, like GetFieldReader and PostFieldReader do.

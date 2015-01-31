@@ -4,7 +4,7 @@ using System.Web;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.ApolloGeese.Duckling;
 
-namespace BorrehSoft.Extensions.InputProcessing
+namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {
 	/// <summary>
 	/// Reads fields from POST-body into context.

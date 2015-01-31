@@ -3,7 +3,7 @@ using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
 
-namespace BorrehSoft.Extensions.InputProcessing
+namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {
 	/// <summary>
 	/// Reads fields from JSON-construction from incoming body into context

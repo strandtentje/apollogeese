@@ -3,7 +3,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 
-namespace BorrehSoft.Extensions.FlowOfOperations.Relay
+namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
 	/// <summary>
 	/// Sort of a subroutine substitute. You should probably not use this.

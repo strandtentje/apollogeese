@@ -3,7 +3,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 
-namespace BorrehSoft.Extensions.FlowOfOperations.Module
+namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 {
 	/// <summary>
 	/// Escapes from the current module, back into one of the child branches

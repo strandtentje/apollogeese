@@ -7,7 +7,7 @@ using System.Net;
 using System.Text;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Extensions.Networking.UDP
+namespace BorrehSoft.ApolloGeese.Extensions.Networking.UDP
 {
 	/// <summary>
 	/// Advertises a service on the local network by means of UDP broadcast.

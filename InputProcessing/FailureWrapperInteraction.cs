@@ -10,7 +10,7 @@ using System.Web;
 using BorrehSoft.Utensils.Collections;
 using System.IO;
 
-namespace BorrehSoft.Extensions.InputProcessing
+namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {
 	/// <summary>
 	/// Failure wrapper interaction.

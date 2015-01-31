@@ -3,11 +3,10 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
-using BorrehSoft.Extensions.BasicWeblings.Site.Page;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Extensions.OutputComposing
+namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
 	/// <summary>
 	/// Wrapper for Map of Template to enable simple template localization

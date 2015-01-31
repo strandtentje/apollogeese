@@ -6,7 +6,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Http;
 using System.Web;
 
-namespace BorrehSoft.Extensions.Filesystem
+namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 {
 	/// <summary>
 	/// Branches for each file and directory in the root path + a certain folder.

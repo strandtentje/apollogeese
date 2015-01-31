@@ -9,7 +9,7 @@ using System.Collections.Generic;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Extensions.Filesystem
+namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 {
 	/// <summary>
 	/// Indexes the filesystem at a certain root directory

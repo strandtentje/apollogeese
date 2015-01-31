@@ -5,7 +5,7 @@ using BorrehSoft.Utensils.Collections;
 using System.Text.RegularExpressions;
 using BorrehSoft.Utensils.Collections.Maps.Search;
 
-namespace BorrehSoft.Extensions.Filesystem
+namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 {
 	/// <summary>
 	/// Used when a change in the filesystem occured

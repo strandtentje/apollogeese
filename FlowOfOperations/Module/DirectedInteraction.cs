@@ -1,7 +1,7 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
 
-namespace BorrehSoft.Extensions.FlowOfOperations.Module
+namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 {
 	/// <summary>
 	/// Interaction intended to hop off at a certain branch name

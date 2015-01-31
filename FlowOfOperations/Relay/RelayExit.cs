@@ -4,7 +4,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Log;
 
-namespace BorrehSoft.Extensions.FlowOfOperations.Relay
+namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {	
 	/// <summary>
 	/// Named exit point for switching back to original branch. Don't use this, punk.

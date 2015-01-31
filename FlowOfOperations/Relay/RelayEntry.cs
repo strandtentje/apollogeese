@@ -4,7 +4,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
 
-namespace BorrehSoft.Extensions.FlowOfOperations.Relay
+namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
 	/// <summary>
 	/// Named entry point for switching to another point in branch. Don't use this, punk.
