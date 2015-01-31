@@ -9,14 +9,38 @@ using System.Text.RegularExpressions;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Lookup
 {
+	/// <summary>
+	/// Lookup writer.
+	/// </summary>
 	public class LookupWriter : Service
 	{
+		/// <summary>
+		/// Gets or sets name at which the keywords will reside in interactions
+		/// </summary>
+		/// <value>The name of the keyword list</value>
 		private string LookupKeyName { get; set; }
+		/// <summary>
+		/// Gets or sets name of lookup to write to
+		/// </summary>
+		/// <value>The name of the lookup.</value>
 		private string LookupName {	get; set; }
+		/// <summary>
+		/// Gets or sets the name at which the unique meta-identifier resides in 
+		/// an interaction
+		/// </summary>
+		/// <value>The name of the meta.</value>
 		private string MetaName { get; set; }
+		/// <summary>
+		/// Gets or sets the keyword splitting regex
+		/// </summary>
+		/// <value>The keyword splitter.</value>
 		private Regex KeywordSplitter { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating whether this <see cref="BorrehSoft.Extensions.BasicWeblings.Lookup.LookupWriter"/>
+		/// will split keywords or use an existing string enumerable.
+		/// </summary>
+		/// <value><c>true</c> if split keywords; otherwise, <c>false</c>.</value>
 		private bool SplitKeywords { get; set; }
-		private bool LookupMaster { get; set; }
 
 		private SearchMap<LookupEntry> thisLookup;
 
