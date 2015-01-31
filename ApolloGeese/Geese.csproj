@@ -111,6 +111,5 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Geese\bin\Debug\apollogeese.conf" />
-    <None Include="..\Geese\bin\Debug\CursusDetail.sql" />
   </ItemGroup>
 </Project>
