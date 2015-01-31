@@ -5,7 +5,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections;
 using System.Threading;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.FlowOfOperations
 {
 	public class Fork : Service
 	{

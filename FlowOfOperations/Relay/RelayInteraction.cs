@@ -3,7 +3,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Settings;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.FlowOfOperations.Relay
 {
 	/// <summary>
 	/// Interaction to do with Relays. Still don't use this.

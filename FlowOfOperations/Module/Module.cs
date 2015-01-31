@@ -4,7 +4,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.ApolloGeese.Loader;
 
-namespace BorrehSoft.Extensions.BasicWeblings
+namespace BorrehSoft.Extensions.FlowOfOperations.Module
 {
 	/// <summary>
 	/// Executes into branch from another file.
