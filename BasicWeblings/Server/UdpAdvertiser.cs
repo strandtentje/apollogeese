@@ -9,6 +9,10 @@ using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.Extensions.BasicWeblings.Server
 {
+	/// <summary>
+	/// Advertises a service on the local network by means of UDP broadcast.
+	/// If you're going to produce broadcast storms using this, I might punch you lovingly.
+	/// </summary>
 	public class UdpAdvertiser : Service
 	{
 		public override string Description {
@@ -36,11 +40,18 @@ namespace BorrehSoft.Extensions.BasicWeblings.Server
 			BeginAdvertising();
 		}
 
+		/// <summary>
+		/// Begins the advertising.
+		/// </summary>
 		private void BeginAdvertising()
 		{	
 			udpClient.BeginReceive(AdvertiseRoutine, null);
 		}
 
+		/// <summary>
+		/// Advertising-routine
+		/// </summary>
+		/// <param name="result">Result.</param>
 		private void AdvertiseRoutine (IAsyncResult result)
 		{
 			byte[] receivedBytes = udpClient.EndReceive (result, ref anyIP);
