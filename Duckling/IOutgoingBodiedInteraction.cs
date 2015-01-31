@@ -3,10 +3,17 @@ using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Duckling
 {
+	/// <summary>
+	/// Interaction for services which will write to upstream streams.
+	/// </summary>
 	public interface IOutgoingBodiedInteraction : IInteraction
 	{
 		Stream OutgoingBody { get; }
 
+		/// <summary>
+		/// Gets a StreamWriter for the ougoing body.
+		/// </summary>
+		/// <returns>The outgoing body writer.</returns>
 		StreamWriter GetOutgoingBodyWriter();
 
 		/// <summary>

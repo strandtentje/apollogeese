@@ -3,10 +3,17 @@ using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Duckling
 {
+	/// <summary>
+	/// Interaction for Services which can read from upstream streams.
+	/// </summary>
 	public interface IIncomingBodiedInteraction : IInteraction
 	{
 		Stream IncomingBody { get; }
 
+		/// <summary>
+		/// Gets a StreamReader for the underlying bodystream.
+		/// </summary>
+		/// <returns>The incoming body reader.</returns>
 		StreamReader GetIncomingBodyReader();
 
 		/// <summary>
