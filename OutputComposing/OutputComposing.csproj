@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8804751E-7D30-49ED-9EE6-198EFBE0A9F3}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>OutputComposing</RootNamespace>
+    <RootNamespace>BorrehSoft.ApolloGeese.Extensions.OutputComposing</RootNamespace>
     <AssemblyName>OutputComposing</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -30,6 +30,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -37,6 +38,8 @@
     <Compile Include="SwitchTemplate.cs" />
     <Compile Include="Template.cs" />
     <Compile Include="Write.cs" />
+    <Compile Include="Formatter.cs" />
+    <Compile Include="Format.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
