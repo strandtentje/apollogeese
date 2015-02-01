@@ -53,11 +53,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		/// <param name="parameters">Parameters.</param>
 		protected virtual Stream RequestForResponse(IInteraction parameters) 
 		{
-			HttpOutgoingInteraction outgoingInteraction;
+			QuickOutgoingInteraction outgoingInteraction;
 			WebRequest webRequest;
 
 			using(MemoryStream uriComposingStream = new MemoryStream ()) {
-				outgoingInteraction = new HttpOutgoingInteraction (uriComposingStream, parameters);
+				outgoingInteraction = new QuickOutgoingInteraction (uriComposingStream, parameters);
 
 				if (!uriBranch.TryProcess (outgoingInteraction))
 					throw new Exception("URI failed to compose");
@@ -72,10 +72,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		protected override bool Process (IInteraction parameters)
 		{			
 			Stream responseStream;
-			HttpResponseInteraction incomingInteraction;
+			QuickIncomingInteraction incomingInteraction;
 
 			responseStream = RequestForResponse (parameters);
-			incomingInteraction = new HttpResponseInteraction (responseStream, parameters);
+			incomingInteraction = new QuickIncomingInteraction (responseStream, parameters);
 
 			return responseProcessor.TryProcess (incomingInteraction);
 		}

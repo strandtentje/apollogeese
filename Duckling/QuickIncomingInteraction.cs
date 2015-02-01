@@ -2,12 +2,12 @@ using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using System.IO;
 
-namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
+namespace BorrehSoft.ApolloGeese.Duckling
 {
 	/// <summary>
 	/// Incoming interaction for HTTP response
 	/// </summary>
-	public class HttpResponseInteraction : QuickInteraction, IIncomingBodiedInteraction
+	public class QuickIncomingInteraction : QuickInteraction, IIncomingBodiedInteraction
 	{		
 		private StreamReader writer = null;
 
@@ -34,7 +34,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		/// </summary>
 		/// <param name="bodyStream">Body stream.</param>
 		/// <param name="parent">Parent.</param>
-		public HttpResponseInteraction (Stream bodyStream, IInteraction parent) : base(parent)
+		public QuickIncomingInteraction (Stream bodyStream, IInteraction parent) : base(parent)
 		{
 			IncomingBody = bodyStream;
 		}

@@ -2,12 +2,12 @@ using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using System.IO;
 
-namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
+namespace BorrehSoft.ApolloGeese.Duckling
 {
 	/// <summary>
 	/// Outgoing Interaction for HTTP communications
 	/// </summary>
-	public class HttpOutgoingInteraction :  QuickInteraction, IOutgoingBodiedInteraction
+	public class QuickOutgoingInteraction :  QuickInteraction, IOutgoingBodiedInteraction
 	{
 		private StreamWriter writer = null;
 
@@ -23,7 +23,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		/// </summary>
 		/// <param name="bodyStream">Data body stream.</param>
 		/// <param name="parent">Parent.</param>
-		public HttpOutgoingInteraction (Stream bodyStream, IInteraction parent) : base(parent)
+		public QuickOutgoingInteraction (Stream bodyStream, IInteraction parent) : base(parent)
 		{
 			this.OutgoingBody = bodyStream;
 		}
@@ -53,6 +53,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		/// </summary>
 		public void Done ()
 		{
+			if (HasWriter ())
+				writer.Flush ();
 			OutgoingBody.Flush();
 		}
 

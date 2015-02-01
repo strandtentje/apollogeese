@@ -39,8 +39,6 @@
     <Compile Include="TCP\DoubleBufferedSplitter.cs" />
     <Compile Include="TCP\GlobalTcpClient.cs" />
     <Compile Include="TCP\HttpClient.cs" />
-    <Compile Include="TCP\HttpOutgoingInteraction.cs" />
-    <Compile Include="TCP\HttpResponseInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

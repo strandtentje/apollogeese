@@ -47,6 +47,8 @@
     <Compile Include="IOutgoingBodiedInteraction.cs" />
     <Compile Include="IIncomingBodiedInteraction.cs" />
     <Compile Include="ConfigurationException.cs" />
+    <Compile Include="QuickIncomingInteraction.cs" />
+    <Compile Include="QuickOutgoingInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
