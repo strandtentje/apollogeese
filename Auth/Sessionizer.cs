@@ -34,10 +34,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 
 			string temporary;
 
-			if (modSettings.TryGetString ("CookieLife", out temporary))
+			if (modSettings.TryGetString ("cookielife", out temporary))
 				cookieLife = TimeSpan.Parse (temporary);
 
-			if (modSettings.TryGetString ("CookieName", out temporary))
+			if (modSettings.TryGetString ("cookiename", out temporary))
 				cookieName = temporary;
 
 			closing = modSettings.GetBool("sessioncloser", false);
@@ -89,7 +89,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 				// gloBALLY UNIQUE IDENTIFIER now hand me my tinfoil hat.
 			}
 
-			parameters ["session"] = givenCookie;
+			parameters [cookieName] = givenCookie;
 
 			return Http.TryProcess(uncastParameters);
 		}
