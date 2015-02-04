@@ -33,8 +33,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		protected override bool Process (IInteraction parameters)
 		{
 			JumpInteraction jumpParameters = (JumpInteraction)parameters.GetClosest (typeof(JumpInteraction));
+			Service returnService = defaultBranch;
 
-			return (jumpParameters.Branches [branchName] ?? defaultBranch).TryProcess (parameters);
+			if (jumpParameters.TryGetDeepBranch (branchName, out returnService))
+				returnService = returnService;
+
+			return returnService.TryProcess (parameters);
 		}
 	}
 }

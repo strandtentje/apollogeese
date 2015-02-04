@@ -3,6 +3,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
+using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 {
@@ -39,6 +40,34 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 						this [pair.Key] = value;
 				}						
 			}
+		}
+
+		public bool TryGetDeepBranch (string branchName, out Service deepBranch)
+		{
+			try {
+				deepBranch = GetDeepBranch(branchName);
+				return true;
+			} catch(JumpException ex) {
+				deepBranch = null;
+				Secretary.Report (5, ex.Message);
+			}
+
+			return false;
+		}
+
+		public Service GetDeepBranch(string name) {
+			Service branch = Branches [name];
+
+			if (branch == null) {
+				IInteraction nextJi;
+				if (Parent.TryGetClosest (typeof(JumpInteraction), out nextJi)) {
+					branch = ((JumpInteraction)nextJi).GetDeepBranch (name);
+				} else {
+					throw new JumpException (name);
+				}
+			} 
+
+			return branch;
 		}
 	}
 }

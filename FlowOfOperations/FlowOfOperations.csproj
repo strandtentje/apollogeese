@@ -43,6 +43,7 @@
     <Compile Include="Relay\RelayInteraction.cs" />
     <Compile Include="InitOnce.cs" />
     <Compile Include="Fork.cs" />
+    <Compile Include="Module\JumpException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
