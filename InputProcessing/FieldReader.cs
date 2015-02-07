@@ -22,7 +22,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 				if (FieldExpressions == null)
 					return "None";
 				else 
-					return string.Format(string.Join(",", FieldExpressions.Keys));
+					return string.Format("{0}:{1}", SourceName, string.Join(",", FieldExpressions.Keys));
 			}
 		}		
 
@@ -167,15 +167,23 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 			return success & Form.TryProcess(parsedData);
 		}
 
+		protected abstract string SourceName { get; }
+
 		protected override bool Process (IInteraction parameters)
 		{
 			bool success = true; bool failures;
-			Map<object> postData;
+			Map<object> postData; object postDataObject;
 			VerificationInteraction parsedData;
 
-			postData = Deserialize (AcquireData (parameters));
-			parsedData = new VerificationInteraction (parameters, FieldExpressions, InteractionFallbackNames) { HtmlEscape = htmlEscape };
-			parsedData.LoadFields (postData, FieldDefaults);
+			parsedData = new VerificationInteraction (parameters, SourceName, FieldExpressions, InteractionFallbackNames) { HtmlEscape = htmlEscape };
+
+			if (parameters.TryGetFallback (SourceName, out postDataObject)) {
+				parsedData [SourceName] = postData = (Map<object>)postDataObject;
+			} else {
+				parsedData [SourceName] = postData = Deserialize (AcquireData (parameters));
+			}
+
+			parsedData.LoadFields (FieldDefaults);
 
 			if (parsedData.FaultyFields.Count == 0) 
 				success &= DoSuccessfulForm (parsedData, parameters);

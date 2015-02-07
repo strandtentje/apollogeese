@@ -17,15 +17,18 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 	/// </summary>
 	class VerificationInteraction : QuickInteraction
 	{
+		private string sourceName;
+
 		public Dictionary<string, Regex> FieldExpressions { get; private set; }
 		public List<string> FaultyFields { get; private set; }
 		public List<string> FallbackNames { get; private set; }
 		public bool HtmlEscape { get; set; }
 
-		public VerificationInteraction (IInteraction parameters, Dictionary<string, Regex> fieldExpressions, List<string> fallbackNames) : base(parameters)
+		public VerificationInteraction (IInteraction parameters, string sourceName, Dictionary<string, Regex> fieldExpressions, List<string> fallbackNames) : base(parameters)
 		{
 			this.FieldExpressions = fieldExpressions;
 			this.FallbackNames = fallbackNames;
+			this.sourceName = sourceName;
 		}
 
 		private void ParseLoad(string fieldName, string fieldValue)
@@ -41,11 +44,21 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 		}
 
 		/// <summary>
+		/// Gets the posted data.
+		/// </summary>
+		/// <value>The posted data.</value>
+		private Map<object> PostedData { 
+			get {
+				return (Map<object>)this [sourceName];
+			}
+		}
+
+		/// <summary>
 		/// Loads the fields.
 		/// </summary>
 		/// <param name="postedData">Posted data.</param>
 		/// <param name="fieldDefaults">Field defaults.</param>
-		public void LoadFields(Map<object> postedData, Map<string> fieldDefaults)
+		public void LoadFields(Map<string> fieldDefaults)
 		{			
 			FaultyFields = new List<string> ();
 
@@ -53,7 +66,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 			// code.
 			foreach (string fieldName in FieldExpressions.Keys) {
 				string fieldValue;
-				if (postedData.TryGetString(fieldName, out fieldValue)) {
+				if (PostedData.TryGetString(fieldName, out fieldValue)) {
 					if (FieldExpressions [fieldName].IsMatch (fieldValue)) {
 						ParseLoad (fieldName, fieldValue);
 					} else {

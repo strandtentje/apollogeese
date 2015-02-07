@@ -28,6 +28,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 
 			return parsedData;
 		}
+
+		protected override string SourceName {
+			get {
+				return "jsonfields";
+			}
+		}
 	}
 }
 

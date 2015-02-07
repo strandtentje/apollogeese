@@ -13,10 +13,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 	{
 		public override Map<object> Deserialize (string data)
 		{			
-				SerializingMap<object> postedData = new SerializingMap<object> ();
-				postedData.AddFromString (data, HttpUtility.UrlDecode, '=', '&');
+			SerializingMap<object> postedData = new SerializingMap<object> ();
+			postedData.AddFromString (data, HttpUtility.UrlDecode, '=', '&');
 
-				return postedData;
+			return postedData;
+		}
+
+		protected override string SourceName {
+			get {
+				return "postfields";
+			}
 		}
 	}
 }
