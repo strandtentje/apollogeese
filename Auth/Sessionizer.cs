@@ -19,7 +19,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 
 		private Service Http;
 		private TimeSpan cookieLife = new TimeSpan (1, 0, 0);
-		private bool closing;
+		private bool closing, checkKnown;
 		private string cookieName = "SES";
 
 		public override string Description {
@@ -41,6 +41,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 				cookieName = temporary;
 
 			closing = modSettings.GetBool("sessioncloser", false);
+			checkKnown = modSettings.GetBool ("checkknown", false);
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -53,6 +54,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 		{
 			IHttpInteraction parameters = (IHttpInteraction)uncastParameters.GetClosest (typeof(IHttpInteraction));
 
+			if (parameters.OutgoingBody.Position > 0)
+				throw new SessionException ("Can't sessionize after bodyparts have been written.");
+
 			string givenCookie = parameters.RequestHeaders.Cookies.Get (cookieName, null);
 
 			if (closing && (givenCookie != null)) {
@@ -61,7 +65,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 
 			if ((givenCookie == null) ||		// In case of a null sescookie
 				(givenCookie.Length == 0) ||    // an empty sescookie
-				(!knownSessions.Contains (givenCookie))) {  // or an unknown session cookie
+				(checkKnown && !knownSessions.Contains (givenCookie))) {  // or an unknown session cookie
 				// we create a cookie
 
 				string cookieValue;
