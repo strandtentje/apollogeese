@@ -17,7 +17,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 	/// </summary>
 	public abstract class Querier : Service
 	{
-		private Service none, single, iterator, successful, capreached;
+		private Service none, single, iterator, successful, capreached, noneAffected, oneAffected, someAffected;
 		private bool useAffectedRowcount;
 		private int resultCap = -1;
 		private string queryFile = "", queryText = "";
@@ -53,6 +53,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			Branches ["iterator"] = Stub;
 			Branches ["successful"] = Stub;
 			Branches ["capreached"] = Stub;
+			Branches ["noneaffected"] = Stub;
+			Branches ["oneaffected"] = Stub;
+			Branches ["someeaffected"] = Stub;
 
 			Connection = CreateConnection(modSettings);
 
@@ -63,8 +66,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			}
 
 			Connection.SetDefaultCommandQuery(queryText, modSettings.Get("params", null) as List<object>);
-
-			useAffectedRowcount = modSettings.GetBool("useaffectedrowcount", false);
 
 			defaultParameters = modSettings.GetSubsettings ("defaults");
 
@@ -89,6 +90,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			if (e.Name == "iterator") iterator = e.NewValue;
 			if (e.Name == "successful") successful = e.NewValue;
 			if (e.Name == "capreached")	capreached = e.NewValue;
+			if (e.Name == "noneaffected")
+				noneAffected = e.NewValue;
+			if (e.Name == "oneaffected")
+				oneAffected = e.NewValue;
+			if (e.Name == "someeaffected")
+				someAffected = e.NewValue;
 		}
 
 		/// <summary>
@@ -187,16 +194,18 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 					int resultCount = 2;
 					int totalResults = 2;
 
-					while (resultCount > 1) {
-						success &= iterator.TryProcess (NextResult);
-						resultCount--;
+					if ((resultCap > -1) && (resultCap > 1)) {
+						while (resultCount > 1) {
+							success &= iterator.TryProcess (NextResult);
+							resultCount--;
 
-						if ((resultCap > -1) && (totalResults >= resultCap)) {
-							resultCount = 0;
-							success &= capreached.TryProcess (ParentParameters);
-						} else {
-							NextResult = GetResultInteraction (DataReader, ParentParameters, ref resultCount);
-							totalResults++;
+							if ((resultCap > -1) && (totalResults >= resultCap)) {
+								resultCount = 0;
+								success &= capreached.TryProcess (ParentParameters);
+							} else {
+								NextResult = GetResultInteraction (DataReader, ParentParameters, ref resultCount);
+								totalResults++;
+							}
 						}
 					}
 				}
@@ -225,26 +234,31 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		/// </param>
 		protected bool GetResultsToBranches (IInteraction ParentParameters)
 		{			
-			int resultCount; 
+			int resultCount, recordsAffected; 
 			bool success;
 			IDataReader reader;
 			ResultInteraction firstResult, nextResult;
 
 			resultCount = 0;
 			reader = ExecuteParameterizedCommand (ParentParameters);
+			
+			success = true;
 
-			if (useAffectedRowcount) {
-				return reader.RecordsAffected > 0;
-			}
+			recordsAffected = reader.RecordsAffected;
 
 			firstResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
 			nextResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
 
-			success = true;
-
 			if ((resultCount > 1) && (iterator != Stub)) success = BranchForMultipleResults(firstResult, nextResult, reader, ParentParameters);
 
 			reader.Close();
+						
+			if (recordsAffected == 0)
+				success &= noneAffected.TryProcess (ParentParameters);
+			if (recordsAffected == 1)
+				success &= oneAffected.TryProcess (ParentParameters);
+			if (recordsAffected > 1)
+				success &= someAffected.TryProcess (ParentParameters);
 
 			if ((resultCount == 0) && (none != Stub)) success = none.TryProcess (ParentParameters);
 
