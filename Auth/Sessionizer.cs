@@ -54,9 +54,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 		{
 			IHttpInteraction parameters = (IHttpInteraction)uncastParameters.GetClosest (typeof(IHttpInteraction));
 
-			if (parameters.OutgoingBody.Position > 0)
-				throw new SessionException ("Can't sessionize after bodyparts have been written.");
-
 			string givenCookie = parameters.RequestHeaders.Cookies.Get (cookieName, null);
 
 			if (closing && (givenCookie != null)) {
