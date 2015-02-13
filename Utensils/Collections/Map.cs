@@ -126,6 +126,17 @@ namespace BorrehSoft.Utensils.Collections
 			}
 		}
 
+		public string GetString(string name) {
+			if (this.Has (name)) {
+				object value = this.Get (name);
+				if (value is string) {
+					return (string)value;
+				}
+			}
+
+			throw new MapException (name, "expected as string");
+		}
+
 		/// <summary>
 		/// Gets the string.
 		/// </summary>
