@@ -84,8 +84,11 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		{
 			IInteraction closest;
 
+			if (t == null)
+				throw new ArgumentNullException ("Type required for GetClosest");
+
 			if (!TryGetClosest(t, out closest))
-				throw new Exception("No interaction in chain was of specified type");
+				throw new Exception(string.Format("No interaction in chain was of type", t.Name));
 
 			return closest;
 		}
