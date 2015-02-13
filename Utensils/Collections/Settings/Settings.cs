@@ -72,6 +72,17 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			return (Settings) result;
 		}
 
+		public bool GetBool(string id) {
+			if (Has (id)) {
+				object boolObj = Get (id);
+				if (boolObj is bool) {
+					return (bool)boolObj;
+				}
+			}
+
+			throw new MissingSettingException ("", id, "int");
+		}
+
 		public bool GetBool (string id, bool otherwise)
 		{
 			if (base.Has(id))
@@ -88,6 +99,17 @@ namespace BorrehSoft.Utensils.Collections.Settings
 
 			return subsettings ?? new Settings();
 		}		
+
+		public int GetInt(string id) {
+			if (Has (id)) {
+				object intObj = Get (id);
+				if (intObj is int) {
+					return (int)intObj;
+				}
+			}
+
+			throw new MissingSettingException ("", id, "int");
+		}
 
 		public int GetInt(string id, int otherwise)
 		{
