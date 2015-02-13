@@ -88,6 +88,7 @@
     <Compile Include="Log\Profiling\Profiler.cs" />
     <Compile Include="Log\Profiling\Entry.cs" />
     <Compile Include="Log\Profiling\Report.cs" />
+    <Compile Include="Collections\MapException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
