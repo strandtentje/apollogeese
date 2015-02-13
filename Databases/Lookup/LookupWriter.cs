@@ -75,10 +75,21 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 			IEnumerable<string> keywords;
 			object keywordSource = parameters [LookupKeyName];
 
-			if (SplitKeywords && (keywordSource is string))
+			if (SplitKeywords && (keywordSource is string)) {
 				keywords = KeywordSplitter.Split ((string)keywordSource);
-		 	else 
+			} else if (keywordSource is IEnumerable<object>) {
+				IEnumerable<object> keywordSourceEnumerable = (IEnumerable<object>)keywordSource;
+				List<string> keywordStrings = new List<string> ();
+
+				foreach (object keywordObject in keywordSourceEnumerable)
+					keywordStrings.Add ((string)keywordObject);
+
+				keywords = keywordStrings;
+			} else if (keywordSource is IEnumerable<string>) {
 				keywords = (IEnumerable<string>)keywordSource;
+			} else {
+				keywords = new List<string> ();
+			}				
 
 			keywords = Lookups.GetKeylist (keywords);
 
