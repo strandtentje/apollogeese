@@ -31,7 +31,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\mysql.data.dll</HintPath>
+      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
   </ItemGroup>
@@ -50,12 +50,18 @@
     <Compile Include="Lookup\LookupReader.cs" />
     <Compile Include="Lookup\LookupWriter.cs" />
     <Compile Include="Lookup\Lookups.cs" />
-    <Compile Include="Cache.cs" />
+    <Compile Include="Cache\Cache.cs" />
+    <Compile Include="Cache\CacheList.cs" />
+    <Compile Include="Cache\CacheListItem.cs" />
+    <Compile Include="Cache\CacheException.cs" />
+    <Compile Include="Cache\CacheInteraction.cs" />
+    <Compile Include="Cache\CacheListClear.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Databases\" />
     <Folder Include="Lookup\" />
+    <Folder Include="Cache\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">

@@ -4,7 +4,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.IO;
 
-namespace BorrehSoft.ApolloGeese.Extensions.Data
+namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 {
 	public class Cache : Service
 	{
