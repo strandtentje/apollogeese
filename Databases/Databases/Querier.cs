@@ -17,7 +17,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 	/// </summary>
 	public abstract class Querier : Service
 	{
-		private Service none, single, iterator, successful, capreached, noneAffected, oneAffected, someAffected;
+		private Service none, single, iterator, successful, capreached, noneAffected, oneAffected, someAffected, first;
 		private bool useAffectedRowcount;
 		private int resultCap = -1;
 		private string queryFile = "", queryText = "";
@@ -50,6 +50,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		{
 			Branches ["none"] = Stub;
 			Branches ["single"] = Stub;
+			Branches ["first"] = Stub;
 			Branches ["iterator"] = Stub;
 			Branches ["successful"] = Stub;
 			Branches ["capreached"] = Stub;
@@ -86,6 +87,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			if (e.Name == "none") none = e.NewValue;
+			if (e.Name == "first") first = e.NewValue;
 			if (e.Name == "single") single = e.NewValue;
 			if (e.Name == "iterator") iterator = e.NewValue;
 			if (e.Name == "successful") successful = e.NewValue;
@@ -188,13 +190,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			bool success = true;
 
 			if (FirstResult != null) {
+				success &= first.TryProcess (FirstResult);
 				success &= iterator.TryProcess (FirstResult);
 
 				if (NextResult != null) {
 					int resultCount = 2;
 					int totalResults = 2;
 
-					if ((resultCap > -1) && (resultCap > 1)) {
+					if ((resultCap > 1) || (resultCap < 0)) {
 						while (resultCount > 1) {
 							success &= iterator.TryProcess (NextResult);
 							resultCount--;
