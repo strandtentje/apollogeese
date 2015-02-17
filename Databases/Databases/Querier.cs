@@ -9,6 +9,7 @@ using MySql.Data.MySqlClient;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Threading;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 {
@@ -217,6 +218,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			return success;
 		}
 
+		Semaphore onConnection = new Semaphore(1 ,1);
+
 		/// <summary>
 		/// Gets the results to branches.
 		/// </summary>
@@ -243,6 +246,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			ResultInteraction firstResult, nextResult;
 
 			resultCount = 0;
+
+			if (!onConnection.WaitOne (1000)) {
+				throw new QueryException ("connection already occupied and waiting took too long");
+			};
+
 			reader = ExecuteParameterizedCommand (ParentParameters);
 			
 			success = true;
@@ -266,6 +274,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			if ((resultCount == 0) && (none != Stub)) success = none.TryProcess (ParentParameters);
 
 			else if ((resultCount == 1) && (single != Stub)) success = single.TryProcess (firstResult);	
+
+			onConnection.Release ();
 
 			return success;
 		}
