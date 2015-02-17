@@ -11,7 +11,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 	/// <summary>
 	/// Wrapper for Map of Template to enable simple template localization
 	/// </summary>
-	public class LocalizedTemplates : Service
+	public class Translation : Service
 	{
 		private string title;
 		private Template defaultTemplate;
@@ -19,7 +19,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		private string LocalizationKey { get; set; }
 		private string FilenameLocalizationKey {
 			get {
-				return string.Format ("{{% {0} %}}", LocalizationKey);
+				return "%s";
 			}
 		}
 
@@ -40,10 +40,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 			LocalizationKey = modSettings.GetString ("localizationkey", "locale");
 
-			IEnumerable<object> localizations = (IEnumerable<object>)modSettings ["localizations"];
+			IEnumerable<object> localizations = (IEnumerable<object>)modSettings ["locales"];
 
 			foreach (object localization in localizations) {
-				LoadLocalizedSubtemplate ((string)localization, modSettings, (string)modSettings["templatefile"]);
+				LoadLocalizedSubtemplate ((string)localization, modSettings, (string)modSettings["file"]);
 			}
 
 			string defaultLocale;

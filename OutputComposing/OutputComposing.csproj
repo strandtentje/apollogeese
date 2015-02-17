@@ -34,12 +34,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LocalizedTemplates.cs" />
     <Compile Include="SwitchTemplate.cs" />
     <Compile Include="Template.cs" />
     <Compile Include="Write.cs" />
     <Compile Include="Formatter.cs" />
     <Compile Include="Format.cs" />
+    <Compile Include="LocalizedTemplate.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
