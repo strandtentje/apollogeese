@@ -22,6 +22,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 
 		private bool nullParser(string data, out object value) 
 		{
+			value = null;
 			return data == "null";
 		}
 
