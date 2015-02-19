@@ -20,6 +20,11 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		IdentifierParser TypeIDParser;
 		ConcatenationParser ModconfParser;
 
+		private bool nullParser(string data, out object value) 
+		{
+			return data == "null";
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Utensils.Settings.SettingsParser"/> class.
 		/// </summary>
@@ -37,6 +42,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 				new ValueParser<long> (long.TryParse),
 				new ValueParser<float> (float.TryParse),
 				new ValueParser<bool> (bool.TryParse, "(True|False|true|false)"), 
+				new ValueParser<object> (nullParser, "(Null|null|NULL)"),
 				new FilenameParser (),
 				new ReferenceParser (),
 				new StringParser (), 
