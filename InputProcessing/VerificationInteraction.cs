@@ -83,9 +83,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 					} else {
 						if (fieldDefaults.TryGetString (fieldName, out fieldValue)) {
 							this [fieldName] = fieldValue;
-						}		
-
-						FaultyFields.Add (fieldName);
+						} else {
+							FaultyFields.Add (fieldName);
+						}
 					}
 				}
 			}
