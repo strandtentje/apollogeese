@@ -242,7 +242,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		{			
 			int resultCount, recordsAffected; 
 			bool success;
-			IDataReader reader;
+			IDataReader reader = null;
 			ResultInteraction firstResult, nextResult;
 
 			resultCount = 0;
@@ -251,31 +251,39 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 				throw new QueryException ("connection already occupied and waiting took too long");
 			};
 
-			reader = ExecuteParameterizedCommand (ParentParameters);
-			
-			success = true;
+			try {
+				reader = ExecuteParameterizedCommand (ParentParameters);
+				
+				success = true;
 
-			recordsAffected = reader.RecordsAffected;
+				recordsAffected = reader.RecordsAffected;
 
-			firstResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
-			nextResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
+				firstResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
+				nextResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
 
-			if ((resultCount > 1) && (iterator != Stub)) success = BranchForMultipleResults(firstResult, nextResult, reader, ParentParameters);
+				if ((resultCount > 1) && (iterator != Stub)) success = BranchForMultipleResults(firstResult, nextResult, reader, ParentParameters);
 
-			reader.Close();
-						
-			if (recordsAffected == 0)
-				success &= noneAffected.TryProcess (ParentParameters);
-			if (recordsAffected == 1)
-				success &= oneAffected.TryProcess (ParentParameters);
-			if (recordsAffected > 1)
-				success &= someAffected.TryProcess (ParentParameters);
+				reader.Close();
+							
+				if (recordsAffected == 0)
+					success &= noneAffected.TryProcess (ParentParameters);
+				if (recordsAffected == 1)
+					success &= oneAffected.TryProcess (ParentParameters);
+				if (recordsAffected > 1)
+					success &= someAffected.TryProcess (ParentParameters);
 
-			if ((resultCount == 0) && (none != Stub)) success = none.TryProcess (ParentParameters);
+				if ((resultCount == 0) && (none != Stub)) success = none.TryProcess (ParentParameters);
 
-			else if ((resultCount == 1) && (single != Stub)) success = single.TryProcess (firstResult);	
+				else if ((resultCount == 1) && (single != Stub)) success = single.TryProcess (firstResult);	
+			} finally {
+				if (reader != null) {
+					if (!reader.IsClosed) {
+						reader.Close ();
+					}
+				}
 
-			onConnection.Release ();
+				onConnection.Release ();
+			}
 
 			return success;
 		}
