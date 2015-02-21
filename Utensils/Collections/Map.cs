@@ -178,18 +178,19 @@ namespace BorrehSoft.Utensils.Collections
 		/// <param name="chunk">Value of the map entry.</param>
 		public bool TryGetString (string name, out string chunk) 
 		{
+			bool success = false;
 			chunk = "";
 
-			if (this [name] == null)
-				return false;
+			if (this.Has (name)) {
+				object value = this.Get (name);
 
-			if (this [name] is string) {
-				// You disappoint me C#
-				chunk = (string)(object)this [name];
-				return true;
+				if (value is string) {
+					chunk = (string)value;
+					success = true;
+				}
 			}
 
-			return false;
+			return success;
 		}
 
 		/// <summary>
