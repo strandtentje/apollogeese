@@ -97,7 +97,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 				noneAffected = e.NewValue;
 			if (e.Name == "oneaffected")
 				oneAffected = e.NewValue;
-			if (e.Name == "someeaffected")
+			if (e.Name == "someaffected")
 				someAffected = e.NewValue;
 		}
 
