@@ -51,7 +51,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <summary>
 		/// Indicate all work with this instance is done; typically flushes data into underlying stream.
 		/// </summary>
-		public void Done ()
+		public virtual void Done ()
 		{
 			if (HasWriter ())
 				writer.Flush ();
