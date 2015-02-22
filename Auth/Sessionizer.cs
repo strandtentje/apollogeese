@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using URandom = BorrehSoft.Utensils.Random;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections.Settings;
@@ -70,13 +71,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 				do { // we have a loop here for a stupidly rare case that probably only occurs
 					 // when we don't expect it to, so there.
 					 // The Base64 thing is there to make sure only letters and numbers
-					 // end up in the cookie. C#'s got a useful Guid-creation method so we
-					 // don't have to think that up.
+					 // end up in the cookie.
 
-					cookieValue = Convert.ToBase64String (
-						Guid.NewGuid ().ToByteArray ());
+					cookieValue = Convert.ToBase64String (URandom.GetTrue(128));
 
-					Console.WriteLine(string.Format("guid length {0}", cookieValue.Length));
+					Console.WriteLine(string.Format("cookie length {0}", cookieValue.Length));
 
 				} while (knownSessions.Contains(cookieValue));
 								
