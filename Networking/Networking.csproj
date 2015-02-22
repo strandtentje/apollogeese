@@ -39,11 +39,15 @@
     <Compile Include="TCP\DoubleBufferedSplitter.cs" />
     <Compile Include="TCP\GlobalTcpClient.cs" />
     <Compile Include="TCP\HttpClient.cs" />
+    <Compile Include="TCP\Mail\SendMail.cs" />
+    <Compile Include="TCP\Mail\EmailInteraction.cs" />
+    <Compile Include="TCP\Mail\MailException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="UDP\" />
     <Folder Include="TCP\" />
+    <Folder Include="TCP\Mail\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Utensils\Utensils.csproj">
