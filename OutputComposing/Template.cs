@@ -48,7 +48,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		protected override void Initialize (Settings modSettings)
 		{
 			title = modSettings.GetString ("title", "untitled");
-			chunkPattern = modSettings.GetString ("chunkpattern", @"\{% ([a-z|\_]+) %\}");
+			chunkPattern = modSettings.GetString ("chunkpattern", @"\{% ([a-z|\_|\.]+) %\}");
 			if (modSettings.Has ("templatefile"))
 				templateFile = (string)modSettings ["templatefile"];
 			else
