@@ -111,6 +111,16 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			throw new MissingSettingException ("", id, "int");
 		}
 
+		public IEnumerable<string> GetStringList(string id, params string[] defaults) {
+			IEnumerable<object> list = (IEnumerable<object>)base[id];
+			List<string> stringList = new List<string> ();
+
+			foreach (object item in list) 
+				stringList.Add ((string)item);
+
+			return stringList;
+		}
+
 		public int GetInt(string id, int otherwise)
 		{
 			int result;
