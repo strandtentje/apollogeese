@@ -81,19 +81,18 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			if (mimeTypes.TryGetString(extension, out mimeType) || optionalMimetypes) {
 				if (sourcefile.Exists) {
 					FileStream sourceStream = new FileStream (finalpath, FileMode.Open, FileAccess.Read);
+										
+					if (parameters.HasWriter ()) {
+						parameters.GetOutgoingBodyWriter ().Flush ();
+					} else {
+						parameters.ResponseHeaders.ContentType = new MimeType (mimeType);
+						parameters.ResponseHeaders.ContentLength = sourceStream.Length;
+					}
 
-					parameters.ResponseHeaders.ContentType = new MimeType(mimeType);
-					parameters.ResponseHeaders.ContentLength = sourceStream.Length;
-					
 					Secretary.Report (5, 
 					                  "Fileserve:", sourcefile.Name, 
 					                  "Size:", sourcefile.Length.ToString(), 
 					                  "MIME:", mimeType);
-
-					if (parameters.HasWriter())
-					{
-						throw new Exception ("can't serve files to outgoing stream that has a writer");
-					}
 
 					sourceStream.CopyTo (parameters.OutgoingBody, 4096);										
 				} else {
