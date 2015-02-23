@@ -4,12 +4,13 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.ComponentModel;
+using System.Collections.Generic;
 
 namespace Networking
 {
 	public class SendMail : Service
 	{
-		string mailServer;
+		IEnumerable<string> mailServers;
 		string sender = null, recepient = null, bodytypename;
 		string subject = null;
 		Service body, sending, sent;
@@ -22,7 +23,7 @@ namespace Networking
 					bodytypename, 
 					sender ?? "contextual sender", 
 					recepient ?? "contextual recepient", 
-					mailServer);
+					smtpClient.Host);
 			}
 		}
 
@@ -42,8 +43,8 @@ namespace Networking
 			if (!modSettings.TryGetString ("subject", out subject)) subject = null;
 
 			bodytypename = modSettings.GetString ("bodyname", "emailbody");
-			mailServer = modSettings.GetString ("mailserver", "localhost");
-			smtpClient = new SmtpClient (mailServer);
+
+			smtpClient = SmtpPicker.GetClient (modSettings.GetStringList ("mailservers", "localhost"));
 			smtpClient.SendCompleted += HandleSendCompleted;
 		}
 
