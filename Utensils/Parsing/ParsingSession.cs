@@ -14,7 +14,12 @@ namespace BorrehSoft.Utensils.Parsing
 	/// </summary>
 	public class ParsingSession
 	{
-		public string InteralWorkingDirectory;
+		public string InteralWorkingDirectory { 
+			get {
+				return this.SourceFile.Directory.FullName;
+			}
+		}
+
 
 		private Stack<string> context = new Stack<string>();
 
