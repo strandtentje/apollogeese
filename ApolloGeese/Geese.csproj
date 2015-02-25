@@ -44,6 +44,11 @@
     <OutputPath>..\Geese\bin\Production</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release!|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>..\Geese\bin\Release!</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Web" />

@@ -8,7 +8,6 @@
     <ProjectGuid>{9E729FC7-F412-46E5-847F-488E2E97BE9C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Data</RootNamespace>
-    <AssemblyName>Databases</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,6 +18,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <AssemblyName>Databases</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>full</DebugType>
@@ -27,11 +27,18 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <AssemblyName>Databases</AssemblyName>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release!|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release!</OutputPath>
+    <WarningLevel>4</WarningLevel>
+    <AssemblyName>Data</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\mysql.data.dll</HintPath>
+      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall\v4.0\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="System.Data" />
   </ItemGroup>
