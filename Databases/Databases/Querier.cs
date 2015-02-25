@@ -188,6 +188,17 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		/// </param>
 		protected virtual bool BranchForMultipleResults (ResultInteraction FirstResult, ResultInteraction NextResult, IDataReader DataReader, IInteraction ParentParameters)
 		{	
+			// squint your eyes at this code
+			// or just sit at a distance
+			// or take your glasses off
+			//
+			// can you see it
+			// can you tell by the shape?
+			// does the shape already give away that this bit of code
+			// probably contains no less than three exploits?
+			//
+			// what an ugly, disastrous fuckwagon of source.
+
 			bool success = true;
 
 			if (FirstResult != null) {
