@@ -57,7 +57,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			Branches ["capreached"] = Stub;
 			Branches ["noneaffected"] = Stub;
 			Branches ["oneaffected"] = Stub;
-			Branches ["someeaffected"] = Stub;
+			Branches ["someaffected"] = Stub;
 
 			Connection = CreateConnection(modSettings);
 
@@ -262,9 +262,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 				throw new QueryException ("connection already occupied and waiting took too long");
 			};
 
-			try {
-				reader = ExecuteParameterizedCommand (ParentParameters);
-				
+			using (reader = ExecuteParameterizedCommand (ParentParameters)) {
 				success = true;
 
 				recordsAffected = reader.RecordsAffected;
@@ -273,28 +271,20 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 				nextResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
 
 				if ((resultCount > 1) && (iterator != Stub)) success = BranchForMultipleResults(firstResult, nextResult, reader, ParentParameters);
-
-				reader.Close();
-							
-				if (recordsAffected == 0)
-					success &= noneAffected.TryProcess (ParentParameters);
-				if (recordsAffected == 1)
-					success &= oneAffected.TryProcess (ParentParameters);
-				if (recordsAffected > 1)
-					success &= someAffected.TryProcess (ParentParameters);
-
-				if ((resultCount == 0) && (none != Stub)) success = none.TryProcess (ParentParameters);
-
-				else if ((resultCount == 1) && (single != Stub)) success = single.TryProcess (firstResult);	
-			} finally {
-				if (reader != null) {
-					if (!reader.IsClosed) {
-						reader.Close ();
-					}
-				}
-
-				onConnection.Release ();
 			}
+
+			onConnection.Release ();			
+
+			if (recordsAffected == 0)
+				success &= noneAffected.TryProcess (ParentParameters);
+			if (recordsAffected == 1)
+				success &= oneAffected.TryProcess (ParentParameters);
+			if (recordsAffected > 1)
+				success &= someAffected.TryProcess (ParentParameters);
+
+			if ((resultCount == 0) && (none != Stub)) success = none.TryProcess (ParentParameters);
+
+			else if ((resultCount == 1) && (single != Stub)) success = single.TryProcess (firstResult);	
 
 			return success;
 		}
