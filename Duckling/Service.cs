@@ -197,7 +197,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 						foreach(string parName in LoggingParameters)
 						{
 							string parValue;
-							if (parameters.TryGetString(parName, out parValue)) {
+							if (parameters.TryGetFallbackString(parName, out parValue)) {
 								Secretary.Report(5, parName, parValue);
 							}
 						}
