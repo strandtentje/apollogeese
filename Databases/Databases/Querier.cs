@@ -262,18 +262,20 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 				throw new QueryException ("connection already occupied and waiting took too long");
 			};
 
-			using (reader = ExecuteParameterizedCommand (ParentParameters)) {
-				success = true;
+			try {
+				using(reader = ExecuteParameterizedCommand (ParentParameters)) {
+					success = true;
 
-				recordsAffected = reader.RecordsAffected;
+					recordsAffected = reader.RecordsAffected;
 
-				firstResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
-				nextResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
+					firstResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
+					nextResult = GetResultInteraction (reader, ParentParameters, ref resultCount);
 
-				if ((resultCount > 1) && (iterator != Stub)) success = BranchForMultipleResults(firstResult, nextResult, reader, ParentParameters);
+					if ((resultCount > 1) && (iterator != Stub)) success = BranchForMultipleResults(firstResult, nextResult, reader, ParentParameters);
+				}
+			} finally {
+				onConnection.Release ();
 			}
-
-			onConnection.Release ();			
 
 			if (recordsAffected == 0)
 				success &= noneAffected.TryProcess (ParentParameters);
