@@ -15,6 +15,13 @@ namespace Networking
 		/// </summary>
 		/// <value>The name of the body type.</value>
 		private string BodyTypeName { get; set; }
+
+		/// <summary>
+		/// Get/set the reply-to e-mail address
+		/// </summary>
+		/// <value>The reply to.</value>
+		private string ReplyTo { get; set; }
+
 		/// <summary>
 		/// Gets the key at which the sender of this email will be stored
 		/// </summary>
@@ -36,7 +43,7 @@ namespace Networking
 		/// <value>The subject key.</value>
 		private string SubjectKey { get { return string.Format ("{0}.subject", BodyTypeName); } }
 
-		public EmailInteraction(IInteraction parent, string emailTypeName, string sender, string recepient, string subject) : base(new MemoryStream(), parent)
+		public EmailInteraction(IInteraction parent, string emailTypeName, string sender, string recepient, string subject, string replyTo = null) : base(new MemoryStream(), parent)
 		{
 			this.BodyTypeName = emailTypeName;
 			// pull sender and recepient from context, but only if they weren't given in constructor
@@ -44,6 +51,7 @@ namespace Networking
 			this [ToKey] = GetDefaultOrFallback ("to", recepient);
 			this [SubjectKey] = GetDefaultOrFallback ("subject", subject);
 			this [DateKey] = DateTime.Now;
+			this.ReplyTo = replyTo;
 		}
 
 		private string GetDefaultOrFallback(string id, string def) {
@@ -123,8 +131,12 @@ namespace Networking
 		/// <returns>The finished message.</returns>
 		public MailMessage GetFinishedMessage() {
 			MailMessage message = new MailMessage (Sender, Recepient);
+
+			if (this.ReplyTo != null) message.ReplyToList.Add (this.ReplyTo);
+
 			message.Subject = Subject;
 			message.Body = GetDone ();
+
 			return message;
 		}
 	}

@@ -11,7 +11,7 @@ namespace Networking
 	public class SendMail : Service
 	{
 		IEnumerable<string> mailServers;
-		string sender = null, recepient = null, bodytypename;
+		string sender = null, recepient = null, replyto = null, bodytypename;
 		string subject = null;
 		Service body, sending, sent;
 		SmtpClient smtpClient;
@@ -41,6 +41,7 @@ namespace Networking
 			if (!modSettings.TryGetString ("from", out sender))	sender = null;
 			if (!modSettings.TryGetString ("to", out recepient)) recepient = null;
 			if (!modSettings.TryGetString ("subject", out subject)) subject = null;
+			if (!modSettings.TryGetString ("replyto", out replyto))	replyto = null;
 
 			bodytypename = modSettings.GetString ("bodyname", "emailbody");
 
@@ -51,7 +52,7 @@ namespace Networking
 		protected override bool Process (IInteraction parameters)
 		{
 			// prepare composing interaction
-			EmailInteraction composeInteraction = new EmailInteraction (parameters, bodytypename, sender, recepient, subject);
+			EmailInteraction composeInteraction = new EmailInteraction (parameters, bodytypename, sender, recepient, subject, replyto);
 
 			// start composing
 			bool success = body.TryProcess (composeInteraction);
