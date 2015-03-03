@@ -10,6 +10,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Threading;
+using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 {
@@ -260,7 +261,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 
 			if (!onConnection.WaitOne (1000)) {
 				throw new QueryException ("connection already occupied and waiting took too long");
-			};
+			}
 
 			try {
 				using(reader = ExecuteParameterizedCommand (ParentParameters)) {

@@ -3,6 +3,7 @@ using MySql.Data.MySqlClient;
 using System.Data;
 using System.Collections.Generic;
 using System.IO;
+using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.MySQL
 {
@@ -24,14 +25,46 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.MySQL
 		/// The connection string.
 		/// </value>
 		public string ConnectionString { get; private set; }
-				
+			
+		IDbConnection connection;
+		DateTime timestamp;
+
 		/// <summary>
 		/// Gets the connection.
 		/// </summary>
 		/// <value>
 		/// The connection.
 		/// </value>
-		public IDbConnection Connection { get; private set; }
+		public IDbConnection Connection { 
+			get {
+				DateTime nowish = DateTime.Now;
+				TimeSpan dif = (nowish - timestamp);
+
+				bool 
+					noconnection = connection == null,
+					notopen = noconnection || (connection.State != ConnectionState.Open),
+					tooold = dif.TotalMinutes > 5;
+
+				timestamp = nowish;
+
+				if (notopen || tooold) {
+					Secretary.Report (5, "Reviving MySQL connection because it was:", (notopen ? "not open" : ""), (tooold ? "too old" : ""));
+
+					if (connection != null) {
+						try {
+							connection.Dispose();
+						} catch(Exception ex) {
+							Secretary.Report (5, "Failed to dispose of old one due to:", ex.Message);
+						}
+					}
+
+					connection = new MySqlConnection (ConnectionString);
+					connection.Open ();
+				}
+
+				return connection;
+			}
+		}
 
 		/// <summary>
 		/// Gets the query text.
@@ -95,12 +128,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.MySQL
 		/// <returns>The default command.</returns>
 		public IQueryCommand GetDefaultCommand()
 		{
-			if ((Connection == null) || (Connection.State == ConnectionState.Broken) || (Connection.State == ConnectionState.Closed)) {				
-				Connection = new MySqlConnection(ConnectionString);
-				Connection.Open ();
-			}
+			MySqlQueryCommand newCommand = new MySqlQueryCommand(this, DefaultQueryText);
 
-			return new MySqlQueryCommand(this, DefaultQueryText);
+			return newCommand;
 		}
 	}
 }
