@@ -14,16 +14,57 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// be part of a series of services that involve with
 	/// resolving an http-request.
 	/// </summary>
-	public abstract class Service
+	public abstract class Service : IDisposable
 	{
-		public PluginCollection<Service> PossibleSiblingTypes {
-			get;
-			set;
+		public Map<object> Tags = new Map<object>();
+
+		public PluginCollection<Service> PossibleSiblingTypes { get; set; }
+
+		public Service Parent { get; internal set; }
+
+		public Service Root { get; internal set; }
+
+		/// <summary>
+		/// Sets ancestory, useful on newly constructed services.
+		/// </summary>
+		/// <param name="parent">Parent.</param>
+		public void SetAncestory (Service parent)
+		{
+			if (Root == null) {				
+				Parent = parent;
+
+				if (Parent != null)
+					Root = Parent.Root;
+				else
+					Root = this;
+			} else {
+				throw new MethodAccessException ("Ancestory can only be set once");
+			}
 		}
 
 		public static Dictionary<int, Service> ModelLookup = new Dictionary<int, Service>();
 		private int modelID = -1;
 		private static int modelIDCounter;
+
+		private bool allBranchesAreLoaded = false;
+
+		/// <summary>
+		/// Raise AllBranchesLoaded-event after initialization
+		/// </summary>
+		public void InvokeAllBranchesLoaded ()
+		{
+			if (allBranchesAreLoaded) {
+				throw new MethodAccessException ("This has already been done upon initialization");
+			} else {
+				allBranchesAreLoaded = true;
+				if (AllBrancesLoaded != null) AllBrancesLoaded (this, new EventArgs ());
+			}
+		}
+
+		/// <summary>
+		/// Occurs when branches loaded.
+		/// </summary>
+		public event EventHandler AllBrancesLoaded;
 
 		/// <summary>
 		/// Numeric shorthand for this service, intended purpose: designer.
@@ -53,17 +94,22 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			}
 		}
 
+		/// <summary>
+		/// The configuration of this service
+		/// </summary>
 		private Settings configuration;
 
-		public bool IsLogging {
-			get;
-			set;
-		}
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance is logging when it's hit
+		/// </summary>
+		/// <value><c>true</c> if this instance is logging; otherwise, <c>false</c>.</value>
+		public bool IsLogging { get; set; }
 
-		public string[] LoggingParameters {
-			get;
-			set;
-		}
+		/// <summary>
+		/// Gets or sets the parameters to log along.
+		/// </summary>
+		/// <value>The logging parameters.</value>
+		public string[] LoggingParameters { get; set; }
 
 		/// <summary>
 		/// Gets the description of this service. (Cool bonus: May change! Woo!)
@@ -151,7 +197,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 						foreach(string parName in LoggingParameters)
 						{
 							string parValue;
-							if (parameters.TryGetString(parName, out parValue)) {
+							if (parameters.TryGetFallbackString(parName, out parValue)) {
 								Secretary.Report(5, parName, parValue);
 							}
 						}
@@ -210,6 +256,11 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			get {
 				return StubService.Instance;
 			}
+		}
+
+		public virtual void Dispose() {
+			foreach (Service service in Branches.Dictionary.Values)
+				service.Dispose ();
 		}
 	}
 }

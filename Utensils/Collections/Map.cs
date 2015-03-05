@@ -81,7 +81,11 @@ namespace BorrehSoft.Utensils.Collections
 		/// </param>
 		public virtual T Get(string key)
 		{
-			return backEnd[key];
+			try {
+				return backEnd[key];
+			} catch(Exception ex) {
+				throw new Exception (string.Format ("failed to acquire {0} from the map", key), ex);
+			}
 		}
 
 		public T Get(string key, T defaultValue)
@@ -120,6 +124,17 @@ namespace BorrehSoft.Utensils.Collections
 					this.Delete(name);
 				this.Add (name, value);
 			}
+		}
+
+		public string GetString(string name) {
+			if (this.Has (name)) {
+				object value = this.Get (name);
+				if (value is string) {
+					return (string)value;
+				}
+			}
+
+			throw new MapException (name, "expected as string");
 		}
 
 		/// <summary>
@@ -163,18 +178,19 @@ namespace BorrehSoft.Utensils.Collections
 		/// <param name="chunk">Value of the map entry.</param>
 		public bool TryGetString (string name, out string chunk) 
 		{
+			bool success = false;
 			chunk = "";
 
-			if (this [name] == null)
-				return false;
+			if (this.Has (name)) {
+				object value = this.Get (name);
 
-			if (this [name] is string) {
-				// You disappoint me C#
-				chunk = (string)(object)this [name];
-				return true;
+				if (value is string) {
+					chunk = (string)value;
+					success = true;
+				}
 			}
 
-			return false;
+			return success;
 		}
 
 		/// <summary>

@@ -69,7 +69,7 @@ namespace BorrehSoft.Utensils.Log
 				logEntry.Append(DateTime.Now.ToString ("s"));
 				logEntry.Append (" | ");
 				if (message == null)
-					logEntry.AppendLine ("Nullmessage Caught!!");
+					logEntry.AppendLine ("Request to log 'null' couldn't be adhered to.");
 				else
 					logEntry.AppendLine(string.Join (" ", message));
 			}

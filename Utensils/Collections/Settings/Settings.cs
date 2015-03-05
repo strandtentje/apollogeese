@@ -37,13 +37,18 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			}
 
 			ParsingSession session = ParsingSession.FromFile(file, new IncludeParser());
+			Directory.SetCurrentDirectory (session.SourceFile.Directory.FullName);
 			SettingsParser parser = new SettingsParser();
 			object result;
 
-			if (parser.Run (session, out result) < 0)
-				return new Settings ();
+			Settings config;
 
-			Settings config = (Settings)result;
+			if (parser.Run (session, out result) < 0)
+				config = new Settings ();
+			else 
+				config = (Settings)result;
+
+			config.SourceFile = session.SourceFile;
 
 			Secretary.Report (5, "Settings finished loading from: ", file);
 
@@ -51,6 +56,8 @@ namespace BorrehSoft.Utensils.Collections.Settings
 
 			return config;
 		}
+
+		public FileInfo SourceFile { get; private set; }
 
 		public static Settings FromJson (string data)
 		{
@@ -65,6 +72,17 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			return (Settings) result;
 		}
 
+		public bool GetBool(string id) {
+			if (Has (id)) {
+				object boolObj = Get (id);
+				if (boolObj is bool) {
+					return (bool)boolObj;
+				}
+			}
+
+			throw new MissingSettingException ("", id, "int");
+		}
+
 		public bool GetBool (string id, bool otherwise)
 		{
 			if (base.Has(id))
@@ -77,19 +95,48 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		{
 			Settings subsettings = this[name] as Settings;
 
-			if (subsettings == null) Secretary.Report(8, "No subsettings at ", name);
+			// if (subsettings == null) Secretary.Report(8, "No subsettings at ", name);
 
 			return subsettings ?? new Settings();
 		}		
 
+		public int GetInt(string id) {
+			if (Has (id)) {
+				object intObj = Get (id);
+				if (intObj is int) {
+					return (int)intObj;
+				}
+			}
+
+			throw new MissingSettingException ("", id, "int");
+		}
+
+		public IEnumerable<string> GetStringList(string id, params string[] defaults) {
+			IEnumerable<object> list = (IEnumerable<object>)base[id];
+			List<string> stringList = new List<string> ();
+
+			foreach (object item in list) 
+				stringList.Add ((string)item);
+
+			return stringList;
+		}
+
 		public int GetInt(string id, int otherwise)
 		{
 			int result;
+			object resultObject = base [id];
 
-			if (base.Has(id) && int.TryParse(base.GetString(id, otherwise.ToString()) , out result))
-				return result;
-			else
-				return otherwise;
+			if (resultObject != null) {
+				if (resultObject is int) {
+					return (int)resultObject;
+				} else if (resultObject is string) {
+					if (int.TryParse ((string)resultObject, out result)) {
+						return result;
+					}
+				}
+			}
+
+			return otherwise;
 		}
 
 		public object Tag {

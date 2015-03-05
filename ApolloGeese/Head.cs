@@ -8,6 +8,7 @@ using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Text.RegularExpressions;
 using BorrehSoft.Utensils;
+using BorrehSoft.ApolloGeese.Loader;
 
 namespace BorrehSoft.ApolloGeese
 {
@@ -17,8 +18,6 @@ namespace BorrehSoft.ApolloGeese
 	/// </summary>
 	public class Head
 	{
-		static PluginCollection<Service> plugins = new PluginCollection<Service> ();
-
 		static void StartLog(string folder)
 		{
 			string time = DateTime.Now.ToString ("yyyy-MM-dd--THHmmsszz");
@@ -28,32 +27,6 @@ namespace BorrehSoft.ApolloGeese
 			logger.globVerbosity = 10;
 
 			logger.ReportHere (0, "Logfile Opened");
-		}
-
-		static void RunConfig (string config)
-		{
-			Settings configuration = null;
-
-			try {
-				configuration = Settings.FromFile (config);	
-			} catch (Exception ex) {
-				Secretary.Report (0, "Failure during reading of clon:\n", ex.Message);
-			}
-
-			if (configuration == null) {
-				Environment.Exit (1);
-			} else {
-				foreach (object pluInFileObj in (configuration ["plugins"] as IEnumerable<object>))
-					plugins.AddFile ((string)pluInFileObj);
-
-				Settings instances = configuration.GetSubsettings("instances");
-
-				foreach (Settings instance in instances.Dictionary.Values) {
-					LoadTree (instance);
-				}
-
-				Secretary.Report (5, "Loaded Branches");
-			}
 		}
 
 		/// <summary>
@@ -79,67 +52,8 @@ namespace BorrehSoft.ApolloGeese
 			}
 		
 			StartLog(logfolder);
-			RunConfig(config);
-		}
 
-		static Regex branchNameMatcher = new Regex ("(.+)_branch");
-
-		static void ConnectBranch (Service service, string branchname, Settings branchdata) {
-			service.Branches [branchname] = LoadTree (branchdata);
-		}
-
-		/// <summary>
-		/// Loads a tree of services.
-		/// </summary>
-		/// <returns>The tree.</returns>
-		/// <param name="config">Config.</param>
-		static Service LoadTree (Settings config)
-		{
-			string type;
-			Settings moduleConfiguration;
-			Service newService;
-			bool succesfulInit, log;
-			string[] logparams;
-
-			if (config.Tag is Service) {
-				newService = config.Tag as Service;
-			} else {
-				type = config.GetString ("type", "StubService");
-				moduleConfiguration = (Settings)config ["modconf"];
-
-				log = config.GetBool("log", false);
-				logparams = config.GetString("logparams", "").Split(',');
-
-				newService = plugins.GetConstructed (type);
-				succesfulInit = newService.SetSettings (moduleConfiguration);
-				newService.PossibleSiblingTypes = plugins;
-				newService.IsLogging = log;
-				newService.LoggingParameters = logparams;
-
-				foreach (KeyValuePair<string, object> nameAndBranch in config.Dictionary) {
-					Match branchName = branchNameMatcher.Match (nameAndBranch.Key);
-
-					if (branchName.Success) ConnectBranch(
-						newService, 
-						branchName.Groups [1].Value, 
-						nameAndBranch.Value as Settings);
-				}
-
-				if (config.Has ("branches")) {
-					Settings branches = config.GetSubsettings ("branches");
-
-					foreach (KeyValuePair<string, object> nameAndBranch in branches.Dictionary) 
-						ConnectBranch (newService, nameAndBranch.Key, nameAndBranch.Value as Settings);
-				}
-
-				if (!succesfulInit) 
-					Secretary.Report (5, type, " produced an error on initialization: ", newService.InitErrorMessage);
-			
-
-				config.Tag = newService;
-			}
-
-			return newService;
+			InstanceLoader.GetInstances (config, true);
 		}
 	}
 }

@@ -35,6 +35,11 @@
     <OutputPath>bin\Production</OutputPath>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release!|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release!</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data.Linq" />
@@ -88,6 +93,7 @@
     <Compile Include="Log\Profiling\Profiler.cs" />
     <Compile Include="Log\Profiling\Entry.cs" />
     <Compile Include="Log\Profiling\Report.cs" />
+    <Compile Include="Collections\MapException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

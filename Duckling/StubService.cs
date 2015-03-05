@@ -5,6 +5,9 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.Duckling
 {
+	/// <summary>
+	/// A stub-service; exists once, does nothing. Intended to cap off unattached branches.
+	/// </summary>
 	class StubService : Service
 	{
 		static StubService instance;
@@ -25,6 +28,10 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			return true; 
 		}
 
+		/// <summary>
+		/// Gets the instance.
+		/// </summary>
+		/// <value>The instance.</value>
 		public static Service Instance {
 			get {
 				instance = instance ?? new StubService();

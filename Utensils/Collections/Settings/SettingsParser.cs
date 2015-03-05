@@ -21,6 +21,19 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		ConcatenationParser ModconfParser;
 
 		/// <summary>
+		/// Nulls the parser. (Monodevelop generated this documentation and
+		/// I can't stop laughing so I'm going to leave this here for now)
+		/// </summary>
+		/// <returns><c>true</c>, if parser was nulled, <c>false</c> otherwise.</returns>
+		/// <param name="data">Data.</param>
+		/// <param name="value">Value.</param>
+		private bool nullParser(string data, out object value) 
+		{
+			value = null;
+			return data == "null";
+		}
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Utensils.Settings.SettingsParser"/> class.
 		/// </summary>
 		public SettingsParser(
@@ -37,6 +50,10 @@ namespace BorrehSoft.Utensils.Collections.Settings
 				new ValueParser<long> (long.TryParse),
 				new ValueParser<float> (float.TryParse),
 				new ValueParser<bool> (bool.TryParse, "(True|False|true|false)"), 
+				/* new ValueParser<object> (nullParser, "(Null|null|NULL)"),
+				 * I choose not to entirely remove this line because I believe it 
+				 * is a nice monument to remind us all of the disaster that never 
+				 * was. */
 				new FilenameParser (),
 				new ReferenceParser (),
 				new StringParser (), 

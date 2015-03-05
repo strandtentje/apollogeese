@@ -8,16 +8,31 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	{
 		private IInteraction parent;
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BorrehSoft.ApolloGeese.Duckling.QuickInteraction"/> class.
+		/// No parent or data to start with, useful for initiating.
+		/// </summary>
 		public QuickInteraction ()
 		{
 			this.parent = null;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BorrehSoft.ApolloGeese.Duckling.QuickInteraction"/> class.
+		/// Will take a parent, extra data can be attached later, optionally.
+		/// </summary>
+		/// <param name="parent">Parent.</param>
 		public QuickInteraction (IInteraction parent)
 		{
 			this.parent = parent;
 		}
 
+		/// <summary>
+		/// Initializes a new instance of the <see cref="BorrehSoft.ApolloGeese.Duckling.QuickInteraction"/> class.
+		/// Will take parent and extra data to base itself on.
+		/// </summary>
+		/// <param name="parent">Parent.</param>
+		/// <param name="values">Values.</param>
 		public QuickInteraction (IInteraction parent, Map<object> values) : base(values)
 		{
 			this.parent = parent;
@@ -30,7 +45,14 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <value>
 		/// The root interaction.
 		/// </value>
-		public IInteraction Root { get { return parent.Root; } }
+		public IInteraction Root { 
+			get { 
+				if (parent == null)
+					return this;
+				else 
+					return parent.Root; 
+			} 
+		}
 
 		/// <summary>
 		/// Gets the parent interaction.
@@ -62,8 +84,11 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		{
 			IInteraction closest;
 
+			if (t == null)
+				throw new ArgumentNullException ("Type required for GetClosest");
+
 			if (!TryGetClosest(t, out closest))
-				throw new Exception("No interaction in chain was of specified type");
+				throw new Exception(string.Format("No interaction in chain was of type", t.Name));
 
 			return closest;
 		}
