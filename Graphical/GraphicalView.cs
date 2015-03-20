@@ -25,7 +25,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Graphical
 
 		protected override bool Process (IInteraction parameters)
 		{
-
+			return false;
 		}
 	}
 }

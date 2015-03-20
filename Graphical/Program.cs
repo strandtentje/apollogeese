@@ -105,7 +105,7 @@ namespace ohno
 		[STAThread]
 		public static void Main()
 		{
-			using (ViewWindow example = new ViewWindow())
+			using (ViewWindow example = new ViewWindow(800, 600))
 			{
 				example.Run(30.0, 30.0);
 			}
