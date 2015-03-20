@@ -96,9 +96,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		{
 			this ["rootfilesystem"] = rootFilesystem;
 			this ["name"] = name = info.Name;
+
 			if ((info is FileInfo) && (info.Extension.Length > 0)) {
 				this ["shortname"] = info.Name.Remove (info.Name.Length - info.Extension.Length);
-				this ["extension"] = info.Extension.TrimStart ('.');
+				this ["extension"] = info.Extension.TrimStart ('.').ToLower();
 			}
 
 			if (GenerateKeywords)
