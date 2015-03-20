@@ -39,7 +39,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 		protected override bool Process (IInteraction parameters)
 		{
-			IHttpInteraction httpParameters = parameters as IHttpInteraction;
+			IHttpInteraction httpParameters = (IHttpInteraction)parameters.GetClosest (typeof(IHttpInteraction));
 
 			string[] urlArray = httpParameters.URL.ToArray ();
 
