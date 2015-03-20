@@ -13,6 +13,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	/// </summary>
 	public class FilesystemBrowser : Service
 	{
+		bool useHttp;
+
 		string rootFilesystem;
 		Service 
 			dirNotFound = Stub,
@@ -35,19 +37,27 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		protected override void Initialize (Settings modSettings)
 		{
 			rootFilesystem = modSettings.GetString("rootpath", ".");
+			useHttp = modSettings.GetBool ("usehttp", true);
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			IHttpInteraction httpParameters = (IHttpInteraction)parameters.GetClosest (typeof(IHttpInteraction));
+			IInteraction uncastParameters;
+			IHttpInteraction httpParameters = null;
+			string requestedPath = rootFilesystem;
+			string coreUrl = "";
 
-			string[] urlArray = httpParameters.URL.ToArray ();
+			if (parameters.TryGetClosest (typeof(IHttpInteraction), out uncastParameters) && useHttp) {
+				httpParameters = (IHttpInteraction)uncastParameters;
 
-			string coreUrl = string.Join("/", urlArray);
+				string[] urlArray = httpParameters.URL.ToArray ();
 
-			string decodedPathFromURL = HttpUtility.UrlDecode(Path.Combine( urlArray));
+				coreUrl = string.Join ("/", urlArray);
 
-			string requestedPath = Path.Combine (rootFilesystem, decodedPathFromURL);
+				string decodedPathFromURL = HttpUtility.UrlDecode (Path.Combine (urlArray));
+
+				requestedPath = Path.Combine (requestedPath, decodedPathFromURL);
+			}
 
 			DirectoryInfo requestedInfo = new DirectoryInfo (requestedPath);
 
@@ -74,7 +84,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 				return true;
 			} else {
-				httpParameters.StatusCode = 404;
+				if (httpParameters != null) 
+					httpParameters.StatusCode = 404;
 				dirNotFound.TryProcess(httpParameters);
 				return false;
 			}
