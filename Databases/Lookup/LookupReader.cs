@@ -68,7 +68,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 			KeywordSplitter = new Regex(modSettings.GetString("keywordsplitregex", @"\W|_"));
 			KeyCap = modSettings.GetInt("keycap", 6);
 			ResultCap = modSettings.GetInt ("resultcap", -1);
-			thisLookup = Lookups.Get(LookupName);
 		}
 
 		protected override bool Process (IInteraction parameters)
@@ -78,7 +77,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 
 			if (success) {
 				IEnumerable<string> keylist = Lookups.GetKeylist (KeywordSplitter.Split(queryText), KeyCap);
-				CleverSet<LookupEntry> results = thisLookup.Find (keylist);
+				CleverSet<LookupEntry> results =  Lookups.Get(LookupName).Find (keylist);
 
 				foreach (LookupEntry result in results.Values) {
 					if ((ResultCap != -1) && (resultCount++ >= ResultCap)) {
