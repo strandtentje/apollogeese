@@ -77,6 +77,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			}
 			this["keywords"] = keywords;
 			this["isdirectory"] = (this.info.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
+			this ["extension"] = info.Extension.TrimStart ('.');
 		}
 	}
 }
