@@ -70,6 +70,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			this.info = info;	
 			this ["name"] = info.Name;
 			this ["fullname"] = info.FullName;
+			this ["lastdate"] = info.LastWriteTime.ToString ("s", System.Globalization.CultureInfo.InvariantCulture);
+
 			if (info.FullName.StartsWith (rootPath)) {
 				string url = info.FullName.Remove (0, rootPath.Length);
 				this ["url"] = url;
@@ -77,7 +79,20 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			}
 			this["keywords"] = keywords;
 			this["isdirectory"] = (this.info.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
-			this ["extension"] = info.Extension.TrimStart ('.');
+
+			FileInfo fileInfo = info as FileInfo;
+
+			if (fileInfo != null) {
+				this ["filesize"] = FilesystemItemInteraction.Filesize (fileInfo.Length);
+				this ["bytecount"] = fileInfo.Length;
+
+				if (fileInfo.Extension.Length > 0) {
+					this ["shortname"] = info.Name.Remove (info.Name.Length - info.Extension.Length);
+					this ["extension"] = info.Extension.TrimStart ('.').ToLower();
+				}
+			} else {
+				this["filesize"] = "-";
+			}
 		}
 	}
 }

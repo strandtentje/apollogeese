@@ -96,11 +96,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		{
 			this ["rootfilesystem"] = rootFilesystem;
 			this ["name"] = name = info.Name;
-
-			if ((info is FileInfo) && (info.Extension.Length > 0)) {
-				this ["shortname"] = info.Name.Remove (info.Name.Length - info.Extension.Length);
-				this ["extension"] = info.Extension.TrimStart ('.').ToLower();
-			}
+			this ["lastdate"] = info.LastWriteTime.ToString ("s", System.Globalization.CultureInfo.InvariantCulture);
 
 			if (GenerateKeywords)
 				this ["keywords"] = KeywordsFromString (name);
@@ -120,11 +116,17 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 			FileInfo fileInfo = info as FileInfo;
 
-			if (fileInfo != null) 
-				this["filesize"] = Filesize(fileInfo.Length);
-			else 
-				this["filesize"] = "-";
+			if (fileInfo != null) {
+				this ["filesize"] = Filesize (fileInfo.Length);
+				this ["bytecount"] = fileInfo.Length;
 
+				if (fileInfo.Extension.Length > 0) {
+					this ["shortname"] = info.Name.Remove (info.Name.Length - info.Extension.Length);
+					this ["extension"] = info.Extension.TrimStart ('.').ToLower();
+				}
+			} else {
+				this["filesize"] = "-";
+			}
 		}
 
 		/// <summary>
@@ -138,7 +140,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		/// Takes a bytecount and turns it into a more humanreadable filesize.
 		/// </summary>
 		/// <param name="count">Count.</param>
-	    static string Filesize (long count)
+	    public static string Filesize (long count)
 		{
 			double approxSize = (double)count;
 			int suffix = 0;
