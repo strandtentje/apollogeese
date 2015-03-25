@@ -12,48 +12,37 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.UDP
 		/// Gets the host IP
 		/// </summary>
 		/// <value>The host I.</value>
-		public string HostIP { get; private set; }
+		public string HostIP { get { return this.GetString ("hostip"); } }
 
 		/// <summary>
 		/// Gets the result string.
 		/// </summary>
 		/// <value>The result string.</value>
-		public string ResultString { get; private set; }
+		public string ResultString { get { return this.GetString ("resultstring"); } }
 
 		/// <summary>
 		/// Gets the combined host IP and result string
 		/// </summary>
 		/// <value>The combined.</value>
-		public string Combined { get; private set; }
+		public string Combined { get { return this.GetString ("combined"); } }
 
 		/// <summary>
 		/// Gets the creation time of this query result.
 		/// </summary>
 		/// <value>The creation time.</value>
-		public DateTime CreationTime { get; private set; }
-
-		public override object Get (string key)
-		{
-			if (key == "hostip") return HostIP;
-			if (key == "resultstring") return ResultString;
-			if (key == "combined") return Combined;
-			if (key == "creationtime") return CreationTime.ToString("o");
-
-			return base.Get (key);
-		}
+		public DateTime CreationTime { get { return (DateTime)this["creationtime"]; } }
 
 		public UdpQueryResult (string hostIP, string resultString)
 		{
-			this["hostip"] = ""; this["resultstring"] = ""; this["combined"] = ""; this["creationtime"] = "";
-
-			this.HostIP = hostIP;
-			this.ResultString = resultString;
-			this.Combined = string.Format("{0}{1}", hostIP, resultString);
+			this ["hostip"] = hostIP; 
+			this ["resultstring"] = resultString; 
+			this ["combined"] = string.Format("{0}{1}", hostIP, resultString); 
+			this ["creationtime"] = DateTime.Now;
 		}
 
 		public void Update ()
 		{
-			this.CreationTime = DateTime.Now;
+			this["creationtime"] = DateTime.Now;
 		}
 
 		public bool IsExpired (TimeSpan maxAge)

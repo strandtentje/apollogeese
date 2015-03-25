@@ -86,7 +86,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.UDP
 		protected override bool Process (IInteraction parameters)
 		{
 			foreach (UdpQueryResult result in results.Values) 
-				iteratorBranch.TryProcess(new QuickInteraction());
+				iteratorBranch.TryProcess(result.Clone(parameters));
 
 			return true;
 		}

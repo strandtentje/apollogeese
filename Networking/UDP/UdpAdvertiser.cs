@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Networking.UDP
 {
@@ -66,7 +67,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.UDP
 			BeginAdvertising();
 		}
 
-		protected override void HandleBranchChanged (object sender, BorrehSoft.Utensils.Collections.Maps.ItemChangedEventArgs<Service> e)
+		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 
 		}
