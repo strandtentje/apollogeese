@@ -19,6 +19,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 		private bool relativePartition;
 		private bool useConfigListname;
+		private bool dontPartition;
 		private int partition;
 		private Service unavailable;
 		private Service iterator;
@@ -36,11 +37,22 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			Branches ["unavailable"] = Stub;
 
 			this.useConfigListname = modSettings.TryGetString ("listname", out listName);
-			this.partition = modSettings.GetInt ("partition");
-			this.relativePartition = modSettings.GetBool ("relativepartition");
-			this.pageVariable = modSettings.GetString ("pagevariable", "page");
+			this.dontPartition = modSettings.GetBool ("dontpartition", false);
+
+			if (!this.dontPartition) {
+				this.partition = modSettings.GetInt ("partition", 1);
+				this.relativePartition = modSettings.GetBool ("relativepartition");
+				this.pageVariable = modSettings.GetString ("pagevariable");
+			}
 		}
 
+		/// <summary>
+		/// Pick from list
+		/// </summary>
+		/// <returns><c>true</c>, if successful, <c>false</c> otherwise.</returns>
+		/// <param name="ourList">Our list.</param>
+		/// <param name="i">The index.</param>
+		/// <param name="parameters">Parameters.</param>
 		bool ListPick (List<IInteraction> ourList, int i, IInteraction parameters)
 		{			
 			if (i < ourList.Count) {
@@ -50,23 +62,18 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			return true;
 		}
 
-		protected override bool Process (IInteraction parameters)
-		{
-			CacheInteraction cache;
+		/// <summary>
+		/// Iterates with partitioning
+		/// </summary>
+		/// <returns><c>true</c>, if successful, <c>false</c> otherwise.</returns>
+		/// <param name="parameters">Parameters.</param>
+		/// <param name="cache">Cache.</param>
+		bool IterateWithPartition(IInteraction parameters, CacheInteraction cache) {
 			bool success = true;
 			object pageObj; int page;
-
-			if (useConfigListname) {
-				cache = new CacheInteraction (this.listName, parameters);
-			} else {
-				cache = new CacheInteraction (parameters);
-			}
-
-			if (cache.RequiresFill)
-				unavailable.TryProcess (cache);
-
+			
 			if (parameters.TryGetFallback (this.pageVariable, out pageObj)) 
-				page = (int)pageObj;		
+				page = (int)pageObj;
 			else 
 				throw new CacheException ("pagenumber missing");		
 
@@ -81,6 +88,41 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			}
 
 			return success;
+		}
+
+		/// <summary>
+		/// Iterates without partitioning.
+		/// </summary>
+		/// <returns><c>true</c>, if successful, <c>false</c> otherwise.</returns>
+		/// <param name="parameters">Parameters.</param>
+		/// <param name="cache">Cache.</param>
+		bool IterateWithoutPartition(IInteraction parameters, CacheInteraction cache) {
+			bool success = true;
+
+			foreach (IInteraction item in cache.List)
+				success &= iterator.TryProcess (item.Clone (parameters));
+
+			return success;
+		}
+
+		protected override bool Process (IInteraction parameters)
+		{
+			CacheInteraction cache;
+
+			if (useConfigListname) {
+				cache = new CacheInteraction (this.listName, parameters);
+			} else {
+				cache = new CacheInteraction (parameters);
+			}
+
+			if (cache.RequiresFill)
+				unavailable.TryProcess (cache);
+
+			if (dontPartition) {
+				return IterateWithoutPartition (parameters, cache);
+			} else {
+				return IterateWithPartition (parameters, cache);
+			}
 		}
 	}
 }
