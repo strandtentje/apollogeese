@@ -38,7 +38,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 
 			if (HasTail) 
 				this ["branchname"] = http.URL.Peek ();
-
 		}
 
 		/// <summary>
@@ -62,6 +61,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 
 			if (ParentHttp.URL.Count > 0) {
 				this ["nexturl"] = ParentHttp.URL.Peek ();
+				this ["remainingurl"] = string.Join ("/", ParentHttp.URL.ToArray());
 			}
 		}
 	}
