@@ -66,20 +66,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 				foreach(DirectoryInfo info in requestedInfo.GetDirectories())
 				{				
-					if (info.FullName.StartsWith(rootFilesystem))
-					{
-						itemInteraction.Assume(info);
-						directoryItem.TryProcess(itemInteraction);
-					}
+					itemInteraction.Assume(info);
+					directoryItem.TryProcess(itemInteraction);
 				}
 
 				foreach(FileInfo info in requestedInfo.GetFiles())
 				{
-					if (info.FullName.StartsWith(rootFilesystem))
-					{
-						itemInteraction.Assume(info);
-						fileItem.TryProcess(itemInteraction);
-					}
+					itemInteraction.Assume(info);
+					fileItem.TryProcess(itemInteraction);
 				}
 
 				return true;
