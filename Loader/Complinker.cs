@@ -114,6 +114,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 
 				newService.PossibleSiblingTypes = plugins;
 				newService.IsLogging = log;
+                newService.FailHard = config.GetBool("fail", false);
 				newService.LoggingParameters = logparams;
 
 				foreach (KeyValuePair<string, object> nameAndBranch in config.Dictionary) {
