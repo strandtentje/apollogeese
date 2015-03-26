@@ -11,11 +11,17 @@ namespace DiscreteHttpServer
 {
     public class HttpServer : Service
     {
-        private static prefixPoolInstance = null;
+        private static PrefixPool prefixPoolInstance = null;
 
         private static PrefixPool Pool
         {
+            get
+            {
+                if (prefixPoolInstance == null)
+                    prefixPoolInstance = new PrefixPool();
 
+                return prefixPoolInstance;
+            }
         }
 
         public override string Description
@@ -30,7 +36,15 @@ namespace DiscreteHttpServer
 
         protected override void Initialize(Settings modSettings)
         {
+            foreach (object prefix in ((List<object>)modSettings["prefixes"]))
+                Pool.Bind((string)prefix, IncomingRequestHandler);
+
             
+        }
+
+        private void IncomingRequestHandler(RequestBody body)
+        {
+
         }
 
         protected override bool Process(IInteraction parameters)
