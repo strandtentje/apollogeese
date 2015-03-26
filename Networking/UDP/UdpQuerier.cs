@@ -24,8 +24,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.UDP
 		}
 
 		Dictionary<string, UdpQueryResult> results = new Dictionary<string, UdpQueryResult>();
-		UdpClient client = new UdpClient();
-		IPAddress IP;
+        Socket client = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
+
+        IPAddress IP; EndPoint sendpoint; EndPoint receivepoint;
 		Service iteratorBranch;
 		Thread gatherThread;
 		Timer queryThread;
@@ -38,7 +39,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.UDP
 			queryInterval = int.Parse(modSettings.GetString("minutesbetweenqueries", "1")) * 60000;
 			IP = IPAddress.Parse(modSettings.GetString("ip", "255.255.255.255"));
 			Port = int.Parse(modSettings.GetString("port", "15325"));
-
+            sendpoint = new IPEndPoint(IP, Port);
+            receivepoint = new IPEndPoint(IPAddress.Any, Port);
+                        
 			queryText = modSettings.GetString("querytext", "test");
 			queryTextBytes = Encoding.ASCII.GetBytes(queryText);
 
@@ -49,25 +52,21 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.UDP
 
 		private void queryMethod(object o)
 		{
-			IPEndPoint endpoint = new IPEndPoint(IP, Port);
-
-			client.Send(queryTextBytes, queryTextBytes.Length, endpoint);
+            client.SendTo(queryTextBytes, queryTextBytes.Length, SocketFlags.Broadcast, sendpoint);
 		}
 
 		private void BeginGathering()
 		{
-			IPEndPoint endpoint = new IPEndPoint(IP, Port);
-
-			client.BeginReceive(Gather, endpoint);
+            byte[] buffer = new byte[1024];
+            client.BeginReceiveFrom(buffer, 0, 1024, SocketFlags.None, ref receivepoint, Gather, client);
 		}
 
 		private void Gather (IAsyncResult asyncResult)
-		{
-			IPEndPoint endpoint = asyncResult.AsyncState as IPEndPoint;
-			byte[] result = client.EndReceive (asyncResult, ref endpoint);
+		{            
+			byte[] result = client.EndReceiveFrom (asyncResult, ref receivepoint);
 			string resultString = Encoding.ASCII.GetString (result);
 
-			UdpQueryResult resultRow = new UdpQueryResult (endpoint.Address.ToString (), resultString);
+			UdpQueryResult resultRow = new UdpQueryResult (sendpoint.Address.ToString (), resultString);
 
 			if (!results.ContainsKey (resultRow.Combined)) results.Add(resultRow.Combined, resultRow);
 
