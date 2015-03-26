@@ -32,11 +32,8 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		/// </param>
 		int IncludeFileIntoSession (string fileName, ParsingSession session)
 		{
-			string oldWorkingDirectory = Directory.GetCurrentDirectory();
-
 			if (File.Exists (fileName)) {
 				FileInfo info = new FileInfo(fileName);
-				Directory.SetCurrentDirectory(info.Directory.FullName);
 
 				string fileData;
 
@@ -44,8 +41,6 @@ namespace BorrehSoft.Utensils.Collections.Settings
 				{
 					fileData = reader.ReadToEnd();
 				}
-
-				fileData = string.Format("{1}\r\n#pwd \"{0}\"", oldWorkingDirectory, fileData);
 
 				session.Data = session.Data.Insert (
 					session.Offset, 
