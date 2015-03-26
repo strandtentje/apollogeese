@@ -19,7 +19,21 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	{	
 		static Regex keywordMatcher = new Regex("[a-z]+|[0-9]+");
 
-		string rootFilesystem, name, fullPath, baseUrl, relativePath;
+		string name, fullPath, baseUrl, relativePath;
+
+        private string rootFilesystem
+        {
+            get
+            {
+                return rootDirectory.FullName;
+            }
+            set
+            {
+                rootDirectory = new DirectoryInfo(value);
+            }
+        }
+
+        DirectoryInfo rootDirectory;
 
 		/// <summary>
 		/// This instance will generate keywords for each new file assumed, when 
@@ -112,7 +126,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 			this["url"] = url; 
 			this["fullpath"] = fullPath =  info.FullName;
-			this["relativepath"] = relativePath = fullPath.Remove(0, rootFilesystem.Length);
+			this["relativepath"] = relativePath = fullPath.Remove(0, rootFilesystem.Length).Replace('\\','/');
 
 			FileInfo fileInfo = info as FileInfo;
 
