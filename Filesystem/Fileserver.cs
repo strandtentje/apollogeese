@@ -86,7 +86,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 						parameters.GetOutgoingBodyWriter ().Flush ();
 					} else {
 						parameters.ResponseHeaders.ContentType = new MimeType (mimeType);
-						parameters.ResponseHeaders.ContentLength = sourceStream.Length;
+						// parameters.ResponseHeaders.ContentLength = sourceStream.Length;
 					}
 
 					Secretary.Report (5, 
