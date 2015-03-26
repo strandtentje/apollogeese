@@ -7,7 +7,12 @@ namespace DiscreteHttpServer
 {
     class PrefixPool
     {
-        internal void Bind(string p, Action<RequestBody> IncomingRequestHandler)
+        internal void Bind(string p, Action<RequestHeader> IncomingRequestHandler)
+        {
+            throw new NotImplementedException();
+        }
+
+        internal void Bind(string p, Action<RequestHeader, System.Net.Sockets.TcpClient> IncomingRequestHandler)
         {
             throw new NotImplementedException();
         }

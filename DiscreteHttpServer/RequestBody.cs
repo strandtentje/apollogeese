@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DiscreteHttpServer
 {
-    class RequestBody
+    class RequestHeader
     {
     }
 }
