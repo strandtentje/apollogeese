@@ -105,6 +105,8 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <value><c>true</c> if this instance is logging; otherwise, <c>false</c>.</value>
 		public bool IsLogging { get; set; }
 
+        public bool FailHard = false;
+
 		/// <summary>
 		/// Gets or sets the parameters to log along.
 		/// </summary>
@@ -174,6 +176,35 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 		}
 
+        private bool DoProcess(IInteraction parameters)
+        {
+            bool successful; 
+
+            if (IsLogging)
+            {
+                Secretary.Report(5, "Arrived at: ", this.Description);
+
+                if (LoggingParameters != null)
+                {
+                    Secretary.Report(5, "Parameters: ");
+                    foreach (string parName in LoggingParameters)
+                    {
+                        string parValue;
+                        if (parameters.TryGetFallbackString(parName, out parValue))
+                        {
+                            Secretary.Report(5, parName, parValue);
+                        }
+                    }
+                }
+            }
+
+            successful = Process(parameters);
+            if (!successful)
+                Secretary.Report(4, "Service", this.Description, "reported in as unsuccesful");
+
+            return successful;
+        }
+
 		/// <summary>
 		/// Tries to process and leaves a ProcessErrorMessage set if applicable.
 		/// When no error is produced, the errormessage will remain blank.
@@ -186,28 +217,13 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			bool succesful = false;
 			string ProcessErrorMessage;
 
+            if (FailHard)
+                return DoProcess(parameters);
+
 			try
 			{
-				if (IsLogging)		
-				{
-					Secretary.Report(5, "Arrived at: ", this.Description);
-
-					if (LoggingParameters != null) {
-						Secretary.Report(5, "Parameters: ");
-						foreach(string parName in LoggingParameters)
-						{
-							string parValue;
-							if (parameters.TryGetFallbackString(parName, out parValue)) {
-								Secretary.Report(5, parName, parValue);
-							}
-						}
-					}
-				}
-
-				succesful = Process(parameters);
-				if (!succesful)
-					Secretary.Report(4, "Service", this.Description, "reported in as unsuccesful");
-				ProcessErrorMessage = "";
+                succesful = DoProcess(parameters);
+                ProcessErrorMessage = "";
 			}
 			catch (Exception ex) {
 				if (InitErrorMessage.Length > 0) {
