@@ -4,6 +4,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,19 +13,9 @@ namespace DiscreteHttpServer
 {
     public class HttpServer : Service
     {
-        private static PrefixPool prefixPoolInstance = null;
+        private TcpListener listener;
         private Service httpBranch;
-
-        private static PrefixPool Pool
-        {
-            get
-            {
-                if (prefixPoolInstance == null)
-                    prefixPoolInstance = new PrefixPool();
-
-                return prefixPoolInstance;
-            }
-        }
+        private int port;
 
         public override string Description
         {
@@ -39,18 +30,17 @@ namespace DiscreteHttpServer
 
         protected override void Initialize(Settings modSettings)
         {
-            foreach (object prefix in ((List<object>)modSettings["prefixes"]))
-                Pool.Bind((string)prefix, IncomingRequestHandler);            
+            listener = new TcpListener(IPAddress.Any, modSettings.GetInt("port", 8000));
+
+            listener.BeginAcceptTcpClient(SetIncomingClient, listener);
         }
 
-        private void IncomingRequestHandler(RequestHeader body, TcpClient socket)
+        private void SetIncomingClient(IAsyncResult ar)
         {
-            HttpInteraction parameters = new HttpInteraction(
-                body, socket);
+            TcpClient newClient = listener.EndAcceptTcpClient(ar);
+            listener.BeginAcceptTcpClient(SetIncomingClient, ar.AsyncState);
 
-            Process(parameters);
-
-            parameters.Dispose();
+            Process(new HttpInteraction(new RequestHeader(newClient.GetStream()), newClient));
         }
 
         protected override bool Process(IInteraction parameters)
