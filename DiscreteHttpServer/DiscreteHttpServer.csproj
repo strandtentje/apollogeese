@@ -36,7 +36,6 @@
   <ItemGroup>
     <Compile Include="HttpInteraction.cs" />
     <Compile Include="HttpServer.cs" />
-    <Compile Include="PrefixPool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestBody.cs" />
   </ItemGroup>
