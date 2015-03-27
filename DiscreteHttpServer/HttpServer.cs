@@ -40,7 +40,9 @@ namespace DiscreteHttpServer
             TcpClient newClient = listener.EndAcceptTcpClient(ar);
             listener.BeginAcceptTcpClient(SetIncomingClient, ar.AsyncState);
 
-            Process(new HttpInteraction(new RequestHeader(newClient.GetStream()), newClient));
+            RequestHead requestHeader = RequestHead.FromStream(newClient.GetStream());
+
+            Process(new HttpInteraction(requestHeader, newClient));
         }
 
         protected override bool Process(IInteraction parameters)
