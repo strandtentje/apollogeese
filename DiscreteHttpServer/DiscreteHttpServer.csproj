@@ -34,12 +34,16 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BadMethodException.cs" />
+    <Compile Include="HeaderList.cs" />
     <Compile Include="HttpInteraction.cs" />
     <Compile Include="HttpServer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RequestHead.cs" />
     <Compile Include="RequestHeader.cs" />
     <Compile Include="RequestLine.cs" />
+    <Compile Include="RequestMethod.cs" />
+    <Compile Include="TooManySectionsException.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">

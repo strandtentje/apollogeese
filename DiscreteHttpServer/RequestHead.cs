@@ -10,6 +10,8 @@ namespace DiscreteHttpServer
     {
         public RequestLine RequestLine { get; private set; }
 
+        public HeaderList Headers { get; private set; }
+
         public RequestHead()
         {
 
@@ -18,16 +20,16 @@ namespace DiscreteHttpServer
         internal static RequestHead FromStream(Stream stream)
         {
             RequestHead newHead = new RequestHead();
-            RequestHeader newHeader;
+            Header newHeader;
 
             newHead.RequestLine = RequestLine.FromStream(stream);
 
-            newHeader = RequestHeader.FromStream(stream);
+            newHeader = Header.FromStream(stream);
 
             while (newHeader.Valid)
             {
                 newHead.Headers.Add(newHeader);
-                newHeader = RequestHeader.FromStream(stream);
+                newHeader = Header.FromStream(stream);
             }
 
             return newHead;
