@@ -35,6 +35,10 @@ namespace DiscreteHttpServer
             listener.BeginAcceptTcpClient(SetIncomingClient, listener);
         }
 
+        /// <summary>
+        /// TCP connection on specified port.
+        /// </summary>
+        /// <param name="ar">Async Result</param>
         private void SetIncomingClient(IAsyncResult ar)
         {
             TcpClient newClient = listener.EndAcceptTcpClient(ar);

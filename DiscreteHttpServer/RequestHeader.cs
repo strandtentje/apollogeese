@@ -6,9 +6,9 @@ using System.Text;
 
 namespace DiscreteHttpServer
 {
-    class RequestHeader
+    class Header
     {
-        internal static RequestHeader FromStream(Stream stream)
+        internal static Header FromStream(Stream stream)
         {
             StreamReader reader = new StreamReader(stream);
 
