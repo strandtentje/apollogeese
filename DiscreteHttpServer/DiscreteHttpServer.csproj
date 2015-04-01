@@ -43,6 +43,8 @@
     <Compile Include="RequestHeader.cs" />
     <Compile Include="RequestLine.cs" />
     <Compile Include="RequestMethod.cs" />
+    <Compile Include="RequestUri.cs" />
+    <Compile Include="RequestVersion.cs" />
     <Compile Include="TooManySectionsException.cs" />
   </ItemGroup>
   <ItemGroup>
