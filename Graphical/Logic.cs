@@ -58,7 +58,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Graphical
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
 
-            this.Render(KeyboardEventQueue, e.Time);
+            this.Render(e.Time);
 
             this.SwapBuffers();
         }
