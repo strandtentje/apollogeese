@@ -252,12 +252,12 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <param name="modSettings">Mod settings.</param>
 		protected abstract void Initialize(Settings modSettings);
 		/// <summary>
-		/// Process the specified request and parameters.
+		/// Process the specified request and parameters; doesn't avert errors gracefully catch errors.
 		/// </summary>
 		/// <param name="request">Request.</param>
 		/// <param name="parameters">Parameters.</param>
 		/// <returns>True when the Process was completed succesfully</returns>
-		protected abstract bool Process (IInteraction parameters);
+		internal abstract bool Process (IInteraction parameters);
 
 		/// <summary>
 		/// The branches.
