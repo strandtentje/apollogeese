@@ -111,6 +111,20 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			throw new MissingSettingException ("", id, "int");
 		}
 
+        public float GetFloat(string id)
+        {
+            if (Has(id))
+            {
+                object floatObj = Get(id);
+                if (floatObj is float)
+                {
+                    return (float)floatObj;
+                }
+            }
+
+            throw new MissingSettingException("", id, "float");
+        }
+
 		public IEnumerable<string> GetStringList(string id, params string[] defaults) {
 			IEnumerable<object> list = (IEnumerable<object>)base[id];
 			List<string> stringList = new List<string> ();
@@ -143,6 +157,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			get;
 			set;
 		}
-	}
+
+    }
 }
 
