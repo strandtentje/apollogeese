@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -68,6 +68,10 @@
     <ProjectReference Include="..\Designer\Designer.csproj">
       <Project>{921E6907-9D5D-40FB-A4C1-5F0C56894AC0}</Project>
       <Name>Designer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Graphical\Graphical.csproj">
+      <Project>{0af976ef-9f73-48d9-9ed5-2b9cd86724d8}</Project>
+      <Name>Graphical</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utensils\Utensils.csproj">
       <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
