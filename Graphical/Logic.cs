@@ -11,16 +11,20 @@ using System.Threading.Tasks;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Graphical
 {
-    class Display : GameWindow
+    internal class Display : GameWindow
     {
-        delegate void UpdateCallback(Queue<KeyboardKeyEventArgs> input, double time);
-        delegate void RenderCallback(double time);
+        internal delegate void UpdateCallback(Queue<KeyboardKeyEventArgs> input, double time);
+        internal delegate void RenderCallback(double time);
 
         UpdateCallback Update;
         RenderCallback Render;
 
-        public Display(UpdateCallback Update, RenderCallback Render) : base(800, 600)
-        {
+        internal Display(UpdateCallback Update, RenderCallback Render, int width, int height, string title) : base(
+            width, height, 
+            new GraphicsMode(
+                new ColorFormat(32), 32, 8, 4, 
+                new ColorFormat(32), 2), title
+        ) {
             KeyDown += Display_Key;
             KeyUp += Display_Key;
 
@@ -37,7 +41,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.Graphical
 
         protected override void OnLoad(EventArgs e)
         {
-            GL.ClearColor(Color4.MidnightBlue);
+            GL.Disable(EnableCap.DepthTest);
+            GL.Disable(EnableCap.CullFace);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendEquation(BlendEquationMode.FuncAdd);
+            GL.BlendFunc(BlendingFactorSrc.SrcAlpha, BlendingFactorDest.OneMinusSrcAlpha);
+
+            GL.ClearColor(0f,0f,0f,0.5f);
         }
 
         protected override void OnResize(EventArgs e)
@@ -45,8 +55,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Graphical
             GL.Viewport(0, 0, Width, Height);
             
             GL.MatrixMode(MatrixMode.Projection);
+            
             GL.LoadIdentity();
             GL.Ortho(-1.0, 1.0, -1.0 * ((double)Height / (double)Width), 1.0 * ((double)Height / (double)Width), 0.0, 4.0);
+
+            
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)

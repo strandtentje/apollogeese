@@ -21,20 +21,30 @@ namespace BorrehSoft.ApolloGeese.Extensions.Graphical
         private float TargetUpdates { get; set; }
         private float TargetFPS { get; set; }
         private Service Updater = Stub, Renderer = Stub;
+        private int WindowWidth, WindowHeight;
+        private string WindowTitle;
 
 		protected override void Initialize (Settings modSettings)
 		{
             TargetUpdates = (float)modSettings.GetInt("updaterate", 60);
             TargetFPS = (float)modSettings.GetInt("framerate", 60);
+            WindowWidth = modSettings.GetInt("width", 800);
+            WindowHeight = modSettings.GetInt("height", 600);
+            WindowTitle = modSettings.GetString("title", "graphics");
 
+            AllBrancesLoaded += GraphicalView_AllBrancesLoaded;
+		}
+
+        void GraphicalView_AllBrancesLoaded(object sender, EventArgs e)
+        {
             Thread windowThread = new Thread(StartWindow);
             windowThread.SetApartmentState(ApartmentState.STA);
             windowThread.Start();
-		}
+        }
 
         private void StartWindow()
         {
-            using (Window = new Display(UpdateBranch, RenderBranch))
+            using (Window = new Display(UpdateBranch, RenderBranch, WindowWidth, WindowHeight, WindowTitle))
             {
                 Window.Run(TargetUpdates, TargetFPS);
             }
@@ -45,16 +55,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.Graphical
         private void RenderBranch(double time)
         {
             renderInteraction.SetTime(time);
-            Renderer.Process(renderInteraction);
+            Renderer.FastProcess(renderInteraction);
         }
 
         UpdateInteraction updateInteraction = new UpdateInteraction();
 
         private void UpdateBranch(Queue<KeyboardKeyEventArgs> input, double time)
         {
-            updateInteraction.SiteTimedelta(time);
+            updateInteraction.SetTimedelta(time);
             updateInteraction.AppendInteractions(input);
-            Updater.Process(renderInteraction);
+            Updater.FastProcess(updateInteraction);
         }
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
