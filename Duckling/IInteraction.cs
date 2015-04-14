@@ -5,7 +5,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// <summary>
 	/// Parameters to a service call
 	/// </summary>
-	public interface IInteraction 
+	public interface IInteraction : IFast
 	{
 		/// <summary>
 		/// Gets the root interaction, typically the one that invoked the chain.

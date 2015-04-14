@@ -23,10 +23,10 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 		}
 
-		protected override bool Process (IInteraction parameters) { 
-			// Secretary.Report (5, "Warning: Succesfully did nothing.", parameters.ToString());
-			return true; 
-		}
+        public override bool FastProcess(IFast parameter)
+        {
+            return true;
+        }
 
 		/// <summary>
 		/// Gets the instance.

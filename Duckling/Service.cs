@@ -257,7 +257,15 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <param name="request">Request.</param>
 		/// <param name="parameters">Parameters.</param>
 		/// <returns>True when the Process was completed succesfully</returns>
-		internal abstract bool Process (IInteraction parameters);
+        protected virtual bool Process(IInteraction parameters)
+        {
+            return this.FastProcess(parameters);
+        }
+
+        public virtual bool FastProcess(IFast parameter)
+        {
+            throw new NotImplementedException("This Service cannot be called from here for it requires to be executed safely.");
+        }
 
 		/// <summary>
 		/// The branches.
