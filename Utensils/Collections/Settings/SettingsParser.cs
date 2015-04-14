@@ -2,6 +2,7 @@ using System;
 using BorrehSoft.Utensils.Parsing;
 using BorrehSoft.Utensils.Parsing.Parsers;
 using System.Collections.Generic;
+using System.Globalization;
 
 namespace BorrehSoft.Utensils.Collections.Settings
 {
@@ -48,7 +49,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			ValueParser = new AnyParser (
 				new ValueParser<int> (int.TryParse), 
 				new ValueParser<long> (long.TryParse),
-				new ValueParser<float> (float.TryParse),
+				new ValueParser<float> (floatParse),
 				new ValueParser<bool> (bool.TryParse, "(True|False|true|false)"), 
 				/* new ValueParser<object> (nullParser, "(Null|null|NULL)"),
 				 * I choose not to entirely remove this line because I believe it 
@@ -69,6 +70,11 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			ModconfParser.InnerParser = AssignmentParser;
 			this.InnerParser = AssignmentParser;
 		}
+
+        private bool floatParse(string data, out float value)
+        {
+            return float.TryParse(data, NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out value);
+        }
 
 		private void AssignmentsToSettings(object assignments, Settings target)
 		{			
