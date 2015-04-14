@@ -1,4 +1,5 @@
-﻿using OpenTK.Input;
+﻿using BorrehSoft.ApolloGeese.Duckling;
+using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,16 +7,18 @@ using System.Text;
 
 namespace Graphical
 {
-    class UpdateInteraction
+    class UpdateInteraction : IFast
     {
-        internal  void SiteTimedelta(double time)
+
+
+        internal  void SetTimedelta(double time)
         {
-            throw new NotImplementedException();
+            
         }
 
         internal  void AppendInteractions(Queue<KeyboardKeyEventArgs> input)
         {
-            throw new NotImplementedException();
+
         }
     }
 }
