@@ -10,11 +10,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
     /// Services but do whatever.
     /// </summary>
     public interface I3DParameterized
-    {        
-        float P { get; set; }
-
-        float Q { get; set; }
-
-        float R { get; set; }
+    {
+        void SetParameters(float P, float Q, float R);
     }
 }
