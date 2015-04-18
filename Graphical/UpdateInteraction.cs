@@ -9,16 +9,23 @@ namespace Graphical
 {
     class UpdateInteraction : IFast
     {
+        private double timeDelta;
+        public HashSet<Key> HeldKeys;
 
-
-        internal  void SetTimedelta(double time)
+        public UpdateInteraction(HashSet<Key> hashSet)
         {
-            
+            // TODO: Complete member initialization
+            this.HeldKeys = hashSet;
         }
 
-        internal  void AppendInteractions(Queue<KeyboardKeyEventArgs> input)
+        internal double GetTimedelta()
         {
+            return timeDelta;
+        }
 
+        internal void SetTimedelta(double time)
+        {
+            this.timeDelta = time;
         }
     }
 }

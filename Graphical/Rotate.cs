@@ -11,10 +11,12 @@ namespace Graphical
 {
     class Rotate : OrderedHyrarchy, I3DParameterized
     {
+        public float Angle { get; private set; }
+
         protected override void Initialize(Settings modSettings)
         {
             if (modSettings.Has("default"))
-                R = modSettings.GetFloat("default");
+                Angle = modSettings.GetFloat("default");
         }
 
         public override string Description
@@ -22,17 +24,16 @@ namespace Graphical
             get { return "rotation"; }
         }
 
-        public float P { get; set; }
-
-        public float Q { get; set; }
-
-        public float R { get; set; }
+        public void SetParameters(float P, float Q, float R)
+        {
+            this.Angle = R;
+        }
 
         public override bool CentralProcess(IFast parameters)
         {
             GL.PushMatrix();
             
-            GL.Rotate(R, Vector3d.UnitZ);
+            GL.Rotate(Angle, Vector3d.UnitZ);
 
             return true;
         }

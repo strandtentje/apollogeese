@@ -24,6 +24,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.Graphical
         private int WindowWidth, WindowHeight;
         private string WindowTitle;
 
+        RenderInteraction renderInteraction;
+        UpdateInteraction updateInteraction;
+
 		protected override void Initialize (Settings modSettings)
 		{
             TargetUpdates = (float)modSettings.GetInt("updaterate", 60);
@@ -46,24 +49,21 @@ namespace BorrehSoft.ApolloGeese.Extensions.Graphical
         {
             using (Window = new Display(UpdateBranch, RenderBranch, WindowWidth, WindowHeight, WindowTitle))
             {
+                renderInteraction = new RenderInteraction();
+                updateInteraction = new UpdateInteraction(Window.HeldKeys);
                 Window.Run(TargetUpdates, TargetFPS);
             }
         }
-
-        RenderInteraction renderInteraction = new RenderInteraction();
-
+        
         private void RenderBranch(double time)
         {
             renderInteraction.SetTime(time);
             Renderer.FastProcess(renderInteraction);
         }
-
-        UpdateInteraction updateInteraction = new UpdateInteraction();
-
-        private void UpdateBranch(Queue<KeyboardKeyEventArgs> input, double time)
+        
+        private void UpdateBranch(double time)
         {
             updateInteraction.SetTimedelta(time);
-            updateInteraction.AppendInteractions(input);
             Updater.FastProcess(updateInteraction);
         }
 

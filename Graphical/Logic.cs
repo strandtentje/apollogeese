@@ -13,32 +13,39 @@ namespace BorrehSoft.ApolloGeese.Extensions.Graphical
 {
     internal class Display : GameWindow
     {
-        internal delegate void UpdateCallback(Queue<KeyboardKeyEventArgs> input, double time);
-        internal delegate void RenderCallback(double time);
+        internal delegate void IntervalCallback(double time);
 
-        UpdateCallback Update;
-        RenderCallback Render;
+        IntervalCallback Update;
+        IntervalCallback Render;
 
-        internal Display(UpdateCallback Update, RenderCallback Render, int width, int height, string title) : base(
+        internal Display(IntervalCallback Update, IntervalCallback Render, int width, int height, string title)
+            : base(
             width, height, 
             new GraphicsMode(
                 new ColorFormat(32), 32, 8, 4, 
                 new ColorFormat(32), 2), title
         ) {
-            KeyDown += Display_Key;
-            KeyUp += Display_Key;
+            KeyDown += Display_KeyDown;
+            KeyUp += Display_KeyUp;
 
             this.Update = Update;
             this.Render = Render;
         }
 
-        Queue<KeyboardKeyEventArgs> KeyboardEventQueue = new Queue<KeyboardKeyEventArgs>();
-
-        void Display_Key(object sender, KeyboardKeyEventArgs e)
+        public HashSet<Key> HeldKeys = new HashSet<Key>();
+        
+        void Display_KeyUp(object sender, KeyboardKeyEventArgs e)
         {
-            KeyboardEventQueue.Enqueue(e);
+            if (HeldKeys.Contains(e.Key))
+                HeldKeys.Remove(e.Key);
         }
 
+        void Display_KeyDown(object sender, KeyboardKeyEventArgs e)
+        {
+            if (!HeldKeys.Contains(e.Key))
+                HeldKeys.Add(e.Key);
+        }
+        
         protected override void OnLoad(EventArgs e)
         {
             GL.Disable(EnableCap.DepthTest);
@@ -57,14 +64,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.Graphical
             GL.MatrixMode(MatrixMode.Projection);
             
             GL.LoadIdentity();
-            GL.Ortho(-1.0, 1.0, -1.0 * ((double)Height / (double)Width), 1.0 * ((double)Height / (double)Width), 0.0, 4.0);
-
-            
+            GL.Ortho(-1.0, 1.0, -1.0 * ((double)Height / (double)Width), 1.0 * ((double)Height / (double)Width), 0.0, 4.0);            
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            this.Update(KeyboardEventQueue, e.Time);
+            this.Update(e.Time);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)

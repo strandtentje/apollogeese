@@ -36,6 +36,7 @@
     <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Keys.cs" />
     <Compile Include="Logic.cs" />
     <Compile Include="OrderedHyrarchy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
