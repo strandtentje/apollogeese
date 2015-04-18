@@ -9,11 +9,12 @@ using OpenTK.Graphics.OpenGL;
 
 namespace Graphical
 {
-    class Rotate : OrderedHyrarchy  
+    class Rotate : OrderedHyrarchy, I3DParameterized
     {
         protected override void Initialize(Settings modSettings)
         {
-            
+            if (modSettings.Has("default"))
+                R = modSettings.GetFloat("default");
         }
 
         public override string Description
@@ -21,11 +22,17 @@ namespace Graphical
             get { return "rotation"; }
         }
 
+        public float P { get; set; }
+
+        public float Q { get; set; }
+
+        public float R { get; set; }
+
         public override bool CentralProcess(IFast parameters)
         {
             GL.PushMatrix();
             
-            GL.Rotate(45f, Vector3d.UnitZ);
+            GL.Rotate(R, Vector3d.UnitZ);
 
             return true;
         }
