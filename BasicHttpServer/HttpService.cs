@@ -7,6 +7,7 @@ using L = BorrehSoft.Utensils.Log.Secretary;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Diagnostics;
 using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {
@@ -88,11 +89,26 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		{
 			HttpInteraction parameters = new HttpInteraction (
 				context.Request, context.Response);
-
+            
 			if (!Process (parameters)) context.Response.StatusCode = 500;
 
-			parameters.IncomingBody.Close ();
-			parameters.OutgoingBody.Close ();
+            try
+            {
+			    parameters.IncomingBody.Close ();
+            }
+            catch (Exception ex)
+            {
+                Secretary.Report(5, "Failure to close incoming stream", ex.Message);
+            }
+
+            try
+            {
+                parameters.OutgoingBody.Close();
+            }
+            catch (Exception ex)
+            {
+                Secretary.Report(5, "Failure to close outgoing stream", ex.Message);
+            }
 		}
 
 		protected override bool Process (IInteraction parameters)
