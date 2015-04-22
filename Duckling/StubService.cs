@@ -8,7 +8,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// <summary>
 	/// A stub-service; exists once, does nothing. Intended to cap off unattached branches.
 	/// </summary>
-	class StubService : Service
+	public class StubService : Service
 	{
 		static StubService instance;
 
