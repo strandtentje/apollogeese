@@ -1,0 +1,40 @@
+﻿using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utensils.Collections.Settings;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+namespace BorrehSoft.ApolloGeese.Duckling
+{
+    class Bounce : Service
+    {
+        public override string Description
+        {
+            get { return "Incoming data becomes outgoing data."; }
+        }
+
+        protected override void Initialize(Settings modSettings)
+        {
+            
+        }
+
+        protected override void HandleBranchChanged(object sender, ItemChangedEventArgs<Service> e)
+        {
+
+        }
+
+        protected override bool Process(IInteraction parameters)
+        {
+            IIncomingBodiedInteraction incoming = (IIncomingBodiedInteraction)parameters.GetClosest(typeof(IIncomingBodiedInteraction));
+            IOutgoingBodiedInteraction outgoing = (IOutgoingBodiedInteraction)parameters.GetClosest(typeof(IOutgoingBodiedInteraction));
+            
+            if (outgoing.HasWriter())
+                outgoing.GetOutgoingBodyWriter().Flush();
+
+            incoming.IncomingBody.CopyTo(outgoing.OutgoingBody);
+
+            return true;
+        }
+    }
+}

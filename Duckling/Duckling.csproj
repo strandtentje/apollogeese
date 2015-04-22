@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Bounce.cs" />
     <Compile Include="IFast.cs" />
     <Compile Include="I3DParameterized.cs" />
     <Compile Include="Service.cs" />
