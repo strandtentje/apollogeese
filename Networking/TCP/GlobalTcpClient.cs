@@ -26,7 +26,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		/// </summary>
 		/// <returns>The response.</returns>
 		/// <param name="body">Body.</param>
-		protected override Stream GetResponse (Stream body)
+		protected override Stream GetResponse (Stream body, IInteraction parameters)
 		{
 			singleClient = new TcpClient (hostname, port);
 			body.CopyTo (singleClient.GetStream ());
