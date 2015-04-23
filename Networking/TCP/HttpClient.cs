@@ -27,7 +27,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
         private bool hasPostBuilder;
         private string sessionid;
         private bool useSesionid = false;
-        private static Map<CookieCollection> sessionKeeper = new Map<CookieCollection>();
+        private static Map<CookieContainer> sessionKeeper = new Map<CookieContainer>();
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
@@ -60,75 +60,21 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		{
 			using (StreamReader requestReader = new StreamReader(request)) {
                 HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(requestReader.ReadToEnd());
-                
-                string session = null;
+                QuickOutgoingInteraction postBody;
+
+                // Preserve CookieContainer here!
 
                 if (hasPostBuilder)
                 {
                     webRequest.Method = "POST";
-                }
-
-                if (useSesionid)
-                {
-                    if (parameters.TryGetFallbackString(sessionid, out session)) 
-                    {
-                        if (sessionKeeper.Has(session))
-                        {
-                            webRequest.CookieContainer = new CookieContainer();
-                            CookieCollection cc = (CookieCollection)sessionKeeper[session];
-
-                            foreach (Cookie cookie in cc)
-                            {
-                                webRequest.CookieContainer.Add(cookie);
-                            }
-                        }                            
-                    }
-                    else
-                        Secretary.Report(5, "No session info available at ", sessionid);                    
-                }
-
-                if (hasPostBuilder)
-                {
-                    QuickOutgoingInteraction postBody = 
-                        new QuickOutgoingInteraction(webRequest.GetRequestStream(), parameters);
-
+                
+                    postBody = new QuickOutgoingInteraction(webRequest.GetRequestStream(), parameters);
+                    
                     postbuilder.TryProcess(postBody);
                 }
 
                 HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
-
-                if (session != null)
-                {
-                    if (!sessionKeeper.Has(session))
-                    {
-                        sessionKeeper[session] = new CookieCollection();
-                    }
-                    CookieCollection cc = sessionKeeper[session];                     
-
-                    for (int i = 0; i < response.Headers.Count; i++)
-                    {                        
-                        string key;
-                        string[] values;
-
-                        key = response.Headers.GetKey(i);
-                        if (key.ToLower() == "set-cookie")
-                        {
-                            values = response.Headers.Get(i).Split(',');
-
-                            foreach(string value in values) {
-                                Match match = Regex.Match(value, "(.+?)=(.+?);");
-                                if (match.Captures.Count > 0)
-                                {
-                                    string ckey = match.Groups[1].Value;
-                                    string cvalue = match.Groups[2].Value;
-
-                                    cc.Add(new Cookie(ckey, cvalue, "/", hostname));
-                                }
-                            }
-                        }                        
-                    }
-                }
-
+                
                 return response.GetResponseStream();
 			}
 		}
