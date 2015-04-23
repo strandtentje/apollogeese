@@ -1,7 +1,6 @@
 ﻿using BorrehSoft.ApolloGeese.Duckling;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using CsQuery;
 using BorrehSoft.Utensils.Collections.Settings;
