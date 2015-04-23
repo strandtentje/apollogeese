@@ -18,37 +18,56 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 	{
 		public override string Description {
 			get {
-				return string.Format("{0}:{1}", hostname, port);
+				return string.Format ("{0}:{1}", hostname, port);
 			}
 		}
 
-		protected string hostname; protected int port;
+		protected string hostname;
+		protected int port;
 		protected Service uriBranch, responseProcessor, postbuilder;
-        private bool hasPostBuilder;
-        private string sessionid;
-        private bool useSesionid = false;
-        private static Map<CookieContainer> sessionKeeper = new Map<CookieContainer>();
+		private bool hasPostBuilder;
+		private string sessionid;
+		private bool useSesionid = false;
+		private static Map<CookieContainer> sessionKeeper = new Map<CookieContainer> ();
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
-			if (e.Name == "uri") uriBranch = e.NewValue;
-			if (e.Name == "response") responseProcessor = e.NewValue;
-            if (e.Name == "postbuilder")
-            {
-                postbuilder = e.NewValue;
-                hasPostBuilder = !((postbuilder ?? Stub) is StubService);
-            }
+			if (e.Name == "uri")
+				uriBranch = e.NewValue;
+			if (e.Name == "response")
+				responseProcessor = e.NewValue;
+			if (e.Name == "postbuilder") {
+				postbuilder = e.NewValue;
+				hasPostBuilder = !((postbuilder ?? Stub) is StubService);
+			}
 		}
 
 		protected override void Initialize (Settings modSettings)
 		{
 			hostname = (string)modSettings ["hostname"];
-			port = (int)modSettings["port"];
-            if (modSettings.Has("sessionid"))
-            {
-                sessionid = modSettings.GetString("sessionid");
-                useSesionid = true;
-            }
+			port = (int)modSettings ["port"];
+			if (modSettings.Has ("sessionid")) {
+				sessionid = modSettings.GetString ("sessionid");
+				useSesionid = true;
+			}
+		}
+
+		/// <summary>
+		/// Preserves the cookies.
+		/// </summary>
+		/// <param name="webRequest">Web request.</param>
+		/// <param name="id">Identifier.</param>
+		void PreserveCookies (HttpWebRequest webRequest, string id)
+		{
+			CookieContainer container;
+
+			if (sessionKeeper.Has (id)) {
+				container = sessionKeeper [id];
+			} else {
+				container = sessionKeeper [id] = new CookieContainer ();
+			}
+
+			webRequest.CookieContainer = container;
 		}
 
 		/// <summary>
@@ -56,26 +75,28 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		/// </summary>
 		/// <returns>The response.</returns>
 		/// <param name="request">Request.</param>
-		protected virtual Stream GetResponse(Stream request, IInteraction parameters)
+		protected virtual Stream GetResponse (Stream request, IInteraction parameters)
 		{
 			using (StreamReader requestReader = new StreamReader(request)) {
-                HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create(requestReader.ReadToEnd());
-                QuickOutgoingInteraction postBody;
+				HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create (requestReader.ReadToEnd ());
+				QuickOutgoingInteraction postBody;
 
-                // Preserve CookieContainer here!
+				// Preserve CookieContainer here!
 
-                if (hasPostBuilder)
-                {
-                    webRequest.Method = "POST";
+				if (useSesionid)
+					PreserveCookies (webRequest, (string)parameters [sessionid]);
+
+				if (hasPostBuilder) {
+					webRequest.Method = "POST";
                 
-                    postBody = new QuickOutgoingInteraction(webRequest.GetRequestStream(), parameters);
+					postBody = new QuickOutgoingInteraction (webRequest.GetRequestStream (), parameters);
                     
-                    postbuilder.TryProcess(postBody);
-                }
+					postbuilder.TryProcess (postBody);
+				}
 
-                HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
+				HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse ();
                 
-                return response.GetResponseStream();
+				return response.GetResponseStream ();
 			}
 		}
 
@@ -84,21 +105,21 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		/// </summary>
 		/// <returns>The for response.</returns>
 		/// <param name="parameters">Parameters.</param>
-		protected virtual Stream RequestForResponse(IInteraction parameters) 
+		protected virtual Stream RequestForResponse (IInteraction parameters)
 		{
 			QuickOutgoingInteraction outgoingInteraction;
 			WebRequest webRequest;
 
-			using(MemoryStream uriComposingStream = new MemoryStream ()) {
+			using (MemoryStream uriComposingStream = new MemoryStream ()) {
 				outgoingInteraction = new QuickOutgoingInteraction (uriComposingStream, parameters);
 
 				if (!uriBranch.TryProcess (outgoingInteraction))
-					throw new Exception("URI failed to compose");
+					throw new Exception ("URI failed to compose");
 
-				outgoingInteraction.Done();
+				outgoingInteraction.Done ();
 				uriComposingStream.Position = 0;
 					
-				return GetResponse(uriComposingStream, parameters);
+				return GetResponse (uriComposingStream, parameters);
 			}
 		}
 
@@ -114,4 +135,3 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		}
 	}
 }
-
