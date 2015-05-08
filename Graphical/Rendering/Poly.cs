@@ -8,6 +8,7 @@ using System.Text;
 using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Graphics.OpenGL;
+using System.Drawing;
 
 namespace Graphical
 {
@@ -21,12 +22,24 @@ namespace Graphical
         
         protected override void Initialize(Settings modSettings)
         {
-            object vertexObjectListObject = modSettings.Get("vertices");
-            IEnumerable<object> vertexObjectList = (IEnumerable<object>)vertexObjectListObject;
-            vertices = new VertexList();
+            if (modSettings.Has("vertices"))
+            {
+                object vertexObjectListObject = modSettings.Get("vertices");
+                IEnumerable<object> vertexObjectList = (IEnumerable<object>)vertexObjectListObject;
+                vertices = new VertexList();
 
-            foreach (object vertexObject in vertexObjectList)            
-                vertices.Add((Settings)vertexObject);
+                foreach (object vertexObject in vertexObjectList)
+                    vertices.Add((Settings)vertexObject);
+            }
+            else
+            {
+                string colorName = modSettings.GetString("color", "white");
+                Color4 color = new Color4(Color.FromName(colorName));
+                Vector2 vector = new Vector2(-0.5f, -0.5f);
+                Vertex newVertex = new Vertex(color, vector);
+                vertices.Add(newVertex);
+            }
+
 
             this.name = modSettings.GetString("name", (shapecount++).ToString());
         }
