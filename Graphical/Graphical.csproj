@@ -29,11 +29,11 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="OpenTK">
-      <HintPath>D:\Downloads\opentk-1.1-4c\opentk-1.1-4c\Binaries\OpenTK\Debug\OpenTK.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
+    <Reference Include="OpenTK">
+      <HintPath>..\..\..\Downloads\opentk-2014-02-16\Binaries\OpenTK\Release\OpenTK.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Keys.cs" />
