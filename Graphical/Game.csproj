@@ -5,10 +5,10 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>10.0.0</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{D359A93F-705D-4C95-A2F9-C8FDEEE9C4D4}</ProjectGuid>
+    <ProjectGuid>{0AF976EF-9F73-48D9-9ED5-2B9CD86724D8}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>InputProcessing</RootNamespace>
-    <AssemblyName>InputProcessing</AssemblyName>
+    <RootNamespace>Game</RootNamespace>
+    <AssemblyName>Game</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,46 +28,34 @@
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release!|AnyCPU' ">
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Release!</OutputPath>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Web" />
-    <Reference Include="CsQuery">
-      <HintPath>..\..\..\Downloads\CsQuery.dll</HintPath>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\opentk\Binaries\OpenTK\Debug\OpenTK.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="HtmlReader.cs" />
+    <Compile Include="Updating\Keys.cs" />
+    <Compile Include="Updating\Logic.cs" />
+    <Compile Include="OrderedHyrarchy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="FailureWrapperInteraction.cs" />
-    <Compile Include="FieldReader.cs" />
-    <Compile Include="GetFieldReader.cs" />
-    <Compile Include="JsonFieldReader.cs" />
-    <Compile Include="PostFieldReader.cs" />
-    <Compile Include="RegexFieldReader.cs" />
-    <Compile Include="VerificationInteraction.cs" />
+    <Compile Include="GraphicalView.cs" />
+    <Compile Include="Rendering\Poly.cs" />
+    <Compile Include="Rendering\RenderInteraction.cs" />
+    <Compile Include="Rendering\Rotate.cs" />
+    <Compile Include="Updating\UpdateInteraction.cs" />
+    <Compile Include="Rendering\VertexBuffer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Utensils\Utensils.csproj">
-      <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
-      <Name>Utensils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Duckling\Duckling.csproj">
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>Duckling</Name>
     </ProjectReference>
-    <ProjectReference Include="..\FlowOfOperations\FlowOfOperations.csproj">
-      <Project>{FF10A427-5CC9-4C4F-8AAA-FE6D65D66AE7}</Project>
-      <Name>FlowOfOperations</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Http\Http.csproj">
-      <Project>{FC505C08-0BA6-46A0-90CE-147823D3F2A8}</Project>
-      <Name>Http</Name>
+    <ProjectReference Include="..\Utensils\Utensils.csproj">
+      <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
+      <Name>Utensils</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
