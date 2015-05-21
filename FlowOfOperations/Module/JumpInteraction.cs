@@ -29,7 +29,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		{
 			this.Branches = branches;
 
-			object reassignObject = modSettings["reassignments"];
+			object reassignObject = modSettings["reassignments"] ?? modSettings["remap"];
 
 			if (reassignObject != null) {
 				Settings reassignments = (Settings)reassignObject;
