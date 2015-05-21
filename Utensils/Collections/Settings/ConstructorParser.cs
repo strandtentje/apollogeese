@@ -7,18 +7,19 @@ namespace BorrehSoft.Utensils
 {
 	public class ConstructorParser : ConcatenationParser
 	{
-		public ConstructorParser () : base('(', ')', ',')
-		{
+		private Parser valueParser;
 
+		public ConstructorParser (Parser valueParser) : base('(', ')', ',')
+		{
+			this.valueParser = valueParser;
 		}		
 
 		protected override int ParseListBody (ParsingSession session, ref List<object> target)
 		{			
-			StringParser defaultParameterParser = new StringParser ();
 			object defaultValue;
 			bool thereIsMore = true;
 
-			if (defaultParameterParser.ParseMethod (session, out defaultValue) > -1) {
+			if (valueParser.ParseMethod (session, out defaultValue) > -1) {
 				target.Add (new Tuple<string, object> ("default", (string)defaultValue));
 				thereIsMore = (coupler.Run(session) > 0);
 			}

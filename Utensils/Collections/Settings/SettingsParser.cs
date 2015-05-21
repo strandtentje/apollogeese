@@ -17,6 +17,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		}
 
 		AnyParser ValueParser;
+		AnyParser ExpressionParser;
 		AssignmentParser AssignmentParser;
 		IdentifierParser TypeIDParser;
 		ConcatenationParser ModconfParser;
@@ -50,11 +51,10 @@ namespace BorrehSoft.Utensils.Collections.Settings
 				new ValueParser<int> (int.TryParse), 
 				new ValueParser<long> (long.TryParse),
 				new ValueParser<float> (floatParse),
-				new ValueParser<bool> (bool.TryParse, "(True|False|true|false)"), 
-				/* new ValueParser<object> (nullParser, "(Null|null|NULL)"),
-				 * I choose not to entirely remove this line because I believe it 
-				 * is a nice monument to remind us all of the disaster that never 
-				 * was. */
+				new ValueParser<bool> (bool.TryParse, "(True|False|true|false)"));
+
+			ExpressionParser = new AnyParser (
+				ValueParser, 
 				new FilenameParser (),
 				new ReferenceParser (),
 				new StringParser (), 
@@ -63,10 +63,10 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			);			
 
 			TypeIDParser = new IdentifierParser ();
-			ModconfParser = new ConstructorParser ();
+			ModconfParser = new ConstructorParser (ExpressionParser);
 
-			listParser.InnerParser = ValueParser;
-			AssignmentParser.InnerParser = ValueParser;
+			listParser.InnerParser = ExpressionParser;
+			AssignmentParser.InnerParser = ExpressionParser;
 			ModconfParser.InnerParser = AssignmentParser;
 			this.InnerParser = AssignmentParser;
 		}
