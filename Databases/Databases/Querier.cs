@@ -63,7 +63,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			Connection = CreateConnection(modSettings);
 
 			queryFile = modSettings.GetString("query", "");
-			queryText = modSettings["querytext"] as String ?? File.ReadAllText(queryFile);
+			queryText = File.ReadAllText(queryFile);
 			if (modSettings.Has ("resultcap")) {
 				resultCap = (int)modSettings["resultcap"];
 			}
