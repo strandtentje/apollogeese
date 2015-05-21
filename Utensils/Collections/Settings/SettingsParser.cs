@@ -17,6 +17,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		}
 
 		AnyParser ValueParser;
+		AnyParser StringsParser;
 		AnyParser ExpressionParser;
 		AssignmentParser AssignmentParser;
 		IdentifierParser TypeIDParser;
@@ -53,6 +54,10 @@ namespace BorrehSoft.Utensils.Collections.Settings
 				new ValueParser<float> (floatParse),
 				new ValueParser<bool> (bool.TryParse, "(True|False|true|false)"));
 
+			StringsParser = new AnyParser (
+				new FilenameParser (),
+				new StringParser ());
+
 			ExpressionParser = new AnyParser (
 				ValueParser, 
 				new FilenameParser (),
@@ -63,7 +68,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			);			
 
 			TypeIDParser = new IdentifierParser ();
-			ModconfParser = new ConstructorParser (ExpressionParser);
+			ModconfParser = new ConstructorParser (StringsParser);
 
 			listParser.InnerParser = ExpressionParser;
 			AssignmentParser.InnerParser = ExpressionParser;
