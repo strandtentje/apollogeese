@@ -27,7 +27,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 		protected override void Initialize (Settings modSettings)
 		{
-			branchName = (string)modSettings.Get ("branchname");
+			if (modSettings.Has ("default")) {
+				branchName = (string)modSettings.Get ("default");
+			} else {
+				branchName = (string)modSettings.Get ("branchname");
+			}
 		}
 
 		protected override bool Process (IInteraction parameters)
