@@ -5,7 +5,6 @@ using OpenTK.Input;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -32,7 +31,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Graphical
             this.Render = Render;
         }
 
-        public HashSet<Key> HeldKeys = new HashSet<Key>();
+        public List<Key> HeldKeys = new List<Key>();
         
         void Display_KeyUp(object sender, KeyboardKeyEventArgs e)
         {

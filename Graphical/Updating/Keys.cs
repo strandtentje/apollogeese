@@ -4,7 +4,6 @@ using BorrehSoft.Utensils.Collections.Settings;
 using OpenTK.Input;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace Graphical
@@ -43,7 +42,7 @@ namespace Graphical
 
                 foreach (Delta delta in Deltas)
                 {
-                    if (update.HeldKeys.Contains(delta.Key))
+                    if (update.HeldKeys.Contains(delta.Key) )
                     {
                         Service target = Branches[delta.BranchName];
                         if (target is I3DParameterized)
