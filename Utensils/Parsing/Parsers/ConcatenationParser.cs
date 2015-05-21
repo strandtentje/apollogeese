@@ -10,7 +10,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 	public class ConcatenationParser : Parser
 	{
 		public Parser InnerParser { get; set; }
-		CharacterParser opener, closer, coupler;
+		protected CharacterParser opener, closer, coupler;
 
 		public override string ToString ()
 		{
@@ -26,33 +26,39 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 			this.coupler = new CharacterParser (couplerChar);
 		}
 
+		protected virtual int ParseListBody (ParsingSession session, ref List<object> target)
+		{
+			object parsed;
+
+			bool coupled = true;
+
+			while (coupled && (InnerParser.Run(session, out parsed) > 0)) {
+				target.Add (parsed);
+				coupled = false;
+				while (coupler.Run (session) > 0)
+					coupled = true;
+			}
+
+			int closerResult = closer.Run (session);
+
+			if (closerResult > 0) {
+				return target.Count + 1;
+			} else {
+				string trail, ahead;
+				trail = session.GetTrail();
+				ahead = session.GetAhead();
+
+				throw new ParsingException (session, closer, trail, ahead);
+			}
+		}
+
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
 			if (opener.Run (session) > 0) {
 				List<object> target = new List<object>();
-				object parsed;
+				result = target;
 
-				bool coupled = true;
-
-				while (coupled && (InnerParser.Run(session, out parsed) > 0)) {
-					target.Add (parsed);
-					coupled = false;
-					while (coupler.Run (session) > 0)
-						coupled = true;
-				}
-
-				int closerResult = closer.Run (session);
-
-				if (closerResult > 0) {
-					result = target;
-					return target.Count + 1;
-				} else {
-					string trail, ahead;
-					trail = session.GetTrail();
-					ahead = session.GetAhead();
-
-					throw new ParsingException (session, closer, trail, ahead);
-				}
+				return ParseListBody (session, ref target);
 			}
 
 			result = null;

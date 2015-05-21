@@ -76,6 +76,11 @@ namespace BorrehSoft.Utensils.Collections.Settings
             return float.TryParse(data, NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out value);
         }
 
+		/// <summary>
+		/// Bah, wat vies.
+		/// </summary>
+		/// <param name="assignments">Assignments.</param>
+		/// <param name="target">Target.</param>
 		private void AssignmentsToSettings(object assignments, Settings target)
 		{			
 			foreach (object assignment in (assignments as IEnumerable<object>)) {
