@@ -12,7 +12,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
-			if (session.Data [session.Offset++] == 'f') {
+			if ((session.Data [session.Offset++] == 'f') && (session.Data[session.Offset] == '"')) {
 				object fileNameObj;
 				string fileName, fullPath;
 				base.ParseMethod (session, out fileNameObj);
