@@ -63,7 +63,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			);			
 
 			TypeIDParser = new IdentifierParser ();
-			ModconfParser = new ConcatenationParser ('(', ')', ',');
+			ModconfParser = new ConstructorParser ();
 
 			listParser.InnerParser = ValueParser;
 			AssignmentParser.InnerParser = ValueParser;

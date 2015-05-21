@@ -94,6 +94,7 @@
     <Compile Include="Log\Profiling\Entry.cs" />
     <Compile Include="Log\Profiling\Report.cs" />
     <Compile Include="Collections\MapException.cs" />
+    <Compile Include="Collections\Settings\ConstructorParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
