@@ -16,12 +16,18 @@ namespace BorrehSoft.Utensils
 		{			
 			StringParser defaultParameterParser = new StringParser ();
 			object defaultValue;
+			bool thereIsMore = true;
 
 			if (defaultParameterParser.ParseMethod (session, out defaultValue) > -1) {
 				target.Add (new Tuple<string, object> ("default", (string)defaultValue));
+				thereIsMore = (coupler.Run(session) > 0);
 			}
 
-			return base.ParseListBody (session, ref target);
+			if (thereIsMore) {
+				return base.ParseListBody (session, ref target);
+			} else {
+				return 1;
+			}
 		}
 	}
 }
