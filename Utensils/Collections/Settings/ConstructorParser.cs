@@ -27,7 +27,7 @@ namespace BorrehSoft.Utensils
 			if (thereIsMore) {
 				return base.ParseListBody (session, ref target);
 			} else {
-				return 1;
+				return closer.Run(session);
 			}
 		}
 	}
