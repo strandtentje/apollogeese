@@ -40,6 +40,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 
 			if (modSettings.TryGetString ("cookiename", out temporary))
 				cookieName = temporary;
+			else if (modSettings.TryGetString ("default", out temporary))
+				cookieName = temporary;
 
 			closing = modSettings.GetBool("sessioncloser", false);
 			checkKnown = modSettings.GetBool ("checkknown", false);
