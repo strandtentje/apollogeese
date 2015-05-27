@@ -52,9 +52,14 @@ namespace BorrehSoft.Utensils.Collections
 		/// </param>
 		public void AddFrom (CleverSet<T> nextSet)
 		{
-			foreach(string key in nextSet.Keys)						
-				if (!base.ContainsKey(key))
-					base.Add(key, nextSet[key]);
+			foreach (string key in nextSet.Keys) {
+				if (!base.ContainsKey (key)) {
+					IIndexable indexable = nextSet [key];
+					if (indexable.Exists) {
+						base.Add (key, (T)indexable);
+					}
+				}
+			}
 		}
 	}
 }

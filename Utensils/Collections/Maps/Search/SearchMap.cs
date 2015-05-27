@@ -98,6 +98,7 @@ namespace BorrehSoft.Utensils.Collections.Maps.Search
 
 		public void RemoveByMeta (string meta)
 		{
+			AllItems [meta].Exists = false;
 			AllItems.Remove(meta);
 		}
 
