@@ -26,6 +26,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 			this.keywords = keywords;
 			this.meta = meta;
 			this.Parameters = Parameters;
+			this.Exists = true;
 		}
 
 		/// <summary>
