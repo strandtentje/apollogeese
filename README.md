@@ -1,6 +1,6 @@
-ApolloGeese Web Server
-======================
+ApolloGeese/Clon
+================
 
-ApolloGeese represents a design philosophy, a collection of essential web-application back-end modules and one sexy language.
+ApolloGeese represents a design philosophy, a collection of essential web-application back-end modules and a simple language to provide a means of loosely coupling them.
 
-The current proof-of-concept implementation has been done in Mono C#. This means that you can use this neato fresh software stack on pretty much any platform. Without recompiling. 
+This is a proof of concept implementation in Mono.
