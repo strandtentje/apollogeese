@@ -64,6 +64,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			if (e.Name == "badrequest") badRequestBranch  = e.NewValue;
 		}
 
+		void sendFileToStream (string finalpath, Stream outgoingBody)
+		{
+			using (FileStream sourceStream = new FileStream (finalpath, FileMode.Open, FileAccess.Read)) {																
+				sourceStream.CopyTo (outgoingBody, 4096);		
+			}
+		}
+
 		protected override bool Process (IInteraction uncastParameters)
 		{
 			IHttpInteraction parameters;
@@ -80,8 +87,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 			if (mimeTypes.TryGetString(extension, out mimeType) || optionalMimetypes) {
 				if (sourcefile.Exists) {
-					FileStream sourceStream = new FileStream (finalpath, FileMode.Open, FileAccess.Read);
-										
 					if (parameters.HasWriter ()) {
 						parameters.GetOutgoingBodyWriter ().Flush ();
 					} else {
@@ -89,12 +94,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 						// parameters.ResponseHeaders.ContentLength = sourceStream.Length;
 					}
 
-					Secretary.Report (5, 
-					                  "Fileserve:", sourcefile.Name, 
-					                  "Size:", sourcefile.Length.ToString(), 
-					                  "MIME:", mimeType);
-
-					sourceStream.CopyTo (parameters.OutgoingBody, 4096);										
+					sendFileToStream (finalpath, parameters.OutgoingBody);
 				} else {
 					parameters.StatusCode = 404;
 					notFoundBranch.TryProcess(uncastParameters);
