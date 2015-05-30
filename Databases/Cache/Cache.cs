@@ -29,7 +29,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			if (e.Name == "begin")
 				begin = e.NewValue;
 		}
-
+	
 		protected override bool Process (IInteraction parameters)
 		{
 			bool success = true;
@@ -56,8 +56,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 				}
 			} 
 
-			if (isStringCache)
+			if (isStringCache) {
 				upstreamTarget.GetOutgoingBodyWriter ().Write (stringData);
+				upstreamTarget.GetOutgoingBodyWriter ().Flush ();
+			}
+				
 			else 
 				upstreamTarget.OutgoingBody.Write (binaryData, 0, binaryData.Length);
 
