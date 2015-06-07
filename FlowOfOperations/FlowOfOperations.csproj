@@ -42,10 +42,6 @@
     <Compile Include="Module\JumpInteraction.cs" />
     <Compile Include="Module\Module.cs" />
     <Compile Include="Module\Return.cs" />
-    <Compile Include="Relay\Relay.cs" />
-    <Compile Include="Relay\RelayEntry.cs" />
-    <Compile Include="Relay\RelayExit.cs" />
-    <Compile Include="Relay\RelayInteraction.cs" />
     <Compile Include="InitOnce.cs" />
     <Compile Include="Fork.cs" />
     <Compile Include="Module\JumpException.cs" />
@@ -53,7 +49,6 @@
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Module\" />
-    <Folder Include="Relay\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">
