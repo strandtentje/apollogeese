@@ -304,6 +304,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			return GetResultsToBranches(parameters) && successful.TryProcess (parameters);
 		}
 
+		internal bool ProcessDiscretely(IInteraction parameters) {
+			return Process (parameters);
+		}
+
 		public override void Dispose ()
 		{
 			base.Dispose ();
