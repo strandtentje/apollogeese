@@ -39,6 +39,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		protected override bool Process (IInteraction parameters)
 		{
 			Illegal ();
+			return true;
 		}
 	}
 }
