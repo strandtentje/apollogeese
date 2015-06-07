@@ -65,6 +65,7 @@
     <Compile Include="Databases\QueryException.cs" />
     <Compile Include="Credentials\CredentialsStore.cs" />
     <Compile Include="Credentials\Remember.cs" />
+    <Compile Include="Databases\SQL.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
