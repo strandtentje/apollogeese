@@ -21,9 +21,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			}
 		}
 
+		void Illegal() {
+			throw new Exception (string.Format("{0} isn't meant for this :(", this.GetType().Name));
+		}
+
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
-			throw new Exception ("Credential storage isn't meant for this :(");
+			Illegal ();
 		}
 
 		protected override void Initialize (Settings modSettings)
@@ -34,7 +38,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 
 		protected override bool Process (IInteraction parameters)
 		{
-			throw new Exception ("Credential storage isn't meant for this either ::((");
+			Illegal ();
 		}
 	}
 }
