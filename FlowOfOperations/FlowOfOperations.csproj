@@ -7,7 +7,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{FF10A427-5CC9-4C4F-8AAA-FE6D65D66AE7}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>FlowOfOperations</RootNamespace>
+    <RootNamespace>BorrehSoft.ApolloGeese.Extensions.FlowOfOperations</RootNamespace>
     <AssemblyName>FlowOfOperations</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -45,10 +45,18 @@
     <Compile Include="InitOnce.cs" />
     <Compile Include="Fork.cs" />
     <Compile Include="Module\JumpException.cs" />
+    <Compile Include="OverSocket\ReachOut.cs" />
+    <Compile Include="OverSocket\Symbol.cs" />
+    <Compile Include="OverSocket\Pipe.cs" />
+    <Compile Include="OverSocket\ReachIn.cs" />
+    <Compile Include="OverSocket\ListenerWithEvents.cs" />
+    <Compile Include="OverSocket\NewClientEvent.cs" />
+    <Compile Include="OverSocket\ReachInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Module\" />
+    <Folder Include="OverSocket\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">

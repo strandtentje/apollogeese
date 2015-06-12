@@ -57,6 +57,7 @@
     <Compile Include="ConfigurationException.cs" />
     <Compile Include="QuickIncomingInteraction.cs" />
     <Compile Include="QuickOutgoingInteraction.cs" />
+    <Compile Include="UnclonableException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
