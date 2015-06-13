@@ -4,14 +4,15 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Net.Sockets;
+using System.Reflection;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {
 	class ReachInteraction : IInteraction
 	{
-		private Pipe pipe;
+		private Pipe<Command> pipe;
 	
-		public ReachInteraction (Pipe pipe)
+		public ReachInteraction (Pipe<Command> pipe)
 		{
 			this.pipe = pipe;
 		}
@@ -38,23 +39,47 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 			throw new UnclonableException ();
 		}
 
-		bool TryGetString(string id, out string luggage) {
-			this.pipe.Has(
+		bool GetTypenameTryString(string id, out string luggage, out string typename) {
+			pipe.SendCommand (Command.Type);
+			pipe.SendString (id);
+			typename = pipe.ReceiveString ();
+
+			if (typename == typeof(string).Name) {
+				pipe.SendCommand (Command.String);
+				pipe.SendString (id);
+				luggage = pipe.ReceiveString ();
+				return true;
+			} else {
+				luggage = "";
+				return false;
+			}
 		}
 
-		/// <summary>
-		/// Tries to get an object from the luggage
-		/// </summary>
-		/// <returns>
-		/// Ttrue if acquisition of object has succeeded
-		/// </returns>
-		/// <param name='id'>
-		/// The name of the object in the luggage
-		/// </param>
-		/// <param name='luggage'>
-		/// The variable into which the object will be loaded
-		/// </param>
-		bool TryGetValue(string id, out object luggage);
+		object GetValue(string id, string typename) {
+			Type targetType = Type.GetType (typename);
+
+			MethodInfo parseMethod = targetType.GetMethod ("Parse", BindingFlags.Static);
+
+			pipe.SendCommand (Command.Compose);
+			pipe.SendString (id);
+
+			return parseMethod.Invoke (null, pipe.ReceiveString ());
+		}
+
+		bool TryGetString(string id, out string luggage) {
+			string butt;
+			return GetTypenameTryString (id, out luggage, out butt);
+		}
+
+		bool TryGetValue(string id, out object luggage) {
+			string typename;
+
+			if (!GetTypenameTryString (id, out luggage, out typename)) {
+
+
+				luggage = GetValue (id, typename);
+			}
+		}
 
 		/// <summary>
 		/// Gets or sets the value with the specified name.
@@ -62,7 +87,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		/// <param name='name'>
 		/// Name.
 		/// </param>
-		object this [string name] { get; set; }
+		object this [string name] { 
+			get {
+				object result;
+				if (TryGetValue (name, out result)) {
+					return result;
+				} else {
+					return null;
+				}
+			}
+		}
 
 		/// <summary>
 		/// Same as TryGetFallback, but only succeeds if string is found.

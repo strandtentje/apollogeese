@@ -45,7 +45,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		{
 			TcpClient connector = new TcpClient (RemoteIp, RemotePort);
 
-			Pipe informationExchange = new Pipe (connector.Client);
+			Pipe<Command> informationExchange = new Pipe<Command> (connector.Client);
 
 			informationExchange.BeginWait (GetInformationByName, parameters);
 
