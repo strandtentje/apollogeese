@@ -80,7 +80,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// <param name='name'>
 		/// Name.
 		/// </param>
-		object this [string name] { get; set; }
+		object this [string name] { get; }
 
 		/// <summary>
 		/// Same as TryGetFallback, but only succeeds if string is found.
