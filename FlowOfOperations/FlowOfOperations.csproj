@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{FF10A427-5CC9-4C4F-8AAA-FE6D65D66AE7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese.Extensions.FlowOfOperations</RootNamespace>
@@ -52,6 +50,8 @@
     <Compile Include="OverSocket\ListenerWithEvents.cs" />
     <Compile Include="OverSocket\NewClientEvent.cs" />
     <Compile Include="OverSocket\ReachInteraction.cs" />
+    <Compile Include="OverSocket\PipeException.cs" />
+    <Compile Include="OverSocket\Command.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
