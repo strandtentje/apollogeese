@@ -40,6 +40,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		}
 
 		bool GetTypenameTryString(string id, out string luggage, out string typename) {
+			bool success = false;
+			luggage = "";
+
 			pipe.SendCommand (Command.Type);
 			pipe.SendString (id);
 			typename = pipe.ReceiveString ();
@@ -48,11 +51,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 				pipe.SendCommand (Command.String);
 				pipe.SendString (id);
 				luggage = pipe.ReceiveString ();
-				return true;
-			} else {
-				luggage = "";
-				return false;
+				success = true;
 			}
+
+			return success;
 		}
 
 		object GetValue(string id, string typename) {

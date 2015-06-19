@@ -2,7 +2,7 @@ using System;
 using System.Net.Sockets;
 using System.Net;
 
-namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
+namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Networking
 {
 	/// <summary>
 	/// New client event handler.

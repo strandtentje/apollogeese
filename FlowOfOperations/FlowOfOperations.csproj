@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese.Extensions.FlowOfOperations</RootNamespace>
     <AssemblyName>FlowOfOperations</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -44,19 +46,20 @@
     <Compile Include="Fork.cs" />
     <Compile Include="Module\JumpException.cs" />
     <Compile Include="OverSocket\ReachOut.cs" />
-    <Compile Include="OverSocket\Symbol.cs" />
-    <Compile Include="OverSocket\Pipe.cs" />
     <Compile Include="OverSocket\ReachIn.cs" />
-    <Compile Include="OverSocket\ListenerWithEvents.cs" />
-    <Compile Include="OverSocket\NewClientEvent.cs" />
     <Compile Include="OverSocket\ReachInteraction.cs" />
-    <Compile Include="OverSocket\PipeException.cs" />
     <Compile Include="OverSocket\Command.cs" />
+    <Compile Include="OverSocket\Piping\Pipe.cs" />
+    <Compile Include="OverSocket\Piping\PipeException.cs" />
+    <Compile Include="OverSocket\Piping\Symbol.cs" />
+    <Compile Include="OverSocket\Networking\ListenerWithEvents.cs" />
+    <Compile Include="OverSocket\Networking\NewClientEvent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Module\" />
     <Folder Include="OverSocket\" />
+    <Folder Include="OverSocket\Piping\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">

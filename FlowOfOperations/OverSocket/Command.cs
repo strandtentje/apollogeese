@@ -1,12 +1,13 @@
 ﻿using System;
 
-namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
+namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {
 	public enum Command
 	{
-		Type = 1,
-		String = 2,
-		Compose = 4,
-		Fallback = 8,
+		Type,
+		String,
+		Compose,
+		Fallback,
+		NoFallback
 	}
 }
