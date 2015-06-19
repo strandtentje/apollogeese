@@ -10,9 +10,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 namespace BorrehSoft.ApolloGeese.Duckling
 {
 	/// <summary>
-	/// A service that may resolve a http-request on it's own or 
-	/// be part of a series of services that involve with
-	/// resolving an http-request.
+	/// Abstract for service module implementing high level functionality.
 	/// </summary>
 	public abstract class Service : IDisposable
 	{
