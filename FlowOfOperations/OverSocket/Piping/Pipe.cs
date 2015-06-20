@@ -3,7 +3,7 @@ using System.Net.Sockets;
 using BorrehSoft.ApolloGeese.Duckling;
 using System.Text;
 
-namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
+namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
 {
 	/// <summary>
 	/// Pipe.
