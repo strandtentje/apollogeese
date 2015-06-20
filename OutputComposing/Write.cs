@@ -30,7 +30,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 		protected override bool Process (IInteraction parameters)
 		{
-			IHttpInteraction interaction = (IHttpInteraction)parameters.GetClosest (typeof(IHttpInteraction));
+			IOutgoingBodiedInteraction interaction = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
 
 			bool success = true;
 			string text; 
