@@ -44,8 +44,20 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 
 		protected override void Initialize (Settings modSettings)
 		{
-			hostname = (string)modSettings ["hostname"];
-			port = (int)modSettings ["port"];
+			if (modSettings.Has ("default")) {
+				string[] hostnamePortCombo = modSettings.GetString ("default").Split (':');
+
+				hostname = hostnamePortCombo [0];
+				if (hostnamePortCombo.Length > 1) {
+					port = int.Parse (hostnamePortCombo [1]);
+				} else {
+					port = 80;
+				}
+			} else {
+				hostname = (string)modSettings ["hostname"];
+				port = (int)modSettings ["port"];
+			}
+
 			if (modSettings.Has ("sessionid")) {
 				sessionid = modSettings.GetString ("sessionid");
 				useSesionid = true;
