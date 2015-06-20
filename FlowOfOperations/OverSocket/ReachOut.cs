@@ -5,6 +5,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 using System.Net.Sockets;
 using System.Threading;
 using System.Net;
+using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {
@@ -45,11 +46,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		{
 			TcpClient connector = new TcpClient (RemoteIp, RemotePort);
 
-			Pipe<Command> informationExchange = new Pipe<Command> (connector.Client);
+			Pipe informationExchange = new Pipe (connector.Client);
 
 			informationExchange.BeginWait (GetInformationByName, parameters);
 
 			connector.Close ();
+
+			return true;
+
 		}
 	}
 }

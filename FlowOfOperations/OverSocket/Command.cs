@@ -2,12 +2,11 @@
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {
-	public enum Command
+	public class Command
 	{
-		Type,
-		String,
-		Compose,
-		Fallback,
-		NoFallback
+		public const int Type = 1;
+		public const int String = 2;
+		public const int Compose = 4;
+		public const int Fallback = 8;
 	}
 }

@@ -8,7 +8,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
 	/// <summary>
 	/// Pipe.
 	/// </summary>
-	public class Pipe<T> where T : Enum
+	public class Pipe
 	{
 		/// <summary>
 		/// Information source delegate.
@@ -50,7 +50,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
 		void AwaitSymbol(Symbol symbol) 
 		{
 			byte[] buffer = new byte[1];
-			Socket.Receive (buffer, 1);
+			Socket.Receive (buffer, 1, SocketFlags.None);
 
 			byte incoming = buffer [0];
 
@@ -103,9 +103,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
 		/// Sends the command.
 		/// </summary>
 		/// <param name="command">Command.</param>
-		public void SendCommand(T command) {
+		public void SendCommand(int command) {
 			SendSymbol (Symbol.Command);
-			SendString (command.ToString ());
+			SendInt (command);
 		}
 
 		/// <summary>
@@ -115,7 +115,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
 		public int ReceiveInt() {
 			AwaitSymbol (Symbol.Int);
 			byte[] buffer = new byte[sizeof(int)];
-			Socket.Receive (buffer, 4);
+			Socket.Receive (buffer, 4, SocketFlags.None);
 			return BitConverter.ToInt32 (buffer, 0);
 		}
 
@@ -126,7 +126,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
 		public string ReceiveString() {
 			AwaitSymbol (Symbol.String);
 			byte[] buffer = new byte[ReceiveInt ()];
-			Socket.Receive (buffer, buffer.Length);
+			Socket.Receive (buffer, buffer.Length, SocketFlags.None);
 			return Encoding.Unicode.GetString (buffer);
 		}
 
@@ -134,10 +134,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
 		/// Receives a command.
 		/// </summary>
 		/// <returns>The command.</returns>
-		public T ReceiveCommand() {
+		public int ReceiveCommand() {
 			AwaitSymbol (Symbol.Command);
-			T result = Enum.Parse (typeof(T), ReceiveString);
-			return result;
+			return ReceiveInt ();
 		}
 	}
 }

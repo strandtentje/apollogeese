@@ -5,14 +5,15 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Net.Sockets;
 using System.Reflection;
+using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {
 	class ReachInteraction : IInteraction
 	{
-		private Pipe<Command> pipe;
+		private Pipe pipe;
 	
-		public ReachInteraction (Pipe<Command> pipe)
+		public ReachInteraction (Pipe pipe)
 		{
 			this.pipe = pipe;
 		}
@@ -22,24 +23,27 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		public IInteraction Parent { get { return null; } }
 
 		public IInteraction GetClosest(Type t) {
-			if (t.Equals (this.GetType ())) {
-				return this;
-			}
-		}
+			IInteraction closest = null;
 
-		bool TryGetClosest (Type t, out IInteraction closest) {
 			if (t.Equals (this.GetType ())) {
 				closest = this;
-				return true;
-			}
-			return false;
+			} 
+
+			return closest;
 		}
 
-		IInteraction Clone(IInteraction parent) {
+		public bool TryGetClosest (Type t, out IInteraction closest) {
+			bool success = t.Equals (this.GetType ());
+			closest = (success ? this : null);
+
+			return success;
+		}
+
+		public IInteraction Clone(IInteraction parent) {
 			throw new UnclonableException ();
 		}
 
-		bool GetTypenameTryString(string id, out string luggage, out string typename) {
+		public bool GetTypenameTryString(string id, out string luggage, out string typename) {
 			bool success = false;
 			luggage = "";
 
@@ -57,7 +61,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 			return success;
 		}
 
-		object GetValue(string id, string typename) {
+		public object GetValue(string id, string typename) {
 			Type targetType = Type.GetType (typename);
 
 			MethodInfo parseMethod = targetType.GetMethod ("Parse", BindingFlags.Static);
@@ -65,22 +69,31 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 			pipe.SendCommand (Command.Compose);
 			pipe.SendString (id);
 
-			return parseMethod.Invoke (null, pipe.ReceiveString ());
+			return parseMethod.Invoke (null, new object[] { pipe.ReceiveString () });
 		}
 
-		bool TryGetString(string id, out string luggage) {
+		public bool TryGetString(string id, out string luggage) {
 			string butt;
 			return GetTypenameTryString (id, out luggage, out butt);
 		}
 
-		bool TryGetValue(string id, out object luggage) {
+		public bool TryGetValue(string id, out object luggage) {
+			bool success = true;
 			string typename;
+			string luggageText;
 
-			if (!GetTypenameTryString (id, out luggage, out typename)) {
-
-
-				luggage = GetValue (id, typename);
+			if (GetTypenameTryString (id, out luggageText, out typename)) {
+				luggage = luggageText;
+			} else {
+				if (typename == "[nothing]") {
+					luggage = null;
+					success = false;
+				} else {
+					luggage = GetValue (id, typename);
+				}
 			}
+
+			return success;
 		}
 
 		/// <summary>
@@ -89,7 +102,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		/// <param name='name'>
 		/// Name.
 		/// </param>
-		object this [string name] { 
+		public object this [string name] { 
 			get {
 				object result;
 				if (TryGetValue (name, out result)) {
@@ -106,7 +119,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		/// <returns><c>true</c>, if get fallback string was tryed, <c>false</c> otherwise.</returns>
 		/// <param name="id">Identifier.</param>
 		/// <param name="luggage">Luggage.</param>
-		bool TryGetFallbackString(string id, out string luggage);
+		public bool TryGetFallbackString(string id, out string luggage) {
+			luggage = null;
+			return false;
+		}
 
 		/// <summary>
 		/// Scans from here to ancestors for data at specified name. Returns false if nothing found.
@@ -114,6 +130,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		/// <returns><c>true</c>, if get fallback was tryed, <c>false</c> otherwise.</returns>
 		/// <param name="id">Identifier.</param>
 		/// <param name="luggage">Luggage.</param>
-		bool TryGetFallback (string id, out object luggage);
+		public bool TryGetFallback (string id, out object luggage) {
+			luggage = null;
+			return false;
+		}
+		 
 	}
 }
