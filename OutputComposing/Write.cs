@@ -20,7 +20,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		protected override void Initialize (Settings modSettings)
 		{
 			VariableName = modSettings.GetString("variablename", "");
-			Format = modSettings.GetString("format", "{0}");
+
+			if (modSettings.Has ("default")) {
+				Format = modSettings.GetString ("default");
+			} else {
+				Format = modSettings.GetString ("format", "{0}");
+			}
 		}
 
 		protected override bool Process (IInteraction parameters)
