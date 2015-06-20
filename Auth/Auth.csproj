@@ -41,6 +41,7 @@
     <Compile Include="BasicSingleLogin.cs" />
     <Compile Include="Sessionizer.cs" />
     <Compile Include="SessionException.cs" />
+    <Compile Include="SessionInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

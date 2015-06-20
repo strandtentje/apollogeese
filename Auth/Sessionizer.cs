@@ -91,9 +91,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 				// gloBALLY UNIQUE IDENTIFIER now hand me my tinfoil hat.
 			}
 
-			parameters [cookieName] = givenCookie;
-
-			return Http.TryProcess(uncastParameters);
+			return Http.TryProcess(new SessionInteraction(uncastParameters, cookieName, givenCookie));
 		}
 	}
 }
