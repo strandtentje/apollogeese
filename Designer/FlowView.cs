@@ -91,9 +91,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Designer
 				success &= SiblingIterator.TryProcess(siblings);
 			}
 
-			parameters["siblings"] = siblings.GetFinished();
+			QuickInteraction finishedSiblings = new QuickInteraction (parameters);
+			finishedSiblings ["siblings"] = siblings.GetFinished ();
 
-			return VisualizeBlock(Model, parameters);
+			return VisualizeBlock(Model, finishedSiblings);
 		}
 	}
 }
