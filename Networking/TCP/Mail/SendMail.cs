@@ -8,6 +8,9 @@ using System.Collections.Generic;
 
 namespace Networking
 {
+	/// <summary>
+	/// Send mail.
+	/// </summary>
 	public class SendMail : Service
 	{
 		IEnumerable<string> mailServers;
@@ -52,7 +55,8 @@ namespace Networking
 		protected override bool Process (IInteraction parameters)
 		{
 			// prepare composing interaction
-			EmailInteraction composeInteraction = new EmailInteraction (parameters, bodytypename, sender, recepient, subject, replyto);
+			EmailInteraction composeInteraction = new EmailInteraction (
+				parameters, bodytypename, sender, recepient, subject, replyto);
 
 			// start composing
 			bool success = body.TryProcess (composeInteraction);
