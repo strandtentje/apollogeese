@@ -43,6 +43,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				writer.WriteLine (string.Format(Format, text));
 			}
 
+			writer.Flush ();
+
 			return success;
 		}
 	}
