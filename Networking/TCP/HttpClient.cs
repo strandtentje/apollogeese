@@ -95,8 +95,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 
 				// Preserve CookieContainer here!
 
-				if (useSesionid)
-					PreserveCookies (webRequest, (string)parameters [sessionid]);
+				if (useSesionid) {
+					string keeperid = "";
+					if (parameters.TryGetString (sessionid, out keeperid)) {
+						PreserveCookies (webRequest, keeperid);
+					} else {
+						throw new Exception (string.Format("No {0} found in context", sessionid));
+					}
+				}
 
 				if (hasPostBuilder) {
 					webRequest.Method = "POST";
