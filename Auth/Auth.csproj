@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{7D645A0A-7F18-408A-9D4A-EC98F2FC374D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Auth</RootNamespace>
@@ -42,6 +40,7 @@
     <Compile Include="Sessionizer.cs" />
     <Compile Include="SessionException.cs" />
     <Compile Include="SessionInteraction.cs" />
+    <Compile Include="BCrypt.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
