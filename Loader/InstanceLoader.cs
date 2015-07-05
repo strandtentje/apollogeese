@@ -54,8 +54,13 @@ namespace BorrehSoft.ApolloGeese.Loader
 		/// <param name="loadPlugins">If set to <c>true</c> load plugins.</param>
 		private static CachedInstances GetNewInstances(FileInfo info, bool loadPlugins)
 		{
+			Complinker complinker = new Complinker (info.FullName);
+
+			if (loadPlugins)
+				complinker.LoadPlugins ();
+
 			return new CachedInstances (
-				(new Complinker (info.FullName, loadPlugins)).GetInstances (),
+				complinker.GetInstances (),
 				info.LastWriteTime);
 		}
 	}

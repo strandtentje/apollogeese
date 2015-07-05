@@ -6,6 +6,7 @@ using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Log;
+using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Loader
 {
@@ -40,10 +41,22 @@ namespace BorrehSoft.ApolloGeese.Loader
 		public Complinker(string config, bool loadPlugins = false)
 		{
 			Configuration = Settings.FromFile (config);	
+		}
 
-			if (loadPlugins) {
-				foreach (object pluInFileObj in (Configuration ["plugins"] as IEnumerable<object>))
-					AddPluginFile ((string)pluInFileObj);
+		public void LoadPlugins ()
+		{
+			IEnumerable<object> pluginPathObjects = (Configuration ["plugins"] as IEnumerable<object>);
+
+			foreach (object pluginPathObject in pluginPathObjects) {
+				string pluginPath = (string)pluginPathObject;
+
+				if (Directory.Exists (pluginPath)) {
+					ScanDirectoryForPlugins (pluginPath);
+				} else if (File.Exists (pluginPath)) {
+					AddPluginFile (pluginPath);
+				} else {
+					Secretary.Report (4, "Path", pluginPath, "was not a file or a folder");
+				}
 			}
 		}
 
@@ -72,6 +85,27 @@ namespace BorrehSoft.ApolloGeese.Loader
 		public static void AddPluginFile (string str)
 		{
 			plugins.AddFile (str);
+		}
+
+		/// <summary>
+		/// Scans the directory for plugins.
+		/// </summary>
+		/// <param name="pluginDirectoryPath">Plugin directory path.</param>
+		void ScanDirectoryForPlugins (string pluginDirectoryPath)
+		{
+			IEnumerable<string> candidateDlls;
+			candidateDlls = Directory.GetFiles (
+				pluginDirectoryPath, "*.dll", SearchOption.TopDirectoryOnly);
+
+			foreach (string candidateDll in candidateDlls) {
+				try {
+					AddPluginFile(candidateDll);
+				} catch(Exception ex) {
+					Secretary.Report (4, 
+						"Failed to access file in directory:", candidateDll, 
+						"due to", ex.Message, ". Continuing with next file.");
+				}
+			}
 		}
 
 		/// <summary>
