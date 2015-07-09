@@ -115,5 +115,9 @@
       <Project>{D7D1C556-3224-4410-90E6-EB44DF551FEA}</Project>
       <Name>Loader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Testing\Testing.csproj">
+      <Project>{7B1BAD3C-775E-4481-804C-1EB9479AFFF4}</Project>
+      <Name>Testing</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
