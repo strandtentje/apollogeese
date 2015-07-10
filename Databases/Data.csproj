@@ -66,6 +66,7 @@
     <Compile Include="Credentials\CredentialsStore.cs" />
     <Compile Include="Credentials\Remember.cs" />
     <Compile Include="Databases\SQL.cs" />
+    <Compile Include="Cache\NamedCache.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
