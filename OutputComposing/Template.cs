@@ -42,7 +42,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		/// </summary>
 		/// <value>The title of this page</value>
 		public override string Description {
-			get { return (title ?? "").Length == 0 ? templateFile ?? "[FILE NOT SET]" : title; }
+			get { return templateFile; }
 		}
 
 		protected override void Initialize (Settings modSettings)
