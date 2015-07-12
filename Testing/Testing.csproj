@@ -34,11 +34,13 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestCase.cs" />
-    <Compile Include="TestContext.cs" />
-    <Compile Include="IncomingTestData.cs" />
-    <Compile Include="OutgoingDataVerification.cs" />
-    <Compile Include="FileDiffInteraction.cs" />
-    <Compile Include="ProbeResult.cs" />
+    <Compile Include="TestContextInteraction.cs" />
+    <Compile Include="Diff\DifferenceInteraction.cs" />
+    <Compile Include="Diff\DiffFinder.cs" />
+    <Compile Include="Probing\TestProbe.cs" />
+    <Compile Include="Probing\ProbeResultInteraction.cs" />
+    <Compile Include="StreamTests\IncomingTestData.cs" />
+    <Compile Include="StreamTests\OutgoingTestableData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -50,5 +52,10 @@
       <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
       <Name>Utensils</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Diff\" />
+    <Folder Include="Probing\" />
+    <Folder Include="StreamTests\" />
   </ItemGroup>
 </Project>

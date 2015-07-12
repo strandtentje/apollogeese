@@ -6,9 +6,9 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace Testing
 {
-	class OutgoingDataVerification : QuickOutgoingInteraction, IDisposable
+	class OutgoingTestableData : QuickOutgoingInteraction, IDisposable
 	{
-		public OutgoingDataVerification(IInteraction parent) : base(new MemoryStream(), parent)
+		public OutgoingTestableData(IInteraction parent) : base(new MemoryStream(), parent)
 		{
 
 		}

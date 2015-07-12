@@ -2,14 +2,20 @@ using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
+using System.Collections.Generic;
 
 namespace Testing
 {
 	/// <summary>
 	/// Test context.
 	/// </summary>
-	class TestContext : QuickInteraction
+	class TestContextInteraction : QuickInteraction
 	{
+		public List<ProbeResultInteraction> ProbeResults {
+			get;
+			private set;
+		}
+
 		/// <summary>
 		/// Gets the name of the originating case.
 		/// </summary>
@@ -19,8 +25,9 @@ namespace Testing
 			private set;
 		}
 		 
-		public TestContext (string name, Settings availableContext) : base(null, availableContext)
+		public TestContextInteraction (string name, Settings availableContext) : base(null, availableContext)
 		{
+			this.ProbeResults = new List<ProbeResultInteraction> ();
 			this.OriginatingCaseName = name;
 		}
 	}

@@ -18,128 +18,91 @@ namespace Testing
 		/// Gets or sets the name.
 		/// </summary>
 		/// <value>The name.</value>
-		string Name { get; set; }
-
-		/// <summary>
-		/// Gets or sets the diff tool command.
-		/// </summary>
-		/// <value>The diff tool command.</value>
-		string DiffToolCommand { get; set; }
+		string Name { get { return (string)this.Settings.Get ("default", this.Settings.GetString("name")); } }
 
 		/// <summary>
 		/// Gets or sets the available context.
 		/// </summary>
 		/// <value>The available context.</value>
-		Settings AvailableContext { get; set; }
-
-		/// <summary>
-		/// Gets or sets the test subject.
-		/// </summary>
-		/// <value>The test subject.</value>
-		Service TestSubject { get; set;	}
-
-		/// <summary>
-		/// Gets or sets the outgoing diff viewer.
-		/// </summary>
-		/// <value>The outgoing diff viewer.</value>
-		Service OutgoingDiffViewer { get; set; }
-
-		/// <summary>
-		/// Gets or sets the probe result viewer.
-		/// </summary>
-		/// <value>The probe result viewer.</value>
-		Service ProbeResultViewer { get; set; }
+		Settings AvailableContext { get { return this.Settings.GetSubsettings ("availablecontext"); } }
 
 		/// <summary>
 		/// Gets or sets a value indicating whether this instance has ingoing data.
 		/// </summary>
 		/// <value><c>true</c> if this instance has ingoing data; otherwise, <c>false</c>.</value>
-		bool HasIngoingData { get; set; }
+		bool HasIngoingData { get { return this.Settings.Has ("ingoingfile"); } }
 
 		/// <summary>
 		/// Gets or sets the ingoing data file.
 		/// </summary>
 		/// <value>The ingoing data file.</value>
-		string IngoingDataFile { get; set; }
+		string IngoingDataFile { get { return this.Settings.GetString ("ingoingfile"); } }
+				
+		/// <summary>
+		/// Gets or sets the test subject.
+		/// </summary>
+		/// <value>The test subject.</value>
+		Service TestSubject { get { return Branches ["subject"]; } }
 
 		/// <summary>
-		/// Gets or sets a value indicating whether this instance has outgoing test data.
+		/// Gets or sets the outgoing diff viewer.
 		/// </summary>
-		/// <value><c>true</c> if this instance has outgoing test data; otherwise, <c>false</c>.</value>
-		bool HasOutgoingDataVerification { get; set; }
+		/// <value>The outgoing diff viewer.</value>
+		Service OutgoingDataViewer { get { return Branches ["viewoutgoingdata"]; } }
+		
+		bool HasOutgoingDataViewer { get { return (this.Branches ["viewoutgoingdata"] ?? Stub) != Stub; } }
 
 		/// <summary>
-		/// Gets or sets the outgoing data verification file.
+		/// Gets or sets the probe result viewer.
 		/// </summary>
-		/// <value>The outgoing data verification file.</value>
-		string OutgoingDataVerificationFile { get; set; }
+		/// <value>The probe result viewer.</value>
+		Service MatchingProbeResultViewer { get { return Branches ["viewmatchingproberesult"]; } }
 
-		protected override void Initialize (Settings modSettings)
-		{
-			this.Name = modSettings.GetString ("name");
-			this.AvailableContext = modSettings.GetSubsettings ("availablecontext");
-			this.DiffToolCommand = modSettings.GetString ("difftoolcommand", "diff");
-
-			this.HasIngoingData = modSettings.Has ("ingoingdatafile");
-			this.HasOutgoingDataVerification = modSettings.Has ("outgoingtestfile");
-
-			if (HasIngoingData)
-				this.IngoingDataFile = (string)modSettings ["ingoingfile"];
-
-			if (HasOutgoingDataVerification)
-				this.OutgoingDataVerificationFile = (string)modSettings ["outverificationfile"];
-		}
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "subject") {
-				this.TestSubject = e.NewValue;
-			}
-
-			if (e.Name == "viewoutgoingdiff") {
-				this.OutgoingDiffViewer = e.NewValue;
-			}
-
-			if (e.Name == "viewproberesult") {
-				this.ProbeResultViewer = e.NewValue;
-			}
-		}
+		/// <summary>
+		/// Gets or sets the mismatching probe result viewer.
+		/// </summary>
+		/// <value>The mismatching probe result viewer.</value>
+		Service MismatchingProbeResultViewer { get { return Branches ["viewmismatchingproberesult"]; } }
 
 		protected override bool Process (IInteraction parameters)
 		{
-			TestContext testContext = new TestContext (this.Name, this.AvailableContext);
-			IncomingTestData testInput;
-			OutgoingDataVerification testOutput;
+			TestContextInteraction testContext = null;
+			IncomingTestData testInput = null;
+			OutgoingTestableData testOutput = null;
+			IInteraction testBundle;
+			bool success;
+
+			testBundle = testContext = new TestContextInteraction (this.Name, this.AvailableContext);
 
 			if (HasIngoingData)
-				testInput = new IncomingTestData (this.IngoingDataFile, testContext);
+				testBundle = testInput = new IncomingTestData (this.IngoingDataFile, testBundle);
 
-			if (HasOutgoingDataVerification)
-				testOutput = new OutgoingDataVerification (testInput ?? testContext);
+			if (HasOutgoingDataViewer)
+				testBundle = testOutput = new OutgoingTestableData (testBundle);
 
-			IInteraction testBundle = testOutput ?? testInput ?? testContext;
-
-			bool success = this.TestSubject.TryProcess (testBundle);
-			bool outgoingMatch = true;
+			success = this.TestSubject.TryProcess (testBundle);
 
 			if (HasIngoingData)
 				testInput.Dispose ();
 
-			if (HasOutgoingDataVerification) {
-				FileDiffInteraction diffInteraction = new FileDiffInteraction (
-					this.DiffToolCommand,
-					this.OutgoingDataVerificationFile,
-					testOutput.GetProduct ());
+			if (HasOutgoingDataViewer) {
+				// obscure name of the year award goes to
+				IInteraction incomingInteractionWithOutgoingData;
+				incomingInteractionWithOutgoingData = new QuickIncomingInteraction (testOutput.GetProduct (), parameters);
 
-				success &= this.OutgoingDiffViewer.TryProcess (diffInteraction);
+				success &= this.OutgoingDataViewer.TryProcess (incomingInteractionWithOutgoingData);
 
-				diffInteraction.Dispose ();
 				testOutput.Dispose ();
 			}
 
-			foreach (ProbeResult result in testContext.ProbeResults) {
-
+			foreach (ProbeResultInteraction result in testContext.ProbeResults) {
+				if (result.IsMatch) 
+					success &= this.MatchingProbeResultViewer.TryProcess (result);
+				else 
+					success &= this.MismatchingProbeResultViewer.TryProcess (result);
 			}
+
+			return success;
 		}
 	}
 }
