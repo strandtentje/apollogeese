@@ -1,4 +1,5 @@
 using System;
+using System.Reflection;
 using System.IO;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Maps;
@@ -15,6 +16,25 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	/// </summary>
 	public class Fileserver : Service
 	{
+		private static Settings allExtensions;
+
+		private static Settings ExtensionMimes {
+			get {
+				if (allExtensions == null) {
+					string binLocation = Assembly.GetAssembly (typeof(Fileserver)).Location;
+					string folder = (new FileInfo (binLocation)).DirectoryName;
+					string extensionFile = Path.Combine (folder, "mimetypes.clon");
+					if (File.Exists (extensionFile)) {
+						allExtensions = Settings.FromFile (extensionFile);
+					} else {
+						allExtensions = new Settings ();
+					}
+				}
+
+				return allExtensions;
+			}
+		}
+
 		public Fileserver ()
 		{
 		}
@@ -43,16 +63,38 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		{
 			mimeTypes = new Settings ();
 
-			if (modSettings.Has ("allowedmimetypes")) {
-				mimeTypes = modSettings["allowedmimetypes"] as Settings ?? new Settings();
-			} else {
-				foreach (string key in modSettings.Dictionary.Keys) 
-					if (key.StartsWith ("dot_"))				
-						mimeTypes [key.Substring (4)] = modSettings.GetString (key, "");
-			}
+			if (modSettings.Has ("default")) {
+				string[] initStrings = modSettings.GetString ("default").Split('|');
 
-			rootPath = modSettings.GetString("rootpath", ".");
-			optionalMimetypes = modSettings.GetBool("optionalmimetypes", false);
+				rootPath = initStrings [0];
+
+				if (initStrings.Length > 1) {
+					optionalMimetypes = false;
+
+					string[] allowedExtensions = initStrings [1].Split (',');
+
+					foreach (string extension in allowedExtensions) {
+						string dot_extension = string.Format ("dot_{0}", extension);
+
+						mimeTypes [extension] = ExtensionMimes.GetString (dot_extension, "application/octet-stream");
+					}
+				} else {
+					optionalMimetypes = true;
+
+					Secretary.Report (1, "Consider whitelisting extensions using |ext,ens,ion - notation");
+				}
+			} else {
+				if (modSettings.Has ("allowedmimetypes")) {
+					mimeTypes = modSettings["allowedmimetypes"] as Settings ?? new Settings();
+				} else {
+					foreach (string key in modSettings.Dictionary.Keys) 
+						if (key.StartsWith ("dot_"))				
+							mimeTypes [key.Substring (4)] = modSettings.GetString (key, "");
+				}
+
+				rootPath = modSettings.GetString("rootpath", ".");
+				optionalMimetypes = modSettings.GetBool("optionalmimetypes", false);
+			}
 
 			Branches["notfound"] = Stub;
 			Branches["badrequest"] = Stub;

@@ -59,4 +59,9 @@
       <Name>Http</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="mimetypes.clon">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>
