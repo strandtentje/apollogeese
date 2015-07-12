@@ -135,6 +135,12 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			return configuration;
 		}		
 
+		public Settings Settings {
+			get {
+				return configuration;
+			}
+		}
+
 		/// <summary>
 		/// Tries to Initialize and leaves the an InitErrorMessage set if applicable.
 		/// When no error is produced, the errormessage will remain blank.
@@ -248,7 +254,11 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// Initialize the Service with the specified settings
 		/// </summary>
 		/// <param name="modSettings">Mod settings.</param>
-		protected abstract void Initialize(Settings modSettings);
+		protected virtual void Initialize(Settings modSettings)
+		{
+
+		}
+
 		/// <summary>
 		/// Process the specified request and parameters; doesn't avert errors gracefully catch errors.
 		/// </summary>
