@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BasicHttpServer</RootNamespace>
     <AssemblyName>BasicHttpServer</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
