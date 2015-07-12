@@ -19,7 +19,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		AnyParser ValueParser;
 		AnyParser StringsParser;
 		AnyParser ExpressionParser;
-		AssignmentParser AssignmentParser;
+		StructAssignmentParser AssignmentParser;
 		IdentifierParser TypeIDParser;
 		ConcatenationParser ModconfParser;
 
@@ -46,7 +46,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		{
 			ConcatenationParser listParser = new ConcatenationParser (startArr, endArr, arrSe);
 
-			AssignmentParser = new AssignmentParser (couplerChar);
+			AssignmentParser = new StructAssignmentParser (regularCoupler: couplerChar);
 
 			ValueParser = new AnyParser (
 				new ValueParser<int> (int.TryParse), 
