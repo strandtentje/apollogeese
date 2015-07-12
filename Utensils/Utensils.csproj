@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>BorrehSoft.Utensils</RootNamespace>

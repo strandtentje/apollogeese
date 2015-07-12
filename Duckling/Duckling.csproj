@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese.Duckling</RootNamespace>

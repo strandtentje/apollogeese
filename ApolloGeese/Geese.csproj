@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">x86</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{C942E5BC-B6C5-4DF1-808C-71736F045B3D}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese</RootNamespace>

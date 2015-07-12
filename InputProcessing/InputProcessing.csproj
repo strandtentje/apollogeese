@@ -3,8 +3,6 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>10.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{D359A93F-705D-4C95-A2F9-C8FDEEE9C4D4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>InputProcessing</RootNamespace>

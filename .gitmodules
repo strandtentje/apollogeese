@@ -1,0 +1,3 @@
+[submodule "BCrypt"]
+	path = BCrypt
+	url = https://github.com/strandtentje/bcrypt-mono.git
