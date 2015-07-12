@@ -40,7 +40,7 @@
     <Compile Include="Sessionizer.cs" />
     <Compile Include="SessionException.cs" />
     <Compile Include="SessionInteraction.cs" />
-    <Compile Include="BCrypt.cs" />
+    <Compile Include="MakePassword.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
