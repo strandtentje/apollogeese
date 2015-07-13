@@ -50,6 +50,8 @@
     <Compile Include="VerificationInteraction.cs" />
     <Compile Include="BodyReader.cs" />
     <Compile Include="QueryReader.cs" />
+    <Compile Include="Compatibility\GetFieldReader.cs" />
+    <Compile Include="Compatibility\PostFieldReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -69,5 +71,8 @@
       <Project>{FC505C08-0BA6-46A0-90CE-147823D3F2A8}</Project>
       <Name>Http</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Compatibility\" />
   </ItemGroup>
 </Project>
