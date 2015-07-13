@@ -42,6 +42,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 		protected override bool Process (IInteraction parameters)
 		{
+			bool success = true;
 			IInteraction uncastParameters;
 			IHttpInteraction httpParameters = null;
 			string requestedPath = rootFilesystem;
@@ -67,22 +68,20 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 				foreach(DirectoryInfo info in requestedInfo.GetDirectories())
 				{				
 					itemInteraction.Assume(info);
-					directoryItem.TryProcess(itemInteraction);
+					success &= directoryItem.TryProcess(itemInteraction);
 				}
 
 				foreach(FileInfo info in requestedInfo.GetFiles())
 				{
 					itemInteraction.Assume(info);
-					fileItem.TryProcess(itemInteraction);
+					success &= fileItem.TryProcess(itemInteraction);
 				}
-
-				return true;
 			} else {
-				if (httpParameters != null) 
-					httpParameters.StatusCode = 404;
-				dirNotFound.TryProcess(httpParameters);
-				return false;
+				httpParameters.SetStatuscode (404);
+				success &= dirNotFound.TryProcess(httpParameters);
 			}
+
+			return success;
 		}
 	}
 }

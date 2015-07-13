@@ -35,6 +35,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -42,6 +43,8 @@
     <Compile Include="HttpInteraction.Request.cs" />
     <Compile Include="HttpInteraction.Response.cs" />
     <Compile Include="HttpService.cs" />
+    <Compile Include="HttpStatus.cs" />
+    <Compile Include="HttpMethod.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

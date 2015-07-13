@@ -57,7 +57,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 			if ((authHeader != null) && (authHeader.Length > 0) && (authHeader [0] == LoginString)) {
 				 successful &= Successful.TryProcess (parameters);
 			} else {
-				httpParameters.StatusCode = 401;
+				httpParameters.SetStatuscode (401);
 				httpParameters.ResponseHeaders.Backend.Add ("WWW-Authenticate", ResponseHeader);
 				successful &= Failure.TryProcess (parameters);
 			}

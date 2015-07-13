@@ -138,11 +138,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 					sendFileToStream (finalpath, parameters.OutgoingBody);
 				} else {
-					parameters.StatusCode = 404;
+					parameters.SetStatuscode (404);
 					notFoundBranch.TryProcess(uncastParameters);
 				}
 			} else {
-				parameters.StatusCode = 410;
+				parameters.SetStatuscode (410);
 				badRequestBranch.TryProcess(uncastParameters);
 			}
 

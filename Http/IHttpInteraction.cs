@@ -37,7 +37,7 @@ namespace BorrehSoft.ApolloGeese.Http
 		/// <value>
 		/// The status code.
 		/// </value>
-		int StatusCode { get; set; }
+		void SetStatuscode(int statuscode);
 
 		/// <summary>
 		/// Gets the response headers.
