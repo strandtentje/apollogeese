@@ -14,24 +14,24 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			}
 		}
 
-		static Dictionary<string, bool> whitelist = null;
+		static Dictionary<string, bool> cachedWhitelist = null;
 
 		private Dictionary<string, bool> Whitelist {
 			get {
-				if (whitelist == null) {
-					whitelist = new Dictionary<string, bool> ();
-					whitelist.Add ("GET", true);
-					whitelist.Add ("HEAD", true);
-					whitelist.Add ("POST", true);
-					whitelist.Add ("PUT", true);
-					whitelist.Add ("DELETE", true);
-					whitelist.Add ("TRACE", true);
-					whitelist.Add ("OPTIONS", true);
-					whitelist.Add ("CONNECT", true);
-					whitelist.Add ("PATCH", true);
+				if (cachedWhitelist == null) {
+					cachedWhitelist = new Dictionary<string, bool> ();
+					cachedWhitelist.Add ("GET", true);
+					cachedWhitelist.Add ("HEAD", true);
+					cachedWhitelist.Add ("POST", true);
+					cachedWhitelist.Add ("PUT", true);
+					cachedWhitelist.Add ("DELETE", true);
+					cachedWhitelist.Add ("TRACE", true);
+					cachedWhitelist.Add ("OPTIONS", true);
+					cachedWhitelist.Add ("CONNECT", true);
+					cachedWhitelist.Add ("PATCH", true);
 				}
 
-				return whitelist;
+				return cachedWhitelist;
 			}
 		}
 
@@ -40,7 +40,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
 			if (method.Length > 2) {
 				if (method.Length < 8) {
-					success = whitelist [method.ToUpper()];
+					success = Whitelist [method.ToUpper()];
 				}
 			}
 
@@ -60,8 +60,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			} else {
 				interaction.SetStatuscode (405);
 			}
-
-			Branches [interaction.RequestMethod.ToLower ()].TryProcess (parameters);
 
 			return success;
 		}

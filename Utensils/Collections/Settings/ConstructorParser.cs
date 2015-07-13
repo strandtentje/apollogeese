@@ -20,7 +20,7 @@ namespace BorrehSoft.Utensils
 			bool thereIsMore = true;
 
 			if (valueParser.ParseMethod (session, out defaultValue) > -1) {
-				target.Add (new Tuple<string, object> ("default", (string)defaultValue));
+				target.Add (new Tuple<string, object> ("default", defaultValue));
 				thereIsMore = (coupler.Run(session) > 0);
 			}
 
