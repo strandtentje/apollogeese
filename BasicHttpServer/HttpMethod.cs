@@ -8,6 +8,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {
 	public class HttpMethod : Service
 	{
+		public override string Description {
+			get {
+				return "HttpMethod brancher";
+			}
+		}
+
 		static Dictionary<string, bool> whitelist = null;
 
 		private Dictionary<string, bool> Whitelist {
@@ -56,6 +62,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			}
 
 			Branches [interaction.RequestMethod.ToLower ()].TryProcess (parameters);
+
+			return success;
 		}
 	}
 }
