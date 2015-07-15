@@ -14,15 +14,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		HttpListenerResponse _response;
 
 		/// <summary>
-		/// The stream to the client.
-		/// </summary>
-		Stream streamToClient;
-		/// <summary>
-		/// The buffer stream that holds up data until status code has been set.
-		/// </summary>
-		MemoryStream bufferStream = new MemoryStream();
-
-		/// <summary>
 		/// Gets or sets the response.
 		/// </summary>
 		/// <value>The response.</value>
@@ -31,7 +22,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			set {
 				_response = value;
 				_responseHeaders = new ResponseHeaders (value.Headers);
-				streamToClient = value.OutputStream;
 			}
 		}
 
@@ -41,21 +31,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		/// <value>The status code.</value>
 		/// <param name="statuscode">Statuscode.</param>
 		public void SetStatuscode(int statuscode) {
-			if (IsStatuscodeSet) {
-				throw new HttpException ("Statuscode can only be set once");
-			} else {
-				Response.StatusCode = statuscode;
-				IsStatuscodeSet = true;
 
-				if (HasWriter ()) {
-					GetOutgoingBodyWriter ().Flush ();
-					writer = null;
-				}
-
-				if (bufferStream.Position > 0) {
-					bufferStream.CopyTo (streamToClient);
-				}
-			}
 		}
 
 		public bool IsStatuscodeSet { get; private set; }
@@ -74,11 +50,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		/// <value>The outgoing body.</value>
 		public Stream OutgoingBody { 
 			get {
-				if (IsStatuscodeSet) {
-					return streamToClient;
-				} else {
-					return bufferStream;
-				}
+				return Response.OutputStream;
 			}
 		}
 
