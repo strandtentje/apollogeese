@@ -25,7 +25,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			if (modSettings.Has ("credset")) {
 				string credentialsName = (string)modSettings ["credset"];
 				Settings credentials;
-				credentials = CredentialsStore.CredentialsLookup [credentialsName];
+				credentials = CredentialsStore.InformationLookup [credentialsName];
 
 				string databaseType = (string)credentials ["dbtype"];
 

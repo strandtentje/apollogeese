@@ -19,7 +19,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.MySQL
 			string credsetName;
 
 			if (modSettings.TryGetString ("credset", out credsetName)) {
-				pickedSettings = CredentialsStore.CredentialsLookup [credsetName];
+				pickedSettings = CredentialsStore.InformationLookup [credsetName];
 			}
 
 			if (pickedSettings.Has ("connectionstring")) {

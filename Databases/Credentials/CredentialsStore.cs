@@ -13,7 +13,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 	/// </summary>
 	public class CredentialsStore : Service
 	{
-		public static Map<Settings> CredentialsLookup = new Map<Settings>();
+		public static Map<Settings> InformationLookup = new Map<Settings>();
 
 		public override string Description {
 			get {
@@ -33,7 +33,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		protected override void Initialize (Settings modSettings)
 		{
 			string credset = (string)modSettings ["credset"];
-			CredentialsLookup [credset] = modSettings;
+			InformationLookup [credset] = modSettings;
 		}
 
 		protected override bool Process (IInteraction parameters)
