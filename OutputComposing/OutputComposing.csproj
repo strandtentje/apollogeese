@@ -43,7 +43,7 @@
     <Compile Include="Write.cs" />
     <Compile Include="Formatter.cs" />
     <Compile Include="Format.cs" />
-    <Compile Include="LocalizedTemplate.cs" />
+    <Compile Include="Translation.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
