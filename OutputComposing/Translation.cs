@@ -42,8 +42,15 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 			IEnumerable<object> localizations = (IEnumerable<object>)modSettings ["locales"];
 
+			string filename;
+
+			if (modSettings.Has("default")) 
+				filename = (string)modSettings ["default"];
+			else
+				filename =  (string)modSettings["file"];
+
 			foreach (object localization in localizations) {
-				LoadLocalizedSubtemplate ((string)localization, modSettings, (string)modSettings["file"]);
+				LoadLocalizedSubtemplate ((string)localization, modSettings, filename);
 			}
 
 			string defaultLocale;
