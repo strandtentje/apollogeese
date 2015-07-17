@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Threading;
 using BorrehSoft.Utensils.Log;
+using System.Text;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 {
@@ -299,9 +300,38 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			return success;
 		}
 
+		private string GetSignature(INosyInteraction parameters) {
+			if (parameters.IncludeContext) {
+				StringBuilder signatureBuilder = new StringBuilder ();
+				object value;
+
+				signatureBuilder.AppendLine (queryFile);
+
+				foreach (string paramName in Connection.DefaultOrderedParameters) {
+					if (parameters.TryGetFallback (paramName, out value)) {
+						signatureBuilder.Append (paramName);
+						signatureBuilder.AppendLine (value.ToString ());
+					}
+				}
+
+				return signatureBuilder.ToString ();
+			} else {
+				return queryFile;
+			}
+		}
+
+
 		protected override bool Process (IInteraction parameters)
 		{
-			return GetResultsToBranches(parameters) && successful.TryProcess (parameters);
+			if (parameters is INosyInteraction) {
+				INosyInteraction interaction = (INosyInteraction)parameters;
+
+				interaction.Signature = GetSignature (interaction);
+
+				return true;
+			} else {
+				return GetResultsToBranches (parameters) && successful.TryProcess (parameters);
+			}
 		}
 
 		internal bool ProcessDiscretely(IInteraction parameters) {
