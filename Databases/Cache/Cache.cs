@@ -14,9 +14,28 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			}
 		}
 
+		TimeSpan cacheLifetime;
+		DateTime lastUpdate = DateTime.Now;
+
 		protected override void Initialize (Settings modSettings)
 		{
+			string lifetimeString = "";
+			bool hasLifetime = false;
 
+			if (modSettings.Has ("default")) {
+				lifetimeString = modSettings.GetString ("default");
+				hasLifetime = true;
+			} else if (modSettings.Has ("lifetime")) {
+				lifetimeString = modSettings.GetString ("default");
+				hasLifetime = true;
+			}
+
+			if (hasLifetime) {
+				cacheLifetime = TimeSpan.Parse (lifetimeString);
+			} else {
+				// that will take a while surely.
+				cacheLifetime = TimeSpan.MaxValue;
+			}
 		}
 
 		private Service begin;
@@ -36,6 +55,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			IOutgoingBodiedInteraction upstreamTarget;
 			upstreamTarget = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
 
+			if (DateTime.Now - lastUpdate > cacheLifetime) {
+				binaryData = null;
+				stringData = null;
+			}
+
 			if ((binaryData == null) && (stringData == null)) {
 				MemoryStream targetStream = new MemoryStream();
 				QuickOutgoingInteraction downstreamTarget = new QuickOutgoingInteraction (targetStream, parameters);
@@ -54,15 +78,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 					targetStream.Read (binaryData, 0, binaryData.Length);
 					targetStream.Dispose ();
 				}
+
+				lastUpdate = DateTime.Now;
 			} 
 
 			if (isStringCache) {
 				upstreamTarget.GetOutgoingBodyWriter ().Write (stringData);
 				upstreamTarget.GetOutgoingBodyWriter ().Flush ();
-			}
-				
-			else 
+			} else {
 				upstreamTarget.OutgoingBody.Write (binaryData, 0, binaryData.Length);
+			}
 
 			return success;
 		}
