@@ -9,8 +9,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 	/// <summary>
 	/// Named cache; has multiple caches by names. Useful when using the same Cache-instance for different but
 	/// not too many types of datastreams.
-	/// </summary>
 	public class NamedCache : Service
+	/// </summary>
 	{
 		public override string Description {
 			get {

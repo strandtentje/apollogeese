@@ -5,6 +5,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Log;
+using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
@@ -36,8 +37,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 		protected override void Initialize (Settings modSettings)
 		{
-			title = (string)modSettings ["title"];
-
 			LocalizationKey = modSettings.GetString ("localizationkey", "locale");
 
 			IEnumerable<object> localizations = (IEnumerable<object>)modSettings ["locales"];
@@ -48,6 +47,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				filename = (string)modSettings ["default"];
 			else
 				filename =  (string)modSettings["file"];
+
+
+			if (modSettings.Has ("title")) {
+				title = (string)modSettings ["title"];
+			} else { 
+				FileInfo fileInfo = new FileInfo (filename);
+				title = fileInfo.Name;
+			}
 
 			foreach (object localization in localizations) {
 				LoadLocalizedSubtemplate ((string)localization, modSettings, filename);
