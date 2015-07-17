@@ -18,7 +18,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 	/// </summary>
 	public class Template : Service
 	{
-		private Settings settings;
 		/// <summary>
 		/// Regex Matches that may be replaced
 		/// </summary>
@@ -61,10 +60,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			ChecksContextFirst = modSettings.GetBool ("contextfirst", false);
 			inacquirableFormat = modSettings.GetString("forwardfail", "");
 			unsuppliedFormat = modSettings.GetString("backwardfail",  "");
-			settings = modSettings;
 
 			if (WillCheckForTemplateUpdates)
-				CheckForTemplateUpdates();
+				LoadTemplateUpdates();
 			else
 				LoadTemplateAndRegisterReplacableSegments();
 
@@ -74,17 +72,25 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				WriteElement = WriteBranchFirst;
 		}
 
+		private bool HasTemplateUpdates(bool reset = true) {
+			FileInfo info = new FileInfo (templateFile);
+
+			if (LastTemplateUpdate != info.LastWriteTime) {
+				if (reset) 
+					LastTemplateUpdate = info.LastWriteTime;
+
+				return true;
+			}
+
+			return false;
+		}
+
 		/// <summary>
 		/// Checks for template updates.
 		/// </summary>
-		private void CheckForTemplateUpdates ()
+		private void LoadTemplateUpdates ()
 		{
-			FileInfo info = new FileInfo(templateFile);
-
-			if ((LastTemplateUpdate == null) || 
-			    (LastTemplateUpdate != info.LastWriteTime)) {
-
-				LastTemplateUpdate = info.LastWriteTime;
+			if (HasTemplateUpdates()) {
 				LoadTemplateAndRegisterReplacableSegments ();
 
 				Secretary.Report(5, "Template file was updated: ", templateFile);
@@ -147,55 +153,86 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			}				
 		}
 
-		protected override bool Process (IInteraction source)
-		{
-			IOutgoingBodiedInteraction target;
-			MimeType type;
-			int cursor = 0;
-			string groupName;
+		private string GetSignature(INosyInteraction nosyInteraction) {
+			if (nosyInteraction.IncludeContext) {
+				StringBuilder signatureBuilder = new StringBuilder ();
 
-			target = (IOutgoingBodiedInteraction)source.GetClosest (typeof(IOutgoingBodiedInteraction));
+				signatureBuilder.Append (this.templateFile);
+				signatureBuilder.Append (HasTemplateUpdates(false).ToString());
+				signatureBuilder.Append (LastTemplateUpdate.ToBinary ());
 
-
-			if (target is IHttpInteraction) {
-				type = MimeType.Text.Html;
-				type.Encoding = Encoding.UTF8;
-				((IHttpInteraction)target).ResponseHeaders.ContentType = type;
-			}
-
-			if (WillCheckForTemplateUpdates) CheckForTemplateUpdates();
-
-			StreamWriter outputWriter = target.GetOutgoingBodyWriter ();
-
-			try	{
 				foreach (Match replaceable in replaceables) {
-					outputWriter.Write(rawTemplate.Substring (cursor, replaceable.Index - cursor));
-
-					groupName = replaceable.Groups[1].Value;
-
-					WriteElement(outputWriter, source, groupName);							
-
-					cursor = replaceable.Index + replaceable.Length;
+					if (WriteElement == WriteContextFirst) {
+						string name = replaceable.Groups [1].Value;
+						object value;
+						if (nosyInteraction.TryGetFallback (name, out value)) {
+							signatureBuilder.Append (name);
+							signatureBuilder.Append (":");	
+							signatureBuilder.AppendLine (value.ToString ());
+						}
+					}
 				}
 
-				// In the very likely event the cursor is not at the end of the document,
-				// the last bit of the document needs to be written to the body as well.
-				if (cursor < rawTemplate.Length)
-					outputWriter.Write(rawTemplate.Substring(cursor));
-
-				outputWriter.Flush();
+				return signatureBuilder.ToString ();
+			} else {
+				return string.Format ("{0}{1}{2}", this.templateFile, HasTemplateUpdates (false).ToString (), LastTemplateUpdate.ToBinary());
 			}
-			catch (Exception ex) {
-				// Forward the exception but append a cursor position and a message
-				// so the user won't be entirely in the dark.
-				throw new Exception (
-					string.Format (
-					"Replacing template variables failed at cursor position {0}, {2}:\n{1}",
-					cursor.ToString (), 
-					rawTemplate.Substring (cursor, 40), 
-					ex.Message), ex);
-			}
+		}
 
+		protected override bool Process (IInteraction source)
+		{
+			if (source is INosyInteraction) {
+				INosyInteraction nosyInteraction = (INosyInteraction)source;
+
+				nosyInteraction.Signature = GetSignature (nosyInteraction);
+			} else {
+				IOutgoingBodiedInteraction target;
+				MimeType type;
+				int cursor = 0;
+				string groupName;
+
+				target = (IOutgoingBodiedInteraction)source.GetClosest (typeof(IOutgoingBodiedInteraction));
+
+
+				if (target is IHttpInteraction) {
+					type = MimeType.Text.Html;
+					type.Encoding = Encoding.UTF8;
+					((IHttpInteraction)target).ResponseHeaders.ContentType = type;
+				}
+
+				if (WillCheckForTemplateUpdates) LoadTemplateUpdates();
+
+				StreamWriter outputWriter = target.GetOutgoingBodyWriter ();
+
+				try	{
+					foreach (Match replaceable in replaceables) {
+						outputWriter.Write(rawTemplate.Substring (cursor, replaceable.Index - cursor));
+
+						groupName = replaceable.Groups[1].Value;
+
+						WriteElement(outputWriter, source, groupName);							
+
+						cursor = replaceable.Index + replaceable.Length;
+					}
+
+					// In the very likely event the cursor is not at the end of the document,
+					// the last bit of the document needs to be written to the body as well.
+					if (cursor < rawTemplate.Length)
+						outputWriter.Write(rawTemplate.Substring(cursor));
+
+					outputWriter.Flush();
+				}
+				catch (Exception ex) {
+					// Forward the exception but append a cursor position and a message
+					// so the user won't be entirely in the dark.
+					throw new Exception (
+						string.Format (
+						"Replacing template variables failed at cursor position {0}, {2}:\n{1}",
+						cursor.ToString (), 
+						rawTemplate.Substring (cursor, 40), 
+						ex.Message), ex);
+				}
+			}
 
 			return true;
 		}
