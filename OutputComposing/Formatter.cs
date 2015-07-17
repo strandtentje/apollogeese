@@ -44,25 +44,32 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 		protected override bool Process (IInteraction parameters)
 		{
-			IOutgoingBodiedInteraction upstreamTarget; QuickOutgoingInteraction downstreamTarget;
-			MemoryStream formattables; bool success; string data;
+			if (parameters is INosyInteraction) {
+				return begin.TryProcess (parameters);
+			} else {
+				IOutgoingBodiedInteraction upstreamTarget;
+				QuickOutgoingInteraction downstreamTarget;
+				MemoryStream formattables;
+				bool success;
+				string data;
 
-			upstreamTarget = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
-			downstreamTarget = new QuickOutgoingInteraction (formattables = new MemoryStream (), parameters);
+				upstreamTarget = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
+				downstreamTarget = new QuickOutgoingInteraction (formattables = new MemoryStream (), parameters);
 
-			success = begin.TryProcess (downstreamTarget);
-			downstreamTarget.Done ();
+				success = begin.TryProcess (downstreamTarget);
+				downstreamTarget.Done ();
 
-			formattables.Position = 0;
+				formattables.Position = 0;
 
-			using (StreamReader reader = new StreamReader(formattables)) 
-				data = reader.ReadToEnd ();
+				using (StreamReader reader = new StreamReader(formattables)) 
+					data = reader.ReadToEnd ();
 			
-			foreach (Format format in formats)
-				data = format.Apply (data);
+				foreach (Format format in formats)
+					data = format.Apply (data);
 
-			upstreamTarget.GetOutgoingBodyWriter ().Write (data);
-			return success;
+				upstreamTarget.GetOutgoingBodyWriter ().Write (data);
+				return success;
+			}
 		}
 	}
 }
