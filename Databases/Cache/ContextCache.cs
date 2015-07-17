@@ -9,7 +9,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 	/// <summary>
 	/// Named cache; has multiple caches by names. Useful when using the same Cache-instance for different but
 	/// not too many types of datastreams.
-	public class NamedCache : Service
+	public class ContextCache : Service
 	/// </summary>
 	{
 		public override string Description {
@@ -32,7 +32,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 		protected override void Initialize (Settings modSettings)
 		{
-			this.CacheNameSource = modSettings.GetString ("cachenamesource", "cachename");
+			if (modSettings.Has ("default")) {
+				CacheNameSource = (string)modSettings ["default"];
+			} else {
+				CacheNameSource = (string)modSettings ["keyname"];
+			}
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
