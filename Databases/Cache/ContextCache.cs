@@ -20,12 +20,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 		Map<Cache> cacheMap = new Map<Cache>();
 
+		Settings cacheSettings = new Settings();
+
 		string CacheNameSource {
 			get;
 			set;
 		}
 
-		Service BeginBranch {
+		protected Service BeginBranch {
 			get;
 			set;
 		}
@@ -34,9 +36,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 		{
 			if (modSettings.Has ("default")) {
 				CacheNameSource = (string)modSettings ["default"];
-			} else {
+			} else if (modSettings.Has ("keyname")) {
 				CacheNameSource = (string)modSettings ["keyname"];
+			} else {
+				CacheNameSource = "cachename";
 			}
+
+			if (modSettings.Has ("lifetime"))
+				cacheSettings ["lifetime"] = modSettings ["lifetime"];
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -46,19 +53,28 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			}
 		}
 
-		protected override bool Process (IInteraction parameters)
-		{
+		protected virtual string GetCacheName(IInteraction parameters) {
 			string cacheName;
 
 			if (!parameters.TryGetString (this.CacheNameSource, out cacheName))
 				cacheName = "noname";
 
+			return cacheName;
+		}
+
+		protected override bool Process (IInteraction parameters)
+		{
+			string cacheName = GetCacheName (parameters);
+
 			Cache currentCache;
 
-			if (cacheMap.Has (cacheName))
+			if (cacheMap.Has (cacheName)) {
 				currentCache = cacheMap [cacheName];
-			else 
+			} else {
 				currentCache = cacheMap [cacheName] = new Cache ();
+				currentCache.SetSettings (cacheSettings);
+				currentCache.Branches ["begin"] = this.BeginBranch;
+			}
 
 			return currentCache.TryProcess (parameters);
 		}
