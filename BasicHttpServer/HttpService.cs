@@ -90,7 +90,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			HttpInteraction parameters = new HttpInteraction (
 				context.Request, context.Response);
             
-			if (!Process (parameters)) {
+			if (Process (parameters)) {
+				if (!parameters.IsStatuscodeSet) {
+					parameters.SetStatuscode (200);
+				}
+			} else {
 				context.Response.StatusCode = 500;
 			}
 

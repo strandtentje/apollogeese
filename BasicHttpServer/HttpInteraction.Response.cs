@@ -11,6 +11,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 	/// </summary>
 	public partial class HttpInteraction
 	{
+
+		Stream streamToClient;
+		MemoryStream bufferStream = new MemoryStream();
+
 		HttpListenerResponse _response;
 
 		/// <summary>
@@ -22,6 +26,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			set {
 				_response = value;
 				_responseHeaders = new ResponseHeaders (value.Headers);
+				streamToClient = value.OutputStream;
 			}
 		}
 
@@ -31,7 +36,22 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		/// <value>The status code.</value>
 		/// <param name="statuscode">Statuscode.</param>
 		public void SetStatuscode(int statuscode) {
+			if (IsStatuscodeSet) {
+				throw new HttpException ("Statuscode can only be set once");
+			} else {
+				Response.StatusCode = statuscode;
+				IsStatuscodeSet = true;
 
+				if (HasWriter ()) {
+					GetOutgoingBodyWriter ().Flush ();
+					writer = null;
+				}
+
+				if (bufferStream.Position > 0) {
+					bufferStream.Position = 0;
+					bufferStream.CopyTo (streamToClient);
+				}
+			}
 		}
 
 		public bool IsStatuscodeSet { get; private set; }
@@ -50,7 +70,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		/// <value>The outgoing body.</value>
 		public Stream OutgoingBody { 
 			get {
-				return Response.OutputStream;
+				if (IsStatuscodeSet) {
+					return streamToClient;
+				} else {
+					return bufferStream;
+				}
 			}
 		}
 
