@@ -21,6 +21,13 @@ namespace Testing
 		string Name { get { return (string)this.Settings.Get ("default", this.Settings.GetString("name")); } }
 
 		/// <summary>
+		/// Gets the sourcename that should be used for incoming data interactions
+		/// that are fed to the test subject
+		/// </summary>
+		/// <value>The name of the source.</value>
+		string SourceName { get { return (string)this.Settings.Get ("sourcename", "http-request-body"); } }
+
+		/// <summary>
 		/// Gets or sets the available context.
 		/// </summary>
 		/// <value>The available context.</value>
@@ -75,7 +82,7 @@ namespace Testing
 			testBundle = testContext = new TestContextInteraction (this.Name, this.AvailableContext);
 
 			if (HasIngoingData)
-				testBundle = testInput = new IncomingTestData (this.IngoingDataFile, testBundle);
+				testBundle = testInput = new IncomingTestData (this.IngoingDataFile, testBundle, this.SourceName);
 
 			if (HasOutgoingDataViewer)
 				testBundle = testOutput = new OutgoingTestableData (testBundle);
@@ -88,7 +95,7 @@ namespace Testing
 			if (HasOutgoingDataViewer) {
 				// obscure name of the year award goes to
 				IInteraction incomingInteractionWithOutgoingData;
-				incomingInteractionWithOutgoingData = new QuickIncomingInteraction (testOutput.GetProduct (), parameters);
+				incomingInteractionWithOutgoingData = new QuickIncomingInteraction (testOutput.GetProduct (), parameters, "test-case-output");
 
 				success &= this.OutgoingDataViewer.TryProcess (incomingInteractionWithOutgoingData);
 

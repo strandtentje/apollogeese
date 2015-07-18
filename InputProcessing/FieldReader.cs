@@ -22,7 +22,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 				if (FieldExpressions == null)
 					return "None";
 				else 
-					return string.Format("{0}:{1}", SourceName, string.Join(",", FieldExpressions.Keys));
+					return string.Join(",", FieldExpressions.Keys);
 			}
 		}		
 
@@ -167,20 +167,27 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 			return success & Form.TryProcess(parsedData);
 		}
 
-		protected abstract string SourceName { get; }
+		protected virtual string GetSourceName (IInteraction parameters) {
+			IIncomingBodiedInteraction data;
+			data = (IIncomingBodiedInteraction)parameters.GetClosest (typeof(IIncomingBodiedInteraction));
+
+			return data.SourceName;
+		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			bool success = true; bool failures;
+			bool success = true;
 			Map<object> postData; object postDataObject;
 			VerificationInteraction parsedData;
 
-			parsedData = new VerificationInteraction (parameters, SourceName, FieldExpressions, InteractionFallbackNames) { HtmlEscape = htmlEscape };
+			string sourceName = GetSourceName (parameters);
 
-			if (parameters.TryGetFallback (SourceName, out postDataObject)) {
-				parsedData [SourceName] = postData = (Map<object>)postDataObject;
+			parsedData = new VerificationInteraction (parameters, sourceName, FieldExpressions, InteractionFallbackNames) { HtmlEscape = htmlEscape };
+
+			if (parameters.TryGetFallback (sourceName, out postDataObject)) {
+				parsedData [sourceName] = postData = (Map<object>)postDataObject;
 			} else {
-				parsedData [SourceName] = postData = Deserialize (AcquireData (parameters));
+				parsedData [sourceName] = postData = Deserialize (AcquireData (parameters));
 			}
 
 			parsedData.LoadFields (FieldDefaults);

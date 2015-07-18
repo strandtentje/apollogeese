@@ -8,6 +8,8 @@ namespace BorrehSoft.ApolloGeese.Duckling
 	/// </summary>
 	public interface IIncomingBodiedInteraction : IInteraction
 	{
+		string SourceName { get; }
+
 		Stream IncomingBody { get; }
 
 		/// <summary>

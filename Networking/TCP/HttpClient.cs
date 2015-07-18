@@ -147,7 +147,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 			QuickIncomingInteraction incomingInteraction;
 
 			responseStream = RequestForResponse (parameters);
-			incomingInteraction = new QuickIncomingInteraction (responseStream, parameters);
+			incomingInteraction = new QuickIncomingInteraction (responseStream, parameters, "http-response-body");
 
 			return responseProcessor.TryProcess (incomingInteraction);
 		}

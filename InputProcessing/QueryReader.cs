@@ -12,6 +12,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 
 			return request.GetQuery;
 		}
+
+		protected override string GetSourceName (IInteraction parameters)
+		{
+			return "http-url-query";
+		}
 	}
 }
 

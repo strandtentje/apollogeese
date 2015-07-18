@@ -28,14 +28,23 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			return writer;
 		}
 
+		private string sourceName;
+
+		public string SourceName {
+			get {
+				return sourceName;
+			}
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Extensions.BasicWeblings.Client.HttpResponseInteraction"/> class using
 		/// a stream of incoming body data.
 		/// </summary>
 		/// <param name="bodyStream">Body stream.</param>
 		/// <param name="parent">Parent.</param>
-		public QuickIncomingInteraction (Stream bodyStream, IInteraction parent) : base(parent)
+		public QuickIncomingInteraction (Stream bodyStream, IInteraction parent, string sourceName) : base(parent)
 		{
+			this.sourceName = sourceName;
 			IncomingBody = bodyStream;
 		}
 

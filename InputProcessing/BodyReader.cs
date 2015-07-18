@@ -21,12 +21,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 			
 			return postedData;
 		}
-
-		protected override string SourceName {
-			get {
-				return "postfields";
-			}
-		}
 	}
 }
 

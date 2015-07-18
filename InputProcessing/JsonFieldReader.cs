@@ -2,6 +2,7 @@ using System;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
+using BorrehSoft.ApolloGeese.Duckling;
 
 namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {
@@ -27,12 +28,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 			while (pathQueue.Count > 0) parsedData = (Settings)parsedData[pathQueue.Dequeue()];
 
 			return parsedData;
-		}
-
-		protected override string SourceName {
-			get {
-				return "jsonfields";
-			}
 		}
 	}
 }

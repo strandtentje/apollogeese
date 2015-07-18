@@ -29,5 +29,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			this.Request = Request;
 			this.Response = Response;
 		}	
+
+		public string SourceName {
+			get {
+				return "http-request-body";
+			}
+		}
 	}
 }
