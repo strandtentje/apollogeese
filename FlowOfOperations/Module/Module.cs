@@ -3,6 +3,7 @@ using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.ApolloGeese.Loader;
+using BorrehSoft.Utensils.Collections;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 {
@@ -44,6 +45,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 		}
 
+		/// <summary>
+		/// Gets the branches within the module file 
+		/// </summary>
+		/// <value>The module branches.</value>
+		public Map<Service> ModuleBranches { 
+			get {
+				return InstanceLoader.GetInstances (file); 
+			}
+		}
+
 		protected override bool Process (IInteraction parameters)
 		{
 			Service referredService;
@@ -56,7 +67,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			else
 				pickedBranchName = branchName;
 
-			referredService = InstanceLoader.GetInstances (file) [pickedBranchName];
+			referredService = ModuleBranches [pickedBranchName];
 			jumpInteraction = new JumpInteraction (parameters, Branches, GetSettings ());
 
 			return referredService.TryProcess (jumpInteraction);
