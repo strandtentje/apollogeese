@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Text;
 
-namespace BorrehSoft.ApolloGeese.Extensions.Designer
+namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
 	public class FlowView : Service
 	{
@@ -33,20 +33,19 @@ namespace BorrehSoft.ApolloGeese.Extensions.Designer
 
 		protected override void Initialize (Settings modSettings)
 		{
-			Branches["model"] = Stub; Branches["block"] = Stub;
-			Branches["interaction"] = Stub; Branches["siblingiterator"] = Stub;
+			Branches["model"] = Stub; 
+			Branches["block"] = Stub;
+			Branches["interaction"] = Stub; 
+			Branches["siblingiterator"] = Stub;
 			Branches["settingiterator"] = Stub;
 		}
 
 		bool VisualizeInteraction (Service origin, string branchName, Service target, IInteraction parentParameters)
 		{
-			QuickInteraction InterContext = new QuickInteraction(parentParameters);
+			MetaInteraction aboutInteraction = new MetaInteraction (parentParameters,
+				                                   origin, branchName, target);
 
-			InterContext["origin"] = origin.ModelID;
-			InterContext["branchname"] = branchName;
-			InterContext["target"] = target.ModelID;
-
-			return InteractionView.TryProcess(InterContext);
+			return InteractionView.TryProcess(aboutInteraction);
 		}
 
 		bool VisualizeBlock (Service model, IInteraction parentParameters)
@@ -61,17 +60,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.Designer
 			if (!history.Contains (model.ModelID)) {
 				history.Add(model.ModelID);
 
-				QuickInteraction ModelContext = new QuickInteraction (parentParameters);
-
-				ModelContext ["id"] = model.ModelID;
-				ModelContext ["type"] = model.GetType ().Name;
-				ModelContext ["description"] =  HttpUtility.HtmlEncode(model.Description);
+				MetaServiceInteraction modelContext = new MetaServiceInteraction (parentParameters, model);
 
 				foreach (KeyValuePair<string, Service> BranchTuple in model.Branches.Dictionary) {
 					success &= VisualizeBlock (BranchTuple.Value, parentParameters, history);
 				}
 
-				success &= BlockView.TryProcess (ModelContext);
+				success &= BlockView.TryProcess (modelContext);
 				
 				foreach (KeyValuePair<string, Service> BranchTuple in model.Branches.Dictionary) {
 					success &= VisualizeInteraction (model, BranchTuple.Key, BranchTuple.Value, parentParameters);

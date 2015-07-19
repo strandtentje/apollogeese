@@ -7,8 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese.Extensions.FlowOfOperations</RootNamespace>
     <AssemblyName>FlowOfOperations</AssemblyName>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,6 +33,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,12 +53,18 @@
     <Compile Include="OverSocket\Piping\Symbol.cs" />
     <Compile Include="OverSocket\Networking\ListenerWithEvents.cs" />
     <Compile Include="OverSocket\Networking\NewClientEvent.cs" />
+    <Compile Include="Visualization\FlowView.cs" />
+    <Compile Include="Visualization\OutgoingIterator.cs" />
+    <Compile Include="Visualization\Anchor.cs" />
+    <Compile Include="Visualization\MetaServiceInteraction.cs" />
+    <Compile Include="Visualization\MetaInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Module\" />
     <Folder Include="OverSocket\" />
     <Folder Include="OverSocket\Piping\" />
+    <Folder Include="Visualization\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">
