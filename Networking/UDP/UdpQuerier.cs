@@ -27,7 +27,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.UDP
 		UdpClient client = new UdpClient();
 		IPAddress IP;
 		Service iteratorBranch;
-		Thread gatherThread;
 		Timer queryThread;
 		string queryText;
 		byte[] queryTextBytes;

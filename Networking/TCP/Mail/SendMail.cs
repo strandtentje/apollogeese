@@ -13,7 +13,6 @@ namespace Networking
 	/// </summary>
 	public class SendMail : Service
 	{
-		IEnumerable<string> mailServers;
 		string sender = null, recepient = null, replyto = null, bodytypename;
 		string subject = null;
 		Service body, sending, sent;

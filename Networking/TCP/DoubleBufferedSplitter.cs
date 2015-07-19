@@ -17,7 +17,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		byte[] delimiter;
 		object accessingIncoming = new object();
 		object accessingOutgoing = new object();
-		Stream incoming, outgoing;
+		Stream incoming;
 		Timer splitterThread;
 		MimeType mimeType;
 
