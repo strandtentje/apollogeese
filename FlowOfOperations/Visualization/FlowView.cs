@@ -6,6 +6,7 @@ using BorrehSoft.Utensils.Collections;
 using System.Collections.Generic;
 using System.Web;
 using System.Text;
+using MModule = BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module.Module;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
@@ -17,23 +18,27 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			}
 		}
 
-		private Service 
-			Model, BlockView,
+		private Service BlockView, ModuleView,
 			InteractionView, SiblingIterator,
 			SettingIterator;
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
-			if (e.Name == "model") Model = e.NewValue;
 			if (e.Name == "block") BlockView = e.NewValue;
+			if (e.Name == "module")	ModuleView = e.NewValue;
 			if (e.Name == "interaction") InteractionView = e.NewValue;
 			if (e.Name == "siblingiterator") SiblingIterator = e.NewValue;
 			if (e.Name == "settingiterator") SettingIterator = e.NewValue;
 		}
 
+		protected virtual Service GetModel(IInteraction parameters) {
+			return Branches ["model"];
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			Branches["model"] = Stub; 
+			Branches ["module"] = Stub;
 			Branches["block"] = Stub;
 			Branches["interaction"] = Stub; 
 			Branches["siblingiterator"] = Stub;
@@ -66,7 +71,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 					success &= VisualizeBlock (BranchTuple.Value, parentParameters, history);
 				}
 
-				success &= BlockView.TryProcess (modelContext);
+				if ((model is MModule) && (ModuleView != Stub))
+					success &= ModuleView.TryProcess (modelContext);
+				else
+					success &= BlockView.TryProcess (modelContext);
 				
 				foreach (KeyValuePair<string, Service> BranchTuple in model.Branches.Dictionary) {
 					success &= VisualizeInteraction (model, BranchTuple.Key, BranchTuple.Value, parentParameters);
@@ -89,7 +97,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			QuickInteraction finishedSiblings = new QuickInteraction (parameters);
 			finishedSiblings ["siblings"] = siblings.GetFinished ();
 
-			return VisualizeBlock(Model, finishedSiblings);
+			return VisualizeBlock(GetModel(parameters), finishedSiblings);
 		}
 	}
 }
