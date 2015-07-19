@@ -126,7 +126,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		protected virtual Stream RequestForResponse (IInteraction parameters)
 		{
 			QuickOutgoingInteraction outgoingInteraction;
-			WebRequest webRequest;
 
 			using (MemoryStream uriComposingStream = new MemoryStream ()) {
 				outgoingInteraction = new QuickOutgoingInteraction (uriComposingStream, parameters);
