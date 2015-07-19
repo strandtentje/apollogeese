@@ -142,7 +142,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 
 				Service handler; 
 				FailureWrapperInteraction fwInteraction = null; 
-				DirectedInteraction diInteraction;
 				IInteraction interaction = parameters;
 
 				handler = FailureHandler ?? Branches [failName];
@@ -153,7 +152,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 					}
 
 					if (FailureHandler != null) {
-						interaction = diInteraction = new DirectedInteraction (interaction, failName);
+						interaction = new DirectedInteraction (interaction, failName);
 					}
 
 					success &= handler.TryProcess (interaction);
@@ -177,7 +176,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 		protected override bool Process (IInteraction parameters)
 		{
 			bool success = true;
-			Map<object> postData; object postDataObject;
+			object postDataObject;
 			VerificationInteraction parsedData;
 
 			string sourceName = GetSourceName (parameters);
@@ -185,9 +184,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 			parsedData = new VerificationInteraction (parameters, sourceName, FieldExpressions, InteractionFallbackNames) { HtmlEscape = htmlEscape };
 
 			if (parameters.TryGetFallback (sourceName, out postDataObject)) {
-				parsedData [sourceName] = postData = (Map<object>)postDataObject;
+				parsedData [sourceName] = (Map<object>)postDataObject;
 			} else {
-				parsedData [sourceName] = postData = Deserialize (AcquireData (parameters));
+				parsedData [sourceName] = Deserialize (AcquireData (parameters));
 			}
 
 			parsedData.LoadFields (FieldDefaults);
