@@ -41,7 +41,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		/// </summary>
 		/// <value>The title of this page</value>
 		public override string Description {
-			get { return templateFile; }
+			get { return string.Format("{0} ({1})", title, templateFile); }
 		}
 
 		protected override void Initialize (Settings modSettings)
