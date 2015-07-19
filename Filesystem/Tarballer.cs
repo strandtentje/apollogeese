@@ -43,8 +43,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 			string[] urlArray = httpParameters.URL.ToArray ();
 
-			string coreUrl = string.Join ("/", urlArray);
-
 			string decodedPathFromURL = HttpUtility.UrlDecode (Path.Combine (urlArray));
 
 			while (decodedPathFromURL.ToLower().EndsWith(".tar"))
