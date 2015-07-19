@@ -39,9 +39,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			JumpInteraction jumpParameters = (JumpInteraction)parameters.GetClosest (typeof(JumpInteraction));
 			Service returnService;
 
-			if (jumpParameters.TryGetDeepBranch (branchName, out returnService))
-				returnService = returnService;
-			else
+			if (!jumpParameters.TryGetDeepBranch (branchName, out returnService))
 				returnService = defaultBranch;
 
 			return returnService.TryProcess (parameters);
