@@ -23,6 +23,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 		string file, branchName = null;
 
+		public string BranchName { get { return this.branchName; }}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			if (modSettings.Has ("default")) {
