@@ -15,9 +15,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		public override string Description {
 			get {
 				if (branchName == null)
-					return string.Format("module:{0}:directed", file);
+					return string.Format("{0}:directed", file);
 				else 
-					return string.Format("module:{0}:{1}", file, branchName);
+					return string.Format("{0}:{1}", file, branchName);
 			}
 		}
 
