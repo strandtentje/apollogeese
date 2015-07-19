@@ -8,8 +8,6 @@
     <RootNamespace>BorrehSoft.ApolloGeese</RootNamespace>
     <AssemblyName>Geese</AssemblyName>
     <BaseDirectory>..\Geese</BaseDirectory>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -64,10 +62,6 @@
     <ProjectReference Include="..\Duckling\Duckling.csproj">
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>Duckling</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Designer\Designer.csproj">
-      <Project>{921E6907-9D5D-40FB-A4C1-5F0C56894AC0}</Project>
-      <Name>Designer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Graphical\Game.csproj">
       <Project>{0AF976EF-9F73-48D9-9ED5-2B9CD86724D8}</Project>
