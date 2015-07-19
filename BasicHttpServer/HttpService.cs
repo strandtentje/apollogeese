@@ -19,8 +19,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		private HttpListener listener = new HttpListener();
 		private Service httpBranch;
 		private bool MeasurePerformance = true;
-		private int maxRequestSize;
-		private int maxRequestTime;
 
 		public override string Description {
 			get {
