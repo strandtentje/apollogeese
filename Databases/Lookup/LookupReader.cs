@@ -38,10 +38,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 		/// <value>The result cap.</value>
 		private int ResultCap { get; set; }
 		/// <summary>
-		/// The actual lookup this reader will use
-		/// </summary>
-		private SearchMap<LookupEntry> thisLookup;
-		/// <summary>
 		/// Gets or sets the keyword splitter used to turn a query string into seperate query words.
 		/// </summary>
 		/// <value>The keyword splitter.</value>
