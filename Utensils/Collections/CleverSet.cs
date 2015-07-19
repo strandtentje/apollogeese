@@ -13,7 +13,7 @@ namespace BorrehSoft.Utensils.Collections
 		{
 		}
 
-		new public void Add (T item)
+		public void Add (T item)
 		{
 			this.Add(item.Meta, item);
 		}

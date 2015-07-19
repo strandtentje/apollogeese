@@ -17,7 +17,7 @@ namespace BorrehSoft.Utensils.Collections.Settings
 
 		public Settings(Map<object> origin) : base(origin){}
 
-		public Settings Clone() 
+		new public Settings Clone() 
 		{
 			return new Settings (base.Clone());
 		}
