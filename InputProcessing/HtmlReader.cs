@@ -93,7 +93,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
             CQ selection;
             string[] seperators = new string[] { "..." };
             string[] tags;
-            string opener, inner, closer;
 
             foreach (NamedSelector namedSelector in namedSelectors)
             {
@@ -102,10 +101,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
                 {
                     tags = selection.ToString().Split(seperators, StringSplitOptions.RemoveEmptyEntries);
 
-                    results[namedSelector.name + "_opener"] = opener = tags[0];
-                    results[namedSelector.name + "_inner"] = inner = selection.Html();
+                    results[namedSelector.name + "_opener"] = tags[0];
+                    results[namedSelector.name + "_inner"] = selection.Html();
 
-                    if (tags.Length > 1) results[namedSelector.name + "_closer"] = closer = tags[1];
+                    if (tags.Length > 1) results[namedSelector.name + "_closer"] = tags[1];
 
                     results[namedSelector.name] = selection;
                 }
