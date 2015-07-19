@@ -21,7 +21,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 	public abstract class Querier : Service
 	{
 		private Service none, single, iterator, successful, capreached, noneAffected, oneAffected, someAffected, first;
-		private bool useAffectedRowcount;
 		private int resultCap = -1;
 		private string queryFile = "", queryText = "";
 		private Settings defaultParameters;
