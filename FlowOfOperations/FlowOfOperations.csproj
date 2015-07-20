@@ -58,6 +58,7 @@
     <Compile Include="Visualization\Anchor.cs" />
     <Compile Include="Visualization\MetaServiceInteraction.cs" />
     <Compile Include="Visualization\MetaInteraction.cs" />
+    <Compile Include="Visualization\ModuleView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
