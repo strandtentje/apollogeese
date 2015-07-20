@@ -35,6 +35,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["file"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			LocalizationKey = modSettings.GetString ("localizationkey", "locale");
@@ -43,11 +48,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 			string filename;
 
-			if (modSettings.Has("default")) 
-				filename = (string)modSettings ["default"];
-			else
-				filename =  (string)modSettings["file"];
-
+			filename =  (string)modSettings["file"];
 
 			if (modSettings.Has ("title")) {
 				title = (string)modSettings ["title"];
@@ -58,11 +59,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 			foreach (object localization in localizations) {
 				LoadLocalizedSubtemplate ((string)localization, modSettings, filename);
-			}
-
-			string defaultLocale;
-			if (modSettings.TryGetString ("default", out defaultLocale)) {
-				defaultTemplate = localeTemplates [defaultLocale];
 			}
 		}
 
