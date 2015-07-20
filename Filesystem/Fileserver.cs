@@ -55,7 +55,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			}
 		}
 
-		public override void LoadDefaultParameter (string defaultParameter)
+		public override void LoadDefaultParameters (string defaultParameter)
 		{
 			string[] initStrings = defaultParameter.Split ('|');
 
@@ -63,7 +63,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 			if (initStrings.Length > 1) {
 				this.Settings ["optionalmimetypes"] = false;
-				Settings confMimetypes = this.Settings ["allowedmimetypes"] = new Settings ();
+				Settings confMimetypes;
+				this.Settings ["allowedmimetypes"] = confMimetypes = new Settings ();
 
 				string[] allowedExtensions = initStrings [1].Split (',');
 
