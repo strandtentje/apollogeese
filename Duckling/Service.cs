@@ -141,6 +141,10 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			}
 		}
 
+		public virtual void LoadDefaultParameters(string defaultParameter) {
+
+		}
+
 		/// <summary>
 		/// Tries to Initialize and leaves the an InitErrorMessage set if applicable.
 		/// When no error is produced, the errormessage will remain blank.
@@ -156,6 +160,9 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			try
 			{
 				Branches.ItemChanged += HandleBranchChanged;
+				if (modSettings.Has("default")) {
+					LoadDefaultParameters((string)modSettings["default"]);
+				}
 				Initialize(modSettings);
 				InitErrorMessage = "";
 				succesful = true;
