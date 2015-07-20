@@ -83,6 +83,17 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 					Secretary.Report (1, "Consider whitelisting extensions using |ext,ens,ion - notation");
 				}
+			} else {
+				if (modSettings.Has ("allowedmimetypes")) {
+					mimeTypes = modSettings["allowedmimetypes"] as Settings ?? new Settings();
+				} else {
+					foreach (string key in modSettings.Dictionary.Keys) 
+						if (key.StartsWith ("dot_"))				
+							mimeTypes [key.Substring (4)] = modSettings.GetString (key, "");
+				}
+
+				rootPath = modSettings.GetString("rootpath", ".");
+				optionalMimetypes = modSettings.GetBool("optionalmimetypes", false);
 			}
 
 			Branches["notfound"] = Stub;
