@@ -8,12 +8,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 	{
 		protected override Service GetModel (IInteraction parameters)
 		{
-			object modelIdObject;
+			object serviceIdObject;
 
-			if (parameters.TryGetFallback ("modelid", out modelIdObject)) {
-				int modelIdInt;
-				if (int.TryParse (modelIdObject.ToString (), out modelIdInt)) {
-					Service candidate = ModelLookup [modelIdInt];
+			if (parameters.TryGetFallback ("serviceid", out serviceIdObject)) {
+				int serviceIdInt;
+				if (int.TryParse (serviceIdObject.ToString (), out serviceIdInt)) {
+					Service candidate = ModelLookup [serviceIdInt];
 					if (candidate is MModule) {
 						MModule module = (MModule)candidate;
 						if (module.BranchName != null) {

@@ -28,7 +28,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			if (e.Name == "module")	ModuleView = e.NewValue;
 			if (e.Name == "interaction") InteractionView = e.NewValue;
 			if (e.Name == "siblingiterator") SiblingIterator = e.NewValue;
-			if (e.Name == "settingiterator") SettingIterator = e.NewValue;
 		}
 
 		protected virtual Service GetModel(IInteraction parameters) {
@@ -42,7 +41,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			Branches["block"] = Stub;
 			Branches["interaction"] = Stub; 
 			Branches["siblingiterator"] = Stub;
-			Branches["settingiterator"] = Stub;
 		}
 
 		bool VisualizeInteraction (Service origin, string branchName, Service target, IInteraction parentParameters)

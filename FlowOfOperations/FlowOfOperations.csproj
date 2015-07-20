@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese.Extensions.FlowOfOperations</RootNamespace>
     <AssemblyName>FlowOfOperations</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,6 +61,8 @@
     <Compile Include="Visualization\MetaServiceInteraction.cs" />
     <Compile Include="Visualization\MetaInteraction.cs" />
     <Compile Include="Visualization\ModuleView.cs" />
+    <Compile Include="Visualization\SettingsView.cs" />
+    <Compile Include="Visualization\SettingInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
