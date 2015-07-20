@@ -14,7 +14,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 		public StubService() {}
 
-		public override string Description { get { return "Make a legal U-turn"; } }
+		public override string Description { get { return "Control flows back upstream"; } }
 
 		protected override void Initialize (Settings modSettings){ }
 
