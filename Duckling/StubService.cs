@@ -14,7 +14,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 		public StubService() {}
 
-		public override string Description { get { return "Doer of nothing"; } }
+		public override string Description { get { return "Make a legal U-turn"; } }
 
 		protected override void Initialize (Settings modSettings){ }
 
