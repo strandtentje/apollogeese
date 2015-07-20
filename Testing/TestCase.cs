@@ -14,11 +14,16 @@ namespace Testing
 			}
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["name"] = defaultParameter;
+		}
+
 		/// <summary>
 		/// Gets or sets the name.
 		/// </summary>
 		/// <value>The name.</value>
-		string Name { get { return (string)this.Settings.Get ("default", this.Settings.GetString("name")); } }
+		string Name { get { return this.Settings.GetString("name"); } }
 
 		/// <summary>
 		/// Gets the sourcename that should be used for incoming data interactions

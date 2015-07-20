@@ -15,6 +15,11 @@ namespace Testing.Diff
 			}
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["verificationfile"] = defaultParameter;
+		}
+
 		/// <summary>
 		/// Gets or sets the diff tool command.
 		/// </summary>
@@ -25,7 +30,7 @@ namespace Testing.Diff
 		/// Gets or sets the outgoing data verification file.
 		/// </summary>
 		/// <value>The outgoing data verification file.</value>
-		string VerificationFile { get { return (string)(this.Settings["default"] ?? this.Settings.GetString("verificationfile")); } }
+		string VerificationFile { get { return this.Settings.GetString("verificationfile"); } }
 
 		Service Summary { get { return this.Branches ["summary"] ?? Stub; } }
 

@@ -48,6 +48,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		/// <param name="modSettings">Connection settings</param>
 		protected abstract IQueryConnection CreateConnection(Settings modSettings);
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["query"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			Branches ["none"] = Stub;
@@ -62,9 +67,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 
 			Connection = CreateConnection(modSettings);
 
-			if (modSettings.Has ("default")) {
-				queryFile = modSettings.GetString ("default");
-			} else if (modSettings.Has ("query")) {
+			if (modSettings.Has ("query")) {
 				queryFile = modSettings.GetString ("query");
 			} else {
 				throw new Exception ("Queryfile missing, use first parameter or query.");

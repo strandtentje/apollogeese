@@ -17,16 +17,18 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 		TimeSpan cacheLifetime;
 		DateTime lastUpdate = DateTime.Now;
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["lifetime"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			string lifetimeString = "";
 			bool hasLifetime = false;
 
-			if (modSettings.Has ("default")) {
-				lifetimeString = modSettings.GetString ("default");
-				hasLifetime = true;
-			} else if (modSettings.Has ("lifetime")) {
-				lifetimeString = modSettings.GetString ("default");
+			if (modSettings.Has ("lifetime")) {
+				lifetimeString = modSettings.GetString ("lifetime");
 				hasLifetime = true;
 			}
 

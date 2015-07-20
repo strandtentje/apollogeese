@@ -17,15 +17,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		private string VariableName { get; set; }
 		private string Format { get; set; }
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["format"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			VariableName = modSettings.GetString("variablename", "");
 
-			if (modSettings.Has ("default")) {
-				Format = modSettings.GetString ("default");
-			} else {
-				Format = modSettings.GetString ("format", "{0}");
-			}
+			Format = modSettings.GetString ("format", "{0}");
 		}
 
 		protected override bool Process (IInteraction parameters)

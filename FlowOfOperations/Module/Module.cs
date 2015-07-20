@@ -25,21 +25,22 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 		public string BranchName { get { return this.branchName; }}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			string[] pathAndBranch = defaultParameter.Split ('@');
+
+			this.Settings["file"] = pathAndBranch [0];
+
+			if (pathAndBranch.Length > 1) {
+				this.Settings["branch"] = pathAndBranch [1]; 
+			}
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
-			if (modSettings.Has ("default")) {
-				string[] pathAndBranch = modSettings.GetString ("default").Split ('@');
-
-				file = pathAndBranch [0];
-
-				if (pathAndBranch.Length > 1) {
-					branchName = pathAndBranch [1]; 
-				}
-			} else {
-				file = (string)modSettings ["file"];
-				if (modSettings.Has("branch"))
-					branchName = (string)modSettings.Get ("branch");
-			}
+			file = (string)modSettings ["file"];
+			if (modSettings.Has("branch"))
+				branchName = (string)modSettings.Get ("branch");
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)

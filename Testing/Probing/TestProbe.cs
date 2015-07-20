@@ -12,7 +12,12 @@ namespace Testing
 			}
 		}
 
-		private string ProbeName { get { return this.Settings.GetString ("default", "anonymousprobe"); } }
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["probename"] = defaultParameter;
+		}
+
+		private string ProbeName { get { return this.Settings.GetString ("probename", "anonymousprobe"); } }
 
 		protected override bool Process (IInteraction parameters)
 		{

@@ -25,13 +25,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			if (e.Name == "default") defaultBranch = e.NewValue ?? Stub;
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["branchname"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
-			if (modSettings.Has ("default")) {
-				branchName = (string)modSettings.Get ("default");
-			} else {
-				branchName = (string)modSettings.Get ("branchname");
-			}
+			branchName = (string)modSettings.Get ("branchname");
 		}
 
 		protected override bool Process (IInteraction parameters)

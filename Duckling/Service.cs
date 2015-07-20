@@ -141,6 +141,10 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			}
 		}
 
+		public virtual void LoadDefaultParameters(object defaultParameter) {
+			LoadDefaultParameters ((string)defaultParameter);
+		}
+
 		public virtual void LoadDefaultParameters(string defaultParameter) {
 
 		}
@@ -161,7 +165,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			{
 				Branches.ItemChanged += HandleBranchChanged;
 				if (modSettings.Has("default")) {
-					LoadDefaultParameters((string)modSettings["default"]);
+					LoadDefaultParameters(modSettings["default"]);
 				}
 				Initialize(modSettings);
 				InitErrorMessage = "";

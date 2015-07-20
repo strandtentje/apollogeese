@@ -5,13 +5,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 {
 	public class Remember : CredentialsStore
 	{
-		protected override void Initialize (Settings modSettings)
+		public override void LoadDefaultParameters (string defaultParameter)
 		{
-			if ((!modSettings.Has("credset")) && modSettings.Has ("default")) {
-				modSettings ["credset"] = modSettings ["default"];
-			}
-
-			base.Initialize (modSettings);
+			this.Settings ["credset"] = defaultParameter;
 		}
 	}
 }

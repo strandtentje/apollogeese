@@ -24,9 +24,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			}
 		}
 
+		public override void LoadDefaultParameters (object defaultParameter)
+		{
+			this.Settings ["statuscode"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
-			this.Statuscode = modSettings.GetInt ("default");
+			this.Statuscode = modSettings.GetInt ("statuscode");
 		}
 
 		protected override bool Process (IInteraction parameters)

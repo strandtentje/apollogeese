@@ -13,10 +13,14 @@ namespace Graphical
     {
         public float Angle { get; private set; }
 
+		public override void LoadDefaultParameters (object defaultParameter)
+		{
+			this.Settings ["angle"] = defaultParameter;
+		}
+
         protected override void Initialize(Settings modSettings)
         {
-            if (modSettings.Has("default"))
-                Angle = modSettings.GetFloat("default");
+            Angle = modSettings.GetFloat("angle");
         }
 
         public override string Description

@@ -32,11 +32,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			set;
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["keyname"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
-			if (modSettings.Has ("default")) {
-				CacheNameSource = (string)modSettings ["default"];
-			} else if (modSettings.Has ("keyname")) {
+			if (modSettings.Has ("keyname")) {
 				CacheNameSource = (string)modSettings ["keyname"];
 			} else {
 				CacheNameSource = "cachename";

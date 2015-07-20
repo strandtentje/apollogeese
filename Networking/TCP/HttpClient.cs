@@ -42,21 +42,22 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 			}
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{			
+			string[] hostnamePortCombo = defaultParameter.Split (':');
+
+			this.Settings["hostname"] = hostnamePortCombo [0];
+			if (hostnamePortCombo.Length > 1) {
+				this.Settings["port"] = int.Parse (hostnamePortCombo [1]);
+			} else {
+				this.Settings["port"] = 80;
+			}
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
-			if (modSettings.Has ("default")) {
-				string[] hostnamePortCombo = modSettings.GetString ("default").Split (':');
-
-				hostname = hostnamePortCombo [0];
-				if (hostnamePortCombo.Length > 1) {
-					port = int.Parse (hostnamePortCombo [1]);
-				} else {
-					port = 80;
-				}
-			} else {
-				hostname = (string)modSettings ["hostname"];
-				port = (int)modSettings ["port"];
-			}
+			hostname = (string)modSettings ["hostname"];
+			port = (int)modSettings ["port"];
 
 			if (modSettings.Has ("sessionid")) {
 				sessionid = modSettings.GetString ("sessionid");

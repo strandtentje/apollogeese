@@ -44,6 +44,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			get { return string.Format("{0} ({1})", title, templateFile); }
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["templatefile"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			title = modSettings.GetString ("title", "untitled");
@@ -51,8 +56,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 			if (modSettings.Has ("templatefile"))
 				templateFile = (string)modSettings ["templatefile"];
-			else if (modSettings.Has ("default"))
-				templateFile = (string)modSettings ["default"];
 			else
 				throw new Exception ("templatefile mandatory");
 

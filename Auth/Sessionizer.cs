@@ -29,6 +29,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 			}
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["cookiename"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			Branches ["http"] = Stub;
@@ -39,8 +44,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 				cookieLife = TimeSpan.Parse (temporary);
 
 			if (modSettings.TryGetString ("cookiename", out temporary))
-				cookieName = temporary;
-			else if (modSettings.TryGetString ("default", out temporary))
 				cookieName = temporary;
 
 			closing = modSettings.GetBool("sessioncloser", false);

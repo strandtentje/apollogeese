@@ -35,10 +35,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			}
 		}
 
-		public Fileserver ()
-		{
-		}
-
 		/// <summary>
 		/// Allowed mime types
 		/// </summary>
@@ -59,42 +55,44 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			}
 		}
 
+		public override void LoadDefaultParameter (string defaultParameter)
+		{
+			string[] initStrings = defaultParameter.Split ('|');
+
+			this.Settings ["rootpath"] = initStrings [0];
+
+			if (initStrings.Length > 1) {
+				this.Settings ["optionalmimetypes"] = false;
+				Settings confMimetypes = this.Settings ["allowedmimetypes"] = new Settings ();
+
+				string[] allowedExtensions = initStrings [1].Split (',');
+
+				foreach (string extension in allowedExtensions) {
+					string dot_extension = string.Format ("dot_{0}", extension);
+
+					confMimetypes [extension] = ExtensionMimes.GetString (dot_extension, "application/octet-stream");
+				}
+			} else {
+				this.Settings ["optionalmimetypes"] = true;
+
+				Secretary.Report (1, "Consider whitelisting extensions using |ext,ens,ion - notation");
+			}
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			mimeTypes = new Settings ();
 
-			if (modSettings.Has ("default")) {
-				string[] initStrings = modSettings.GetString ("default").Split('|');
-
-				rootPath = initStrings [0];
-
-				if (initStrings.Length > 1) {
-					optionalMimetypes = false;
-
-					string[] allowedExtensions = initStrings [1].Split (',');
-
-					foreach (string extension in allowedExtensions) {
-						string dot_extension = string.Format ("dot_{0}", extension);
-
-						mimeTypes [extension] = ExtensionMimes.GetString (dot_extension, "application/octet-stream");
-					}
-				} else {
-					optionalMimetypes = true;
-
-					Secretary.Report (1, "Consider whitelisting extensions using |ext,ens,ion - notation");
-				}
+			if (modSettings.Has ("allowedmimetypes")) {
+				mimeTypes = modSettings["allowedmimetypes"] as Settings ?? new Settings();
 			} else {
-				if (modSettings.Has ("allowedmimetypes")) {
-					mimeTypes = modSettings["allowedmimetypes"] as Settings ?? new Settings();
-				} else {
-					foreach (string key in modSettings.Dictionary.Keys) 
-						if (key.StartsWith ("dot_"))				
-							mimeTypes [key.Substring (4)] = modSettings.GetString (key, "");
-				}
-
-				rootPath = modSettings.GetString("rootpath", ".");
-				optionalMimetypes = modSettings.GetBool("optionalmimetypes", false);
+				foreach (string key in modSettings.Dictionary.Keys) 
+					if (key.StartsWith ("dot_"))				
+						mimeTypes [key.Substring (4)] = modSettings.GetString (key, "");
 			}
+
+			rootPath = modSettings.GetString("rootpath", ".");
+			optionalMimetypes = modSettings.GetBool("optionalmimetypes", false);
 
 			Branches["notfound"] = Stub;
 			Branches["badrequest"] = Stub;
