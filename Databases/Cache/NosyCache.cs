@@ -10,7 +10,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 		protected override void Initialize (Settings modSettings)
 		{
-			includeContext = modSettings.GetBool ("includecontext");
+			includeContext = modSettings.GetBool ("includecontext", false);
 
 			base.Initialize (modSettings);
 		}
