@@ -15,6 +15,7 @@ namespace TestSuite
 			TestAgainst (EmptyCase (composer), "EmptyCase.conf");
 			TestAgainst (SingleCase (composer), "SingleCase.conf");
 			TestAgainst (ArrayCase (composer), "ArrayCase.conf");
+			TestAgainst (SubmapCase (composer), "SubmapCase.conf");
 			TestAgainst (EndBoss(composer), "EndBoss.conf");
 		}
 
@@ -28,6 +29,21 @@ namespace TestSuite
 			Settings data = new Settings ();
 		
 			data ["taart"] = 2;
+
+			return composer.Serialize (data);
+		}
+
+		static string SubmapCase (SettingsComposer composer)
+		{
+			Settings data = new Settings ();
+
+			Settings taart = new Settings ();
+			taart ["appel"] = "lekker";
+			taart ["appelkruimel"] = "superlekker";
+			taart ["kersen"] = "meh";
+			taart ["cholade"] = 1337;
+
+			data ["taart"] = taart;
 
 			return composer.Serialize (data);
 		}
