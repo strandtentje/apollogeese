@@ -70,6 +70,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		{
 			Template localeTemplate = new Template () { Branches = this.Branches };
 			Settings localeSettings = globalSettings.Clone ();
+
+			if (localeSettings.Dictionary.ContainsKey ("default"))
+				localeSettings.Dictionary.Remove ("default");
+
 			localeSettings ["templatefile"] = globalTemplatefile.Replace (FilenameLocalizationKey, localization);
 			localeTemplate.SetSettings (localeSettings);
 			localeTemplates [localization] = localeTemplate;
