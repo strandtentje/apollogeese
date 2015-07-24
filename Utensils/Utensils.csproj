@@ -59,10 +59,8 @@
     <Compile Include="Parsing\Parsers\ConcatenationParser.cs" />
     <Compile Include="Parsing\Parsers\AnyParser.cs" />
     <Compile Include="Log\Secretary.cs" />
-    <Compile Include="Collections\Settings\IncludeParser.cs" />
     <Compile Include="Collections\Settings\MissingSettingException.cs" />
     <Compile Include="Collections\Settings\Settings.cs" />
-    <Compile Include="Collections\Settings\SettingsParser.cs" />
     <Compile Include="Collections\Map.cs" />
     <Compile Include="Collections\StringList.cs" />
     <Compile Include="Collections\Maps\SerializingMap.cs" />
@@ -86,7 +84,6 @@
     <Compile Include="Collections\CleverSet.cs" />
     <Compile Include="Collections\MultiDict.cs" />
     <Compile Include="Parsing\Parsers\ReferenceParser.cs" />
-    <Compile Include="Collections\Settings\StatementParser.cs" />
     <Compile Include="Collections\Maps\NetworkMap.cs" />
     <Compile Include="Parsing\Parsers\FilenameParser.cs" />
     <Compile Include="Collections\Maps\ObjectMap.cs" />
@@ -94,10 +91,13 @@
     <Compile Include="Log\Profiling\Entry.cs" />
     <Compile Include="Log\Profiling\Report.cs" />
     <Compile Include="Collections\MapException.cs" />
-    <Compile Include="Collections\Settings\ConstructorParser.cs" />
-    <Compile Include="Collections\Settings\StructAssignmentParser.cs" />
     <Compile Include="Parsing\Parsers\SequenceParser.cs" />
     <Compile Include="Parsing\Parsers\GreedyParser.cs" />
+    <Compile Include="Collections\Settings\Parser\ConstructorParser.cs" />
+    <Compile Include="Collections\Settings\Parser\IncludeParser.cs" />
+    <Compile Include="Collections\Settings\Parser\SettingsParser.cs" />
+    <Compile Include="Collections\Settings\Parser\StatementParser.cs" />
+    <Compile Include="Collections\Settings\Parser\StructAssignmentParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -109,5 +109,7 @@
     <Folder Include="Streaming\" />
     <Folder Include="Collections\Maps\Search\" />
     <Folder Include="Log\Profiling\" />
+    <Folder Include="Composing\" />
+    <Folder Include="Collections\Settings\Parser\" />
   </ItemGroup>
 </Project>
