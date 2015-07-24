@@ -12,11 +12,18 @@ namespace TestSuite
 		{
 			SettingsComposer composer = new SettingsComposer ();
 
-			TestAgainst (RunTestcase2 (composer), "Testcase2.conf");
-			TestAgainst (RunTestcase1(composer), "TestCase1.conf");
+			TestAgainst (EmptyCase (composer), "EmptyCase.conf");
+			TestAgainst (SingleCase (composer), "SingleCase.conf");
+			TestAgainst (ArrayCase (composer), "ArrayCase.conf");
+			TestAgainst (EndBoss(composer), "EndBoss.conf");
 		}
 
-		static string RunTestcase2 (SettingsComposer composer)
+		static string EmptyCase (SettingsComposer composer)
+		{
+			return composer.Serialize (new Settings ());
+		}
+
+		static string SingleCase (SettingsComposer composer)
 		{
 			Settings data = new Settings ();
 		
@@ -25,7 +32,18 @@ namespace TestSuite
 			return composer.Serialize (data);
 		}
 
-		static string RunTestcase1 (SettingsComposer composer)
+		static string ArrayCase (SettingsComposer composer)
+		{
+			Settings data = new Settings ();
+
+			IEnumerable<string> taarten = new string[] { "kersen", "appel", "chocolade" };
+
+			data ["taarten"] = taarten;
+
+			return composer.Serialize (data);
+		}
+
+		static string EndBoss (SettingsComposer composer)
 		{
 			Settings data = new Settings ();
 

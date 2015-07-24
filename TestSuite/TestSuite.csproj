@@ -48,11 +48,15 @@
     <Folder Include="Resources\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="TestCase1.conf">
+    <None Include="EmptyCase.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="TestCase2.conf">
+    <None Include="SingleCase.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="EndBoss.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="ArrayCase.conf" />
   </ItemGroup>
 </Project>
