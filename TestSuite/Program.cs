@@ -12,8 +12,17 @@ namespace TestSuite
 		{
 			SettingsComposer composer = new SettingsComposer ();
 
-			Console.WriteLine ("Test case 1...");
+			TestAgainst (RunTestcase2 (composer), "Testcase2.conf");
 			TestAgainst (RunTestcase1(composer), "TestCase1.conf");
+		}
+
+		static string RunTestcase2 (SettingsComposer composer)
+		{
+			Settings data = new Settings ();
+		
+			data ["taart"] = 2;
+
+			return composer.Serialize (data);
 		}
 
 		static string RunTestcase1 (SettingsComposer composer)
@@ -42,6 +51,8 @@ namespace TestSuite
 		}
 
 		public static void TestAgainst(string data, string verifile) {			
+			Console.WriteLine (verifile);
+
 			using (StreamReader reader = new StreamReader(File.OpenRead(verifile))) {
 				string verificationData = reader.ReadToEnd ();
 
