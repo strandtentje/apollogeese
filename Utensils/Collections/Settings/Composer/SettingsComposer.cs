@@ -1,5 +1,6 @@
 using System;
 using BorrehSoft.Utensils.Collections.Settings;
+using System.IO;
 
 namespace BorrehSoft.Utensils
 {
@@ -13,9 +14,25 @@ namespace BorrehSoft.Utensils
 
 		}
 
+		public void ToStreamWriter(Settings data, StreamWriter writer) {
+			throw new NotImplementedException ();
+		}
+
+		public void ToStream(Settings data, Stream targetStream) {
+			ToStreamWriter (data, new StreamWriter (targetStream));
+		}
+
 		public string Serialize (Settings data)
 		{
-			throw new NotImplementedException ();
+			MemoryStream stream = new MemoryStream ();
+
+			ToStream (data, stream);
+
+			stream.Position = 0;
+
+			StreamReader reader = new StreamReader (stream);
+
+			return reader.ReadToEnd ();
 		}
 	}
 }
