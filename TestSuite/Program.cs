@@ -18,7 +18,7 @@ namespace TestSuite
 
 		static string RunTestcase1 (SettingsComposer composer)
 		{
-			Settings data = Settings ();
+			Settings data = new Settings ();
 
 			IEnumerable<string> plugins = new string[] { "/usr/lib/BasicHttpServer.dll", "/usr/lib/OutputComposing.dll" };
 			data ["plugins"] = plugins;
@@ -41,7 +41,7 @@ namespace TestSuite
 			return composer.Serialize (data);
 		}
 
-		public void TestAgainst(string data, string verifile) {			
+		public static void TestAgainst(string data, string verifile) {			
 			using (StreamReader reader = new StreamReader(File.OpenRead(verifile))) {
 				string verificationData = reader.ReadToEnd ();
 
