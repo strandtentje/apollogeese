@@ -98,6 +98,7 @@
     <Compile Include="Collections\Settings\Parser\SettingsParser.cs" />
     <Compile Include="Collections\Settings\Parser\StatementParser.cs" />
     <Compile Include="Collections\Settings\Parser\StructAssignmentParser.cs" />
+    <Compile Include="Collections\Settings\Composer\SettingsComposer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -111,5 +112,6 @@
     <Folder Include="Log\Profiling\" />
     <Folder Include="Composing\" />
     <Folder Include="Collections\Settings\Parser\" />
+    <Folder Include="Collections\Settings\Composer\" />
   </ItemGroup>
 </Project>
