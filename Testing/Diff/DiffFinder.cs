@@ -38,17 +38,6 @@ namespace Testing.Diff
 
 		Service PerfectMatch { get { return this.Branches ["perfect"] ?? Stub; } }
 
-		/// <summary>
-		/// Gets the diff tool start info.
-		/// </summary>
-		/// <returns>The diff tool start info.</returns>
-		ProcessStartInfo GetDiffToolStartInfo ()
-		{
-			return new ProcessStartInfo (
-				this.DiffToolCommand, string.Format ("-u {0} -", this.VerificationFile)) {
-				UseShellExecute = false, RedirectStandardInput = true, RedirectStandardOutput = true
-			};
-		}
 
 		/// <summary>
 		/// Distributes the diff.
@@ -85,18 +74,13 @@ namespace Testing.Diff
 
 			if (parameters.TryGetClosest (typeof(IIncomingBodiedInteraction), out unparsed)) {				
 				IIncomingBodiedInteraction incomingData;
-				Process diffToolProcess;
 
 				incomingData = (IIncomingBodiedInteraction)unparsed;
 
-				diffToolProcess = DProcess.Start (GetDiffToolStartInfo());
-
-				incomingData.IncomingBody.CopyTo (diffToolProcess.StandardInput.BaseStream);
-				diffToolProcess.StandardInput.Close ();
-
-				DistributeDiff (diffToolProcess.StandardOutput, parameters);
-
-				diffToolProcess.Dispose ();
+				DiffSession diffSession = new DiffSession(DiffToolCommand);
+				diffSession.SetInput (this.VerificationFile, incomingData.IncomingBody);
+				DistributeDiff (diffSession.GetOutputReader(), parameters);
+				diffSession.Dispose ();
 			} else {
 				throw new Exception ("No incoming stream");
 			}
