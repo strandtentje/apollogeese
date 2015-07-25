@@ -110,7 +110,6 @@
     <Folder Include="Streaming\" />
     <Folder Include="Collections\Maps\Search\" />
     <Folder Include="Log\Profiling\" />
-    <Folder Include="Composing\" />
     <Folder Include="Collections\Settings\Parser\" />
     <Folder Include="Collections\Settings\Composer\" />
   </ItemGroup>
