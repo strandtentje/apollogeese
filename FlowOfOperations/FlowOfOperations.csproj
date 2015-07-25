@@ -63,6 +63,7 @@
     <Compile Include="Visualization\ModuleView.cs" />
     <Compile Include="Visualization\SettingsView.cs" />
     <Compile Include="Visualization\SettingInteraction.cs" />
+    <Compile Include="Visualization\TypeList.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
