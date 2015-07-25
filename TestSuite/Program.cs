@@ -36,7 +36,7 @@ namespace TestSuite
 
 			data ["intje"] = 33;
 			data ["booltje"] = true;
-			data ["floatje"] = 33.0f;
+			data ["floatje"] = 33.1f;
 			data ["emptyarr"] = (IEnumerable<object>)(new List<object> ());
 			data ["emptydict"] = new Settings ();
 

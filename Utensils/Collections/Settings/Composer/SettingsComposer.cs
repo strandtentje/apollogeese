@@ -10,6 +10,7 @@ namespace BorrehSoft.Utensils
 	public class SettingsComposer
 	{
 		private int depth;
+
 		private char startBlock;
 		private char endBlock;
 		private char entitySe;
@@ -17,6 +18,8 @@ namespace BorrehSoft.Utensils
 		private char endArr;
 		private char arrSe;
 		private char couplerChar;
+
+		private bool first;
 
 
 		public SettingsComposer (
@@ -33,29 +36,38 @@ namespace BorrehSoft.Utensils
 			this.endArr = endArr;
 			this.arrSe = arrSe;
 			this.couplerChar = couplerChar;
+
+			this.first = true;
 		}
 
 		public void ToStreamWriter(Settings data, StreamWriter writer) {
-			
+
+			writer.AutoFlush = true;
+
 			//start composing a Settings object
-			writer.Write (new String ('\t', depth));
 			writer.Write (startBlock);
-			writer.Write ("\n");
 			depth++;
 
 			//begin serializing internal information
 			foreach(KeyValuePair<string, object> pair in data.Dictionary){
 
+				if (first) {
+					writer.Write ("\n");
+					first = false;
+				}
 				writer.Write (new String ('\t', depth));
 				writer.Write (pair.Key);
 				writer.Write (" ");
-				writer.Write (new String ('\t', depth));
+				writer.Write (couplerChar);
 				writer.Write (" ");
 
 				if (pair.Value is Settings) {
+					ToStreamWriter ((Settings)pair.Value, writer);
 					//compose this (sub)settings data
-				} else if (pair.Value is IEnumerable<string>) {
+				} else if (pair.Value is IEnumerable<object>) {
+					writer.Write (startArr);
 					//compose an array of strings
+					writer.Write (endArr);
 				} else if (pair.Value is String) {
 					writer.Write ("\"");
 					writer.Write (pair.Value);
@@ -72,7 +84,10 @@ namespace BorrehSoft.Utensils
 			//close a Settings object
 			depth--;
 			writer.Write (new String ('\t', depth));
-			writer.Write (endBlock);
+			writer.Write(endBlock);
+			if (first) {
+				writer.Write ("\n");
+			}
 
 		}
 
