@@ -43,6 +43,10 @@
       <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
       <Name>Utensils</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Testing\Testing.csproj">
+      <Project>{7B1BAD3C-775E-4481-804C-1EB9479AFFF4}</Project>
+      <Name>Testing</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
