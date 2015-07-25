@@ -294,7 +294,7 @@ Global
 		{FF10A427-5CC9-4C4F-8AAA-FE6D65D66AE7}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = ApolloGeese\Geese.csproj
+		StartupItem = TestSuite\TestSuite.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
