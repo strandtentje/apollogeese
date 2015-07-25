@@ -19,7 +19,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		}
 
 		private Service BlockView, ModuleView,
-			InteractionView, SiblingIterator,
+			InteractionView,
 			SettingIterator;
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -27,7 +27,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			if (e.Name == "block") BlockView = e.NewValue;
 			if (e.Name == "module")	ModuleView = e.NewValue;
 			if (e.Name == "interaction") InteractionView = e.NewValue;
-			if (e.Name == "siblingiterator") SiblingIterator = e.NewValue;
 		}
 
 		protected virtual Service GetModel(IInteraction parameters) {
@@ -37,10 +36,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		protected override void Initialize (Settings modSettings)
 		{
 			Branches["model"] = Stub; 
-			Branches ["module"] = Stub;
+			Branches["module"] = Stub;
 			Branches["block"] = Stub;
 			Branches["interaction"] = Stub; 
-			Branches["siblingiterator"] = Stub;
 		}
 
 		bool VisualizeInteraction (Service origin, string branchName, Service target, IInteraction parentParameters)
@@ -84,18 +82,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 		protected override bool Process (IInteraction parameters)
 		{
-			bool success = true;
-			OutgoingIterator siblings = new OutgoingIterator(parameters, "siblings");
-
-			foreach (string name in PossibleSiblingTypes.Dictionary.Keys) {
-				siblings["typename"] = name;
-				success &= SiblingIterator.TryProcess(siblings);
-			}
-
-			QuickInteraction finishedSiblings = new QuickInteraction (parameters);
-			finishedSiblings ["siblings"] = siblings.GetFinished ();
-
-			return VisualizeBlock(GetModel(parameters), finishedSiblings);
+			return VisualizeBlock(GetModel(parameters), parameters);
 		}
 	}
 }
