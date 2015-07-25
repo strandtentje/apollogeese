@@ -3,13 +3,13 @@ using BorrehSoft.Utensils.Collections.Settings;
 using System.Text;
 using System.Collections.Generic;
 using BorrehSoft.Utensils.Collections;
+using System.IO;
 
 namespace BorrehSoft.Utensils
 {
 	public class SettingsComposer
 	{
 		private int depth;
-		private StringBuilder builder;
 		private char startBlock;
 		private char endBlock;
 		private char entitySe;
@@ -25,7 +25,6 @@ namespace BorrehSoft.Utensils
 			char couplerChar = '=')
 		{
 			this.depth = 0;
-			this.builder = new StringBuilder ();
 
 			this.startBlock = startBlock;
 			this.endBlock = endBlock;
@@ -36,46 +35,62 @@ namespace BorrehSoft.Utensils
 			this.couplerChar = couplerChar;
 		}
 
-		public string Serialize (Settings data)
-		{
+		public void ToStreamWriter(Settings data, StreamWriter writer) {
+			
 			//start composing a Settings object
-			builder.Append ('\t', depth);
-			builder.Append (startBlock);
-			builder.Append ("\n");
+			writer.Write (new String ('\t', depth));
+			writer.Write (startBlock);
+			writer.Write ("\n");
 			depth++;
 
 			//begin serializing internal information
 			foreach(KeyValuePair<string, object> pair in data.Dictionary){
 
-				builder.Append ('\t', depth);
-				builder.Append (pair.Key);
-				builder.Append (" ");
-				builder.Append (couplerChar);
-				builder.Append (" ");
+				writer.Write (new String ('\t', depth));
+				writer.Write (pair.Key);
+				writer.Write (" ");
+				writer.Write (new String ('\t', depth));
+				writer.Write (" ");
 
 				if (pair.Value is Settings) {
 					//compose this (sub)settings data
 				} else if (pair.Value is IEnumerable<string>) {
 					//compose an array of strings
 				} else if (pair.Value is String) {
-					builder.Append ("\"");
-					builder.Append (pair.Value);
-					builder.Append ("\"");
+					writer.Write ("\"");
+					writer.Write (pair.Value);
+					writer.Write ("\"");
 				} else {
-					builder.Append (pair.Value);
+					writer.Write (pair.Value);
 				}
 
-				builder.Append (entitySe);
-				builder.Append ("\n");
+				writer.Write (entitySe);
+				writer.Write ("\n");
 
 			}
 
 			//close a Settings object
 			depth--;
-			builder.Append ('\t', depth);
-			builder.Append (endBlock);
+			writer.Write (new String ('\t', depth));
+			writer.Write (endBlock);
 
-			return builder.ToString ();
+		}
+
+		public void ToStream(Settings data, Stream targetStream) {
+			ToStreamWriter (data, new StreamWriter (targetStream));
+		}
+
+		public string Serialize (Settings data)
+		{
+			MemoryStream stream = new MemoryStream ();
+
+			ToStream (data, stream);
+
+			stream.Position = 0;
+
+			StreamReader reader = new StreamReader (stream);
+
+			return reader.ReadToEnd ();
 		}
 	}
 }

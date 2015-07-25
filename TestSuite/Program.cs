@@ -13,6 +13,7 @@ namespace TestSuite
 			SettingsComposer composer = new SettingsComposer ();
 
 			TestAgainst (EmptyCase (composer), "EmptyCase.conf");
+			TestAgainst (TypeCase (composer), "TypeCase.conf");
 			TestAgainst (SingleCase (composer), "SingleCase.conf");
 			TestAgainst (ArrayCase (composer), "ArrayCase.conf");
 			TestAgainst (SubmapCase (composer), "SubmapCase.conf");
@@ -22,6 +23,19 @@ namespace TestSuite
 		static string EmptyCase (SettingsComposer composer)
 		{
 			return composer.Serialize (new Settings ());
+		}
+
+		static string TypeCase (SettingsComposer composer)
+		{
+			Settings data = new Settings ();
+
+			data ["intje"] = 33;
+			data ["booltje"] = true;
+			data ["floatje"] = 33.0f;
+			data ["emptyarr"] = (IEnumerable<object>)(new List<object> ());
+			data ["emptydict"] = new Settings ();
+
+			throw composer.Serialize (data);
 		}
 
 		static string SingleCase (SettingsComposer composer)
@@ -52,7 +66,7 @@ namespace TestSuite
 		{
 			Settings data = new Settings ();
 
-			IEnumerable<string> taarten = new string[] { "kersen", "appel", "chocolade" };
+			IEnumerable<object> taarten = new string[] { "kersen", "appel", "chocolade" };
 
 			data ["taarten"] = taarten;
 
@@ -63,13 +77,13 @@ namespace TestSuite
 		{
 			Settings data = new Settings ();
 
-			IEnumerable<string> plugins = new string[] { "/usr/lib/BasicHttpServer.dll", "/usr/lib/OutputComposing.dll" };
+			IEnumerable<object> plugins = new string[] { "/usr/lib/BasicHttpServer.dll", "/usr/lib/OutputComposing.dll" };
 			data ["plugins"] = plugins;
 				Settings instances = new Settings ();
 					Settings firstInstance = new Settings ();
 					firstInstance ["type"] = "HttpService";
 					Settings modConf = new Settings ();
-						IEnumerable<string> prefixes = new string[] { "http://localhost:8080/" };
+						IEnumerable<object> prefixes = new string[] { "http://localhost:8080/" };
 						modConf ["prefixes"] = prefixes;
 					firstInstance ["modconf"] = modConf;
 					Settings underlyingInstance = new Settings ();
