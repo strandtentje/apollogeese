@@ -55,22 +55,22 @@
     <Compile Include="OverSocket\Piping\Symbol.cs" />
     <Compile Include="OverSocket\Networking\ListenerWithEvents.cs" />
     <Compile Include="OverSocket\Networking\NewClientEvent.cs" />
-    <Compile Include="Visualization\FlowView.cs" />
-    <Compile Include="Visualization\OutgoingIterator.cs" />
-    <Compile Include="Visualization\Anchor.cs" />
-    <Compile Include="Visualization\MetaServiceInteraction.cs" />
-    <Compile Include="Visualization\MetaInteraction.cs" />
-    <Compile Include="Visualization\ModuleView.cs" />
-    <Compile Include="Visualization\SettingsView.cs" />
-    <Compile Include="Visualization\SettingInteraction.cs" />
-    <Compile Include="Visualization\TypeList.cs" />
+    <Compile Include="View\FlowView.cs" />
+    <Compile Include="View\OutgoingIterator.cs" />
+    <Compile Include="View\Anchor.cs" />
+    <Compile Include="View\MetaServiceInteraction.cs" />
+    <Compile Include="View\MetaInteraction.cs" />
+    <Compile Include="View\ModuleView.cs" />
+    <Compile Include="View\SettingsView.cs" />
+    <Compile Include="View\SettingInteraction.cs" />
+    <Compile Include="View\TypeList.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Module\" />
     <Folder Include="OverSocket\" />
     <Folder Include="OverSocket\Piping\" />
-    <Folder Include="Visualization\" />
+    <Folder Include="View\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Duckling\Duckling.csproj">

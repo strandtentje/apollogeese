@@ -4,6 +4,9 @@ using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
+	/// <summary>
+	/// this can't be good
+	/// </summary>
 	public class OutgoingIterator : QuickInteraction, IOutgoingBodiedInteraction
 	{
 		string name;
