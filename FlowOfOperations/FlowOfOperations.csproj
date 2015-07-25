@@ -55,21 +55,26 @@
     <Compile Include="OverSocket\Piping\Symbol.cs" />
     <Compile Include="OverSocket\Networking\ListenerWithEvents.cs" />
     <Compile Include="OverSocket\Networking\NewClientEvent.cs" />
-    <Compile Include="View\FlowView.cs" />
-    <Compile Include="View\OutgoingIterator.cs" />
-    <Compile Include="View\Anchor.cs" />
-    <Compile Include="View\MetaServiceInteraction.cs" />
-    <Compile Include="View\MetaInteraction.cs" />
-    <Compile Include="View\ModuleView.cs" />
-    <Compile Include="View\SettingsView.cs" />
-    <Compile Include="View\SettingInteraction.cs" />
-    <Compile Include="View\TypeList.cs" />
+    <Compile Include="Reflection\Control\AssignException.cs" />
+    <Compile Include="Reflection\Control\BranchAssigner.cs" />
+    <Compile Include="Reflection\Control\ServiceCreator.cs" />
+    <Compile Include="Reflection\View\Anchor.cs" />
+    <Compile Include="Reflection\View\FlowView.cs" />
+    <Compile Include="Reflection\View\ModuleView.cs" />
+    <Compile Include="Reflection\View\SettingsView.cs" />
+    <Compile Include="Reflection\View\TypeListView.cs" />
+    <Compile Include="Reflection\MetaInteraction.cs" />
+    <Compile Include="Reflection\MetaServiceInteraction.cs" />
+    <Compile Include="Reflection\OutgoingIterator.cs" />
+    <Compile Include="Reflection\SettingInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Module\" />
     <Folder Include="OverSocket\" />
     <Folder Include="OverSocket\Piping\" />
+    <Folder Include="Reflection\" />
+    <Folder Include="Reflection\View\" />
     <Folder Include="View\" />
   </ItemGroup>
   <ItemGroup>
