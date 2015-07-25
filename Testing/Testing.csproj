@@ -41,6 +41,7 @@
     <Compile Include="Probing\ProbeResultInteraction.cs" />
     <Compile Include="StreamTests\IncomingTestData.cs" />
     <Compile Include="StreamTests\OutgoingTestableData.cs" />
+    <Compile Include="Diff\DiffSession.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

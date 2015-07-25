@@ -3,6 +3,8 @@ using System.IO;
 using BorrehSoft.Utensils;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
+using System.Diagnostics;
+using Testing.Diff;
 
 namespace TestSuite
 {
@@ -20,12 +22,15 @@ namespace TestSuite
 			TestAgainst (EndBoss(composer), "EndBoss.conf");
 		}
 
-		static string EmptyCase (SettingsComposer composer)
+		static Stream EmptyCase (SettingsComposer composer)
 		{
-			return composer.Serialize (new Settings ());
+			MemoryStream stream = new MemoryStream ();
+			composer.ToStream (new Settings (), stream);
+			stream.Position = 0;
+			return stream;
 		}
 
-		static string TypeCase (SettingsComposer composer)
+		static Stream TypeCase (SettingsComposer composer)
 		{
 			Settings data = new Settings ();
 
@@ -35,19 +40,25 @@ namespace TestSuite
 			data ["emptyarr"] = (IEnumerable<object>)(new List<object> ());
 			data ["emptydict"] = new Settings ();
 
-			throw composer.Serialize (data);
+			MemoryStream stream = new MemoryStream ();
+			composer.ToStream (data, stream);
+			stream.Position = 0;
+			return stream;
 		}
 
-		static string SingleCase (SettingsComposer composer)
+		static Stream SingleCase (SettingsComposer composer)
 		{
 			Settings data = new Settings ();
 		
 			data ["taart"] = 2;
 
-			return composer.Serialize (data);
+			MemoryStream stream = new MemoryStream ();
+			composer.ToStream (data, stream);
+			stream.Position = 0;
+			return stream;
 		}
 
-		static string SubmapCase (SettingsComposer composer)
+		static Stream SubmapCase (SettingsComposer composer)
 		{
 			Settings data = new Settings ();
 
@@ -59,10 +70,13 @@ namespace TestSuite
 
 			data ["taart"] = taart;
 
-			return composer.Serialize (data);
+			MemoryStream stream = new MemoryStream ();
+			composer.ToStream (data, stream);
+			stream.Position = 0;
+			return stream;
 		}
 
-		static string ArrayCase (SettingsComposer composer)
+		static Stream ArrayCase (SettingsComposer composer)
 		{
 			Settings data = new Settings ();
 
@@ -70,10 +84,13 @@ namespace TestSuite
 
 			data ["taarten"] = taarten;
 
-			return composer.Serialize (data);
+			MemoryStream stream = new MemoryStream ();
+			composer.ToStream (data, stream);
+			stream.Position = 0;
+			return stream;
 		}
 
-		static string EndBoss (SettingsComposer composer)
+		static Stream EndBoss (SettingsComposer composer)
 		{
 			Settings data = new Settings ();
 
@@ -94,21 +111,21 @@ namespace TestSuite
 					firstInstance ["http_branch"] = underlyingInstance;
 				instances ["firstinstance"] = firstInstance;
 			data ["instances"] = instances;
-
-			return composer.Serialize (data);
+			
+			MemoryStream stream = new MemoryStream ();
+			composer.ToStream (data, stream);
+			stream.Position = 0;
+			return stream;
 		}
 
-		public static void TestAgainst(string data, string verifile) {			
+		public static void TestAgainst(Stream data, string verifile) {			
 			Console.WriteLine (verifile);
+			DiffSession session = new DiffSession ();
 
-			using (StreamReader reader = new StreamReader(File.OpenRead(verifile))) {
-				string verificationData = reader.ReadToEnd ();
+			session.SetInput (verifile, data);
 
-				if (data == verificationData) {
-					Console.WriteLine ("All is good");
-				} else {
-					Console.WriteLine ("Burp");
-				}
+			while (!session.GetOutputReader().EndOfStream) {
+				Console.WriteLine (session.GetOutputReader ().ReadLine ());
 			}
 		}
 	}
