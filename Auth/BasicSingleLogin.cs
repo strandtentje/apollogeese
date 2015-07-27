@@ -7,10 +7,8 @@ using BorrehSoft.ApolloGeese.Http;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Auth
 {
-	public class BasicSingleLogin : Service
+	public class BasicSingleLogin : TwoBranchedService
 	{
-		private Service Successful = Stub;
-		private Service Failure = Stub;
 		private string Username { get; set; }
 		private string Password { get; set; }
 		private string Realm { get; set; }
@@ -31,14 +29,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 			get {
 				return string.Format ("authenticate user '{0}' for realm '{1}'", Username, Realm);
 			}
-		}
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "successful")
-				Successful = e.NewValue;
-			if (e.Name == "failure")
-				Failure = e.NewValue;
 		}
 
 		protected override void Initialize (Settings modSettings)
