@@ -6,6 +6,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Maps;
+using System.Text;
 
 namespace BorrehSoft.ApolloGeese.Duckling
 {
@@ -119,10 +120,19 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		public abstract string Description { get; }
 
 		/// <summary>
-		/// Gets the error message that caused 'TryInitialize' to fail.
+		/// Gets the error message that caused 'SetSettings' to fail.
 		/// </summary>
 		/// <value>The error message.</value>
 		public string InitErrorMessage { get; private set; }
+
+		/// <summary>
+		/// Gets more info on the error that caused SetSettings to fail.
+		/// </summary>
+		/// <value>The init error detail.</value>
+		public string InitErrorDetail {
+			get;
+			private set;
+		}
 
 		/// <summary>
 		/// Gets the settings.
@@ -178,8 +188,14 @@ namespace BorrehSoft.ApolloGeese.Duckling
 					"Initialization for {2} {0} failed with the following message:\n{1}", 
 					Description, InitErrorMessage, this.GetType().Name));
 
-				for(Exception inner = ex; inner != null; inner = inner.InnerException)
-					Secretary.Report(0, "Inner: ", inner.Message);
+				StringBuilder errorDetail = new StringBuilder ();
+
+				for (Exception inner = ex; inner != null; inner = inner.InnerException)
+					errorDetail.AppendLine (inner.Message);
+
+				InitErrorDetail = errorDetail.ToString ();
+
+				Secretary.Report (0, errorDetail.ToString ());
 				
 				succesful = false;
 			}
