@@ -22,11 +22,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			InteractionView,
 			SettingIterator;
 
+		Service StubView;
+
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			if (e.Name == "block") BlockView = e.NewValue;
 			if (e.Name == "module")	ModuleView = e.NewValue;
 			if (e.Name == "interaction") InteractionView = e.NewValue;
+			if (e.Name == "stub") StubView = e.NewValue;
 		}
 
 		protected virtual Service GetModel(IInteraction parameters) {
@@ -36,8 +39,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		protected override void Initialize (Settings modSettings)
 		{
 			Branches["model"] = Stub; 
-			Branches["module"] = Stub;
 			Branches["block"] = Stub;
+			Branches["module"] = Stub;
+			Branches ["stub"] = Stub;
 			Branches["interaction"] = Stub; 
 		}
 
@@ -72,6 +76,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 				if ((model is MModule) && (ModuleView != Stub))
 					success &= ModuleView.TryProcess (modelContext);
+				else if ((model is StubService) && (StubView != Stub))
+					success &= StubView.TryProcess (modelContext);
 				else
 					success &= BlockView.TryProcess (modelContext);
 				
