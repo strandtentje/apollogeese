@@ -5,7 +5,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	public class AssignException : Exception
+	public class ControlException : Exception
 	{
 		public Cause ExceptionCause {
 			get;
@@ -17,8 +17,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			private set;
 		}
 
-		public AssignException (AssignException.Cause cause, string key) : base(
-			string.Format ("Code {0} on key {1}", (int)cause, Key))
+		public ControlException (ControlException.Cause cause, string key) : base(
+			string.Format ("Code {0} on key {1}", (int)cause, key))
 		{
 			this.ExceptionCause = cause;
 			this.Key = key;
@@ -30,7 +30,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			TypeMismatch = 2,
 			NoCandidate = 3,
 			NoService = 4,
-			NoBranchSupplied = 5
+			NoBranchSupplied = 5,
+			Uninitialized = 6,			
+			NoServiceName = 7,
+			BadService = 8,
+			NoMapFound = 9,
+			Exception = 10
 		}
 	}
 }

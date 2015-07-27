@@ -5,7 +5,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	public class BranchAssigner : Service
+	public class BranchAssigner : ServiceMutator
 	{
 		public override string Description {
 			get {
@@ -20,50 +20,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			sourceServiceIdKey = modSettings.GetString ("sourceserviceidkey", "sourceid");
 			sourceBranchNameKey = modSettings.GetString ("sourcebranchnamekey", "sourcebranch");
 			targetServiceIdKey = modSettings.GetString ("targetserviceidkey", "targetid");
-		}
-
-		Service Successful { get; set; }
-
-		Service Failure { get; set; }
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "successful")
-				this.Successful = e.NewValue;
-			if (e.Name == "failure")
-				this.Failure = e.NewValue;
-		}
-
-		int GetServiceInt (IInteraction parameters, string key)
-		{
-			object candidateValue;
-
-			if (parameters.TryGetFallback (key, out candidateValue)) {
-				if (candidateValue is int) {
-					return (int)candidateValue;
-				} else {
-					if (candidateValue is string) {
-						int candidateInt;
-						if (int.TryParse ((string)candidateValue, out candidateInt)) {
-							return candidateInt;
-						} else {
-							throw new AssignException (AssignException.Cause.IntParse, key);
-						}
-					} else {
-						throw new AssignException (AssignException.Cause.TypeMismatch, key);
-					}
-				}
-			} else {
-				throw new AssignException (AssignException.Cause.NoCandidate, key);
-			}
-		}
-
-		Service GetServiceById(int serviceID) {
-			if (ModelLookup.ContainsKey (serviceID)) {
-				return ModelLookup [serviceID];
-			} else {
-				throw new AssignException (AssignException.Cause.NoService, serviceID.ToString());
-			}
 		}
 
 		protected override bool Process (IInteraction parameters)
@@ -83,12 +39,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 					successful = Successful.TryProcess (new MetaInteraction(
 						parameters, source, branchName, target));
 				} else {
-					throw new AssignException (AssignException.Cause.NoBranchSupplied, sourceBranchNameKey);
+					throw new ControlException (ControlException.Cause.NoBranchSupplied, sourceBranchNameKey);
 				}
-			} catch (AssignException ex) {
-				QuickInteraction error = new QuickInteraction ();
-				error ["message"] = ex.Message;
-				successful = Failure.TryProcess (error);
+			} catch (ControlException ex) {
+				successful = Failure.TryProcess (new FailureInteraction (ex));
 			}
 
 			return successful;
