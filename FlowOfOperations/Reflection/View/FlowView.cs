@@ -58,7 +58,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		{
 			bool success = true;
 
-			if (!history.Contains (model.ModelID)) {
+			if (model is Proceed) {
+				Service nextModel = ((Proceed)model).GetReturnService (parentParameters, Stub);
+				success &= VisualizeBlock(nextModel, parentParameters);
+			} else if (!history.Contains (model.ModelID)) {
 				history.Add(model.ModelID);
 
 				MetaServiceInteraction modelContext = new MetaServiceInteraction (parentParameters, model);
@@ -86,4 +89,3 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		}
 	}
 }
-
