@@ -24,31 +24,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 		/// <value><c>true</c> if this instance has more 'directory'-names; otherwise, <c>false</c>.</value>
 		public bool HasTail { get; private set; }
 
-		private void WriteCurrentUrl(StringBuilder builder)
-		{
-			IInteraction closestKinInteraction;
-
-			if (this.Parent != null) {
-				if (this.Parent.TryGetClosest (typeof(SubsectionInteraction), out closestKinInteraction)) {
-					SubsectionInteraction closestKin = (SubsectionInteraction)closestKinInteraction;
-
-					closestKin.WriteCurrentUrl (builder);
-				}
-			}
-
-			if (this.BranchName != "main")
-				builder.AppendFormat ("/{0}", this.BranchName);
-		}
-
-		private string FindCurrentUrl ()
-		{
-			StringBuilder urlBuilder = new StringBuilder ();
-
-			WriteCurrentUrl (urlBuilder);
-
-			return urlBuilder.ToString ();
-		}
-
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Extensions.Navigation.SubsectionInteraction"/> class.
 		/// </summary>
@@ -64,8 +39,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 
 			if (HasTail) 
 				this ["branchname"] = http.URL.Peek ();
-
-			this ["currenturl"] = FindCurrentUrl ();
 		}
 
 		/// <summary>
