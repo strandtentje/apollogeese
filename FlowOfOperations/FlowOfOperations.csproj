@@ -71,6 +71,7 @@
     <Compile Include="Reflection\Control\ServiceConfigurer.cs" />
     <Compile Include="Reflection\Control\ServiceMutator.cs" />
     <Compile Include="Module\Proceed.cs" />
+    <Compile Include="Reflection\MetaModuleInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

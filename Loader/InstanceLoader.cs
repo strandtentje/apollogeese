@@ -18,6 +18,20 @@ namespace BorrehSoft.ApolloGeese.Loader
 		private static Map<CachedInstances> cache = new Map<CachedInstances>();
 
 		/// <summary>
+		/// Gets the metadata.
+		/// </summary>
+		/// <returns>The metadata.</returns>
+		/// <param name="file">File.</param>
+		public static Map<object> GetMetadata (string file)
+		{
+			if (!cache.Has (file)) {
+				GetInstances (file, false);
+			}
+
+			return cache [file].MetaData;
+		}
+
+		/// <summary>
 		/// Gets the service instances for a module file.
 		/// </summary>
 		/// <returns>The instances.</returns>
@@ -61,6 +75,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 
 			return new CachedInstances (
 				complinker.GetInstances (),
+				complinker.Configuration.GetSubsettings("info"),
 				info.LastWriteTime);
 		}
 	}

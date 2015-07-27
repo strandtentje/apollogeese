@@ -58,6 +58,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			}
 		}
 
+		public Map<object> ModuleMetadata {
+			get {
+				return InstanceLoader.GetMetadata (file);
+			}
+		}
+
 		protected override bool Process (IInteraction parameters)
 		{
 			Service referredService;

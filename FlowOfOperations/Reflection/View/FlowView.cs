@@ -68,18 +68,25 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			} else if (!history.Contains (model.ModelID)) {
 				history.Add(model.ModelID);
 
-				MetaServiceInteraction modelContext = new MetaServiceInteraction (parentParameters, model);
 
 				foreach (KeyValuePair<string, Service> BranchTuple in model.Branches.Dictionary) {
 					success &= VisualizeBlock (BranchTuple.Value, parentParameters, history);
 				}
 
-				if ((model is MModule) && (ModuleView != Stub))
+				if ((model is MModule) && (ModuleView != Stub)) {
+					MetaModuleInteraction modelContext = new MetaModuleInteraction (
+						parentParameters, model, ((MModule)model).ModuleMetadata);
+
 					success &= ModuleView.TryProcess (modelContext);
-				else if ((model is StubService) && (StubView != Stub))
-					success &= StubView.TryProcess (modelContext);
-				else
-					success &= BlockView.TryProcess (modelContext);
+				} else {
+					MetaServiceInteraction modelContext = new MetaServiceInteraction (
+						parentParameters, model);
+
+					if ((model is StubService) && (StubView != Stub))
+						success &= StubView.TryProcess (modelContext);
+					else
+						success &= BlockView.TryProcess (modelContext);
+				}
 				
 				foreach (KeyValuePair<string, Service> BranchTuple in model.Branches.Dictionary) {
 					success &= VisualizeInteraction (model, BranchTuple.Key, BranchTuple.Value, parentParameters);
