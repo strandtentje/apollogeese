@@ -35,13 +35,24 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			branchName = (string)modSettings.Get ("branchname");
 		}
 
-		protected override bool Process (IInteraction parameters)
-		{
-			JumpInteraction jumpParameters = (JumpInteraction)parameters.GetClosest (typeof(JumpInteraction));
+		public Service GetReturnService(IInteraction parameters, Service defaultService) {
 			Service returnService;
 
-			if (!jumpParameters.TryGetDeepBranch (branchName, out returnService))
-				returnService = defaultBranch;
+			if (TryGetReturnService (parameters, out returnService))
+				return returnService;
+			else 
+				return defaultService;
+		}
+
+		protected bool TryGetReturnService(IInteraction parameters, out Service returnService) {
+			JumpInteraction jumpParameters = (JumpInteraction)parameters.GetClosest (typeof(JumpInteraction));
+
+			return jumpParameters.TryGetDeepBranch (branchName, out returnService);
+		}
+
+		protected override bool Process (IInteraction parameters)
+		{
+			Service returnService = GetReturnService (parameters, defaultBranch);
 
 			return returnService.TryProcess (parameters);
 		}
