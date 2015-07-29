@@ -23,6 +23,10 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 		public Service Root { get; internal set; }
 
+		public virtual IEnumerable<ConfigHint> GetConfigHints() {
+			return new ConfigHint[] { };
+		}
+
 		/// <summary>
 		/// Sets ancestory, useful on newly constructed services.
 		/// </summary>
