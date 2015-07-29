@@ -4,6 +4,7 @@ using System.IO;
 using BorrehSoft.Utensils.Parsing;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Parsing.Parsers;
+using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.Utensils.Collections.Settings
 {
@@ -20,6 +21,12 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		new public Settings Clone() 
 		{
 			return new Settings (base.Clone());
+		}
+
+		public static Settings FromMerge (params Settings[] bases)
+		{
+			// Is this dirty? Yes.
+			return new Settings (new CombinedMap<object> (bases));
 		}
 
 		/// <summary>
@@ -156,6 +163,23 @@ namespace BorrehSoft.Utensils.Collections.Settings
 		public object Tag {
 			get;
 			set;
+		}
+
+		public bool IsLoaded {
+			get;
+			set;
+		}
+
+		protected override void Delete (string key)
+		{
+			base.Delete (key);
+			IsLoaded = false;
+		}
+
+		protected override void Add (string key, object value)
+		{
+			base.Add (key, value);
+			IsLoaded = false;
 		}
 
     }

@@ -182,6 +182,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 					LoadDefaultParameters(modSettings["default"]);
 				}
 				Initialize(modSettings);
+				configuration.IsLoaded = true;
 				InitErrorMessage = "";
 				succesful = true;
 			}
