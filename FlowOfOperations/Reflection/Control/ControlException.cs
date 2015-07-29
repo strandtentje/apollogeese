@@ -26,6 +26,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 		public enum Cause : int
 		{
+			Unparseable = 11,
+
 			IntParse = 1,
 			TypeMismatch = 2,
 			NoCandidate = 3,

@@ -10,15 +10,11 @@ using MModule = BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module.Module
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	class MetaModuleInteraction : QuickInteraction
+	class MetaModuleInteraction : MetaServiceInteraction
 	{
 		public MetaModuleInteraction (
-			IInteraction parentParameters, Service model, Map<object> metaData) : base(
-			parentParameters, metaData)
+			IInteraction parentParameters, Service model, Map<object> metaData) : base(parentParameters, model, metaData)
 		{
-			this ["serviceid"] = model.ModelID;
-			this ["servicetype"] = model.GetType ().Name;
-			this ["servicedescription"] = HttpUtility.HtmlEncode (model.Description);
 			this ["moduledescription"] = metaData.GetString ("description", "");
 			this ["moduledetail"] = metaData.GetString ("detail", "");
 		}

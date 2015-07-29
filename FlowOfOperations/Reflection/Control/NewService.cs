@@ -6,7 +6,7 @@ using BorrehSoft.ApolloGeese.Loader;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	public class ServiceCreator : TwoBranchedService
+	public class NewService : TwoBranchedService
 	{
 		public override string Description {
 			get {

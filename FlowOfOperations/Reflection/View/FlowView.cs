@@ -79,7 +79,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 					success &= ModuleView.TryProcess (modelContext);
 				} else {
-					MetaServiceInteraction modelContext = new MetaServiceInteraction (
+					MetaServiceInteraction modelContext = MetaServiceInteraction.FromService(
 						parentParameters, model);
 
 					if ((model is StubService) && (StubView != Stub))

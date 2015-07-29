@@ -55,8 +55,6 @@
     <Compile Include="OverSocket\Piping\Symbol.cs" />
     <Compile Include="OverSocket\Networking\ListenerWithEvents.cs" />
     <Compile Include="OverSocket\Networking\NewClientEvent.cs" />
-    <Compile Include="Reflection\Control\BranchAssigner.cs" />
-    <Compile Include="Reflection\Control\ServiceCreator.cs" />
     <Compile Include="Reflection\View\Anchor.cs" />
     <Compile Include="Reflection\View\FlowView.cs" />
     <Compile Include="Reflection\View\ModuleView.cs" />
@@ -68,10 +66,13 @@
     <Compile Include="Reflection\SettingInteraction.cs" />
     <Compile Include="Reflection\Control\ControlException.cs" />
     <Compile Include="Reflection\Control\FailureInteraction.cs" />
-    <Compile Include="Reflection\Control\ServiceConfigurer.cs" />
     <Compile Include="Reflection\Control\ServiceMutator.cs" />
     <Compile Include="Module\Proceed.cs" />
     <Compile Include="Reflection\MetaModuleInteraction.cs" />
+    <Compile Include="Reflection\Control\SetBranch.cs" />
+    <Compile Include="Reflection\Control\NewService.cs" />
+    <Compile Include="Reflection\Control\ReloadService.cs" />
+    <Compile Include="Reflection\Control\EmptyClass.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

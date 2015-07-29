@@ -6,7 +6,7 @@ using BorrehSoft.Utensils.Collections;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	public class ServiceConfigurer : ServiceMutator
+	public class ReloadService : ServiceMutator
 	{
 		public override string Description {
 			get {
@@ -16,9 +16,21 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 		string ServiceIdKey;
 
+		bool Replace {
+			get;
+			set;
+		}
+
+		bool Reconfigure {
+			get;
+			set;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			this.ServiceIdKey = modSettings.GetString ("serviceidkey", "serviceid");
+			this.Reconfigure = modSettings.GetBool ("reconfigure", false);
+			this.Replace = modSettings.GetBool ("replace", false);
 		}
 
 		/// <summary>
@@ -40,7 +52,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			}
 		}
 
-
 		protected override bool Process (IInteraction parameters)
 		{
 			bool successful = true;
@@ -48,12 +59,20 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			try {
 				int serviceInt = GetServiceInt (parameters, this.ServiceIdKey);
 				Service foundService = GetServiceById(serviceInt);
-				Settings config = GetContextSettings(parameters);
+				Settings config = foundService.GetSettings();
+
+				if (Reconfigure) {
+					config = GetContextSettings(parameters);
+
+					if (!Replace) {
+						config = Settings.FromMerge(config, foundService.GetSettings());
+					}
+				}
 				
 				if (!foundService.SetSettings (config)) {
 					successful &= Failure.TryProcess(new FailureInteraction(foundService.InitErrorMessage, foundService.InitErrorDetail));
 				} else {
-					successful &= Successful.TryProcess(new MetaServiceInteraction(parameters, foundService));
+					successful &= Successful.TryProcess(MetaServiceInteraction.FromService(parameters, foundService));
 				}
 			} catch(ControlException ex) {
 				successful &= Failure.TryProcess (new FailureInteraction (ex));

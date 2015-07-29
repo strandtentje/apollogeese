@@ -5,7 +5,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	public class BranchAssigner : ServiceMutator
+	public class SetBranch : ServiceMutator
 	{
 		public override string Description {
 			get {
