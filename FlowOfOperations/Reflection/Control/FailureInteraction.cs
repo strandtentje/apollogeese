@@ -8,13 +8,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
 	class FailureInteraction : QuickInteraction
 	{
-		public FailureInteraction (string initErrorMessage, string initErrorDetail)
+		public FailureInteraction (IInteraction parent, string initErrorMessage, string initErrorDetail) : base(parent)
 		{
 			this ["errormessage"] = initErrorMessage;
 			this ["errordetail"] = initErrorDetail;
 		}
 
-		public FailureInteraction (ControlException ex)
+		public FailureInteraction (IInteraction parent, ControlException ex) : base(parent)
 		{
 			this ["errormessage"] = ex.Message;		
 		}

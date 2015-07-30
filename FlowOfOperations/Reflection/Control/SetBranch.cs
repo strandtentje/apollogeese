@@ -42,7 +42,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 					throw new ControlException (ControlException.Cause.NoBranchSupplied, sourceBranchNameKey);
 				}
 			} catch (ControlException ex) {
-				successful = Failure.TryProcess (new FailureInteraction (ex));
+				successful = Failure.TryProcess (new FailureInteraction (parameters, ex));
 			}
 
 			return successful;

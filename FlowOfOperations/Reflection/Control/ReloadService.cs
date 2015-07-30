@@ -70,12 +70,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 				}
 				
 				if (!foundService.SetSettings (config)) {
-					successful &= Failure.TryProcess(new FailureInteraction(foundService.InitErrorMessage, foundService.InitErrorDetail));
+					successful &= Failure.TryProcess(new FailureInteraction(parameters, foundService.InitErrorMessage, foundService.InitErrorDetail));
 				} else {
 					successful &= Successful.TryProcess(MetaServiceInteraction.FromService(parameters, foundService));
 				}
 			} catch(ControlException ex) {
-				successful &= Failure.TryProcess (new FailureInteraction (ex));
+				successful &= Failure.TryProcess (new FailureInteraction (parameters, ex));
 			}
 
 			return successful;

@@ -65,7 +65,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 				return this.Successful.TryProcess (successInteraction);
 			} catch (ControlException ex) {
-				return this.Failure.TryProcess (new FailureInteraction (ex));
+				return this.Failure.TryProcess (new FailureInteraction (parameters, ex));
 			}
 		}
 	}
