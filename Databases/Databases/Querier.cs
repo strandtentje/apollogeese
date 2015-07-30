@@ -24,7 +24,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		private int resultCap = -1;
 		private string queryFile = "", queryText = "";
 		private Settings defaultParameters;
-
+				
 		public override string Description {
 			get {
 				string[] segments = queryFile.Split('/');

@@ -8,8 +8,6 @@
     <RootNamespace>BorrehSoft.Utensils</RootNamespace>
     <AssemblyName>Utensils</AssemblyName>
     <BaseDirectory>.</BaseDirectory>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
