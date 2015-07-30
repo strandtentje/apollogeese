@@ -71,10 +71,15 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 			string pickedBranchName;
 
-			if (branchName == null)
-				pickedBranchName = ((DirectedInteraction)parameters).BranchName;
-			else
+			if (branchName == null) {
+				if (parameters is DirectedInteraction) {
+					pickedBranchName = ((DirectedInteraction)parameters).BranchName;
+				} else {
+					throw new JumpException ("{none supplied in settings}");
+				}
+			} else {
 				pickedBranchName = branchName;
+			}
 
 			referredService = ModuleBranches [pickedBranchName];
 			jumpInteraction = new JumpInteraction (parameters, Branches, GetSettings ());
