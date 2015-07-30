@@ -13,11 +13,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 	/// </summary>
 	public class BodyReader : FieldReader
 	{
+		static char assigner = '=';
+		static char concatenator = '&';
+
 		public override Map<object> Deserialize (string data)
 		{
 			SerializingMap<object> postedData = new SerializingMap<object> ();
 
-			if (data != null) postedData.AddFromString (data, HttpUtility.UrlDecode, '=', '&');
+			if (data != null) postedData.AddFromString (data, HttpUtility.UrlDecode, assigner, concatenator, -1);
 			
 			return postedData;
 		}
