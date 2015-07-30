@@ -40,7 +40,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 			else 
 				return -1;
 
-			while (Validator(session.Data[session.Offset])) {
+			while ((session.Data.Length > session.Offset) && Validator(session.Data[session.Offset])) {
 				resultBuilder.Append (session.Data [session.Offset++]);
 			}
 

@@ -53,7 +53,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 		}
 
 		internal override int ParseMethod (ParsingSession session, out object result)
-		{
+        		{
 			if (opener.Run (session) > 0) {
 				List<object> target = new List<object>();
 				result = target;

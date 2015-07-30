@@ -18,10 +18,12 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 
 		internal override int ParseMethod (ParsingSession session, out object result)
 		{
-			if (session.Data [session.Offset] == TargetCharacter) {
-				session.Offset++;
-				result = TargetCharacter;
-				return 1;
+			if (session.Data.Length > session.Offset) {
+				if (session.Data [session.Offset] == TargetCharacter) {
+					session.Offset++;
+					result = TargetCharacter;
+					return 1;
+				}
 			}
 			result = null;
 			return -1;

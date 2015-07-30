@@ -32,7 +32,7 @@ namespace BorrehSoft.Utensils.Parsing.Parsers
 		/// Nothing
 		/// </param>
 		internal override int ParseMethod(ParsingSession session, out object result)
-		{
+ 		{
 			Match oncomingWhitespace = whiteSpaceRegex.Match (
 				session.Data.Substring (session.Offset));
 

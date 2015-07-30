@@ -35,6 +35,11 @@ namespace BorrehSoft.Utensils.Parsing
 		/// </param>
 		public int Run(ParsingSession session, out object result)
 		{	
+			result = null;
+			// this is never good
+			if (session.Offset >= session.Data.Length)
+				return -1;
+
 			if (this != session.whitespaceParser)
 				session.whitespaceParser.Run (session, out dummy);
 
