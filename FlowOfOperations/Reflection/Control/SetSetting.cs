@@ -22,7 +22,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			new ValueParser<long> (long.TryParse),
 			new ValueParser<float> (float.TryParse),
 			new ValueParser<bool> (bool.TryParse, "(True|False|true|false)"),
-			new ConcatenationParser ('[', ']', ',')
+			new ConcatenationParser ('[', ']', ','),
+			new SettingsParser()
 		});
 
 		protected override void Initialize (Settings modSettings)
@@ -72,7 +73,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 				successful &= Successful.TryProcess (parameters);
 			} catch(ControlException ex) {
-				successful &= Failure.TryProcess (new FailureInteraction (ex));
+				successful &= Failure.TryProcess (new FailureInteraction (parameters, ex));
 			}
 
 			return successful;
