@@ -23,7 +23,7 @@ namespace BorrehSoft.Utensils
 				int cellIndex;
 
 				if (this.Parent.Header.Contains (name)) {
-					cellIndex = this.Parent.Header.Contains (name);
+					cellIndex = this.Parent.Header.IndexOf (name);
 				} else {
 					cellIndex = this.Parent.Header.Count;
 					this.Parent.Header.Add (name);

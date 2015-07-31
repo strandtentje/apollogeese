@@ -6,6 +6,9 @@ namespace BorrehSoft.Utensils
 {
 	public class Header : Row
 	{
+		public Header (Table table, IEnumerable<string> header) : base(table, header)
+		{
+		}
 	}
 }
 

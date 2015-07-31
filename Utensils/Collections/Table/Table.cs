@@ -15,11 +15,19 @@ namespace BorrehSoft.Utensils
 			private set;
 		}
 
-		public void SetHeader(params IEnumerable<string> header) {
+		public void SetHeader(params string[] header) {
+			SetHeader (header);
+		}
+
+		public void SetHeader(IEnumerable<string> header) {
 			this.Header = new Header (this, header);
 		}
 
-		public void Add(params IEnumerable<string> row) {
+		public void Add(params string[] row) {
+			Add (row);
+
+		}
+		public void Add(IEnumerable<string> row) {
 			this.Add (new Row (this, row));
 		}
 
