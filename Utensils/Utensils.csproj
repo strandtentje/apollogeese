@@ -8,6 +8,8 @@
     <RootNamespace>BorrehSoft.Utensils</RootNamespace>
     <AssemblyName>Utensils</AssemblyName>
     <BaseDirectory>.</BaseDirectory>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -96,6 +98,10 @@
     <Compile Include="Collections\Settings\StructAssignmentParser.cs" />
     <Compile Include="Parsing\Parsers\SequenceParser.cs" />
     <Compile Include="Parsing\Parsers\GreedyParser.cs" />
+    <Compile Include="Collections\Table\Table.cs" />
+    <Compile Include="Collections\Table\CsvParser.cs" />
+    <Compile Include="Collections\Table\Row.cs" />
+    <Compile Include="Collections\Table\Header.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -107,5 +113,7 @@
     <Folder Include="Streaming\" />
     <Folder Include="Collections\Maps\Search\" />
     <Folder Include="Log\Profiling\" />
+    <Folder Include="Collections\Table\" />
+    <Folder Include="Collections\Table\Parser\" />
   </ItemGroup>
 </Project>
