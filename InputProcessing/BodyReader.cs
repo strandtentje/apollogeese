@@ -20,7 +20,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 		{
 			SerializingMap<object> postedData = new SerializingMap<object> ();
 
-			if (data != null) postedData.AddFromString (data, HttpUtility.UrlDecode, assigner, concatenator, -1);
+			if (data != null) postedData.AddFromString ( data, HttpUtility.UrlDecode, assigner, concatenator, -1);
 			
 			return postedData;
 		}

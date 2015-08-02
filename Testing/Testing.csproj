@@ -46,9 +46,9 @@
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>Duckling</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utensils\Utensils.csproj">
-      <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
-      <Name>Utensils</Name>
+    <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
+      <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
+      <Name>Collections</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

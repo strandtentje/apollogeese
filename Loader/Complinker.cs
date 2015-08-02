@@ -40,7 +40,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 		/// <param name="config">Configuration file</param>
 		public Complinker(string config)
 		{
-			Configuration = Settings.FromFile (config);	
+			Configuration = SettingsParser.FromFile (config);	
 		}
 
 		public void LoadPlugins ()

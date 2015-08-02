@@ -7,8 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>InputProcessing</RootNamespace>
     <AssemblyName>InputProcessing</AssemblyName>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -56,10 +54,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Utensils\Utensils.csproj">
-      <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
-      <Name>Utensils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Duckling\Duckling.csproj">
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>Duckling</Name>
@@ -71,6 +65,14 @@
     <ProjectReference Include="..\Http\Http.csproj">
       <Project>{FC505C08-0BA6-46A0-90CE-147823D3F2A8}</Project>
       <Name>Http</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Parsing\Parsing.csproj">
+      <Project>{274A8AFD-1DE7-47D8-98CD-925982D59DE0}</Project>
+      <Name>Parsing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
+      <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
+      <Name>Collections</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -22,7 +22,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 
 		public override Map<object> Deserialize (string data)
 		{
-			Settings parsedData = Settings.FromJson (data);
+			Settings parsedData = SettingsParser.FromJson (data);
 			Queue<string> pathQueue = new Queue<string> (readPath);
 
 			while (pathQueue.Count > 0) parsedData = (Settings)parsedData[pathQueue.Dequeue()];
