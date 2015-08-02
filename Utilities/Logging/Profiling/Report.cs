@@ -1,25 +1,28 @@
 using System;
 using System.Diagnostics;
-using BorrehSoft.Utensils.Collections;
 using System.Collections.Generic;
 
 namespace BorrehSoft.Utensils.Log.Profiling
 {
 	public class Report
 	{
-		Map<Entry> Entries = new Map<Entry>();
+		Dictionary<string, Entry> Entries = new Dictionary<string, Entry>();
 		public List<Entry> Results { get; private set; }
 
 		public Entry Get (string name)
 		{
-			return Entries.GetOrKeep (name, delegate() {
-				return new Entry(name);
-			});
+			if (Entries.ContainsKey (name)) {
+				return Entries [name];
+			} else {
+				Entry newEntry = new Entry (name);
+				Entries.Add (name, newEntry);
+				return newEntry;
+			}
 		}
 
 		public void Finalize (long totaltime)
 		{
-			List<Entry> unsortedResults = new List<Entry>(Entries.Dictionary.Values);
+			List<Entry> unsortedResults = new List<Entry>(Entries.Values);
 			unsortedResults.Sort ();
 			Results = unsortedResults;
 

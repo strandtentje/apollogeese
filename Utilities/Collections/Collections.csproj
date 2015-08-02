@@ -7,7 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Collections</RootNamespace>
     <AssemblyName>Collections</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,13 +42,8 @@
     <Compile Include="Maps\SerializingMap.cs" />
     <Compile Include="Maps\StreamingMap.cs" />
     <Compile Include="Maps\WatchableMap.cs" />
-    <Compile Include="Settings\ConstructorParser.cs" />
-    <Compile Include="Settings\IncludeParser.cs" />
     <Compile Include="Settings\MissingSettingException.cs" />
     <Compile Include="Settings\Settings.cs" />
-    <Compile Include="Settings\SettingsParser.cs" />
-    <Compile Include="Settings\StatementParser.cs" />
-    <Compile Include="Settings\StructAssignmentParser.cs" />
     <Compile Include="Table\CsvParser.cs" />
     <Compile Include="Table\Header.cs" />
     <Compile Include="Table\Row.cs" />
@@ -63,4 +57,14 @@
     <Compile Include="WaitingQueue.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Streaming\Streaming.csproj">
+      <Project>{0A33B2EB-4A4F-46F9-B13A-3B0975A39655}</Project>
+      <Name>Streaming</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

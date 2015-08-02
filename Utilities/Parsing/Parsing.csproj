@@ -7,7 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Parsing</RootNamespace>
     <AssemblyName>Parsing</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +28,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Data.Linq" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -47,6 +48,25 @@
     <Compile Include="Parser.cs" />
     <Compile Include="ParsingException.cs" />
     <Compile Include="ParsingSession.cs" />
+    <Compile Include="Parsers\Settings\ConstructorParser.cs" />
+    <Compile Include="Parsers\Settings\IncludeParser.cs" />
+    <Compile Include="Parsers\Settings\SettingsParser.cs" />
+    <Compile Include="Parsers\Settings\StatementParser.cs" />
+    <Compile Include="Parsers\Settings\StructAssignmentParser.cs" />
+    <Compile Include="MapParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Parsers\Settings\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Logging\Logging.csproj">
+      <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Collections\Collections.csproj">
+      <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
+      <Name>Collections</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

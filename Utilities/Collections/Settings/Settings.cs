@@ -1,9 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using BorrehSoft.Utensils.Parsing;
 using BorrehSoft.Utensils.Log;
-using BorrehSoft.Utensils.Parsing.Parsers;
 using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.Utensils.Collections.Settings
@@ -29,55 +27,8 @@ namespace BorrehSoft.Utensils.Collections.Settings
 			return new Settings (new CombinedMap<object> (bases));
 		}
 
-		/// <summary>
-		/// Acquires settings from the file.
-		/// </summary>
-		/// <returns>The file.</returns>
-		/// <param name="file">File.</param>
-		public static Settings FromFile(string file)
-		{
-			Secretary.Report (5, "Loading settings file ", file);
+		public FileInfo SourceFile { get; set; }
 
-			if (!File.Exists (file)) {
-				File.Create (file);
-				Secretary.Report (5, file, " didn't exist. Has been created.");
-			}
-
-			ParsingSession session = ParsingSession.FromFile(file, new IncludeParser());
-			Directory.SetCurrentDirectory (session.SourceFile.Directory.FullName);
-			SettingsParser parser = new SettingsParser();
-			object result;
-
-			Settings config;
-
-			if (parser.Run (session, out result) < 0)
-				config = new Settings ();
-			else 
-				config = (Settings)result;
-
-			config.SourceFile = session.SourceFile;
-
-			Secretary.Report (5, "Settings finished loading from: ", file);
-
-			// Secretary.Report (6, session.ParsingProfiler.FinalizeIntoReport().ToString());
-
-			return config;
-		}
-
-		public FileInfo SourceFile { get; private set; }
-
-		public static Settings FromJson (string data)
-		{
-			ParsingSession session = new ParsingSession(data, new WhitespaceParser());
-			SettingsParser parser = new SettingsParser(entitySe: ',', couplerChar: ':');
-
-			object result;
-
-			if (parser.Run(session, out result) < 0)
-				return new Settings();
-
-			return (Settings) result;
-		}
 
 		public bool GetBool(string id) {
 			if (Has (id)) {

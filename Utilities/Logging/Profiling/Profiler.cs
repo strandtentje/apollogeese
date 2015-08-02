@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using BorrehSoft.Utensils.Collections;
 using System.Collections.Generic;
 
 namespace BorrehSoft.Utensils.Log.Profiling

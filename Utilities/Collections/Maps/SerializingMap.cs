@@ -69,6 +69,8 @@ namespace BorrehSoft.Utensils.Collections.Maps
 			}
 		}
 
+		public delegate void FormattedWriter(string format, params string[] parameters);
+
 		public void WriteUsingCallback (FormattedWriter writeMethod, string format)
 		{
 			foreach (KeyValuePair<string, T> kvp in base.Dictionary) 
