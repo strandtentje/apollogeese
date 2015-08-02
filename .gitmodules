@@ -1,3 +1,6 @@
 [submodule "BCrypt"]
 	path = BCrypt
 	url = https://github.com/strandtentje/bcrypt-mono.git
+[submodule "Utilities"]
+	path = Utilities
+	url = https://github.com/strandtentje/apollogeese-utilities.git
