@@ -98,7 +98,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 
 			Pipe informationExchange = new Pipe (connector.Client);
 
-			informationExchange.BeginWait ();
+			informationExchange.Handshake ();
 
 			while (
 				GetPipeCommandCallback(
