@@ -59,7 +59,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 		protected virtual string GetCacheName(IInteraction parameters) {
 			string cacheName;
 
-			if (!parameters.TryGetString (this.CacheNameSource, out cacheName))
+			if (!parameters.TryGetFallbackString (this.CacheNameSource, out cacheName))
 				cacheName = "noname";
 
 			return cacheName;

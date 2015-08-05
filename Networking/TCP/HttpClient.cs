@@ -98,7 +98,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 
 				if (useSesionid) {
 					string keeperid = "";
-					if (parameters.TryGetString (sessionid, out keeperid)) {
+					if (parameters.TryGetFallbackString (sessionid, out keeperid)) {
 						PreserveCookies (webRequest, keeperid);
 					} else {
 						throw new Exception (string.Format("No {0} found in context", sessionid));

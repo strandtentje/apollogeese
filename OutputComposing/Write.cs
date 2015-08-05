@@ -40,7 +40,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 			if (VariableName.Length == 0) {
 				writer.WriteLine(Format);
-			} else if (success = parameters.TryGetString (VariableName, out text)) {
+			} else if (success = parameters.TryGetFallbackString (VariableName, out text)) {
 				writer.WriteLine (string.Format(Format, text));
 			}
 
