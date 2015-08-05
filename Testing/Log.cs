@@ -52,7 +52,7 @@ namespace Testing
 
 		protected override bool Process (IInteraction parameters)
 		{
-			foreach (string varName in this.WatchVariables) {
+ 			foreach (string varName in this.WatchVariables) {
 				object candidate;
 				string candidateString = "not present";
 
