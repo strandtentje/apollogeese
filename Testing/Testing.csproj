@@ -39,6 +39,7 @@
     <Compile Include="Probing\ProbeResultInteraction.cs" />
     <Compile Include="StreamTests\IncomingTestData.cs" />
     <Compile Include="StreamTests\OutgoingTestableData.cs" />
+    <Compile Include="Log.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -49,6 +50,10 @@
     <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
       <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
       <Name>Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Logging\Logging.csproj">
+      <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
+      <Name>Logging</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
