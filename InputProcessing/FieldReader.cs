@@ -91,24 +91,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 				FailureHandler = (Module)e.NewValue;
 		}
 
-		/// <summary>
-		/// Deserialize the specified data.
-		/// </summary>
-		/// <param name="data">Data.</param>
-		public abstract Map<object> Deserialize(string data);
-
-		/// <summary>
-		/// Acquires the data from nearest incoming body
-		/// </summary>
-		/// <returns>The data.</returns>
-		/// <param name="parameters">Parameters.</param>
-		public virtual string AcquireData (IInteraction parameters)
-		{
-			IIncomingBodiedInteraction request;
-			request = (IIncomingBodiedInteraction)parameters.GetClosest(typeof(IIncomingBodiedInteraction));
-
-			return request.GetIncomingBodyReader().ReadToEnd ();
-		}
+		public abstract Map<object> GetParseableInput (IInteraction parameters);
 
 		/// <summary>
 		/// Shows form for successful input
@@ -186,7 +169,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 			if (parameters.TryGetFallback (sourceName, out postDataObject)) {
 				parsedData [sourceName] = (Map<object>)postDataObject;
 			} else {
-				parsedData [sourceName] = Deserialize (AcquireData (parameters));
+				parsedData [sourceName] = GetParseableInput (parameters);
 			}
 
 			parsedData.LoadFields (FieldDefaults);

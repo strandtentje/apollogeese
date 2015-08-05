@@ -5,6 +5,7 @@ using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Web;
 using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utensils;
 
 namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {
@@ -16,13 +17,25 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 		static char assigner = '=';
 		static char concatenator = '&';
 
-		public override Map<object> Deserialize (string data)
+		public override Map<object> GetParseableInput (IInteraction parameters)
 		{
-			SerializingMap<object> postedData = new SerializingMap<object> ();
+			IInteraction incomingInteraction;
+			Map<object> input = new Map<object> ();
 
-			if (data != null) postedData.AddFromString ( data, HttpUtility.UrlDecode, assigner, concatenator, -1);
-			
-			return postedData;
+			if (parameters.TryGetClosest (typeof(IIncomingBodiedInteraction), out incomingInteraction)) {
+				IIncomingBodiedInteraction incomingBody = (IIncomingBodiedInteraction)incomingInteraction;
+
+				MapParser.ReadIntoMap (incomingBody.IncomingBody, '=', '&', ref input);
+			} else {
+				throw new Exception ("No incoming body found to read from.");
+			}
+
+			return input;
+		}
+
+		protected override string GetSourceName (IInteraction parameters)
+		{
+			return "http-post-form";
 		}
 	}
 }

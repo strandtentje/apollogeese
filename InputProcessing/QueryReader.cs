@@ -1,21 +1,33 @@
 using System;
 using BorrehSoft.ApolloGeese.Duckling;
 using BorrehSoft.ApolloGeese.Http;
+using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utensils.Collections.Maps;
+using System.Web;
 
 namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {
-	public class QueryReader : BodyReader
+	public class QueryReader : FieldReader
 	{		
-		public override string AcquireData (IInteraction parameters)
+		public override Map<object> GetParseableInput (IInteraction parameters)
 		{
-			IHttpInteraction request = (IHttpInteraction)parameters.GetClosest (typeof(IHttpInteraction));
+			IInteraction httpParam;
+			Map<object> input;
 
-			return request.GetQuery;
-		}
+			if (parameters.TryGetClosest (typeof(IHttpInteraction), out httpParam)) {
+				IHttpInteraction httpInteraction = (IHttpInteraction)httpParam;
 
-		protected override string GetSourceName (IInteraction parameters)
-		{
-			return "http-url-query";
+				SerializingMap<object> parsedQuery = new SerializingMap<object> ();
+
+				parsedQuery.AddFromString (httpInteraction.GetQuery,
+					HttpUtility.UrlDecode, '=', '&');
+
+				input = parsedQuery;
+			} else {
+				throw new Exception ("Now http interaction found to get url query from.");
+			}
+
+			return input;
 		}
 	}
 }

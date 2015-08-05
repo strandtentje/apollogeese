@@ -20,14 +20,25 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 			readPath = modSettings.GetString("readpath", "").Split(new char[] {'/'}, StringSplitOptions.RemoveEmptyEntries);
 		}
 
-		public override Map<object> Deserialize (string data)
+		public override Map<object> GetParseableInput (IInteraction parameters)
 		{
-			Settings parsedData = SettingsParser.FromJson (data);
-			Queue<string> pathQueue = new Queue<string> (readPath);
+			IInteraction incomingInteraction;
+			Map<object> input;
 
-			while (pathQueue.Count > 0) parsedData = (Settings)parsedData[pathQueue.Dequeue()];
+			if (parameters.TryGetClosest (typeof(IIncomingBodiedInteraction), out incomingInteraction)) {
+				IIncomingBodiedInteraction incomingBody = (IIncomingBodiedInteraction)incomingInteraction;
 
-			return parsedData;
+				Settings parsedData = SettingsParser.FromJson (incomingBody.GetIncomingBodyReader().ReadToEnd());
+				Queue<string> pathQueue = new Queue<string> (readPath);
+
+				while (pathQueue.Count > 0) parsedData = (Settings)parsedData[pathQueue.Dequeue()];
+
+				input = parsedData;
+			} else {
+				throw new Exception ("No incoming body found to read from.");
+			}
+
+			return input;
 		}
 	}
 }
