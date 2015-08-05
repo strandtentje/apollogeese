@@ -32,7 +32,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		{
 			Pipe pipe = new Pipe (e.Client.Client);
 
+			pipe.BeginWait ();
+
 			begin.TryProcess (new ReachInteraction (pipe));
+
+			pipe.SendCommand (Command.Close);
 
 			e.Client.Close ();
 		}

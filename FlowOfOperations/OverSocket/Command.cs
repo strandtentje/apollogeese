@@ -8,5 +8,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		public const int String = 2;
 		public const int Compose = 4;
 		public const int Fallback = 8;
+		public const int Close = 256;
 	}
 }

@@ -32,13 +32,85 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 			return output;
 		}
 
+		bool Closer(Pipe pipe, IInteraction parameters) {
+			return false;
+		}
+
+		bool Composer (Pipe pipe, IInteraction parameters) {
+			string id = pipe.ReceiveString ();
+
+			object candidate;
+
+			if (parameters.TryGetFallback (id, out candidate)) {
+				pipe.SendString (candidate.ToString ());
+			}
+
+			return true;
+		}
+
+		bool Stringer (Pipe pipe, IInteraction parameters) {
+			string id = pipe.ReceiveString ();
+
+			string candidate;
+
+			if (parameters.TryGetFallbackString (id, out candidate)) {
+				pipe.SendString (candidate);
+			}
+
+			return true;
+		}
+
+		bool Typer (Pipe pipe, IInteraction parameters)
+		{
+			string id = pipe.ReceiveString ();
+
+			object candidate;
+
+			if (parameters.TryGetFallback (id, out candidate)) {
+				pipe.SendString (candidate.GetType ().ToString ());
+			} else {
+				pipe.SendString (ReachInteraction.NullTypeName);
+			}
+
+			return true;
+		}
+
+		delegate bool CommandFulfiller(Pipe pipe, IInteraction parameters);
+
+		CommandFulfiller GetPipeCommandCallback(int command) {
+			if (command == Command.Close)
+				return Closer;
+			if (command == Command.Compose)
+				return Composer;
+			if (command == Command.String)
+				return Stringer;
+			if (command == Command.Type)
+				return Typer;
+
+			return delegate(Pipe pipe, IInteraction parameters) {
+				return true;
+			};
+		}
+
 		protected override bool Process (IInteraction parameters)
 		{
 			TcpClient connector = new TcpClient (Ip, Port);
 
 			Pipe informationExchange = new Pipe (connector.Client);
 
-			informationExchange.BeginWait (GetInformationByName, parameters);
+			informationExchange.BeginWait ();
+
+			while (
+				GetPipeCommandCallback(
+					informationExchange.ReceiveCommand ())(
+						informationExchange, parameters));
+							// dikkertje dap
+								// zat op de trap
+									// 's morgens vroeg om kwart over zeven
+										// zijn collega had spaghetticode geschreven
+
+
+
 
 			connector.Close ();
 
