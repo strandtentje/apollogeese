@@ -9,12 +9,8 @@ using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {
-	public class ReachOut : Service
+	public class ReachOut : SocketService
 	{
-		public string RemoteIp { get; set; }
-
-		public int RemotePort { get; set; }
-
 		public override string Description {
 			get {
 				return "Connects to a ReachIn";
@@ -24,12 +20,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			throw new Exception ("Return branches, we don't do yet.");
-		}
-
-		protected override void Initialize (Settings modSettings)
-		{
-			RemoteIp = modSettings.GetString ("host");
-			RemotePort = modSettings.GetInt ("port", 43373);
 		}
 
 		object GetInformationByName (string name, object state)
@@ -44,7 +34,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 
 		protected override bool Process (IInteraction parameters)
 		{
-			TcpClient connector = new TcpClient (RemoteIp, RemotePort);
+			TcpClient connector = new TcpClient (Ip, Port);
 
 			Pipe informationExchange = new Pipe (connector.Client);
 

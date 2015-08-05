@@ -71,6 +71,7 @@
     <Compile Include="Reflection\Control\NewService.cs" />
     <Compile Include="Reflection\Control\ReloadService.cs" />
     <Compile Include="Reflection\Control\SetSetting.cs" />
+    <Compile Include="OverSocket\SocketService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

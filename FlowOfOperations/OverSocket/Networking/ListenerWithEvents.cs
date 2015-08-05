@@ -20,6 +20,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Networki
 		/// <param name="port">Port.</param>
 		public ListenerWithEvents (string ip, int port) : base(IPAddress.Parse(ip), port)
 		{
+			this.Start ();
+
 			reListen ();
 		}
 
