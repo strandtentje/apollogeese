@@ -69,7 +69,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
 		/// Does a handshake and blocks the thread until the interaction was
 		/// satisfactory.
 		/// </summary>
-		public void BeginWait ()
+		public void Handshake ()
 		{
 			SendSymbol (Symbol.Hi);
 			AwaitSymbol (Symbol.Hi);
