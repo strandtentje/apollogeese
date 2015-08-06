@@ -60,10 +60,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		{
 			listener.BeginGetContext(RequestMade, listener);
 
-			L.Report (5, "Context Gotten");
-
 			HttpListener contextListener = (HttpListener)ar.AsyncState;
 			HttpListenerContext context = contextListener.EndGetContext (ar);
+
+			L.Report (5, "Request opened by", context.Request.UserHostAddress);
 
 			if (!MeasurePerformance) {
 				EnterTree (context);
