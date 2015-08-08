@@ -19,30 +19,8 @@ namespace BorrehSoft.ApolloGeese.Duckling
 
 		public PluginCollection<Service> PossibleSiblingTypes { get; set; }
 
-		public Service Parent { get; internal set; }
-
-		public Service Root { get; internal set; }
-
 		public virtual IEnumerable<ConfigHint> GetConfigHints() {
 			return new ConfigHint[] { };
-		}
-
-		/// <summary>
-		/// Sets ancestory, useful on newly constructed services.
-		/// </summary>
-		/// <param name="parent">Parent.</param>
-		public void SetAncestory (Service parent)
-		{
-			if (Root == null) {				
-				Parent = parent;
-
-				if (Parent != null)
-					Root = Parent.Root;
-				else
-					Root = this;
-			} else {
-				throw new MethodAccessException ("Ancestory can only be set once");
-			}
 		}
 
 		public static Dictionary<int, Service> ModelLookup = new Dictionary<int, Service>();

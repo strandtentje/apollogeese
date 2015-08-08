@@ -115,7 +115,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 		/// <param name="branchname">Branchname.</param>
 		/// <param name="branchdata">Branchdata.</param>
 		private void ConnectBranch (Service service, string branchname, Settings branchdata) {
-			service.Branches [branchname] = GetServiceForSettings (branchdata, service);
+			service.Branches [branchname] = GetServiceForSettings (branchdata);
 		}
 
 		/// <summary>
@@ -123,7 +123,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 		/// </summary>
 		/// <returns>The tree.</returns>
 		/// <param name="config">Config.</param>
-		private Service GetServiceForSettings (Settings config, Service parent = null)
+		private Service GetServiceForSettings (Settings config)
 		{
 			string type;
 			Settings moduleConfiguration;
@@ -141,8 +141,6 @@ namespace BorrehSoft.ApolloGeese.Loader
 				logparams = config.GetString("logparams", "").Split(',');
 
 				newService = plugins.GetConstructed (type);
-
-				newService.SetAncestory (parent);
 
 				succesfulInit = newService.SetSettings (moduleConfiguration);
 
