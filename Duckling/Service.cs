@@ -25,26 +25,6 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		private int modelID = -1;
 		private static int modelIDCounter;
 
-		private bool allBranchesAreLoaded = false;
-
-		/// <summary>
-		/// Raise AllBranchesLoaded-event after initialization
-		/// </summary>
-		public void InvokeAllBranchesLoaded ()
-		{
-			if (allBranchesAreLoaded) {
-				throw new MethodAccessException ("This has already been done upon initialization");
-			} else {
-				allBranchesAreLoaded = true;
-				if (AllBrancesLoaded != null) AllBrancesLoaded (this, new EventArgs ());
-			}
-		}
-
-		/// <summary>
-		/// Occurs when branches loaded.
-		/// </summary>
-		public event EventHandler AllBrancesLoaded;
-
 		/// <summary>
 		/// Numeric shorthand for this service, intended purpose: designer.
 		/// </summary>
