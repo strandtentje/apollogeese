@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootloader", "ApolloGeese\Bootloader.csproj", "{C942E5BC-B6C5-4DF1-808C-71736F045B3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bootloader", "Bootloader\Bootloader.csproj", "{C942E5BC-B6C5-4DF1-808C-71736F045B3D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreTypes", "Duckling\CoreTypes.csproj", "{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}"
 EndProject
@@ -373,7 +373,7 @@ Global
 		{47A71E63-7172-4138-AA90-A432863AAFF1} = {7C5A0356-3630-4EF5-9250-4DB92ECC39BA}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = ApolloGeese\Bootloader.csproj
+		StartupItem = Bootloader\Bootloader.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
