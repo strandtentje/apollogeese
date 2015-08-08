@@ -52,7 +52,6 @@
     <Compile Include="QuickInteraction.cs" />
     <Compile Include="IOutgoingBodiedInteraction.cs" />
     <Compile Include="IIncomingBodiedInteraction.cs" />
-    <Compile Include="ConfigurationException.cs" />
     <Compile Include="QuickIncomingInteraction.cs" />
     <Compile Include="QuickOutgoingInteraction.cs" />
     <Compile Include="UnclonableException.cs" />
