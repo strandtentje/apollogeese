@@ -23,7 +23,7 @@ Probably same as above, but with msbuild. Recommended route on Windows.
 
 # Distribution
 
-Please distribute license files along with the binaries. It is somewhat recommended to supply a default apollogeese.conf tht does nothing, along with the binaries. I.e:
+Please distribute license files along with the binaries. It is somewhat recommended to supply a default apollogeese.conf that does nothing, along with the binaries. I.e:
 
 	{
 		plugins = [f"CoreTypes.dll"];
