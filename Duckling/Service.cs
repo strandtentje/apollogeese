@@ -7,26 +7,24 @@ using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Text;
+using System.Threading;
 
 namespace BorrehSoft.ApolloGeese.Duckling
 {
 	/// <summary>
 	/// Abstract for service module implementing high level functionality.
 	/// </summary>
-	public abstract class Service : IDisposable
+	public abstract class Service : Configurable, IDisposable
 	{
+		public static Dictionary<int, Service> ModelLookup = new Dictionary<int, Service>();
 		public PluginCollection<Service> PossibleSiblingTypes { get; set; }
 
-		public virtual IEnumerable<ConfigHint> GetConfigHints() {
-			return new ConfigHint[] { };
-		}
-
-		public static Dictionary<int, Service> ModelLookup = new Dictionary<int, Service>();
-		private int modelID = -1;
+		private WatchableMap<Service> watchedBranches = null;
 		private static int modelIDCounter;
+		private int modelID = -1;
 
 		/// <summary>
-		/// Numeric shorthand for this service, intended purpose: designer.
+		/// Numeric identity attribute for this service.
 		/// </summary>
 		/// <value>
 		/// The model ID
@@ -34,129 +32,60 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		public int ModelID { 
 			get {
 				if (modelID == -1)	{
-					lock (Stub) 	
-						modelID = modelIDCounter++;
+					modelID = Interlocked.Increment (ref modelIDCounter);
 					ModelLookup.Add(modelID, this);
 				}
 
 				return modelID;
-			} 
-			set {
-				lock (Stub)
-				{
-					if (value >= modelIDCounter) {
-						modelIDCounter = value + 1;
-						ModelLookup.Add(modelIDCounter, this);
-					}
-				}
-				modelID = value;
 			}
 		}
 
 		/// <summary>
-		/// The configuration of this service
+		/// Gets a stub service. StubService.Instance does thesame.
 		/// </summary>
-		private Settings configuration;
-
-        public bool FailHard = false;
-
-		/// <summary>
-		/// Gets the description of this service. (Cool bonus: May change! Woo!)
-		/// May be used as page titles
-		/// </summary>
-		/// <value>The name of this service</value>
-		public abstract string Description { get; }
-
-		/// <summary>
-		/// Gets the error message that caused 'SetSettings' to fail.
-		/// </summary>
-		/// <value>The error message.</value>
-		public string InitErrorMessage { get; private set; }
-
-		/// <summary>
-		/// Gets more info on the error that caused SetSettings to fail.
-		/// </summary>
-		/// <value>The init error detail.</value>
-		public string InitErrorDetail {
-			get;
-			private set;
-		}
-
-		/// <summary>
-		/// Gets the settings.
-		/// </summary>
-		/// <returns>
-		/// The settings.
-		/// </returns>
-		public Settings GetSettings ()
-		{
-			return configuration;
-		}		
-
-		public Settings Settings {
+		/// <value>The stub.</value>
+		public static Service Stub {
 			get {
-				return configuration;
+				return StubService.Instance;
 			}
-		}
-
-		public virtual void LoadDefaultParameters(object defaultParameter) {
-			LoadDefaultParameters ((string)defaultParameter);
-		}
-
-		public virtual void LoadDefaultParameters(string defaultParameter) {
-
 		}
 
 		/// <summary>
-		/// Tries to Initialize and leaves the an InitErrorMessage set if applicable.
-		/// When no error is produced, the errormessage will remain blank.
+		/// Gets the branches.
 		/// </summary>
-		/// <returns><c>true</c>, if initialize was succesful, <c>false</c> otherwise.</returns>
-		/// <param name="modSettings">Mod settings.</param>
-		public bool SetSettings(Settings modSettings)
+		/// <value>The branches.</value>
+		public WatchableMap<Service> Branches {
+			get {
+				if (watchedBranches == null) SetBranches (new WatchableMap<Service> ());
+
+				return watchedBranches;
+			}
+		}
+
+		/// <summary>
+		/// Sets the branches.
+		/// </summary>
+		/// <param name="newBranches">New branches.</param>
+		public void SetBranches (WatchableMap<Service> newBranches)
 		{
-			bool succesful;
+			// we should also be raising events indicating that all branches have been cleared
+			// if a watchablemap with branches previously existed. also handlers for the old 
+			// watchablemap should be cleared. but this doesn't happen, so we won't.
 
-			configuration = modSettings = modSettings ?? new Settings();
+			// instead we will throw an event we attempt to set the branches twice.
 
-			try
-			{
-				Branches.ItemChanged += HandleBranchChanged;
-				if (modSettings.Has("default")) {
-					LoadDefaultParameters(modSettings["default"]);
-				}
-				Initialize(modSettings);
-				configuration.IsLoaded = true;
-				InitErrorMessage = "";
-				succesful = true;
-			}
-			catch(Exception ex) {
-				InitErrorMessage = ex.Message;
-				Secretary.Report (0, 
-				                  string.Format (
-					"Initialization for {2} {0} failed with the following message:\n{1}", 
-					Description, InitErrorMessage, this.GetType().Name));
+			if (this.watchedBranches != null)
+				throw new InvalidOperationException ("Branches may only be set once");
 
-				StringBuilder errorDetail = new StringBuilder ();
-
-				for (Exception inner = ex; inner != null; inner = inner.InnerException)
-					errorDetail.AppendLine (inner.Message);
-
-				InitErrorDetail = errorDetail.ToString ();
-
-				Secretary.Report (0, errorDetail.ToString ());
-				
-				succesful = false;
-			}
-
-			return succesful;
+			this.watchedBranches = newBranches;
+			this.watchedBranches.ItemChanged += HandleBranchChanged;
 		}
 
-		protected virtual void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e) {
+		public Service() { }
 
-		}
+		protected virtual void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e) { }
 
-        private bool DoProcess(IInteraction parameters)
+        private bool InvokeProcess(IInteraction parameters)
         {
             bool successful; 
 
@@ -180,11 +109,11 @@ namespace BorrehSoft.ApolloGeese.Duckling
 			string ProcessErrorMessage;
 
             if (FailHard)
-                return DoProcess(parameters);
+                return InvokeProcess(parameters);
 
 			try
 			{
-                succesful = DoProcess(parameters);
+                succesful = InvokeProcess(parameters);
                 ProcessErrorMessage = "";
 			}
 			catch (Exception ex) {
@@ -209,15 +138,6 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		}
 
 		/// <summary>
-		/// Initialize the Service with the specified settings
-		/// </summary>
-		/// <param name="modSettings">Mod settings.</param>
-		protected virtual void Initialize(Settings modSettings)
-		{
-
-		}
-
-		/// <summary>
 		/// Process the specified request and parameters; doesn't avert errors gracefully catch errors.
 		/// </summary>
 		/// <param name="request">Request.</param>
@@ -232,21 +152,6 @@ namespace BorrehSoft.ApolloGeese.Duckling
         {
             throw new NotImplementedException("This Service cannot be called from here for it requires to be executed safely.");
         }
-
-		/// <summary>
-		/// The branches.
-		/// </summary>
-		public WatchableMap<Service> Branches = new WatchableMap<Service>();
-
-		/// <summary>
-		/// Gets a stub service. StubService.Instance does thesame.
-		/// </summary>
-		/// <value>The stub.</value>
-		public static Service Stub {
-			get {
-				return StubService.Instance;
-			}
-		}
 
 		public virtual void Dispose() {
 			foreach (Service service in Branches.Dictionary.Values)

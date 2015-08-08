@@ -59,6 +59,7 @@
     <Compile Include="INosyInteraction.cs" />
     <Compile Include="TwoBranchedService.cs" />
     <Compile Include="ConfigHint.cs" />
+    <Compile Include="Configurable.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

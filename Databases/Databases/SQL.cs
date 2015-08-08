@@ -40,7 +40,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 					"'credset' is a neccesary for the generic SQL Service to function");
 			}
 
-			pickedQuerier.Branches = this.Branches;
+			pickedQuerier.SetBranches (this.Branches);
 			pickedQuerier.SetSettings (modSettings);
 		}
 

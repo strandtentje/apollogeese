@@ -68,7 +68,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		/// <param name="localeSettings">Locale settings.</param>
 		private void LoadLocalizedSubtemplate(string localization, Settings globalSettings, string globalTemplatefile)
 		{
-			Template localeTemplate = new Template () { Branches = this.Branches };
+			Template localeTemplate = new Template ();
+			localeTemplate.SetBranches (this.Branches);
 			Settings localeSettings = globalSettings.Clone ();
 
 			if (localeSettings.Dictionary.ContainsKey ("default"))
