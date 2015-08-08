@@ -29,10 +29,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		{
 			bool success = true;
 
-			QuickInteraction foundType;
+			SimpleInteraction foundType;
 
 			foreach (string name in PossibleSiblingTypes.Dictionary.Keys) {
-				foundType = new QuickInteraction (parameters);
+				foundType = new SimpleInteraction (parameters);
 				foundType ["typename"] = name;
 				success &= SiblingIterator.TryProcess(foundType);
 			}

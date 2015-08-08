@@ -4,7 +4,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
-	public class QuickInteraction : Map<object>, IInteraction
+	public class SimpleInteraction : Map<object>, IInteraction
 	{
 		private IInteraction parent;
 
@@ -12,7 +12,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// Initializes a new instance of the <see cref="BorrehSoft.ApolloGeese.Duckling.QuickInteraction"/> class.
 		/// No parent or data to start with, useful for initiating.
 		/// </summary>
-		public QuickInteraction ()
+		public SimpleInteraction ()
 		{
 			this.parent = null;
 		}
@@ -22,7 +22,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// Will take a parent, extra data can be attached later, optionally.
 		/// </summary>
 		/// <param name="parent">Parent.</param>
-		public QuickInteraction (IInteraction parent)
+		public SimpleInteraction (IInteraction parent)
 		{
 			this.parent = parent;
 		}
@@ -33,7 +33,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// </summary>
 		/// <param name="parent">Parent.</param>
 		/// <param name="values">Values.</param>
-		public QuickInteraction (IInteraction parent, Map<object> values) : base(values)
+		public SimpleInteraction (IInteraction parent, Map<object> values) : base(values)
 		{
 			this.parent = parent;
 		}
@@ -95,7 +95,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 
 		public IInteraction Clone (IInteraction parent)
 		{
-			return new QuickInteraction(parent, this);
+			return new SimpleInteraction(parent, this);
 		}
 
 		public bool TryGetFallback (string id, out object luggage)

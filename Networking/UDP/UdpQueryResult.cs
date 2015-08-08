@@ -6,7 +6,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.UDP
 	/// <summary>
 	/// UDP query result.
 	/// </summary>
-	class UdpQueryResult : QuickInteraction
+	class UdpQueryResult : SimpleInteraction
 	{
 		/// <summary>
 		/// Gets the host IP

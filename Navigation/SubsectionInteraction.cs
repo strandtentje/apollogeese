@@ -10,7 +10,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 	/// <summary>
 	/// Subsection interaction, produced after program flow was altered by URL
 	/// </summary>
-	class SubsectionInteraction : QuickInteraction
+	class SubsectionInteraction : SimpleInteraction
 	{
 		/// <summary>
 		/// Gets the parent http interaction

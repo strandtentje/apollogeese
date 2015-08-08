@@ -8,7 +8,7 @@ namespace Networking
 	/// <summary>
 	/// Email interaction.
 	/// </summary>
-	public class EmailInteraction : QuickOutgoingInteraction
+	public class EmailInteraction : SimpleOutgoingInteraction
 	{
 		/// <summary>
 		/// Gets or sets the name of the body type, for identifying bodies in context

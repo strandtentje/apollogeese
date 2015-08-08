@@ -60,7 +60,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		{
 			try {				
 				string serviceName = GetServiceName (parameters);
-				QuickInteraction successInteraction = new QuickInteraction (parameters);
+				SimpleInteraction successInteraction = new SimpleInteraction (parameters);
 				successInteraction [this.ServiceIdKey] = GetServiceByName (serviceName).ModelID;
 
 				return this.Successful.TryProcess (successInteraction);

@@ -44,21 +44,21 @@
   <ItemGroup>
     <Compile Include="AssemblyInfo.cs" />
     <Compile Include="Bounce.cs" />
-    <Compile Include="IFast.cs" />
-    <Compile Include="I3DParameterized.cs" />
     <Compile Include="Service.cs" />
-    <Compile Include="IInteraction.cs" />
     <Compile Include="StubService.cs" />
-    <Compile Include="QuickInteraction.cs" />
-    <Compile Include="IOutgoingBodiedInteraction.cs" />
-    <Compile Include="IIncomingBodiedInteraction.cs" />
-    <Compile Include="QuickIncomingInteraction.cs" />
-    <Compile Include="QuickOutgoingInteraction.cs" />
     <Compile Include="UnclonableException.cs" />
-    <Compile Include="INosyInteraction.cs" />
     <Compile Include="TwoBranchedService.cs" />
     <Compile Include="ConfigHint.cs" />
     <Compile Include="Configurable.cs" />
+    <Compile Include="Interactions\I3DParameterized.cs" />
+    <Compile Include="Interactions\IFast.cs" />
+    <Compile Include="Interactions\IIncomingBodiedInteraction.cs" />
+    <Compile Include="Interactions\IInteraction.cs" />
+    <Compile Include="Interactions\INosyInteraction.cs" />
+    <Compile Include="Interactions\IOutgoingBodiedInteraction.cs" />
+    <Compile Include="Interactions\Simple\SimpleInteraction.cs" />
+    <Compile Include="Interactions\Simple\SimpleOutgoingInteraction.cs" />
+    <Compile Include="Interactions\Simple\SimpleIncomingInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -70,5 +70,9 @@
       <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
       <Name>Logging</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interactions\" />
+    <Folder Include="Interactions\Simple\" />
   </ItemGroup>
 </Project>

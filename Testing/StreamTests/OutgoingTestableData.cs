@@ -6,7 +6,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace Testing
 {
-	class OutgoingTestableData : QuickOutgoingInteraction, IDisposable
+	class OutgoingTestableData : SimpleOutgoingInteraction, IDisposable
 	{
 		public OutgoingTestableData(IInteraction parent) : base(new MemoryStream(), parent)
 		{

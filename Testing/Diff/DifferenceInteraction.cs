@@ -5,7 +5,7 @@ using DProcess = System.Diagnostics.Process;
 
 namespace Testing.Diff
 {
-	class DifferenceInteraction : QuickInteraction
+	class DifferenceInteraction : SimpleInteraction
 	{
 		public DifferenceInteraction (string diffline, IInteraction parent) : base(parent)
 		{

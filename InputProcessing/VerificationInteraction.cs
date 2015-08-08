@@ -15,7 +15,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 	/// Interaction that represents precisely one field verification action.
 	/// Shouldn't go downstream unless error occured.
 	/// </summary>
-	class VerificationInteraction : QuickInteraction
+	class VerificationInteraction : SimpleInteraction
 	{
 		private string sourceName;
 

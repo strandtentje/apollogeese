@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	class SettingInteraction : QuickInteraction
+	class SettingInteraction : SimpleInteraction
 	{
 		public SettingInteraction (IInteraction parameters, string Key, object Value) : base(parameters)
 		{

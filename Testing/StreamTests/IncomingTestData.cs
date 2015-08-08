@@ -6,7 +6,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace Testing
 {
-	class IncomingTestData : QuickIncomingInteraction, IDisposable
+	class IncomingTestData : SimpleIncomingInteraction, IDisposable
 	{
 		public IncomingTestData (string ingoingDataFile, IInteraction testContext, string sourceName) : base(
 			File.OpenRead(ingoingDataFile), testContext, sourceName)

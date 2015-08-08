@@ -9,7 +9,7 @@ namespace Testing
 	/// <summary>
 	/// Test context.
 	/// </summary>
-	class TestContextInteraction : QuickInteraction
+	class TestContextInteraction : SimpleInteraction
 	{
 		public List<ProbeResultInteraction> ProbeResults {
 			get;

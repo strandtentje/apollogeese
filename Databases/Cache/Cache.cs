@@ -64,7 +64,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 			if ((binaryData == null) && (stringData == null)) {
 				MemoryStream targetStream = new MemoryStream();
-				QuickOutgoingInteraction downstreamTarget = new QuickOutgoingInteraction (targetStream, parameters);
+				SimpleOutgoingInteraction downstreamTarget = new SimpleOutgoingInteraction (targetStream, parameters);
 
 				success = begin.TryProcess (downstreamTarget);		
 				downstreamTarget.Done ();

@@ -7,7 +7,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 	/// <summary>
 	/// Incoming interaction for HTTP response
 	/// </summary>
-	public class QuickIncomingInteraction : QuickInteraction, IIncomingBodiedInteraction
+	public class SimpleIncomingInteraction : SimpleInteraction, IIncomingBodiedInteraction
 	{		
 		private StreamReader writer = null;
 
@@ -42,7 +42,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// </summary>
 		/// <param name="bodyStream">Body stream.</param>
 		/// <param name="parent">Parent.</param>
-		public QuickIncomingInteraction (Stream bodyStream, IInteraction parent, string sourceName) : base(parent)
+		public SimpleIncomingInteraction (Stream bodyStream, IInteraction parent, string sourceName) : base(parent)
 		{
 			this.sourceName = sourceName;
 			IncomingBody = bodyStream;

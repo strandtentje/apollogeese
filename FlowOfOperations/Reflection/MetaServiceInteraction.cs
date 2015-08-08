@@ -9,7 +9,7 @@ using System.Text;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	class MetaServiceInteraction : QuickInteraction
+	class MetaServiceInteraction : SimpleInteraction
 	{
 		public MetaServiceInteraction (IInteraction parentParameters, Service model, Map<object> metaData) : base(parentParameters, metaData)
 		{

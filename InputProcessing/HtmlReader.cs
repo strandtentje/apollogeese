@@ -88,7 +88,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
         {
             CQ querier = useVariable ? GetCQFromContext(parameters) : GetCQFromStream(parameters);
 
-            QuickInteraction results = new QuickInteraction(parameters);
+            SimpleInteraction results = new SimpleInteraction(parameters);
 
             CQ selection;
             string[] seperators = new string[] { "..." };

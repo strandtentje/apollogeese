@@ -15,7 +15,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 	/// <summary>
 	/// Failure wrapper interaction.
 	/// </summary>
-	class FailureWrapperInteraction : QuickInteraction, IOutgoingBodiedInteraction
+	class FailureWrapperInteraction : SimpleInteraction, IOutgoingBodiedInteraction
 	{
 		private MemoryStream body;
 		private StreamWriter writer = null;

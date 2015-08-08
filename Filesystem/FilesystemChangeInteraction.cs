@@ -10,7 +10,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	/// <summary>
 	/// Used when a change in the filesystem occured
 	/// </summary>
-	public class FilesystemChangeInteraction : QuickInteraction
+	public class FilesystemChangeInteraction : SimpleInteraction
 	{
 		FileSystemInfo info;
 

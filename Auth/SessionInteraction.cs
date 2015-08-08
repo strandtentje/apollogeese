@@ -8,7 +8,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Auth
 {
-	class SessionInteraction : QuickInteraction
+	class SessionInteraction : SimpleInteraction
 	{
 		public SessionInteraction (IInteraction uncastParameters, string cookieName, string givenCookie) : base(uncastParameters)
 		{

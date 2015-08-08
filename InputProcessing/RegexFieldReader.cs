@@ -37,7 +37,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 		protected override bool Process (IInteraction parameters)
 		{
 			IIncomingBodiedInteraction incoming = (IIncomingBodiedInteraction)parameters;
-			QuickInteraction parsed = new QuickInteraction (incoming);
+			SimpleInteraction parsed = new SimpleInteraction (incoming);
 			Match results = matcher.Match (incoming.GetIncomingBodyReader().ReadToEnd());
 
 			foreach (string groupName in matcher.GetGroupNames()) {

@@ -92,7 +92,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		{
 			using (StreamReader requestReader = new StreamReader(request)) {
 				HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create (requestReader.ReadToEnd ());
-				QuickOutgoingInteraction postBody;
+				SimpleOutgoingInteraction postBody;
 
 				// Preserve CookieContainer here!
 
@@ -108,7 +108,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 				if (hasPostBuilder) {
 					webRequest.Method = "POST";
                 
-					postBody = new QuickOutgoingInteraction (webRequest.GetRequestStream (), parameters);
+					postBody = new SimpleOutgoingInteraction (webRequest.GetRequestStream (), parameters);
                     
 					postbuilder.TryProcess (postBody);
 				}
@@ -126,10 +126,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		/// <param name="parameters">Parameters.</param>
 		protected virtual Stream RequestForResponse (IInteraction parameters)
 		{
-			QuickOutgoingInteraction outgoingInteraction;
+			SimpleOutgoingInteraction outgoingInteraction;
 
 			using (MemoryStream uriComposingStream = new MemoryStream ()) {
-				outgoingInteraction = new QuickOutgoingInteraction (uriComposingStream, parameters);
+				outgoingInteraction = new SimpleOutgoingInteraction (uriComposingStream, parameters);
 
 				if (!uriBranch.TryProcess (outgoingInteraction))
 					throw new Exception ("URI failed to compose");
@@ -144,10 +144,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		protected override bool Process (IInteraction parameters)
 		{			
 			Stream responseStream;
-			QuickIncomingInteraction incomingInteraction;
+			SimpleIncomingInteraction incomingInteraction;
 
 			responseStream = RequestForResponse (parameters);
-			incomingInteraction = new QuickIncomingInteraction (responseStream, parameters, "http-response-body");
+			incomingInteraction = new SimpleIncomingInteraction (responseStream, parameters, "http-response-body");
 
 			return responseProcessor.TryProcess (incomingInteraction);
 		}

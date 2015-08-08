@@ -6,7 +6,7 @@ using System.Text;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	class FailureInteraction : QuickInteraction
+	class FailureInteraction : SimpleInteraction
 	{
 		public FailureInteraction (IInteraction parent, string initErrorMessage, string initErrorDetail) : base(parent)
 		{

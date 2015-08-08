@@ -9,7 +9,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 	/// <summary>
 	/// Cache interaction.
 	/// </summary>
-	class CacheInteraction : QuickInteraction
+	class CacheInteraction : SimpleInteraction
 	{
 		/// <summary>
 		/// The list for this Cache entity

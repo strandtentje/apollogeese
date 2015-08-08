@@ -17,7 +17,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 	/// Http interaction, offers extra utilities for interactions that resulted from an HTTP
 	/// server.
 	/// </summary>
-	public partial class HttpInteraction : QuickInteraction, IHttpInteraction
+	public partial class HttpInteraction : SimpleInteraction, IHttpInteraction
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Extensions.BasicWeblings.Server.HttpInteraction"/> class.

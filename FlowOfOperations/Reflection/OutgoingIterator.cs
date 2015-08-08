@@ -7,7 +7,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 	/// <summary>
 	/// this can't be good
 	/// </summary>
-	public class OutgoingIterator : QuickInteraction, IOutgoingBodiedInteraction
+	public class OutgoingIterator : SimpleInteraction, IOutgoingBodiedInteraction
 	{
 		string name;
 		MemoryStream body;

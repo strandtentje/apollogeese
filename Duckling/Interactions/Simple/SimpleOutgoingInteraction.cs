@@ -7,7 +7,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 	/// <summary>
 	/// Outgoing Interaction for HTTP communications
 	/// </summary>
-	public class QuickOutgoingInteraction :  QuickInteraction, IOutgoingBodiedInteraction
+	public class SimpleOutgoingInteraction :  SimpleInteraction, IOutgoingBodiedInteraction
 	{
 		private StreamWriter writer = null;
 
@@ -23,7 +23,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// </summary>
 		/// <param name="bodyStream">Data body stream.</param>
 		/// <param name="parent">Parent.</param>
-		public QuickOutgoingInteraction (Stream bodyStream, IInteraction parent) : base(parent)
+		public SimpleOutgoingInteraction (Stream bodyStream, IInteraction parent) : base(parent)
 		{
 			this.OutgoingBody = bodyStream;
 		}
