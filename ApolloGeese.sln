@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Geese", "ApolloGeese\Geese.csproj", "{C942E5BC-B6C5-4DF1-808C-71736F045B3D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Duckling", "Duckling\Duckling.csproj", "{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreTypes", "Duckling\CoreTypes.csproj", "{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowOfOperations", "FlowOfOperations\FlowOfOperations.csproj", "{FF10A427-5CC9-4C4F-8AAA-FE6D65D66AE7}"
 EndProject

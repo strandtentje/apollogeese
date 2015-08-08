@@ -1,6 +1,6 @@
 using System.IO;
 using BorrehSoft.Utensils.Collections;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 
 namespace BorrehSoft.ApolloGeese.Http
 {

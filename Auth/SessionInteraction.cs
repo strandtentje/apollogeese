@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using URandom = BorrehSoft.Utensils.Random;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;

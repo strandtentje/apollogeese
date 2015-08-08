@@ -9,7 +9,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 using System.Text;
 using System.Threading;
 
-namespace BorrehSoft.ApolloGeese.Duckling
+namespace BorrehSoft.ApolloGeese.CoreTypes
 {
 	/// <summary>
 	/// Abstract for service module implementing high level functionality.

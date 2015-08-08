@@ -1,4 +1,4 @@
-﻿using BorrehSoft.ApolloGeese.Duckling;
+﻿using BorrehSoft.ApolloGeese.CoreTypes;
 using System;
 using System.Collections.Generic;
 using System.Text;

@@ -2,7 +2,7 @@ using System;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 
 namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {

@@ -1,6 +1,6 @@
 using System;
 using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Parsing;
 using BorrehSoft.Utensils.Parsing.Parsers;
 using System.Collections.Generic;

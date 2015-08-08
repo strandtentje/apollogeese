@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace BorrehSoft.ApolloGeese.Duckling
+namespace BorrehSoft.ApolloGeese.CoreTypes
 {
     class Bounce : Service
     {

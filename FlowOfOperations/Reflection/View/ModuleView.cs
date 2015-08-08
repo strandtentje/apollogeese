@@ -1,5 +1,5 @@
 ﻿using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using MModule = BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module.Module;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations

@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Diagnostics;
 using DProcess = System.Diagnostics.Process;
 using System.IO;

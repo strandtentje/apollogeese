@@ -1,7 +1,7 @@
 using System;
 using BorrehSoft.Utensils.Collections.Maps;
 
-namespace BorrehSoft.ApolloGeese.Duckling
+namespace BorrehSoft.ApolloGeese.CoreTypes
 {
 	public abstract class TwoBranchedService : Service
 	{

@@ -2,7 +2,7 @@ using System;
 using System.Web;
 using System.Net;
 using System.Collections.Generic;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using L = BorrehSoft.Utensils.Log.Secretary;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Diagnostics;

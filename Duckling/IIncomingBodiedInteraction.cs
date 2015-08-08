@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace BorrehSoft.ApolloGeese.Duckling
+namespace BorrehSoft.ApolloGeese.CoreTypes
 {
 	/// <summary>
 	/// Interaction for Services which can read from upstream streams.

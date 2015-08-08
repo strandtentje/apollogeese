@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
 using BorrehSoft.Utensils.Collections;
 using System.Text.RegularExpressions;

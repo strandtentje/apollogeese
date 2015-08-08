@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BorrehSoft.Utensils;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps.Search;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup

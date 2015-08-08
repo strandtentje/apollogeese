@@ -54,10 +54,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Duckling\Duckling.csproj">
-      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
-      <Name>Duckling</Name>
-    </ProjectReference>
     <ProjectReference Include="..\FlowOfOperations\FlowOfOperations.csproj">
       <Project>{FF10A427-5CC9-4C4F-8AAA-FE6D65D66AE7}</Project>
       <Name>FlowOfOperations</Name>
@@ -73,6 +69,10 @@
     <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
       <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
       <Name>Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Duckling\CoreTypes.csproj">
+      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
+      <Name>CoreTypes</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

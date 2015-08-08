@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Text;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache

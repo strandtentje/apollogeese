@@ -1,6 +1,6 @@
 using System;
 using System.Net.Sockets;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
 {

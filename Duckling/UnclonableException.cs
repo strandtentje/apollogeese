@@ -1,6 +1,6 @@
 using System;
 
-namespace BorrehSoft.ApolloGeese.Duckling
+namespace BorrehSoft.ApolloGeese.CoreTypes
 {
 	public class UnclonableException : Exception
 	{

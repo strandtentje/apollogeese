@@ -3,7 +3,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Collections.Maps;
 
-namespace BorrehSoft.ApolloGeese.Duckling
+namespace BorrehSoft.ApolloGeese.CoreTypes
 {
 	/// <summary>
 	/// A stub-service; exists once, does nothing. Intended to cap off unattached branches.

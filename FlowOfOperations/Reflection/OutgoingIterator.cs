@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations

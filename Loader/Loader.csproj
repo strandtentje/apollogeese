@@ -42,10 +42,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Duckling\Duckling.csproj">
-      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
-      <Name>Duckling</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utilities\Parsing\Parsing.csproj">
       <Project>{274A8AFD-1DE7-47D8-98CD-925982D59DE0}</Project>
       <Name>Parsing</Name>
@@ -57,6 +53,10 @@
     <ProjectReference Include="..\Utilities\Logging\Logging.csproj">
       <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
       <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Duckling\CoreTypes.csproj">
+      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
+      <Name>CoreTypes</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
