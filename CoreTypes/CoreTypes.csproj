@@ -6,7 +6,7 @@
     <ProjectGuid>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese.CoreTypes</RootNamespace>
-    <AssemblyName>Duckling</AssemblyName>
+    <AssemblyName>CoreTypes</AssemblyName>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
