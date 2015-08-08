@@ -19,14 +19,6 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release!|AnyCPU' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\Release!</OutputPath>
     <WarningLevel>4</WarningLevel>
@@ -49,7 +41,7 @@
       <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
       <Name>Collections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Duckling\CoreTypes.csproj">
+    <ProjectReference Include="..\CoreTypes\CoreTypes.csproj">
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>CoreTypes</Name>
     </ProjectReference>
