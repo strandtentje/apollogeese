@@ -145,9 +145,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 				succesfulInit = newService.SetSettings (moduleConfiguration);
 
 				newService.PossibleSiblingTypes = plugins;
-				newService.IsLogging = log;
-                newService.FailHard = config.GetBool("fail", false);
-				newService.LoggingParameters = logparams;
+				newService.FailHard = config.GetBool("fail", false);
 
 				foreach (KeyValuePair<string, object> nameAndBranch in config.Dictionary) {
 					Match branchName = branchNameMatcher.Match (nameAndBranch.Key);

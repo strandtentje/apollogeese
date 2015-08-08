@@ -58,19 +58,7 @@ namespace BorrehSoft.ApolloGeese.Duckling
 		/// </summary>
 		private Settings configuration;
 
-		/// <summary>
-		/// Gets or sets a value indicating whether this instance is logging when it's hit
-		/// </summary>
-		/// <value><c>true</c> if this instance is logging; otherwise, <c>false</c>.</value>
-		public bool IsLogging { get; set; }
-
         public bool FailHard = false;
-
-		/// <summary>
-		/// Gets or sets the parameters to log along.
-		/// </summary>
-		/// <value>The logging parameters.</value>
-		public string[] LoggingParameters { get; set; }
 
 		/// <summary>
 		/// Gets the description of this service. (Cool bonus: May change! Woo!)
@@ -171,24 +159,6 @@ namespace BorrehSoft.ApolloGeese.Duckling
         private bool DoProcess(IInteraction parameters)
         {
             bool successful; 
-
-            if (IsLogging)
-            {
-                Secretary.Report(5, "Arrived at: ", this.Description);
-
-                if (LoggingParameters != null)
-                {
-                    Secretary.Report(5, "Parameters: ");
-                    foreach (string parName in LoggingParameters)
-                    {
-                        string parValue;
-                        if (parameters.TryGetFallbackString(parName, out parValue))
-                        {
-                            Secretary.Report(5, parName, parValue);
-                        }
-                    }
-                }
-            }
 
             successful = Process(parameters);
             if (!successful)
