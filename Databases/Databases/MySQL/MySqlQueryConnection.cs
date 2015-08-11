@@ -111,15 +111,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.MySQL
 		/// </summary>
 		/// <param name="QueryText">Query text.</param>
 		/// <param name="queryParameters">Query parameters.</param>
-		public void SetDefaultCommandQuery(string QueryText, List<object> queryParameters = null)
+		public void SetDefaultCommandQuery(string QueryText, List<string> queryParameters = null)
 		{			
 			this.DefaultQueryText = QueryText;
 
-			this.DefaultOrderedParameters = new List<string> ();
-
-			if (queryParameters != null) 
-				foreach(object p in queryParameters) 
-					this.DefaultOrderedParameters.Add((string)p);
+			this.DefaultOrderedParameters = queryParameters ?? new List<string> ();
 		}
 
 		/// <summary>
