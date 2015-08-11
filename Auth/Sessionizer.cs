@@ -19,15 +19,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 		public static List<string> knownSessions = new List<string> ();
 
 		private Service Http;
-		private TimeSpan cookieLife = new TimeSpan (1, 0, 0);
-		private bool closing, checkKnown;
-		private string cookieName = "SES";
 
-		public override string Description {
-			get {
-				return cookieName;
-			}
-		}
+		[Instruction("When set to true, this will revoke the session", false)]
+		public string Closing { get; set; }
+
+		[Instruction("Name that is used for this cookie in browser and server context.", "SES")]
+		public string CookieName { get; set; }
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
@@ -38,16 +35,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 		{
 			Branches ["http"] = Stub;
 
-			string temporary;
-
-			if (modSettings.TryGetString ("cookielife", out temporary))
-				cookieLife = TimeSpan.Parse (temporary);
-
-			if (modSettings.TryGetString ("cookiename", out temporary))
-				cookieName = temporary;
-
-			closing = modSettings.GetBool("sessioncloser", false);
-			checkKnown = modSettings.GetBool ("checkknown", false);
+			this.CookieName = modSettings.GetString ("cookiename", "SES");
+			this.Closing = modSettings.GetBool("sessioncloser", false);
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -60,15 +49,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 		{
 			IHttpInteraction parameters = (IHttpInteraction)uncastParameters.GetClosest (typeof(IHttpInteraction));
 
-			string givenCookie = parameters.RequestHeaders.Cookies.Get (cookieName, null);
+			string givenCookie = parameters.RequestHeaders.Cookies.Get (CookieName, null);
 
-			if (closing && (givenCookie != null)) {
+			if (Closing && (givenCookie != null)) {
 				knownSessions.Remove(givenCookie);
 			}
 
-			if ((givenCookie == null) ||		// In case of a null sescookie
-				(givenCookie.Length == 0) ||    // an empty sescookie
-				(checkKnown && !knownSessions.Contains (givenCookie))) {  // or an unknown session cookie
+			if ((givenCookie ?? "").Length == 0)   // an empty sescookie
+			{
 				// we create a cookie
 
 				string cookieValue;
@@ -84,7 +72,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 
 				} while (knownSessions.Contains(cookieValue));
 								
-				parameters.ResponseHeaders.SetCookie (cookieName, cookieValue);
+				parameters.ResponseHeaders.SetCookie (CookieName, cookieValue);
 
 				givenCookie = cookieValue;
 
@@ -94,7 +82,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 				// gloBALLY UNIQUE IDENTIFIER now hand me my tinfoil hat.
 			}
 
-			return Http.TryProcess(new SessionInteraction(uncastParameters, cookieName, givenCookie));
+			return Http.TryProcess(new SessionInteraction(uncastParameters, CookieName, givenCookie));
 		}
 	}
 }
