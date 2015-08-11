@@ -12,8 +12,8 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 {
 	public abstract class Configurable
 	{
-		public virtual IEnumerable<ConfigHint> GetConfigHints() {
-			return new ConfigHint[] { };
+		public virtual IEnumerable<ConfigInstruction> GetConfigInstructions() {
+			return new ConfigInstruction[] { };
 		}
 
 		/// <summary>

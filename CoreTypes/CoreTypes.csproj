@@ -38,13 +38,14 @@
     <Compile Include="Interactions\Simple\SimpleInteraction.cs" />
     <Compile Include="Interactions\Simple\SimpleOutgoingInteraction.cs" />
     <Compile Include="Interactions\Simple\SimpleIncomingInteraction.cs" />
-    <Compile Include="Services\Configuration\ConfigHint.cs" />
-    <Compile Include="Services\Configuration\Configurable.cs" />
     <Compile Include="Services\Simple\Bounce.cs" />
     <Compile Include="Services\Simple\StubService.cs" />
     <Compile Include="Services\Simple\TwoBranchedService.cs" />
     <Compile Include="Services\Service.cs" />
     <Compile Include="Services\UnclonableException.cs" />
+    <Compile Include="Services\Configuration\Instructions\ConfigInstruction.cs" />
+    <Compile Include="Services\Configuration\Instructions\InstructionAttribute.cs" />
+    <Compile Include="Services\Configuration\Configurables.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -62,5 +63,6 @@
     <Folder Include="Interactions\Simple\" />
     <Folder Include="Services\" />
     <Folder Include="Services\Simple\" />
+    <Folder Include="Services\Configuration\Instructions\" />
   </ItemGroup>
 </Project>

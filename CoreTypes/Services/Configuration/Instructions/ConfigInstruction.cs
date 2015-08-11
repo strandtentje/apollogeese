@@ -10,7 +10,7 @@ using System.Text;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
-	public class ConfigHint
+	public class ConfigInstruction
 	{
 		public ConfigHintType Type {
 			get;
@@ -27,11 +27,16 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			private set;
 		}
 
-		public enum ConfigHintType : int {
-			Numeric, Boolean, String, File, Array
+		public object CurrentValue {
+			get;
+			set;
 		}
 
-		public ConfigHint(ConfigHintType type, string name, string explanation = "") {
+		public enum ConfigHintType : int {
+			Numeric, Boolean, String, File, Array, Options
+		}
+
+		public ConfigInstruction(ConfigHintType type, string name, string explanation = "") {
 			this.Type = type;
 			this.Name = name;
 			this.Explanation = explanation;
