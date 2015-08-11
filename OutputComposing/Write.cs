@@ -14,7 +14,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			}
 		}
 
+		[Instruction("Name of context varaible to write into the format (optional)", "")]
 		private string VariableName { get; set; }
+		[Instruction("Format to write to the OutgoingBody, optionally including {0} as placeholder for variable.", "{0}")]
 		private string Format { get; set; }
 
 		public override void LoadDefaultParameters (string defaultParameter)
@@ -25,7 +27,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		protected override void Initialize (Settings modSettings)
 		{
 			VariableName = modSettings.GetString("variablename", "");
-
 			Format = modSettings.GetString ("format", "{0}");
 		}
 

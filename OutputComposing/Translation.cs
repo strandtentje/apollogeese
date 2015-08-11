@@ -46,9 +46,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 			IEnumerable<object> localizations = (IEnumerable<object>)modSettings ["locales"];
 
-			string filename;
-
-			filename =  (string)modSettings["file"];
+			string filename = (string)modSettings["file"];
 
 			if (modSettings.Has ("title")) {
 				title = (string)modSettings ["title"];
