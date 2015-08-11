@@ -14,7 +14,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 	/// <summary>
 	/// Abstract for service module implementing high level functionality.
 	/// </summary>
-	public abstract class Service : Configurable, IDisposable
+	public abstract class Service : Configurables, IDisposable
 	{
 		public static Dictionary<int, Service> ModelLookup = new Dictionary<int, Service>();
 		public PluginCollection<Service> PossibleSiblingTypes { get; set; }

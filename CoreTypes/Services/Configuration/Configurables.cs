@@ -10,7 +10,7 @@ using System.Text;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
-	public abstract class Configurable
+	public abstract class Configurables
 	{
 		public virtual IEnumerable<ConfigInstruction> GetConfigInstructions() {
 			return new ConfigInstruction[] { };
