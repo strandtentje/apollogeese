@@ -13,6 +13,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 	/// </summary>
 	public class Sessionizer : Service
 	{
+		public override string Description {
+			get {
+				return string.Format("Session cookie keeper for '{0}'", CookieName);
+			}
+		}
+
 		/// <summary>
 		/// The known sessions cookie strings
 		/// </summary>
