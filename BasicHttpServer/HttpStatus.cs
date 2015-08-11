@@ -13,7 +13,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			}
 		}
 
-		private int Statuscode { get; set; }
+		[Instruction("HTTP status code to produce", 200)]
+		public int Statuscode { get; set; }
 
 		private Service nextService;
 
@@ -31,7 +32,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
 		protected override void Initialize (Settings modSettings)
 		{
-			this.Statuscode = modSettings.GetInt ("statuscode");
+			this.Statuscode = modSettings.GetInt ("statuscode", 200);
 		}
 
 		protected override bool Process (IInteraction parameters)
