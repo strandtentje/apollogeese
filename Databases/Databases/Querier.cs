@@ -51,6 +51,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			this.Settings ["query"] = defaultParameter;
 		}
 
+		[Instruction("File containing the SQL-script to execute.")]
 		public string QueryFile {
 			get {
 				return this.queryFile;
@@ -61,10 +62,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			}
 		}
 
-		public List<string> Params { get; set; }
-
+		[Instruction("Programmatically imposed limit on amount of result rows.", -1)]
 		public int ResultCap { get; set; }
 
+		[Instruction("Names of parameters that should be passed into query.")]
+		public List<string> Params { get; set; }
+
+		[Instruction("Default values for parameters, if they're not available in context.")]
 		public Settings Defaults { get; set; }
 
 		public string QueryText { 

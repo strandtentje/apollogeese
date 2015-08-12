@@ -58,6 +58,7 @@
     <Compile Include="Cache\ContextCache.cs" />
     <Compile Include="Cache\NosyCache.cs" />
     <Compile Include="Cache\NosyInteraction.cs" />
+    <Compile Include="Lookup\LookupAccessor.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

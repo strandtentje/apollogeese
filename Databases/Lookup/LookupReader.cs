@@ -13,35 +13,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 	/// <summary>
 	/// Reads one or multiple lookup entries for given keywords
 	/// </summary>
-	public class LookupReader : Service
+	public class LookupReader : LookupMutator
 	{
 		private Service iterator;
 		private Service capreached = Stub;
-		/// <summary>
-		/// Gets or sets the name at which the lookup search query should reside within interactions
-		/// </summary>
-		/// <value>The name of the lookup key.</value>
-		private string LookupKeyName { get; set; }
-		/// <summary>
-		/// Gets or sets the name of the lookup.
-		/// </summary>
-		/// <value>The name of the lookup.</value>
-		private string LookupName {	get; set; }
-		/// <summary>
-		/// Gets or sets the maximum amount of allowed query words
-		/// </summary>
-		/// <value>The key cap.</value>
-		private int KeyCap { get; set; }
-		/// <summary>
-		/// Gets or sets the maximum amount of allowed results
-		/// </summary>
-		/// <value>The result cap.</value>
-		private int ResultCap { get; set; }
-		/// <summary>
-		/// Gets or sets the keyword splitter used to turn a query string into seperate query words.
-		/// </summary>
-		/// <value>The keyword splitter.</value>
-		private Regex KeywordSplitter { get; set; }
+
+		[Instruction("Maximum query size in words.", 6)]
+		public int KeyCap { get; set; }
+
+		[Instruction("Maximum result size in iterations.", -1)]
+		public int ResultCap { get; set; }
 
 		public override string Description {
 			get {
@@ -59,9 +40,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 
 		protected override void Initialize (Settings modSettings)
 		{
-			LookupKeyName = modSettings ["lookupkeyname"] as String;
-			LookupName = modSettings ["lookupname"] as String;
-			KeywordSplitter = new Regex(modSettings.GetString("keywordsplitregex", @"\W|_"));
+			LookupKeyName = modSettings.GetString ("lookupkeyname");
+			LookupName = modSettings.GetString ("lookupname");
+			KeywordSplitterRegex = modSettings.GetString("keywordsplitregex", @"\W|_");
 			KeyCap = modSettings.GetInt("keycap", 6);
 			ResultCap = modSettings.GetInt ("resultcap", -1);
 		}

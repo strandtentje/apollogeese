@@ -15,13 +15,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 		/// Gets or sets the name of the lookup this exterminator mutates.
 		/// </summary>
 		/// <value>The name of the lookup.</value>
-		private string LookupName {	get; set; }
+		public string LookupName {	get; set; }
 
 		/// <summary>
 		/// Gets or sets the name at which the meta-id resides at the parameters
 		/// </summary>
 		/// <value>The name of the meta.</value>
-		private string MetaName { get; set; }
+		public string MetaName { get; set; }
 
 		/// <summary>
 		/// The actual lookup this exterminator will mutate.
@@ -41,8 +41,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 
 		protected override void Initialize (Settings modSettings)
 		{			
-			LookupName = modSettings ["lookupname"] as String;
-			MetaName = modSettings ["metaname"] as String;
+			this.LookupName = modSettings.GetString ("lookupname");
+			this.MetaName = modSettings.GetString ("metaname");
 
 			thisLookup = Lookups.Get(LookupName);
 		}
