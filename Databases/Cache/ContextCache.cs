@@ -39,11 +39,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 		protected override void Initialize (Settings modSettings)
 		{
-			if (modSettings.Has ("keyname")) {
-				CacheNameSource = (string)modSettings ["keyname"];
-			} else {
-				CacheNameSource = "cachename";
-			}
+			this.CacheNameSource = modSettings.GetString ("keyname", "cachename");
 
 			if (modSettings.Has ("lifetime"))
 				cacheSettings ["lifetime"] = modSettings ["lifetime"];

@@ -13,18 +13,30 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 	{
 		public override string Description {
 			get {
-				return string.Format ("get values from cached list {0}", this.listName);
+				return string.Format ("get values from cached list {0}", this.ListName);
 			}
 		}
-
-		private bool relativePartition;
-		private bool useConfigListname;
-		private bool dontPartition;
-		private int partition;
+		
 		private Service unavailable;
 		private Service iterator;
-		private string listName;
-		private string pageVariable { get; set; }
+
+		[Instruction("When set to true, partition size will be used as list count divider.")]
+		public bool RelativePartition { get; set; }
+
+		[Instruction("When set to true, uses listname-setting from configuration instead of context.")]
+		public bool UseConfigListname { get; set; }
+
+		[Instruction("When set to true, partitioning capabilitiers of CacheList will be unavailable.")]
+		public bool DontPartition { get; set; }
+
+		[Instruction("Size of partition. Is a divider or an absolute count based on RelativePartition setting.")]
+		public int Partition { get; set; }
+
+		[Instruction("List of the cache to use.")]
+		private string ListName;
+
+		[Instruction("Context variable to use for picking the correct partition page.")]
+		public string pageVariable { get; set; }
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
@@ -36,12 +48,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 		{
 			Branches ["unavailable"] = Stub;
 
-			this.useConfigListname = modSettings.TryGetString ("listname", out listName);
-			this.dontPartition = modSettings.GetBool ("dontpartition", false);
+			string listName;
+			this.UseConfigListname = modSettings.TryGetString ("listname", out listName);
+			this.ListName = listName;
+			this.DontPartition = modSettings.GetBool ("dontpartition", false);
 
-			if (!this.dontPartition) {
-				this.partition = modSettings.GetInt ("partition", 1);
-				this.relativePartition = modSettings.GetBool ("relativepartition");
+			if (!this.DontPartition) {
+				this.Partition = modSettings.GetInt ("partition", 1);
+				this.RelativePartition = modSettings.GetBool ("relativepartition");
 				this.pageVariable = modSettings.GetString ("pagevariable");
 			}
 		}
@@ -77,13 +91,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			else 
 				throw new CacheException ("pagenumber missing");		
 
-			if (relativePartition) {
-				int pageSize = (int)Math.Ceiling ((float)cache.List.Count / (float)partition);
+			if (RelativePartition) {
+				int pageSize = (int)Math.Ceiling ((float)cache.List.Count / (float)Partition);
 				for (int i = pageSize * page; i < (pageSize * (page + 1)); i++) 
 					success &= ListPick (cache.List, i, parameters);
 
 			} else {
-				for (int i = this.partition * page; i < (this.partition * (page + 1)); i++) 
+				for (int i = this.Partition * page; i < (this.Partition * (page + 1)); i++) 
 					success &= ListPick (cache.List, i, parameters);
 			}
 
@@ -109,8 +123,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 		{
 			CacheInteraction cache;
 
-			if (useConfigListname) {
-				cache = new CacheInteraction (this.listName, parameters);
+			if (UseConfigListname) {
+				cache = new CacheInteraction (this.ListName, parameters);
 			} else {
 				cache = new CacheInteraction (parameters);
 			}
@@ -118,7 +132,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			if (cache.RequiresFill)
 				unavailable.TryProcess (cache);
 
-			if (dontPartition) {
+			if (DontPartition) {
 				return IterateWithoutPartition (parameters, cache);
 			} else {
 				return IterateWithPartition (parameters, cache);
