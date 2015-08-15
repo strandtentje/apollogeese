@@ -15,12 +15,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 		/// Gets or sets the name of the lookup this exterminator mutates.
 		/// </summary>
 		/// <value>The name of the lookup.</value>
+		[Instruction("Lookup name to mutate")]
 		public string LookupName {	get; set; }
 
 		/// <summary>
 		/// Gets or sets the name at which the meta-id resides at the parameters
 		/// </summary>
 		/// <value>The name of the meta.</value>
+		[Instruction("Identity attribute of lookup entry.")]
 		public string MetaName { get; set; }
 
 		/// <summary>

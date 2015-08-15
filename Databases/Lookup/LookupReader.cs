@@ -13,7 +13,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 	/// <summary>
 	/// Reads one or multiple lookup entries for given keywords
 	/// </summary>
-	public class LookupReader : LookupMutator
+	public class LookupReader : LookupAccessor
 	{
 		private Service iterator;
 		private Service capreached = Stub;
