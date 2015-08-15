@@ -14,7 +14,23 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			}
 		}
 
-		TimeSpan cacheLifetime;
+		[Instruction("Lifetime of Cache.")]
+		public string CacheLifetime { 
+			get {
+				if (timeUntilCacheDrop == null)
+					return "";
+				else
+					return timeUntilCacheDrop.ToString ();
+			}
+			set {
+				if (value.Length == 0)
+					timeUntilCacheDrop = null;
+				else
+					timeUntilCacheDrop = TimeSpan.Parse (value);
+			}
+		}
+
+		TimeSpan timeUntilCacheDrop;
 		DateTime lastUpdate = DateTime.Now;
 
 		public override void LoadDefaultParameters (string defaultParameter)
@@ -24,20 +40,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 		protected override void Initialize (Settings modSettings)
 		{
-			string lifetimeString = "";
-			bool hasLifetime = false;
-
-			if (modSettings.Has ("lifetime")) {
-				lifetimeString = modSettings.GetString ("lifetime");
-				hasLifetime = true;
-			}
-
-			if (hasLifetime) {
-				cacheLifetime = TimeSpan.Parse (lifetimeString);
-			} else {
-				// that will take a while surely.
-				cacheLifetime = TimeSpan.MaxValue;
-			}
+			this.CacheLifetime = modSettings.GetString ("lifetime", "");
 		}
 
 		private Service begin;
@@ -57,9 +60,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			IOutgoingBodiedInteraction upstreamTarget;
 			upstreamTarget = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
 
-			if (DateTime.Now - lastUpdate > cacheLifetime) {
-				binaryData = null;
-				stringData = null;
+			if (timeUntilCacheDrop != null) {
+				if (DateTime.Now - lastUpdate > timeUntilCacheDrop) {
+					binaryData = null;
+					stringData = null;
+				}
 			}
 
 			if ((binaryData == null) && (stringData == null)) {
