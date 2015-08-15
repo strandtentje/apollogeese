@@ -15,7 +15,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			}
 		}
 
-		string serviceIdKey;
+		[Instruction("Name of variable in context where id to target service is stored.", "serviceid")]
+		public string ServiceIdKey { get; set; }
 
 		static AnyParser valueParser = new AnyParser (new Parser[] {			
 			new ValueParser<int> (int.TryParse), 
@@ -28,7 +29,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 		protected override void Initialize (Settings modSettings)
 		{			
-			serviceIdKey = modSettings.GetString ("serviceidkey", "serviceid");
+			ServiceIdKey = modSettings.GetString ("serviceidkey", "serviceid");
 		}
 
 		private object GetParsedValue (string serialValue)
@@ -64,7 +65,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			bool successful = true;
 
 			try {
-				int serviceId = GetServiceInt (parameters, serviceIdKey);
+				int serviceId = GetServiceInt (parameters, ServiceIdKey);
 				Service service = GetServiceById(serviceId);
 
 				KeyValuePair<string, object> pair = GetKeyvalueFromContext(parameters);

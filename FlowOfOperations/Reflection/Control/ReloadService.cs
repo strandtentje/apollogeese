@@ -14,17 +14,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			}
 		}
 
-		string ServiceIdKey;
+		[Instruction("Name of variable in context where id of target service is stored.", "serviceid")]
+		public string ServiceIdKey { get; set; }
 
-		bool Replace {
-			get;
-			set;
-		}
+		[Instruction("When set to true, new config replaces old one. Otherwise, append.")]
+		public bool Replace { get; set; }
 
-		bool Reconfigure {
-			get;
-			set;
-		}
+		[Instruction("When set to true, new config will be loaded upon reload. Otherwise, only service will be reloaded.")]
+		public bool Reconfigure { get; set; }
 
 		protected override void Initialize (Settings modSettings)
 		{

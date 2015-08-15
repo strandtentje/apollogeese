@@ -14,8 +14,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			}
 		}
 
-		string ServiceNameKey { get; set; }
-		string ServiceIdKey { get; set; }
+		[Instruction("Variable name in context where name of new service is stored")]
+		public string ServiceNameKey { get; set; }
+
+		[Instruction("Variable name in context where id of new service is stored")]
+		public string ServiceIdKey { get; set; }
 
 		protected override void Initialize (Settings modSettings)
 		{
