@@ -12,11 +12,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 	public class Return : Service
 	{
 		private Service defaultBranch = Stub;
-		private string branchName;
+
+		[Instruction("Name of branch in calling module to return control to.")]
+		public string BranchName { get; set; }
 
 		public override string Description {
 			get {
-				return string.Format("Returns to calling module branch {0}", branchName);
+				return string.Format("Returns to calling module branch {0}", BranchName);
 			}
 		}
 
@@ -32,7 +34,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 		protected override void Initialize (Settings modSettings)
 		{
-			branchName = (string)modSettings.Get ("branchname");
+			BranchName = modSettings.GetString ("branchname");
 		}
 
 		public Service GetReturnService(IInteraction parameters, Service defaultService) {
@@ -47,7 +49,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		protected bool TryGetReturnService(IInteraction parameters, out Service returnService) {
 			JumpInteraction jumpParameters = (JumpInteraction)parameters.GetClosest (typeof(JumpInteraction));
 
-			return jumpParameters.TryGetDeepBranch (branchName, out returnService);
+			return jumpParameters.TryGetDeepBranch (BranchName, out returnService);
 		}
 
 		protected override bool Process (IInteraction parameters)
