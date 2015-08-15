@@ -14,9 +14,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 	/// </summary>
 	public abstract class SocketService : Service
 	{
-		protected string Ip { get; set; }
+		[Instruction("IP of socket")]
+		public string Ip { get; set; }
 
-		protected int Port { get; set; }
+		[Instruction("Port of socket", 43373)]
+		public int Port { get; set; }
 
 		protected override void Initialize (Settings modSettings)
 		{
