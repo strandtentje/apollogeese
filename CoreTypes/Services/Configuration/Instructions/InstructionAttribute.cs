@@ -13,7 +13,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// </summary>
 		/// <param name="explanation">Explanation.</param>
 		/// <param name="defaultValue">Default value.</param>
-		public InstructionAttribute (string explanation, object defaultValue)
+		public InstructionAttribute (string explanation, object defaultValue, bool isNullable = false)
 		{
 		}
 	}
