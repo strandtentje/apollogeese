@@ -47,17 +47,20 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 
 		private Service Succesful, Form;
 		private Module FailureHandler;
-		bool htmlEscape, showFormBefore, showFormAfter, mapErrorStrings;
+		bool HtmlEscape;
+		bool ShowFormBefore;
+		bool ShowFormAfter;
+		bool MapErrorStrings;
 
 		protected override void Initialize (Settings modSettings)
 		{
 			Branches["successful"] = Stub;
 			Branches["form"] = Stub;
 
-			htmlEscape = modSettings.GetBool("escapehtml", true);
-			showFormBefore = modSettings.GetBool("showformbefore", false);
-			showFormAfter = modSettings.GetBool("showformafter", false);
-			mapErrorStrings = modSettings.GetBool ("maperrors", false);
+			HtmlEscape = modSettings.GetBool("escapehtml", true);
+			ShowFormBefore = modSettings.GetBool("showformbefore", false);
+			ShowFormAfter = modSettings.GetBool("showformafter", false);
+			MapErrorStrings = modSettings.GetBool ("maperrors", false);
 
 			FieldExpressions = new Dictionary<string, Regex> ();
 			FieldDefaults = new Map<string> ();
@@ -120,9 +123,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 		{
 			bool success = true;
 			
-			if (showFormBefore) success &= Form.TryProcess(parsedData);
+			if (ShowFormBefore) success &= Form.TryProcess(parsedData);
 			success &= Succesful.TryProcess (parsedData);
-			if (showFormAfter) success &= Form.TryProcess(parsedData);
+			if (ShowFormAfter) success &= Form.TryProcess(parsedData);
 
 			return success;
 		}
@@ -147,7 +150,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 				handler = FailureHandler ?? Branches [failName];
 
 				if (handler != null) {
-					if (mapErrorStrings) {
+					if (MapErrorStrings) {
 						interaction = fwInteraction = new FailureWrapperInteraction (parameters);
 					}
 
@@ -181,7 +184,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 
 			string sourceName = GetSourceName (parameters);
 
-			parsedData = new VerificationInteraction (parameters, sourceName, FieldExpressions, InteractionFallbackNames) { HtmlEscape = htmlEscape };
+			parsedData = new VerificationInteraction (parameters, sourceName, FieldExpressions, InteractionFallbackNames) { HtmlEscape = HtmlEscape };
 
 			if (parameters.TryGetFallback (sourceName, out postDataObject)) {
 				parsedData [sourceName] = (Map<object>)postDataObject;

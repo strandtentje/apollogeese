@@ -43,6 +43,8 @@
     <Compile Include="Hackjobs\HtmlReader.cs" />
     <Compile Include="Hackjobs\RegexFieldReader.cs" />
     <Compile Include="FieldBased\FailureWrapperInteraction.cs" />
+    <Compile Include="Seperated\EncodedForm.cs" />
+    <Compile Include="Seperated\Form.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -70,5 +72,6 @@
   <ItemGroup>
     <Folder Include="FieldBased\" />
     <Folder Include="Hackjobs\" />
+    <Folder Include="Seperated\" />
   </ItemGroup>
 </Project>
