@@ -30,6 +30,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 		[Instruction("Root path for tar command")]
 		public string RootPath { get; set; }
+		[Instruction("Tar command", "tar")]
 		public string TarCommand { get; set; }
 
  		protected override void Initialize (Settings modSettings)
