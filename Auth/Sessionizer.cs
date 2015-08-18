@@ -27,7 +27,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 		private Service Http;
 
 		[Instruction("When set to true, this will revoke the session", false)]
-		public string Closing { get; set; }
+		public bool Closing { get; set; }
 
 		[Instruction("Name that is used for this cookie in browser and server context.", "SES")]
 		public string CookieName { get; set; }
