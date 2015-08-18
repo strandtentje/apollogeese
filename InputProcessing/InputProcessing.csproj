@@ -7,7 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>InputProcessing</RootNamespace>
     <AssemblyName>InputProcessing</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,10 +44,11 @@
     <Compile Include="Hackjobs\HtmlReader.cs" />
     <Compile Include="Hackjobs\RegexFieldReader.cs" />
     <Compile Include="FieldBased\FailureWrapperInteraction.cs" />
-    <Compile Include="Seperated\Form.cs" />
-    <Compile Include="Seperated\IKeyValueReader.cs" />
-    <Compile Include="Seperated\UrlForm.cs" />
-    <Compile Include="Seperated\UrlKeyValueReader.cs" />
+    <Compile Include="Seperated\IIncomingKeyValueInteraction.cs" />
+    <Compile Include="Seperated\InputListing.cs" />
+    <Compile Include="Seperated\UrlEncoded\UrlForm.cs" />
+    <Compile Include="Seperated\UrlEncoded\UrlKeyValueInteraction.cs" />
+    <Compile Include="Seperated\Fields\NumericField.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -79,5 +81,7 @@
     <Folder Include="FieldBased\" />
     <Folder Include="Hackjobs\" />
     <Folder Include="Seperated\" />
+    <Folder Include="Seperated\UrlEncoded\" />
+    <Folder Include="Seperated\Fields\" />
   </ItemGroup>
 </Project>

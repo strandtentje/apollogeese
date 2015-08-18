@@ -8,7 +8,7 @@ using BorrehSoft.Utensils.Log;
 
 namespace InputProcessing
 {
-	public abstract class Form : TwoBranchedService
+	public abstract class InputListing : TwoBranchedService
 	{
 		public override string Description {
 			get {
@@ -33,20 +33,16 @@ namespace InputProcessing
 			this.TollerateUnknownFields = settings.GetBool ("tollerateunknownfields", true);
 		}
 
-		protected abstract IKeyValueReader GetReader (IInteraction parameters)
-		{
-
-		}
+		protected abstract IIncomingKeyValueInteraction GetReader (IInteraction parameters);
 
 		protected override bool Process (IInteraction parameters)
 		{
 			bool isValidationSuccessful = true;
-			bool candidateSuccessful;
 
-			IKeyValueReader kvParameters = GetReader (parameters);
-			string inputName;
+			IIncomingKeyValueInteraction kvParameters = GetReader (parameters);
 
-			while (kvParameters.TryGetName (out inputName)) {
+			while (kvParameters.ReadNextName()) {
+				string inputName = kvParameters.GetCurrentName();
 				if (Branches.Has (inputName)) {
 					isValidationSuccessful &= Branches [inputName].TryProcess (kvParameters);
 				} else {
@@ -56,8 +52,8 @@ namespace InputProcessing
 				}
 			}
 
-			kvParameters.FinalizeValidation ();
-			
+			kvParameters.Finalized = true;
+
 			bool isSuccessful = true;
 
 			if (isValidationSuccessful) {
@@ -71,7 +67,7 @@ namespace InputProcessing
 					if (Branches.Has(orderName)) {
 						isSuccessful &= Branches[orderName].TryProcess(kvParameters);
 					} else {
-						throw MissingBranchException(orderName);
+						throw new MissingBranchException(orderName);
 					}
 				}
 			}

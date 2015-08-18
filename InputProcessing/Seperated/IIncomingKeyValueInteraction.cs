@@ -8,11 +8,13 @@ using BorrehSoft.Utensils.Log;
 
 namespace InputProcessing
 {
-	interface IKeyValueReader : IIncomingBodiedInteraction
+	public interface IIncomingKeyValueInteraction : IIncomingReaderInteraction
 	{
-		bool TryGetName (out string name);
+		bool ReadNextName ();
 
-		void FinalizeValidation ();
+		string GetCurrentName();
+
+		bool Finalized { get; set; }
 
 	}
 
