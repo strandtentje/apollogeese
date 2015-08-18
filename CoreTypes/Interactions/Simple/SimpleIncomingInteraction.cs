@@ -21,7 +21,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// Gets a streamreader to read from the incoming body of data
 		/// </summary>
 		/// <returns>The incoming body reader.</returns>
-		public StreamReader GetIncomingBodyReader() { 
+		public TextReader GetIncomingBodyReader() { 
 			if (writer == null)
 				writer = new StreamReader (IncomingBody);
 
