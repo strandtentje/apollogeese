@@ -17,14 +17,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 		[Instruction("Lifetime of Cache.")]
 		public string CacheLifetime { 
 			get {
-				if (timeUntilCacheDrop == null)
+				if (timeUntilCacheDrop == TimeSpan.MaxValue)
 					return "";
 				else
 					return timeUntilCacheDrop.ToString ();
 			}
 			set {
 				if (value.Length == 0)
-					timeUntilCacheDrop = null;
+					timeUntilCacheDrop = TimeSpan.MaxValue;
 				else
 					timeUntilCacheDrop = TimeSpan.Parse (value);
 			}
@@ -60,7 +60,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			IOutgoingBodiedInteraction upstreamTarget;
 			upstreamTarget = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
 
-			if (timeUntilCacheDrop != null) {
+			if (timeUntilCacheDrop != TimeSpan.MaxValue) {
 				if (DateTime.Now - lastUpdate > timeUntilCacheDrop) {
 					binaryData = null;
 					stringData = null;
