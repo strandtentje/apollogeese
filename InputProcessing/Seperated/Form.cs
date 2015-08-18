@@ -57,14 +57,14 @@ namespace InputProcessing
 			}
 
 			kvParameters.FinalizeValidation ();
+			
+			bool isSuccessful = true;
 
 			if (isValidationSuccessful) {
 				isSuccessful &= Successful.TryProcess (kvParameters);
 			} else {
 				isSuccessful &= Failure.TryProcess (kvParameters);
 			}
-
-			bool isSuccessful = true;
 
 			if (AlwaysShowForm || !isValidationSuccessful) {
 				foreach(string orderName in FieldOrder) {
