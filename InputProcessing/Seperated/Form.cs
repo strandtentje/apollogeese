@@ -4,6 +4,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.IO;
 using System.Collections.Generic;
+using BorrehSoft.Utensils.Log;
 
 namespace InputProcessing
 {
@@ -15,43 +16,67 @@ namespace InputProcessing
 			}
 		}
 
+		[Instruction("Order of fields")]
+		public IEnumerable<string> FieldOrder { get; set; }
+
+		[Instruction("Always show form", false)]
+		public bool AlwaysShowForm { get; set; }
+
+		[Instruction("Fail the form reading session if unknown fields were tossen in", false)]
+		public bool TollerateUnknownFields { get; set; }
+
+
 		protected override void Initialize (Settings settings)
 		{
-
+			this.FieldOrder = settings.GetStringList ("fieldorder");
+			this.AlwaysShowForm = settings.GetBool ("alwaysshowform", false);
+			this.TollerateUnknownFields = settings.GetBool ("tollerateunknownfields", true);
 		}
 
-		protected abstract bool TryGetNameValue (IInteraction parameters, out KeyValuePair<string, Stream> result) {
-
-		}
-
-		private bool BranchForCandidateInput (KeyValuePair<string, TextReader> candidateInput, IInteraction parent)
+		protected abstract IKeyValueReader GetReader (IInteraction parameters)
 		{
-			bool candidateSuccessful = false;
 
-			if (Branches.Has (candidateInput.Key)) {
-				FieldInteraction fieldPayload;
-				Service fieldProcessor;
-
-				fieldPayload = new FieldInteraction (candidateInput.Value, parent);
-				fieldProcessor = Branches [candidateInput.Key];
-
-				if (fieldProcessor.TryProcess (fieldPayload)) {
-					candidateSuccessful = true;
-				}
-			}
-
-			return candidateSuccessful;
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			bool isSuccessful = true;
+			bool isValidationSuccessful = true;
 			bool candidateSuccessful;
-			KeyValuePair<string, TextReader> candidateInput;
 
-			while (TryGetNameValue (parameters, out candidateInput)) {
-				isSuccessful &= BranchForCandidateInput (candidateInput, parameters);
+			IKeyValueReader kvParameters = GetReader (parameters);
+			string inputName;
+
+			while (kvParameters.TryGetName (out inputName)) {
+				if (Branches.Has (inputName)) {
+					isValidationSuccessful &= Branches [inputName].TryProcess (kvParameters);
+				} else {
+					Secretary.Report (3, "Input contained field named", 
+						inputName, "- we don't have a validator for that.");
+					isValidationSuccessful &= TollerateUnknownFields;
+				}
 			}
+
+			kvParameters.FinalizeValidation ();
+
+			if (isValidationSuccessful) {
+				isSuccessful &= Successful.TryProcess (kvParameters);
+			} else {
+				isSuccessful &= Failure.TryProcess (kvParameters);
+			}
+
+			bool isSuccessful = true;
+
+			if (AlwaysShowForm || !isValidationSuccessful) {
+				foreach(string orderName in FieldOrder) {
+					if (Branches.Has(orderName)) {
+						isSuccessful &= Branches[orderName].TryProcess(kvParameters);
+					} else {
+						throw MissingBranchException(orderName);
+					}
+				}
+			}
+
+			return isSuccessful;
 		}
 	}
 }
