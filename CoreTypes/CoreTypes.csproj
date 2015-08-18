@@ -47,6 +47,7 @@
     <Compile Include="Services\Configuration\Instructions\InstructionAttribute.cs" />
     <Compile Include="Services\Configuration\Configurables.cs" />
     <Compile Include="Services\Simple\KeywordService.cs" />
+    <Compile Include="Services\MissingBranchException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
