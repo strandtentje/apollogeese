@@ -22,7 +22,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// Gets or sets the keyword splitter used to turn a query string into seperate query words.
 		/// </summary>
 		/// <value>The keyword splitter.</value>
-		private Regex KeywordSplitter { get; set; }
+		public Regex KeywordSplitter { get; set; }
 	}
 }
 
