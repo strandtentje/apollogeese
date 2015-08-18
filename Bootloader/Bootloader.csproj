@@ -7,6 +7,8 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese</RootNamespace>
     <AssemblyName>agrun</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -52,10 +54,6 @@
       <Project>{FF10A427-5CC9-4C4F-8AAA-FE6D65D66AE7}</Project>
       <Name>FlowOfOperations</Name>
     </ProjectReference>
-    <ProjectReference Include="..\InputProcessing\InputProcessing.csproj">
-      <Project>{D359A93F-705D-4C95-A2F9-C8FDEEE9C4D4}</Project>
-      <Name>InputProcessing</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Navigation\Navigation.csproj">
       <Project>{B02EA360-7127-409C-9223-9B33BB98E631}</Project>
       <Name>Navigation</Name>
@@ -87,6 +85,10 @@
     <ProjectReference Include="..\CoreTypes\CoreTypes.csproj">
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>CoreTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\InputProcessing\InputProcessing.csproj">
+      <Project>{D359A93F-705D-4C95-A2F9-C8FDEEE9C4D4}</Project>
+      <Name>InputProcessing</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
