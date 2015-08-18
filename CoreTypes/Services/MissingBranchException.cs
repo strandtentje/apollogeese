@@ -6,7 +6,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 	{
 		public MissingBranchException(string name) : base(
 			string.Format("Branch {0} was expected but not found", 
-				name) {}
+				name)) {}
 	}
 }
 
