@@ -43,8 +43,10 @@
     <Compile Include="Hackjobs\HtmlReader.cs" />
     <Compile Include="Hackjobs\RegexFieldReader.cs" />
     <Compile Include="FieldBased\FailureWrapperInteraction.cs" />
-    <Compile Include="Seperated\EncodedForm.cs" />
     <Compile Include="Seperated\Form.cs" />
+    <Compile Include="Seperated\IKeyValueReader.cs" />
+    <Compile Include="Seperated\UrlForm.cs" />
+    <Compile Include="Seperated\UrlKeyValueReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -67,6 +69,10 @@
     <ProjectReference Include="..\CoreTypes\CoreTypes.csproj">
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>CoreTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Logging\Logging.csproj">
+      <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
+      <Name>Logging</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
