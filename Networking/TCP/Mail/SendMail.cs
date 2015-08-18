@@ -15,7 +15,7 @@ namespace Networking
 	{
 		Service body, sending, sent;
 		SmtpClient smtpClient;
-		List<string> mailServers;
+		IEnumerable<string> mailServers;
 
 		[Instruction("E-mail address that gets used as sender address", null, true)]
 		public string Sender { get; set; }

@@ -17,7 +17,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 
 		public override string Description {
 			get {
-				return string.Format("Single TCP client to {0}:{1}", hostname, port);
+				return string.Format("Single TCP client to {0}:{1}", this.Hostname, this.Port);
 			}
 		}
 
@@ -28,7 +28,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		/// <param name="body">Body.</param>
 		protected override Stream GetResponse (Stream body, IInteraction parameters)
 		{
-			singleClient = new TcpClient (hostname, port);
+			singleClient = new TcpClient (this.Hostname, this.Port);
 			body.CopyTo (singleClient.GetStream ());
 
 			return singleClient.GetStream ();
