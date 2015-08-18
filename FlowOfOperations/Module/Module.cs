@@ -43,7 +43,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			this.File = modSettings.GetString ("file");
 
 			if (modSettings.Has ("branch"))
-				this.BranchName = modSettings.Get ("branch");
+				this.BranchName = modSettings.GetString ("branch");
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
