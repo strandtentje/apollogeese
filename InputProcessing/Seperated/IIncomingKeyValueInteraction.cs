@@ -14,8 +14,9 @@ namespace InputProcessing
 
 		string GetCurrentName();
 
-		bool Finalized { get; set; }
+		bool IsViewing { get; set; }
 
+		void SetCurrentValue (object value);
 	}
 
 }

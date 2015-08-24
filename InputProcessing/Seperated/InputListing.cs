@@ -52,7 +52,7 @@ namespace InputProcessing
 				}
 			}
 
-			kvParameters.Finalized = true;
+			kvParameters.IsViewing = true;
 
 			bool isSuccessful = true;
 

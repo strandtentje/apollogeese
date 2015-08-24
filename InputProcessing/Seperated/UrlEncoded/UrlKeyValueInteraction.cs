@@ -9,12 +9,12 @@ namespace InputProcessing
 {
 	class UrlKeyValueInteraction : SimpleInteraction, IIncomingKeyValueInteraction
 	{
-		TextReader dataReader;
+		ReluctantTextReader dataReader;
 		string currentName;
 
 		public UrlKeyValueInteraction (IInteraction parent, TextReader dataReader) : base(parent)
 		{
-			this.dataReader = dataReader;
+			this.dataReader = new ReluctantTextReader (dataReader);
 		}
 
 		public bool HasReader() {
@@ -26,30 +26,24 @@ namespace InputProcessing
 		}
 
 		public bool ReadNextName() {
-			int currentCharcode;
-			char currentChar;
-			StringBuilder newName = new StringBuilder ();
+			this.dataReader.StopCharacter = '=';
 
-			while ((currentCharcode = this.dataReader.Read()) >= 0) {
-				currentChar = (char)currentCharcode;
+			string nextName = this.dataReader.ReadToEnd ();
 
-				if (currentChar == '=') {
-					break;
-				} else {
-					newName.Append (currentChar);
-				}
-			}
+			this.dataReader.StopCharacter = '&';
 
-			this.currentName = newName.ToString();
-
-			return newName.Length > 0;
+			return nextName;
 		}
 
 		public string GetCurrentName() {
 			return this.currentName;
 		}
 
-		public bool Finalized { get; set; }
+		public void SetCurrentValue(object value) {
+			this [GetCurrentName ()] = value;
+		}
+
+		public bool IsViewing { get; set; }
 	}
 
 }

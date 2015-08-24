@@ -1,9 +1,11 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
+using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utensils.Collections.Maps;
 
 namespace InputProcessing
 {
-	public class ValueField : Service
+	public abstract class ValueField : TwoBranchedService
 	{
 		public override string Description {
 			get {
@@ -13,22 +15,49 @@ namespace InputProcessing
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
-			base.LoadDefaultParameters (defaultParameter);
+
 		}
 
-		protected override void Initialize (BorrehSoft.Utensils.Collections.Settings.Settings settings)
+		private Service View { get;	set; }
+
+		[Instruction("Use minimal limit when set to true", false)]
+		public bool UseMin { get; private set; }
+
+		[Instruction("Use maximal limit when set to true", false)]
+		public bool UseMax { get; private set; }
+
+		protected override void Initialize (Settings settings)
 		{
-			base.Initialize (settings);
+			this.UseMin = settings.GetBool ("usemin", false);
+			this.UseMax = settings.GetBool ("usemax", false);
 		}
 
-		protected override void HandleBranchChanged (object sender, BorrehSoft.Utensils.Collections.Maps.ItemChangedEventArgs<Service> e)
+		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			base.HandleBranchChanged (sender, e);
+
+			if (e.Name == "view")
+				this.View = e.NewValue;
 		}
+			
+		protected abstract object ReadValue ();
 
 		protected override bool Process (IInteraction parameters)
 		{
-			return base.Process (parameters);
+			bool successful = true;
+			IInteraction formInteractionCandidate;
+
+
+
+			if (parameters.TryGetClosest (typeof(IIncomingKeyValueInteraction), out formInteractionCandidate)) {
+				IIncomingKeyValueInteraction formInteraction = (IIncomingKeyValueInteraction)formInteractionCandidate;
+
+				if (formInteraction.IsViewing) {
+					successful = this.View.TryProcess (parameters);
+				} else {
+					formInteraction.SetCurrentValue (ReadValue ());
+				}
+			}
 		}
 	}
 }
