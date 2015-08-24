@@ -40,8 +40,6 @@ namespace InputProcessing
 				this.View = e.NewValue;
 		}
 			
-		protected abstract object ReadValue ();
-
 		protected override bool Process (IInteraction parameters)
 		{
 			bool successful = true;
@@ -55,6 +53,11 @@ namespace InputProcessing
 				if (formInteraction.IsViewing) {
 					successful = this.View.TryProcess (parameters);
 				} else {
+					object valueCandidate;
+
+					if (TryReadValue (formInteraction, out valueCandidate)) {
+
+					}
 					formInteraction.SetCurrentValue (ReadValue ());
 				}
 			}
