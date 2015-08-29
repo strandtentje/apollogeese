@@ -90,5 +90,9 @@
       <Project>{D359A93F-705D-4C95-A2F9-C8FDEEE9C4D4}</Project>
       <Name>InputProcessing</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Imaging\Imaging.csproj">
+      <Project>{529790BF-2C23-4ECF-903A-0101205BE635}</Project>
+      <Name>Imaging</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>

@@ -43,6 +43,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Streaming", "Utilities\Stre
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptography", "Utilities\Cryptography\Cryptography.csproj", "{47A71E63-7172-4138-AA90-A432863AAFF1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imaging", "Imaging\Imaging.csproj", "{529790BF-2C23-4ECF-903A-0101205BE635}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -71,6 +73,10 @@ Global
 		{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{529790BF-2C23-4ECF-903A-0101205BE635}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{529790BF-2C23-4ECF-903A-0101205BE635}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{529790BF-2C23-4ECF-903A-0101205BE635}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{529790BF-2C23-4ECF-903A-0101205BE635}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7B1BAD3C-775E-4481-804C-1EB9479AFFF4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{7B1BAD3C-775E-4481-804C-1EB9479AFFF4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7B1BAD3C-775E-4481-804C-1EB9479AFFF4}.Release|Any CPU.ActiveCfg = Release|Any CPU
