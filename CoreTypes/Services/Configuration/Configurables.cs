@@ -110,6 +110,8 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 
 				Secretary.Report (0, errorDetail.ToString ());
 
+				Secretary.Report (2, ex.StackTrace);
+
 				succesful = false;
 			}
 
