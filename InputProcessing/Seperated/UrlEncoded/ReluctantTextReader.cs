@@ -83,7 +83,7 @@ namespace InputProcessing
 			int writes = 0;
 
 			while ((-1 < character) || (count > writes)) {
-				buffer [index + writes++] = Read ();
+				buffer [index + writes++] = (char)Read ();
 				character = Peek ();
 			}
 
@@ -111,6 +111,8 @@ namespace InputProcessing
 				fullBuilder.Append ((char)Read ());
 				character = Peek ();
 			}
+
+			return fullBuilder.ToString ();
 		}
 	}
 }

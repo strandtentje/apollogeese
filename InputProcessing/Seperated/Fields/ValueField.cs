@@ -54,13 +54,15 @@ namespace InputProcessing
 					successful = this.View.TryProcess (parameters);
 				} else {
 					object valueCandidate;
-
+					/* 
 					if (TryReadValue (formInteraction, out valueCandidate)) {
 
 					}
-					formInteraction.SetCurrentValue (ReadValue ());
+					formInteraction.SetCurrentValue (ReadValue ());*/
 				}
 			}
+
+			return false;
 		}
 	}
 }

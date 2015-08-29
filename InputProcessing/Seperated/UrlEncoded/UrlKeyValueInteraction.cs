@@ -28,11 +28,15 @@ namespace InputProcessing
 		public bool ReadNextName() {
 			this.dataReader.StopCharacter = '=';
 
-			string nextName = this.dataReader.ReadToEnd ();
+			if (-1 < this.dataReader.Peek ()) {
+				this.currentName = this.dataReader.ReadToEnd ();
 
-			this.dataReader.StopCharacter = '&';
+				this.dataReader.StopCharacter = '&';
 
-			return nextName;
+				return true;
+			} else {
+				return false;
+			}
 		}
 
 		public string GetCurrentName() {
