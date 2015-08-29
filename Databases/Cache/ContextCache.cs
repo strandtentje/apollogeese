@@ -22,7 +22,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 		Settings cacheSettings = new Settings();
 
-		string CacheNameSource {
+		protected string CacheNameSource {
 			get;
 			set;
 		}
