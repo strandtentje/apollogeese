@@ -1,6 +1,6 @@
 using System;
 using System.Net;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Net.Sockets;
@@ -11,6 +11,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {
 	class ReachInteraction : IInteraction
 	{
+		public const string NullTypeName = "[nothing]";
+
 		private Pipe pipe;
 	
 		public ReachInteraction (Pipe pipe)
@@ -64,7 +66,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		public object GetValue(string id, string typename) {
 			Type targetType = Type.GetType (typename);
 
-			MethodInfo parseMethod = targetType.GetMethod ("Parse", BindingFlags.Static);
+			BindingFlags flags = BindingFlags.Static | BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+
+			MethodInfo parseMethod = targetType.GetMethod (
+				"Parse", new Type[] { typeof(string) });
 
 			pipe.SendCommand (Command.Compose);
 			pipe.SendString (id);
@@ -85,7 +90,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 			if (GetTypenameTryString (id, out luggageText, out typename)) {
 				luggage = luggageText;
 			} else {
-				if (typename == "[nothing]") {
+				if (typename == NullTypeName) {
 					luggage = null;
 					success = false;
 				} else {
@@ -120,8 +125,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		/// <param name="id">Identifier.</param>
 		/// <param name="luggage">Luggage.</param>
 		public bool TryGetFallbackString(string id, out string luggage) {
-			luggage = null;
-			return false;
+			return TryGetString (id, out luggage);
 		}
 
 		/// <summary>
@@ -131,8 +135,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		/// <param name="id">Identifier.</param>
 		/// <param name="luggage">Luggage.</param>
 		public bool TryGetFallback (string id, out object luggage) {
-			luggage = null;
-			return false;
+			return TryGetValue (id, out luggage);
 		}
 		 
 	}

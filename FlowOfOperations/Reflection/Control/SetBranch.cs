@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 
@@ -13,24 +13,31 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			}
 		}
 
-		private string sourceServiceIdKey, sourceBranchNameKey,	targetServiceIdKey;
+		[Instruction("Variable name in context where id of source service is stored.", "sourceid")]
+		public string SourceServiceIdKey { get; set; }
+
+		[Instruction("Variable name in context where branch name of source service is stored.", "sourcebranch")]
+		public string SourceBranchNameKey { get; set; }
+
+		[Instruction("Variable name in context where id of target service is stored.", "targetid")]
+		public string TargetServiceIdKey { get; set; }
 
 		protected override void Initialize (Settings modSettings)
 		{
-			sourceServiceIdKey = modSettings.GetString ("sourceserviceidkey", "sourceid");
-			sourceBranchNameKey = modSettings.GetString ("sourcebranchnamekey", "sourcebranch");
-			targetServiceIdKey = modSettings.GetString ("targetserviceidkey", "targetid");
+			SourceServiceIdKey = modSettings.GetString ("sourceserviceidkey", "sourceid");
+			SourceBranchNameKey = modSettings.GetString ("sourcebranchnamekey", "sourcebranch");
+			TargetServiceIdKey = modSettings.GetString ("targetserviceidkey", "targetid");
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			int sourceServiceID = GetServiceInt (parameters, sourceServiceIdKey);
-			int targetServiceID = GetServiceInt (parameters, targetServiceIdKey);
+			int sourceServiceID = GetServiceInt (parameters, SourceServiceIdKey);
+			int targetServiceID = GetServiceInt (parameters, TargetServiceIdKey);
 			string branchName;
 			bool successful;
 
 			try {				
-				if (parameters.TryGetFallbackString (sourceBranchNameKey, out branchName)) {
+				if (parameters.TryGetFallbackString (SourceBranchNameKey, out branchName)) {
 					Service source = GetServiceById (sourceServiceID);
 					Service target = GetServiceById (targetServiceID);
 
@@ -39,7 +46,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 					successful = Successful.TryProcess (new MetaInteraction(
 						parameters, source, branchName, target));
 				} else {
-					throw new ControlException (ControlException.Cause.NoBranchSupplied, sourceBranchNameKey);
+					throw new ControlException (ControlException.Cause.NoBranchSupplied, SourceBranchNameKey);
 				}
 			} catch (ControlException ex) {
 				successful = Failure.TryProcess (new FailureInteraction (parameters, ex));

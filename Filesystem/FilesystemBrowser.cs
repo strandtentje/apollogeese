@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Http;
@@ -13,9 +13,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	/// </summary>
 	public class FilesystemBrowser : Service
 	{
-		bool useHttp;
+		[Instruction("When set to true, HTTP URI will be appended to path.")]
+		public bool UseHttp { get; set; }
 
-		string rootFilesystem;
+		[Instruction("Base path to serve")]
+		public string RootPath { get; set; }
+
 		Service 
 			dirNotFound = Stub,
 			directoryItem = Stub,
@@ -23,7 +26,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 		public override string Description {
 			get {
-				return this.rootFilesystem;
+				return this.RootPath;
 			}
 		}
 
@@ -36,8 +39,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 		protected override void Initialize (Settings modSettings)
 		{
-			rootFilesystem = modSettings.GetString("rootpath", ".");
-			useHttp = modSettings.GetBool ("usehttp", true);
+			RootPath = modSettings.GetString("rootpath", ".");
+			UseHttp = modSettings.GetBool ("usehttp", true);
 		}
 
 		protected override bool Process (IInteraction parameters)
@@ -45,10 +48,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			bool success = true;
 			IInteraction uncastParameters;
 			IHttpInteraction httpParameters = null;
-			string requestedPath = rootFilesystem;
+			string requestedPath = RootPath;
 			string coreUrl = "";
 
-			if (parameters.TryGetClosest (typeof(IHttpInteraction), out uncastParameters) && useHttp) {
+			if (parameters.TryGetClosest (typeof(IHttpInteraction), out uncastParameters) && UseHttp) {
 				httpParameters = (IHttpInteraction)uncastParameters;
 
 				string[] urlArray = httpParameters.URL.ToArray ();
@@ -63,7 +66,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			DirectoryInfo requestedInfo = new DirectoryInfo (requestedPath);
 
 			if (requestedInfo.Exists) {
-				FilesystemItemInteraction itemInteraction = new FilesystemItemInteraction(parameters, rootFilesystem, coreUrl);
+				FilesystemItemInteraction itemInteraction = new FilesystemItemInteraction(parameters, RootPath, coreUrl);
 
 				foreach(DirectoryInfo info in requestedInfo.GetDirectories())
 				{				

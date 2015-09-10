@@ -1,13 +1,14 @@
 using System;
 using System.Reflection;
 using System.IO;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.ApolloGeese.Http.Headers;
 using System.Web;
 using BorrehSoft.Utensils.Log;
+using System.Collections.Generic;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 {
@@ -25,7 +26,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 					string folder = (new FileInfo (binLocation)).DirectoryName;
 					string extensionFile = Path.Combine (folder, "mimetypes.clon");
 					if (File.Exists (extensionFile)) {
-						allExtensions = Settings.FromFile (extensionFile);
+						allExtensions = SettingsParser.FromFile (extensionFile);
 					} else {
 						allExtensions = new Settings ();
 					}
@@ -40,14 +41,28 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		/// </summary>
 		Settings mimeTypes;
 		Service notFoundBranch, badRequestBranch;
-		/// <summary>
-		/// Indicates whether mime-type matching is optional.
-		/// </summary>
-		bool optionalMimetypes;
-		/// <summary>
-		/// The root path to serve from
-		/// </summary>
-		string rootPath;
+
+		[Instruction("When set to true, files will be served, regardless of whether or not mime type is known.")]
+		public bool optionalMimetypes { get; set; }
+
+		[Instruction("Starting path for file server.")]
+		public string rootPath { get; set; }
+
+		[Instruction("Extensions that may be served.", new string[] { "jpg", "gif", "png" })]
+		public IEnumerable<string> allowedExtensions { 
+			get { 
+				return mimeTypes.Dictionary.Keys; 
+			} 
+			set { 
+				mimeTypes = new Settings ();
+
+				foreach (string extension in value) {
+					string dot_extension = string.Format ("dot_{0}", extension);
+
+					mimeTypes [extension] = ExtensionMimes.GetString (dot_extension, "application/octet-stream");
+				}
+			}
+		}
 
 		public override string Description {
 			get {
@@ -63,16 +78,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 			if (initStrings.Length > 1) {
 				this.Settings ["optionalmimetypes"] = false;
-				Settings confMimetypes;
-				this.Settings ["allowedmimetypes"] = confMimetypes = new Settings ();
 
-				string[] allowedExtensions = initStrings [1].Split (',');
-
-				foreach (string extension in allowedExtensions) {
-					string dot_extension = string.Format ("dot_{0}", extension);
-
-					confMimetypes [extension] = ExtensionMimes.GetString (dot_extension, "application/octet-stream");
-				}
+				this.Settings ["allowedextensions"] = initStrings [1].Split (',');
 			} else {
 				this.Settings ["optionalmimetypes"] = true;
 
@@ -94,6 +101,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 			rootPath = modSettings.GetString("rootpath", ".");
 			optionalMimetypes = modSettings.GetBool("optionalmimetypes", false);
+
+			if (modSettings.Has("allowedextensions"))
+				allowedExtensions = modSettings.GetStringList ("allowedextensions");
 
 			Branches["notfound"] = Stub;
 			Branches["badrequest"] = Stub;

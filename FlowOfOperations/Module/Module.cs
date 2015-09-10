@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.ApolloGeese.Loader;
@@ -14,16 +14,18 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 	{
 		public override string Description {
 			get {
-				if (branchName == null)
-					return string.Format("{0}:directed", file);
+				if (BranchName == null)
+					return string.Format("{0}:directed", File);
 				else 
-					return string.Format("{0}:{1}", file, branchName);
+					return string.Format("{0}:{1}", File, BranchName);
 			}
 		}
 
-		string file, branchName = null;
+		[Instruction("Module file to load.")]
+		public string File { get; set; }
 
-		public string BranchName { get { return this.branchName; }}
+		[Instruction("Name of branch in module to fire up.")]
+		public string BranchName { get; set; }
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
@@ -38,9 +40,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 		protected override void Initialize (Settings modSettings)
 		{
-			file = (string)modSettings ["file"];
-			if (modSettings.Has("branch"))
-				branchName = (string)modSettings.Get ("branch");
+			this.File = modSettings.GetString ("file");
+
+			if (modSettings.Has ("branch"))
+				this.BranchName = modSettings.GetString ("branch");
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -54,13 +57,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		/// <value>The module branches.</value>
 		public Map<Service> ModuleBranches { 
 			get {
-				return InstanceLoader.GetInstances (file); 
+				return InstanceLoader.GetInstances (File); 
 			}
 		}
 
 		public Map<object> ModuleMetadata {
 			get {
-				return InstanceLoader.GetMetadata (file);
+				return InstanceLoader.GetMetadata (File);
 			}
 		}
 
@@ -71,14 +74,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 			string pickedBranchName;
 
-			if (branchName == null) {
+			if (BranchName == null) {
 				if (parameters is DirectedInteraction) {
 					pickedBranchName = ((DirectedInteraction)parameters).BranchName;
 				} else {
 					throw new JumpException ("{none supplied in settings}");
 				}
 			} else {
-				pickedBranchName = branchName;
+				pickedBranchName = BranchName;
 			}
 
 			referredService = ModuleBranches [pickedBranchName];

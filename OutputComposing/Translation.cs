@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
@@ -46,9 +46,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 			IEnumerable<object> localizations = (IEnumerable<object>)modSettings ["locales"];
 
-			string filename;
-
-			filename =  (string)modSettings["file"];
+			string filename = (string)modSettings["file"];
 
 			if (modSettings.Has ("title")) {
 				title = (string)modSettings ["title"];
@@ -68,7 +66,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		/// <param name="localeSettings">Locale settings.</param>
 		private void LoadLocalizedSubtemplate(string localization, Settings globalSettings, string globalTemplatefile)
 		{
-			Template localeTemplate = new Template () { Branches = this.Branches };
+			Template localeTemplate = new Template ();
+			localeTemplate.SetBranches (this.Branches);
 			Settings localeSettings = globalSettings.Clone ();
 
 			if (localeSettings.Dictionary.ContainsKey ("default"))

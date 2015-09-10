@@ -2,7 +2,7 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Web;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.ApolloGeese.Http.Headers;
 using BorrehSoft.Utensils.Collections.Maps;
@@ -28,13 +28,15 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 		}
 
-		string rootFilesystem;
-		string tarCommand;
+		[Instruction("Root path for tar command")]
+		public string RootPath { get; set; }
+		[Instruction("Tar command", "tar")]
+		public string TarCommand { get; set; }
 
  		protected override void Initialize (Settings modSettings)
 		{
-			rootFilesystem = modSettings.GetString("rootpath", ".");
-			tarCommand = modSettings.GetString("tarcmd", "tar");
+			RootPath = modSettings.GetString("rootpath", ".");
+			TarCommand = modSettings.GetString("tarcmd", "tar");
 		}
 
 		protected override bool Process (IInteraction parameters)
@@ -48,11 +50,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			while (decodedPathFromURL.ToLower().EndsWith(".tar"))
 				decodedPathFromURL = decodedPathFromURL.Remove(decodedPathFromURL.Length - 4);
 
-			string requestedPath = Path.Combine (rootFilesystem, decodedPathFromURL);
+			string requestedPath = Path.Combine (RootPath, decodedPathFromURL);
 
 			httpParameters.ResponseHeaders.ContentType = new MimeType ("application/tar");
 
-			ProcessStartInfo pStart = new ProcessStartInfo (tarCommand, "-cO .");
+			ProcessStartInfo pStart = new ProcessStartInfo (TarCommand, "-cO .");
 			pStart.WorkingDirectory = requestedPath;
 			pStart.RedirectStandardOutput = true;
 			pStart.UseShellExecute = false;

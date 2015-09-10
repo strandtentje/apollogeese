@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache

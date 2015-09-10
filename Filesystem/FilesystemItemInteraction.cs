@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Http;
@@ -15,7 +15,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	/// A rather ugly bastard. 
 	/// Good thing it's not 3000 lines of it.
 	/// </summary>
-	class FilesystemItemInteraction : QuickInteraction
+	class FilesystemItemInteraction : SimpleInteraction
 	{	
 		static Regex keywordMatcher = new Regex("[a-z]+|[0-9]+");
 

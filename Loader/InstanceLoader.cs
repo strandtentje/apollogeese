@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using BorrehSoft.Utensils.Collections;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
 using BorrehSoft.Utensils.Log;
 

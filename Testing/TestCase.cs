@@ -1,6 +1,6 @@
 using System;
 using System.IO;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 
@@ -100,7 +100,7 @@ namespace Testing
 			if (HasOutgoingDataViewer) {
 				// obscure name of the year award goes to
 				IInteraction incomingInteractionWithOutgoingData;
-				incomingInteractionWithOutgoingData = new QuickIncomingInteraction (testOutput.GetProduct (), parameters, "test-case-output");
+				incomingInteractionWithOutgoingData = new SimpleIncomingInteraction (testOutput.GetProduct (), parameters, "test-case-output");
 
 				success &= this.OutgoingDataViewer.TryProcess (incomingInteractionWithOutgoingData);
 

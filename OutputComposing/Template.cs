@@ -1,6 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Net;
 using System.IO;
@@ -27,12 +27,47 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		/// </summary>
 		private StringList templateVariables = new StringList();
 
-		private string templateFile, rawTemplate, chunkPattern, title;
-		private string unsuppliedFormat, inacquirableFormat;
+		private string templateFile;
 
+		[Instruction("Internal title of this template", "untitled")]
+		public string Title { get; set; }
+
+		[Instruction("Placeholder pattern", @"\{% ([a-z|_|\.]+) %\}")]
+		public string PlaceholderPattern { get; set; }
+
+		[Instruction("Absolute path to template file")]
+		public string TemplateFile { 
+			get {
+				return this.templateFile;
+			}
+			set {
+				this.templateFile = value;
+				LoadTemplateAndRegisterReplacableSegments();
+			}
+		}
+
+		[Instruction("Filler text to appear when the value couldn't be acquired from context.", "")]
+		public string MissingContextFiller;
+
+		[Instruction("Filler text to appear when the value couldn't be acquired by means of branch invocation.", "")]
+		public string MissingBranchFiller;
+
+		[Instruction("When set to true, Template engine will reload template file when modified", true)]
 		public bool WillCheckForTemplateUpdates { get; private set; }
 
-		public bool ChecksContextFirst { get; private set; }
+		[Instruction("Will check existing context before invoking branch by placeholder name", false)]
+		public bool ChecksContextFirst { 
+			get {
+				return WriteElement == WriteContextFirst;
+			} set {
+				if (value)
+					WriteElement = WriteContextFirst;
+				else
+					WriteElement = WriteBranchFirst;
+			}
+		}
+
+		private string rawTemplate;
 
 		public DateTime LastTemplateUpdate { get; private set; }
 
@@ -41,7 +76,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		/// </summary>
 		/// <value>The title of this page</value>
 		public override string Description {
-			get { return string.Format("{0} ({1})", title, templateFile); }
+			get { return string.Format("{0} ({1})", Title, TemplateFile); }
 		}
 
 		public override void LoadDefaultParameters (string defaultParameter)
@@ -51,32 +86,17 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 		protected override void Initialize (Settings modSettings)
 		{
-			title = modSettings.GetString ("title", "untitled");
-			chunkPattern = modSettings.GetString ("chunkpattern", @"\{% ([a-z|_|\.]+) %\}");
-
-			if (modSettings.Has ("templatefile"))
-				templateFile = (string)modSettings ["templatefile"];
-			else
-				throw new Exception ("templatefile mandatory");
-
+			Title = modSettings.GetString ("title", "untitled");
+			PlaceholderPattern = modSettings.GetString ("chunkpattern", @"\{% ([a-z|_|\.]+) %\}");
 			WillCheckForTemplateUpdates = modSettings.GetBool("checkfortemplateupdates", true);
 			ChecksContextFirst = modSettings.GetBool ("contextfirst", false);
-			inacquirableFormat = modSettings.GetString("forwardfail", "");
-			unsuppliedFormat = modSettings.GetString("backwardfail",  "");
-
-			if (WillCheckForTemplateUpdates)
-				LoadTemplateUpdates();
-			else
-				LoadTemplateAndRegisterReplacableSegments();
-
-			if (ChecksContextFirst) 
-				WriteElement = WriteContextFirst;
-			else
-				WriteElement = WriteBranchFirst;
+			MissingBranchFiller = modSettings.GetString("forwardfail", "");
+			MissingContextFiller = modSettings.GetString("backwardfail",  "");
+			TemplateFile = modSettings.GetString ("templatefile");
 		}
 
 		private bool HasTemplateUpdates(bool reset = true) {
-			FileInfo info = new FileInfo (templateFile);
+			FileInfo info = new FileInfo (TemplateFile);
 
 			if (LastTemplateUpdate != info.LastWriteTime) {
 				if (reset) 
@@ -96,7 +116,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			if (HasTemplateUpdates()) {
 				LoadTemplateAndRegisterReplacableSegments ();
 
-				Secretary.Report(5, "Template file was updated: ", templateFile);
+				Secretary.Report(5, "Template file was updated: ", TemplateFile);
 			} 
 		}
 
@@ -105,12 +125,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		/// </summary>
 		private void LoadTemplateAndRegisterReplacableSegments ()
 		{
-			if (!File.Exists (templateFile))
-				File.Create (templateFile).Close();
+			if (!File.Exists (TemplateFile))
+				File.Create (TemplateFile).Close();
 
-			rawTemplate = File.ReadAllText (templateFile);
+			rawTemplate = File.ReadAllText (TemplateFile);
 
-			replaceables = templateVariables.AddUniqueRegexMatches (rawTemplate, chunkPattern);
+			replaceables = templateVariables.AddUniqueRegexMatches (rawTemplate, PlaceholderPattern);
 
 			foreach(string templateVariable in templateVariables)
 				if (!Branches.Has(templateVariable))
@@ -133,10 +153,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				}
 				else 
 				{
-					outputWriter.Write(string.Format(unsuppliedFormat, groupName));
+					outputWriter.Write(string.Format(MissingContextFiller, groupName));
 				}
 			} else if (!branch.TryProcess(source)) {
-				outputWriter.Write(string.Format(inacquirableFormat, groupName));
+				outputWriter.Write(string.Format(MissingBranchFiller, groupName));
 			}		
 		}
 
@@ -149,9 +169,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				Service branch = Branches[groupName];
 
 				if ((branch ?? Stub) == Stub) {
-					outputWriter.Write(string.Format(unsuppliedFormat, groupName));
+					outputWriter.Write(string.Format(MissingContextFiller, groupName));
 				} else if (!branch.TryProcess(source)) {
-					outputWriter.Write(string.Format(inacquirableFormat, groupName));
+					outputWriter.Write(string.Format(MissingBranchFiller, groupName));
 				}	
 			}				
 		}
@@ -160,7 +180,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			if (nosyInteraction.IncludeContext) {
 				StringBuilder signatureBuilder = new StringBuilder ();
 
-				signatureBuilder.Append (this.templateFile);
+				signatureBuilder.Append (this.TemplateFile);
 				signatureBuilder.Append (HasTemplateUpdates(false).ToString());
 				signatureBuilder.Append (LastTemplateUpdate.ToBinary ());
 
@@ -178,7 +198,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 				return signatureBuilder.ToString ();
 			} else {
-				return string.Format ("{0}{1}{2}", this.templateFile, HasTemplateUpdates (false).ToString (), LastTemplateUpdate.ToBinary());
+				return string.Format ("{0}{1}{2}", this.TemplateFile, HasTemplateUpdates (false).ToString (), LastTemplateUpdate.ToBinary());
 			}
 		}
 

@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Net.Sockets;
@@ -18,16 +18,24 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 	{
 		public override string Description {
 			get {
-				return string.Format ("{0}:{1}", hostname, port);
+				return string.Format ("{0}:{1}", Hostname, Port);
 			}
 		}
 
-		protected string hostname;
-		protected int port;
+		[Instruction("Hostname to connect to")]
+		public string Hostname { get; set; }
+
+		[Instruction("Port on hostname to connect to")]
+		public int Port { get; set; }
+
+		[Instruction("Context variable name to store cookies under")]
+		public string SessionID { get; set; }
+
+		[Instruction("When set to true, store cookie information", false)]
+		public bool UseSessionID { get; set; }
+
 		protected Service uriBranch, responseProcessor, postbuilder;
 		private bool hasPostBuilder;
-		private string sessionid;
-		private bool useSesionid = false;
 		private static Map<CookieContainer> sessionKeeper = new Map<CookieContainer> ();
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -56,13 +64,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 
 		protected override void Initialize (Settings modSettings)
 		{
-			hostname = (string)modSettings ["hostname"];
-			port = (int)modSettings ["port"];
-
-			if (modSettings.Has ("sessionid")) {
-				sessionid = modSettings.GetString ("sessionid");
-				useSesionid = true;
-			}
+			Hostname = modSettings.GetString ("hostname");
+			Port = modSettings.GetInt ("port");
+			SessionID = modSettings.GetString ("sessionid", "httpclientsession");
+			UseSessionID = modSettings.GetBool ("usesession", false);
 		}
 
 		/// <summary>
@@ -92,23 +97,23 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		{
 			using (StreamReader requestReader = new StreamReader(request)) {
 				HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create (requestReader.ReadToEnd ());
-				QuickOutgoingInteraction postBody;
+				SimpleOutgoingInteraction postBody;
 
 				// Preserve CookieContainer here!
 
-				if (useSesionid) {
+				if (UseSessionID) {
 					string keeperid = "";
-					if (parameters.TryGetString (sessionid, out keeperid)) {
+					if (parameters.TryGetFallbackString (SessionID, out keeperid)) {
 						PreserveCookies (webRequest, keeperid);
 					} else {
-						throw new Exception (string.Format("No {0} found in context", sessionid));
+						throw new Exception (string.Format("No {0} found in context", SessionID));
 					}
 				}
 
 				if (hasPostBuilder) {
 					webRequest.Method = "POST";
                 
-					postBody = new QuickOutgoingInteraction (webRequest.GetRequestStream (), parameters);
+					postBody = new SimpleOutgoingInteraction (webRequest.GetRequestStream (), parameters);
                     
 					postbuilder.TryProcess (postBody);
 				}
@@ -126,10 +131,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		/// <param name="parameters">Parameters.</param>
 		protected virtual Stream RequestForResponse (IInteraction parameters)
 		{
-			QuickOutgoingInteraction outgoingInteraction;
+			SimpleOutgoingInteraction outgoingInteraction;
 
 			using (MemoryStream uriComposingStream = new MemoryStream ()) {
-				outgoingInteraction = new QuickOutgoingInteraction (uriComposingStream, parameters);
+				outgoingInteraction = new SimpleOutgoingInteraction (uriComposingStream, parameters);
 
 				if (!uriBranch.TryProcess (outgoingInteraction))
 					throw new Exception ("URI failed to compose");
@@ -144,10 +149,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		protected override bool Process (IInteraction parameters)
 		{			
 			Stream responseStream;
-			QuickIncomingInteraction incomingInteraction;
+			SimpleIncomingInteraction incomingInteraction;
 
 			responseStream = RequestForResponse (parameters);
-			incomingInteraction = new QuickIncomingInteraction (responseStream, parameters, "http-response-body");
+			incomingInteraction = new SimpleIncomingInteraction (responseStream, parameters, "http-response-body");
 
 			return responseProcessor.TryProcess (incomingInteraction);
 		}

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 using System.Text.RegularExpressions;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Threading;
@@ -14,32 +14,32 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	/// <summary>
 	/// Indexes the filesystem at a certain root directory
 	/// </summary>
-	public class FilesystemIndexer : Service
+	public class FilesystemIndexer : KeywordService
 	{
 		public override string Description {
 			get {
-				return this.rootPath;
+				return this.RootPath;
 			}
 		}
 
 		/// <summary>
 		/// The root path to index.
 		/// </summary>
-		string rootPath;
+		[Instruction("Path to start indexing")]
+		public string RootPath { get; set; }
 		Service newFile, deletedFile, newDirectory, deletedDirectory;
 		/// <summary>
 		/// A cache of filesystem informations
 		/// </summary>
 		Map<FileSystemInfo> infoCache = new Map<FileSystemInfo>();
-		Regex KeywordSplitter;
 
 		protected override void Initialize (Settings modSettings)
 		{
-			rootPath = modSettings.GetString("rootpath", ".");
-			KeywordSplitter = new Regex(modSettings.GetString("keywordsplitregex", @"\W|_"));
+			RootPath = modSettings.GetString("rootpath", ".");
+			KeywordSplitterRegex = modSettings.GetString ("keywordsplitterregex", @"\W|_");
 
 			Thread walkPathThread = new Thread(WalkPath);
-			walkPathThread.Start(rootPath);
+			walkPathThread.Start(RootPath);
 		}
 
 		/// <summary>
@@ -158,7 +158,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		{
 			try {
 				string[] keywords = KeywordSplitter.Split (info.Name.ToLower ());
-				IInteraction newInteraction = new FilesystemChangeInteraction (info, keywords, rootPath);
+				IInteraction newInteraction = new FilesystemChangeInteraction (info, keywords, RootPath);
 
 				if (info is FileInfo)
 					newFile.TryProcess (newInteraction);

@@ -1,12 +1,12 @@
 using System;
 using System.IO;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 
 namespace Testing
 {
-	class OutgoingTestableData : QuickOutgoingInteraction, IDisposable
+	class OutgoingTestableData : SimpleOutgoingInteraction, IDisposable
 	{
 		public OutgoingTestableData(IInteraction parent) : base(new MemoryStream(), parent)
 		{

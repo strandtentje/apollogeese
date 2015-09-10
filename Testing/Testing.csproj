@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Testing</RootNamespace>
     <AssemblyName>Testing</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,12 +21,9 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -39,16 +38,21 @@
     <Compile Include="Probing\ProbeResultInteraction.cs" />
     <Compile Include="StreamTests\IncomingTestData.cs" />
     <Compile Include="StreamTests\OutgoingTestableData.cs" />
+    <Compile Include="Log.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Duckling\Duckling.csproj">
-      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
-      <Name>Duckling</Name>
+    <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
+      <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
+      <Name>Collections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utensils\Utensils.csproj">
-      <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
-      <Name>Utensils</Name>
+    <ProjectReference Include="..\Utilities\Logging\Logging.csproj">
+      <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoreTypes\CoreTypes.csproj">
+      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
+      <Name>CoreTypes</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

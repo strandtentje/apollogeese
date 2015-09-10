@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
 using BorrehSoft.Utensils.Collections;
 using System.Text.RegularExpressions;
@@ -10,7 +10,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	/// <summary>
 	/// Used when a change in the filesystem occured
 	/// </summary>
-	public class FilesystemChangeInteraction : QuickInteraction
+	public class FilesystemChangeInteraction : SimpleInteraction
 	{
 		FileSystemInfo info;
 

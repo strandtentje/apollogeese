@@ -46,7 +46,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		/// </summary>
 		/// <param name="QueryText">Query text.</param>
 		/// <param name="queryParameters">Query parameters.</param>
-		void SetDefaultCommandQuery(string QueryText, List<object> queryParameters = null);
+		void SetDefaultCommandQuery(string QueryText, List<string> queryParameters = null);
 
 		/// <summary>
 		/// Gets the default command for this connection

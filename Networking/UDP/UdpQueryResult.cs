@@ -1,12 +1,12 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Networking.UDP
 {
 	/// <summary>
 	/// UDP query result.
 	/// </summary>
-	class UdpQueryResult : QuickInteraction
+	class UdpQueryResult : SimpleInteraction
 	{
 		/// <summary>
 		/// Gets the host IP

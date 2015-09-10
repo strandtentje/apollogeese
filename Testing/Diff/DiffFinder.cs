@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Diagnostics;
 using DProcess = System.Diagnostics.Process;
 using System.IO;
@@ -68,7 +68,7 @@ namespace Testing.Diff
 				summary ["rightfile"] = diffStream.ReadLine ();
 				summary ["changecounter"] = diffStream.ReadLine ();
 
-				result &= this.Summary.TryProcess (new QuickInteraction (parameters, summary));
+				result &= this.Summary.TryProcess (new SimpleInteraction (parameters, summary));
 
 				while (!diffStream.EndOfStream) {
 					result &= this.DiffLine.TryProcess (new DifferenceInteraction (diffStream.ReadLine (), parameters));

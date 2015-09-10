@@ -1,6 +1,6 @@
 using System;
 using System.Net;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Net.Sockets;
@@ -9,7 +9,7 @@ using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {
-	public class ReachIn : Service
+	public class ReachIn : SocketService
 	{
 		public override string Description {
 			get {
@@ -21,16 +21,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 
 		Service begin;
 
-		string LocalIp { get; set; }
-
-		int LocalPort { get; set; }
-
 		protected override void Initialize (Settings modSettings)
 		{
-			LocalIp = modSettings.GetString ("host");
-			LocalPort = modSettings.GetInt ("port", 43373);
-
-			listener = new ListenerWithEvents (LocalIp, LocalPort);
+			base.Initialize (modSettings);
+			listener = new ListenerWithEvents (Ip, Port);
 			listener.NewClient += HandleNewClient;
 		}
 
@@ -38,7 +32,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 		{
 			Pipe pipe = new Pipe (e.Client.Client);
 
+			pipe.Handshake ();
+
 			begin.TryProcess (new ReachInteraction (pipe));
+
+			pipe.SendCommand (Command.Close);
 
 			e.Client.Close ();
 		}

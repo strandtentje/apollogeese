@@ -1,7 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
@@ -40,7 +40,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 		/// <param name="config">Configuration file</param>
 		public Complinker(string config)
 		{
-			Configuration = Settings.FromFile (config);	
+			Configuration = SettingsParser.FromFile (config);	
 		}
 
 		public void LoadPlugins ()
@@ -115,7 +115,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 		/// <param name="branchname">Branchname.</param>
 		/// <param name="branchdata">Branchdata.</param>
 		private void ConnectBranch (Service service, string branchname, Settings branchdata) {
-			service.Branches [branchname] = GetServiceForSettings (branchdata, service);
+			service.Branches [branchname] = GetServiceForSettings (branchdata);
 		}
 
 		/// <summary>
@@ -123,7 +123,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 		/// </summary>
 		/// <returns>The tree.</returns>
 		/// <param name="config">Config.</param>
-		private Service GetServiceForSettings (Settings config, Service parent = null)
+		private Service GetServiceForSettings (Settings config)
 		{
 			string type;
 			Settings moduleConfiguration;
@@ -142,14 +142,10 @@ namespace BorrehSoft.ApolloGeese.Loader
 
 				newService = plugins.GetConstructed (type);
 
-				newService.SetAncestory (parent);
-
 				succesfulInit = newService.SetSettings (moduleConfiguration);
 
 				newService.PossibleSiblingTypes = plugins;
-				newService.IsLogging = log;
-                newService.FailHard = config.GetBool("fail", false);
-				newService.LoggingParameters = logparams;
+				newService.FailHard = config.GetBool("fail", false);
 
 				foreach (KeyValuePair<string, object> nameAndBranch in config.Dictionary) {
 					Match branchName = branchNameMatcher.Match (nameAndBranch.Key);
@@ -166,8 +162,6 @@ namespace BorrehSoft.ApolloGeese.Loader
 					foreach (KeyValuePair<string, object> nameAndBranch in branches.Dictionary) 
 						ConnectBranch (newService, nameAndBranch.Key, nameAndBranch.Value as Settings);
 				}
-
-				newService.InvokeAllBranchesLoaded ();
 
 				if (!succesfulInit) 
 					Secretary.Report (5, type, " produced an error on initialization: ", newService.InitErrorMessage);

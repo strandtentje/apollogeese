@@ -1,6 +1,6 @@
 using System;
 using System.Net.Mail;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.ComponentModel;
@@ -13,18 +13,43 @@ namespace Networking
 	/// </summary>
 	public class SendMail : Service
 	{
-		string sender = null, recepient = null, replyto = null, bodytypename;
-		string subject = null;
 		Service body, sending, sent;
 		SmtpClient smtpClient;
+		IEnumerable<string> mailServers;
+
+		[Instruction("E-mail address that gets used as sender address", null, true)]
+		public string Sender { get; set; }
+
+		[Instruction("E-mail address that e-mail will be sent to", null, true)]
+		public string Recepient { get; set; }
+
+		[Instruction("E-mail address that replies to the e-mail should be sent to", null, true)]
+		public string ReplyTo { get; set; }
+
+		[Instruction("Variable in context at which body will be stored")]
+		public string BodyTypeName { get; set; }
+
+		[Instruction("Subject of e-mail", null, true)]
+		public string Subject { get; set; }
+
+		[Instruction("Possible mail servers", new string[] { "localhost" })]
+		public IEnumerable<string> MailServers {
+			get {
+				return this.mailServers;
+			}
+			set {
+				this.mailServers = value;
+				smtpClient = SmtpPicker.GetClient (value);
+			}
+		}
 
 		public override string Description {
 			get {
 				return string.Format (
 					"send {0} from {1} to {2} via {3}", 
-					bodytypename, 
-					sender ?? "contextual sender", 
-					recepient ?? "contextual recepient", 
+					BodyTypeName, 
+					Sender ?? "contextual sender", 
+					Recepient ?? "contextual recepient", 
 					smtpClient.Host);
 			}
 		}
@@ -40,14 +65,13 @@ namespace Networking
 		{
 			Branches ["body"] = Stub; Branches ["sending"] = Stub; Branches ["sent"] = Stub;
 
-			if (!modSettings.TryGetString ("from", out sender))	sender = null;
-			if (!modSettings.TryGetString ("to", out recepient)) recepient = null;
-			if (!modSettings.TryGetString ("subject", out subject)) subject = null;
-			if (!modSettings.TryGetString ("replyto", out replyto))	replyto = null;
+			this.Sender = modSettings.GetString ("from", null);
+			this.Recepient = modSettings.GetString ("to", null);
+			this.Subject = modSettings.GetString ("subject", null);
+			this.ReplyTo = modSettings.GetString ("replyto", null);
+			this.BodyTypeName = modSettings.GetString ("bodyname", "emailbody");
+			this.MailServers = modSettings.GetStringList ("mailservers", "localhost");
 
-			bodytypename = modSettings.GetString ("bodyname", "emailbody");
-
-			smtpClient = SmtpPicker.GetClient (modSettings.GetStringList ("mailservers", "localhost"));
 			smtpClient.SendCompleted += HandleSendCompleted;
 		}
 
@@ -55,7 +79,7 @@ namespace Networking
 		{
 			// prepare composing interaction
 			EmailInteraction composeInteraction = new EmailInteraction (
-				parameters, bodytypename, sender, recepient, subject, replyto);
+				parameters, BodyTypeName, Sender, Recepient, Subject, ReplyTo);
 
 			// start composing
 			bool success = body.TryProcess (composeInteraction);

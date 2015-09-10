@@ -1,12 +1,12 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 {
 	/// <summary>
 	/// Interaction intended to hop off at a certain branch name
 	/// </summary>
-	public class DirectedInteraction : QuickInteraction, IInteraction
+	public class DirectedInteraction : SimpleInteraction, IInteraction
 	{
 		/// <summary>
 		/// Gets the name of the branch to hop off at.

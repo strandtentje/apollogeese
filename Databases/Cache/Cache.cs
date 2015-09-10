@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.IO;
@@ -14,7 +14,23 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			}
 		}
 
-		TimeSpan cacheLifetime;
+		[Instruction("Lifetime of Cache.")]
+		public string CacheLifetime { 
+			get {
+				if (timeUntilCacheDrop == TimeSpan.MaxValue)
+					return "";
+				else
+					return timeUntilCacheDrop.ToString ();
+			}
+			set {
+				if (value.Length == 0)
+					timeUntilCacheDrop = TimeSpan.MaxValue;
+				else
+					timeUntilCacheDrop = TimeSpan.Parse (value);
+			}
+		}
+
+		TimeSpan timeUntilCacheDrop;
 		DateTime lastUpdate = DateTime.Now;
 
 		public override void LoadDefaultParameters (string defaultParameter)
@@ -24,20 +40,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 		protected override void Initialize (Settings modSettings)
 		{
-			string lifetimeString = "";
-			bool hasLifetime = false;
-
-			if (modSettings.Has ("lifetime")) {
-				lifetimeString = modSettings.GetString ("lifetime");
-				hasLifetime = true;
-			}
-
-			if (hasLifetime) {
-				cacheLifetime = TimeSpan.Parse (lifetimeString);
-			} else {
-				// that will take a while surely.
-				cacheLifetime = TimeSpan.MaxValue;
-			}
+			this.CacheLifetime = modSettings.GetString ("lifetime", "");
 		}
 
 		private Service begin;
@@ -57,14 +60,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			IOutgoingBodiedInteraction upstreamTarget;
 			upstreamTarget = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
 
-			if (DateTime.Now - lastUpdate > cacheLifetime) {
-				binaryData = null;
-				stringData = null;
+			if (timeUntilCacheDrop != TimeSpan.MaxValue) {
+				if (DateTime.Now - lastUpdate > timeUntilCacheDrop) {
+					binaryData = null;
+					stringData = null;
+				}
 			}
 
 			if ((binaryData == null) && (stringData == null)) {
 				MemoryStream targetStream = new MemoryStream();
-				QuickOutgoingInteraction downstreamTarget = new QuickOutgoingInteraction (targetStream, parameters);
+				SimpleOutgoingInteraction downstreamTarget = new SimpleOutgoingInteraction (targetStream, parameters);
 
 				success = begin.TryProcess (downstreamTarget);		
 				downstreamTarget.Done ();

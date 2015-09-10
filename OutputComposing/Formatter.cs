@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
@@ -48,13 +48,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				return begin.TryProcess (parameters);
 			} else {
 				IOutgoingBodiedInteraction upstreamTarget;
-				QuickOutgoingInteraction downstreamTarget;
+				SimpleOutgoingInteraction downstreamTarget;
 				MemoryStream formattables;
 				bool success;
 				string data;
 
 				upstreamTarget = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
-				downstreamTarget = new QuickOutgoingInteraction (formattables = new MemoryStream (), parameters);
+				downstreamTarget = new SimpleOutgoingInteraction (formattables = new MemoryStream (), parameters);
 
 				success = begin.TryProcess (downstreamTarget);
 				downstreamTarget.Done ();

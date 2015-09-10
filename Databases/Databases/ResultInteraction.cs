@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections;
 using System.Data;
 
@@ -8,7 +8,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 	/// <summary>
 	/// Interaction for query results.
 	/// </summary>
-	public class ResultInteraction : QuickInteraction
+	public class ResultInteraction : SimpleInteraction
 	{
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Extensions.BasicWeblings.Data.ResultInteraction"/> class.

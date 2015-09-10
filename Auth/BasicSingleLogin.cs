@@ -1,6 +1,6 @@
 using System;
 using System.Text;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Http;
@@ -9,9 +9,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 {
 	public class BasicSingleLogin : TwoBranchedService
 	{
-		private string Username { get; set; }
-		private string Password { get; set; }
-		private string Realm { get; set; }
+		[Instruction("Username this basiclogon will accept")]
+		public string Username { get; set; }
+
+		[Instruction("Password this basiclogon will accept")]
+		public string Password { get; set; }
+
+		[Instruction("Realm this logon is valid for")]
+		public string Realm { get; set; }
 
 		private string LoginString {
 			get {

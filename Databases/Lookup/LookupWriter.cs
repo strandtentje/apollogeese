@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils;
@@ -12,34 +12,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 	/// <summary>
 	/// Lookup writer.
 	/// </summary>
-	public class LookupWriter : Service
+	public class LookupWriter : LookupAccessor
 	{
-		/// <summary>
-		/// Gets or sets name at which the keywords will reside in interactions
-		/// </summary>
-		/// <value>The name of the keyword list</value>
-		private string LookupKeyName { get; set; }
-		/// <summary>
-		/// Gets or sets name of lookup to write to
-		/// </summary>
-		/// <value>The name of the lookup.</value>
-		private string LookupName {	get; set; }
-		/// <summary>
-		/// Gets or sets the name at which the unique meta-identifier resides in 
-		/// an interaction
-		/// </summary>
-		/// <value>The name of the meta.</value>
+
+		[Instruction("Context variable that is indicative of lookup entry identity; this is used to tell lookup entries apart.")]
 		private string MetaName { get; set; }
-		/// <summary>
-		/// Gets or sets the keyword splitting regex
-		/// </summary>
-		/// <value>The keyword splitter.</value>
-		private Regex KeywordSplitter { get; set; }
-		/// <summary>
-		/// Gets or sets a value indicating whether this <see cref="BorrehSoft.Extensions.BasicWeblings.Lookup.LookupWriter"/>
-		/// will split keywords or use an existing string enumerable.
-		/// </summary>
-		/// <value><c>true</c> if split keywords; otherwise, <c>false</c>.</value>
+
+		[Instruction("Will assume keywords are presented in context as string, and still need to be split.", true)]
 		private bool SplitKeywords { get; set; }
 
 		/// <summary>
@@ -60,10 +39,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 
 		protected override void Initialize (Settings modSettings)
 		{
-			LookupKeyName = modSettings ["lookupkeyname"] as String;
-			LookupName = modSettings ["lookupname"] as String;
-			MetaName = modSettings ["metaname"] as String;
-			KeywordSplitter = new Regex(modSettings.GetString("keywordsplitregex", @"\W|_"));
+			LookupKeyName = modSettings.GetString ("lookupkeyname");
+			LookupName = modSettings.GetString ("lookupname");
+			MetaName = modSettings.GetString ("metaname");
+			KeywordSplitterRegex = modSettings.GetString("keywordsplitregex", @"\W|_");
 			SplitKeywords = modSettings.GetBool ("splitkeywords", true);
 
 			Lookups.DropLookup (LookupName);

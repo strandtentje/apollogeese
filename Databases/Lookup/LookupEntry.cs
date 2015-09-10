@@ -1,6 +1,6 @@
 using System;
 using BorrehSoft.Utensils.Collections.Maps.Search;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Text;
 using System.Collections.Generic;
 

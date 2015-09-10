@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.ApolloGeese.Loader;
@@ -14,8 +14,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			}
 		}
 
-		string ServiceNameKey { get; set; }
-		string ServiceIdKey { get; set; }
+		[Instruction("Variable name in context where name of new service is stored")]
+		public string ServiceNameKey { get; set; }
+
+		[Instruction("Variable name in context where id of new service is stored")]
+		public string ServiceIdKey { get; set; }
 
 		protected override void Initialize (Settings modSettings)
 		{
@@ -60,7 +63,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		{
 			try {				
 				string serviceName = GetServiceName (parameters);
-				QuickInteraction successInteraction = new QuickInteraction (parameters);
+				SimpleInteraction successInteraction = new SimpleInteraction (parameters);
 				successInteraction [this.ServiceIdKey] = GetServiceByName (serviceName).ModelID;
 
 				return this.Successful.TryProcess (successInteraction);

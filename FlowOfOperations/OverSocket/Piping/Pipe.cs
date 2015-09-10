@@ -1,6 +1,6 @@
 using System;
 using System.Net.Sockets;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Text;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
@@ -69,9 +69,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
 		/// Does a handshake and blocks the thread until the interaction was
 		/// satisfactory.
 		/// </summary>
-		/// <param name="getInformationByName">Get information by name.</param>
-		/// <param name="parameters">Parameters.</param>
-		public void BeginWait (InformationSourceDelegate getInformationByName, IInteraction parameters)
+		public void Handshake ()
 		{
 			SendSymbol (Symbol.Hi);
 			AwaitSymbol (Symbol.Hi);

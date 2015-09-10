@@ -46,14 +46,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.SQLite
 		/// </value>
 		public List<string> DefaultOrderedParameters { get { return defaultParams; } }
 
-		public void SetDefaultCommandQuery(string QueryTextFile, List<object> queryParameters = null) 
+		public void SetDefaultCommandQuery(string QueryTextFile, List<string> queryParameters = null) 
 		{
 			this.queryText = File.ReadAllText(QueryTextFile);
-			this.defaultParams = new List<string>();
-
-			if (queryParameters != null)
-				foreach(object param in queryParameters)
-					this.defaultParams.Add((string)param);
+			this.defaultParams = queryParameters ?? new List<string>();
 		}
 				
 		public IQueryCommand GetDefaultCommand() 

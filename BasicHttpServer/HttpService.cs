@@ -2,7 +2,7 @@ using System;
 using System.Web;
 using System.Net;
 using System.Collections.Generic;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using L = BorrehSoft.Utensils.Log.Secretary;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Diagnostics;
@@ -18,7 +18,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 	{
 		private HttpListener listener = new HttpListener();
 		private Service httpBranch;
-		private bool MeasurePerformance = true;
+		private List<string> prefixStrings = new List<string>();
 
 		public override string Description {
 			get {
@@ -26,17 +26,34 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			}
 		}
 
+		[Instruction("Produces performance measurements into log file when set to true.", false)]
+		public bool MeasurePerformance { get; set; }
+
+		[Instruction("URL prefixes that this server will handle", new string[] {})]
+		public List<string> Prefixes { 
+			get {
+				return this.prefixStrings;
+			}
+			set {
+				this.prefixStrings = value;
+
+				foreach (string prefix in this.prefixStrings) {
+					if (!listener.Prefixes.Contains (prefix)) {
+						listener.Prefixes.Add ((string)prefix);
+					}
+				}
+
+				this.prefixStrings.RemoveAll (delegate(string foundPrefix) {
+					return this.prefixStrings.Contains(foundPrefix) == false;
+				});
+			}
+		}
+
+
 		protected override void Initialize (Settings modSettings)
 		{
 			MeasurePerformance = modSettings.GetBool("measureperformance", false);
-
-			listener.Stop ();
-			listener.Prefixes.Clear ();
-
-			List<object> PrefixObjs = (List<object>)modSettings ["prefixes"];
-
-			foreach(object prefix in PrefixObjs)			
-				listener.Prefixes.Add((string)prefix);
+			Prefixes = modSettings.GetStringList ("prefixes");
 
 			listener.Start ();
 			listener.BeginGetContext (RequestMade, listener);
@@ -60,10 +77,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		{
 			listener.BeginGetContext(RequestMade, listener);
 
-			L.Report (5, "Context Gotten");
-
 			HttpListener contextListener = (HttpListener)ar.AsyncState;
 			HttpListenerContext context = contextListener.EndGetContext (ar);
+
+			L.Report (5, "Request opened by", context.Request.UserHostAddress);
 
 			if (!MeasurePerformance) {
 				EnterTree (context);

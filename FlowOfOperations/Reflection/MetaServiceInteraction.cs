@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections;
@@ -9,7 +9,7 @@ using System.Text;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	class MetaServiceInteraction : QuickInteraction
+	class MetaServiceInteraction : SimpleInteraction
 	{
 		public MetaServiceInteraction (IInteraction parentParameters, Service model, Map<object> metaData) : base(parentParameters, metaData)
 		{

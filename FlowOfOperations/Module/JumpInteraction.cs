@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
@@ -10,7 +10,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 	/// <summary>
 	/// An interaction that is indicative for a jump from one module to another.
 	/// </summary>
-	public class JumpInteraction : QuickInteraction
+	public class JumpInteraction : SimpleInteraction
 	{
 		/// <summary>
 		/// Gets the branches of the originating module.

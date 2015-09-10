@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections;
@@ -22,7 +22,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 		Settings cacheSettings = new Settings();
 
-		string CacheNameSource {
+		protected string CacheNameSource {
 			get;
 			set;
 		}
@@ -39,11 +39,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 		protected override void Initialize (Settings modSettings)
 		{
-			if (modSettings.Has ("keyname")) {
-				CacheNameSource = (string)modSettings ["keyname"];
-			} else {
-				CacheNameSource = "cachename";
-			}
+			this.CacheNameSource = modSettings.GetString ("keyname", "cachename");
 
 			if (modSettings.Has ("lifetime"))
 				cacheSettings ["lifetime"] = modSettings ["lifetime"];
@@ -59,7 +55,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 		protected virtual string GetCacheName(IInteraction parameters) {
 			string cacheName;
 
-			if (!parameters.TryGetString (this.CacheNameSource, out cacheName))
+			if (!parameters.TryGetFallbackString (this.CacheNameSource, out cacheName))
 				cacheName = "noname";
 
 			return cacheName;

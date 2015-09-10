@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Collections.Generic;
@@ -9,7 +9,7 @@ namespace Testing
 	/// <summary>
 	/// Test context.
 	/// </summary>
-	class TestContextInteraction : QuickInteraction
+	class TestContextInteraction : SimpleInteraction
 	{
 		public List<ProbeResultInteraction> ProbeResults {
 			get;

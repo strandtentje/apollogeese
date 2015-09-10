@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using L = BorrehSoft.Utensils.Log.Secretary;
@@ -21,10 +21,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 	public abstract class Querier : Service
 	{
 		private Service none, single, iterator, successful, capreached, noneAffected, oneAffected, someAffected, first;
-		private int resultCap = -1;
 		private string queryFile = "", queryText = "";
-		private Settings defaultParameters;
-				
+						
 		public override string Description {
 			get {
 				string[] segments = queryFile.Split('/');
@@ -53,6 +51,33 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			this.Settings ["query"] = defaultParameter;
 		}
 
+		[Instruction("File containing the SQL-script to execute.")]
+		public string QueryFile {
+			get {
+				return this.queryFile;
+			}
+			set {
+				this.queryFile = value;
+				this.queryText = File.ReadAllText (this.queryFile);
+			}
+		}
+
+		[Instruction("Programmatically imposed limit on amount of result rows.", -1)]
+		public int ResultCap { get; set; }
+
+		[Instruction("Names of parameters that should be passed into query.")]
+		public List<string> Params { get; set; }
+
+		[Instruction("Default values for parameters, if they're not available in context.")]
+		public Settings Defaults { get; set; }
+
+		public string QueryText { 
+			get {
+				return this.queryText; 
+			}
+		}
+
+
 		protected override void Initialize (Settings modSettings)
 		{
 			Branches ["none"] = Stub;
@@ -67,20 +92,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 
 			Connection = CreateConnection(modSettings);
 
-			if (modSettings.Has ("query")) {
-				queryFile = modSettings.GetString ("query");
-			} else {
-				throw new Exception ("Queryfile missing, use first parameter or query.");
-			}
+			this.QueryFile = modSettings.GetString ("query");
+			this.ResultCap = modSettings.GetInt ("resultcap", -1);
+			this.Params = modSettings.GetStringList ("params");
+			this.Defaults = modSettings.GetSubsettings ("defaults");
 
-			queryText = File.ReadAllText(queryFile);
-			if (modSettings.Has ("resultcap")) {
-				resultCap = (int)modSettings["resultcap"];
-			}
-
-			Connection.SetDefaultCommandQuery(queryText, modSettings.Get("params", null) as List<object>);
-
-			defaultParameters = modSettings.GetSubsettings ("defaults");
+			Connection.SetDefaultCommandQuery(queryText, this.Params);
 
 			if (modSettings.GetBool("runonce", false))
 				Connection.GetDefaultCommand().Run().Close();
@@ -128,7 +145,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			object paramvalue;
 
 			foreach (string paramname in Connection.DefaultOrderedParameters) {
-				if (parameters.TryGetFallback (paramname, out paramvalue) || defaultParameters.TryGetValue(paramname, out paramvalue))
+				if (parameters.TryGetFallback (paramname, out paramvalue) || Defaults.TryGetValue(paramname, out paramvalue))
 					Command.SetParameter (paramname, paramvalue);
 				else
 					throw new Exception (string.Format("Parameter {0} not in interaction or defaults", paramname));
@@ -220,12 +237,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 					int resultCount = 2;
 					int totalResults = 2;
 
-					if ((resultCap > 1) || (resultCap < 0)) {
+					if ((ResultCap > 1) || (ResultCap < 0)) {
 						while (resultCount > 1) {
 							success &= iterator.TryProcess (NextResult);
 							resultCount--;
 
-							if ((resultCap > -1) && (totalResults >= resultCap)) {
+							if ((ResultCap > -1) && (totalResults >= ResultCap)) {
 								resultCount = 0;
 								success &= capreached.TryProcess (ParentParameters);
 							} else {

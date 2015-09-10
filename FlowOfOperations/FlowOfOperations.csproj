@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese.Extensions.FlowOfOperations</RootNamespace>
     <AssemblyName>FlowOfOperations</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -19,14 +21,6 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release!|AnyCPU' ">
     <Optimize>false</Optimize>
     <OutputPath>bin\Release!</OutputPath>
     <WarningLevel>4</WarningLevel>
@@ -41,7 +35,6 @@
     <Compile Include="Module\JumpInteraction.cs" />
     <Compile Include="Module\Module.cs" />
     <Compile Include="Module\Return.cs" />
-    <Compile Include="InitOnce.cs" />
     <Compile Include="Fork.cs" />
     <Compile Include="Module\JumpException.cs" />
     <Compile Include="OverSocket\ReachOut.cs" />
@@ -71,6 +64,7 @@
     <Compile Include="Reflection\Control\NewService.cs" />
     <Compile Include="Reflection\Control\ReloadService.cs" />
     <Compile Include="Reflection\Control\SetSetting.cs" />
+    <Compile Include="OverSocket\SocketService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -82,17 +76,25 @@
     <Folder Include="View\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Duckling\Duckling.csproj">
-      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
-      <Name>Duckling</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utensils\Utensils.csproj">
-      <Project>{0B73FD96-BBDF-4A93-AA1D-6138FC6E6364}</Project>
-      <Name>Utensils</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Loader\Loader.csproj">
       <Project>{D7D1C556-3224-4410-90E6-EB44DF551FEA}</Project>
       <Name>Loader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Parsing\Parsing.csproj">
+      <Project>{274A8AFD-1DE7-47D8-98CD-925982D59DE0}</Project>
+      <Name>Parsing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
+      <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
+      <Name>Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Logging\Logging.csproj">
+      <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoreTypes\CoreTypes.csproj">
+      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
+      <Name>CoreTypes</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

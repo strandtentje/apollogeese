@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>BorrehSoft.ApolloGeese.CoreTypes</RootNamespace>
+    <AssemblyName>CoreTypes</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release!</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Web" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AssemblyInfo.cs" />
+    <Compile Include="Interactions\I3DParameterized.cs" />
+    <Compile Include="Interactions\IFast.cs" />
+    <Compile Include="Interactions\IIncomingBodiedInteraction.cs" />
+    <Compile Include="Interactions\IInteraction.cs" />
+    <Compile Include="Interactions\INosyInteraction.cs" />
+    <Compile Include="Interactions\IOutgoingBodiedInteraction.cs" />
+    <Compile Include="Interactions\Simple\SimpleInteraction.cs" />
+    <Compile Include="Interactions\Simple\SimpleOutgoingInteraction.cs" />
+    <Compile Include="Interactions\Simple\SimpleIncomingInteraction.cs" />
+    <Compile Include="Services\Simple\Bounce.cs" />
+    <Compile Include="Services\Simple\StubService.cs" />
+    <Compile Include="Services\Simple\TwoBranchedService.cs" />
+    <Compile Include="Services\Service.cs" />
+    <Compile Include="Services\UnclonableException.cs" />
+    <Compile Include="Services\Configuration\Instructions\ConfigInstruction.cs" />
+    <Compile Include="Services\Configuration\Instructions\InstructionAttribute.cs" />
+    <Compile Include="Services\Configuration\Configurables.cs" />
+    <Compile Include="Services\Simple\KeywordService.cs" />
+    <Compile Include="Services\MissingBranchException.cs" />
+    <Compile Include="Interactions\IIncomingReaderInteraction.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
+      <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
+      <Name>Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Logging\Logging.csproj">
+      <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Interactions\" />
+    <Folder Include="Interactions\Simple\" />
+    <Folder Include="Services\" />
+    <Folder Include="Services\Simple\" />
+    <Folder Include="Services\Configuration\Instructions\" />
+  </ItemGroup>
+</Project>

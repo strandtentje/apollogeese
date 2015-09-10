@@ -1,11 +1,11 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Diagnostics;
 using DProcess = System.Diagnostics.Process;
 
 namespace Testing.Diff
 {
-	class DifferenceInteraction : QuickInteraction
+	class DifferenceInteraction : SimpleInteraction
 	{
 		public DifferenceInteraction (string diffline, IInteraction parent) : base(parent)
 		{
