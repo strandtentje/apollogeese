@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -48,17 +48,9 @@
     <Compile Include="TooManySectionsException.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Duckling\Duckling.csproj">
-      <Project>{4e2886f5-a220-45e7-a3da-d60a98f2ac2d}</Project>
-      <Name>Duckling</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Http\Http.csproj">
-      <Project>{fc505c08-0ba6-46a0-90ce-147823d3f2a8}</Project>
+      <Project>{FC505C08-0BA6-46A0-90CE-147823D3F2A8}</Project>
       <Name>Http</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utensils\Utensils.csproj">
-      <Project>{0b73fd96-bbdf-4a93-aa1d-6138fc6e6364}</Project>
-      <Name>Utensils</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

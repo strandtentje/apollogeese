@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cryptography", "Utilities\C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imaging", "Imaging\Imaging.csproj", "{529790BF-2C23-4ECF-903A-0101205BE635}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscreteHttpServer", "DiscreteHttpServer\DiscreteHttpServer.csproj", "{ABD72AF2-6586-432D-8870-4186B715B3F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -105,6 +107,10 @@ Global
 		{A7867D50-C305-4B0D-BF56-A7BA83D4C26D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A7867D50-C305-4B0D-BF56-A7BA83D4C26D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A7867D50-C305-4B0D-BF56-A7BA83D4C26D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABD72AF2-6586-432D-8870-4186B715B3F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABD72AF2-6586-432D-8870-4186B715B3F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABD72AF2-6586-432D-8870-4186B715B3F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABD72AF2-6586-432D-8870-4186B715B3F7}.Release|Any CPU.Build.0 = Release|Any CPU
 		{B02EA360-7127-409C-9223-9B33BB98E631}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{B02EA360-7127-409C-9223-9B33BB98E631}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B02EA360-7127-409C-9223-9B33BB98E631}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -172,9 +178,6 @@ Global
 		{274A8AFD-1DE7-47D8-98CD-925982D59DE0} = {7C5A0356-3630-4EF5-9250-4DB92ECC39BA}
 		{0A33B2EB-4A4F-46F9-B13A-3B0975A39655} = {7C5A0356-3630-4EF5-9250-4DB92ECC39BA}
 		{47A71E63-7172-4138-AA90-A432863AAFF1} = {7C5A0356-3630-4EF5-9250-4DB92ECC39BA}
-	EndGlobalSection
-	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Bootloader\Bootloader.csproj
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
