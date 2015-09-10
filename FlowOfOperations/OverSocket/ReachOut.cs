@@ -6,6 +6,7 @@ using System.Net.Sockets;
 using System.Threading;
 using System.Net;
 using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping;
+using BorrehSoft.ApolloGeese.Extensions.Networking;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {
