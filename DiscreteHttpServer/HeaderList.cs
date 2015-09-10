@@ -7,7 +7,7 @@ namespace DiscreteHttpServer
 {
     class HeaderList
     {
-        internal void Add(Header newHeader)
+        internal void Add(RequestHeader newHeader)
         {
             throw new NotImplementedException();
         }

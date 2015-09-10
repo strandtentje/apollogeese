@@ -13,7 +13,7 @@ namespace DiscreteHttpServer
         public string Protocol { get; private set; }
         public List<string> Sections { get; private set; }
 
-        private static delegate bool Consumer(StringBuilder, char);
+        private static delegate bool Consumer(StringBuilder characters);
 
         internal static RequestUri FromStream(Stream stream)
         {
@@ -32,7 +32,6 @@ namespace DiscreteHttpServer
                 {
 
                 }
-
 
                 if ((stage == UriStage.Protocol) && (character == ':'))
                 {

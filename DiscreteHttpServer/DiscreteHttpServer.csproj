@@ -32,6 +32,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BadMethodException.cs" />
@@ -42,15 +43,31 @@
     <Compile Include="RequestHead.cs" />
     <Compile Include="RequestHeader.cs" />
     <Compile Include="RequestLine.cs" />
-    <Compile Include="RequestMethod.cs" />
     <Compile Include="RequestUri.cs" />
     <Compile Include="RequestVersion.cs" />
     <Compile Include="TooManySectionsException.cs" />
+    <Compile Include="Methods.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Http\Http.csproj">
       <Project>{FC505C08-0BA6-46A0-90CE-147823D3F2A8}</Project>
       <Name>Http</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
+      <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
+      <Name>Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Logging\Logging.csproj">
+      <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Parsing\Parsing.csproj">
+      <Project>{274A8AFD-1DE7-47D8-98CD-925982D59DE0}</Project>
+      <Name>Parsing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Streaming\Streaming.csproj">
+      <Project>{0A33B2EB-4A4F-46F9-B13A-3B0975A39655}</Project>
+      <Name>Streaming</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -6,5 +6,5 @@ using System.Text;
 
 namespace DiscreteHttpServer
 {
-	public enum Methods { OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT };
+	public enum HttpMethod { OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT };
 }
