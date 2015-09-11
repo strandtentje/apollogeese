@@ -4,15 +4,13 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Net.Sockets;
-using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Networking;
-using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping;
 
-namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
+namespace BorrehSoft.ApolloGeese.Extensions.Networking
 {
 	/// <summary>
 	/// I hope you weren't expecting anything exciting here
 	/// </summary>
-	public abstract class SocketService : Service
+	public abstract class IPService : Service
 	{
 		[Instruction("IP of socket")]
 		public string Ip { get; set; }

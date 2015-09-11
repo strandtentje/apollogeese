@@ -62,7 +62,6 @@
     <Compile Include="Reflection\Control\NewService.cs" />
     <Compile Include="Reflection\Control\ReloadService.cs" />
     <Compile Include="Reflection\Control\SetSetting.cs" />
-    <Compile Include="OverSocket\SocketService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -93,6 +92,10 @@
     <ProjectReference Include="..\CoreTypes\CoreTypes.csproj">
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>CoreTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Networking\Networking.csproj">
+      <Project>{A7867D50-C305-4B0D-BF56-A7BA83D4C26D}</Project>
+      <Name>Networking</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
