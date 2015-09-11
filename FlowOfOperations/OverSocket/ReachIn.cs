@@ -10,7 +10,7 @@ using BorrehSoft.ApolloGeese.Extensions.Networking;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {
-	public class ReachIn : SocketService
+	public class ReachIn : IPService
 	{
 		public override string Description {
 			get {
