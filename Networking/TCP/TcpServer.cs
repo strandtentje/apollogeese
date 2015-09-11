@@ -12,7 +12,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 	{
 		public override string Description {
 			get {
-				return string.Format ("TCP Listening on {0}:{1}", this.IP, this.Port);
+				return string.Format ("TCP Listening on {0}:{1}", this.Ip, this.Port);
 			}
 		}
 
@@ -21,6 +21,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 			base.Initialize (modSettings);
 
 			TcpListener listener = new TcpListener (IPAddress.Parse(this.Ip), this.Port);
+
+			listener.Start ();
 
 			listener.BeginAcceptTcpClient (IncomingConnection, listener);
 		}
@@ -43,20 +45,20 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 				long myTicker = connectionCallsignTicker++;
 
 				Secretary.Report (8, 
-					"Tcp connection", myTicker,
+					"Tcp connection", myTicker.ToString(),
 					"made from", client.Client.RemoteEndPoint.ToString ());
 
-				if (this.Connection.TryProcess (new TcpInteraction (client.Client, myTicker))) {
-					Secretary.Report (8, "Tcp connection", myTicker, "deal with successfully");
+				if (this.Connection.TryProcess (new TcpInteraction (client, myTicker))) {
+					Secretary.Report (8, "Tcp connection", myTicker.ToString(), "dealt with successfully");
 				} else {
-					Secretary.Report (5, "Tcp connection", myTicker, "failed to be dealt with successfully");
+					Secretary.Report (5, "Tcp connection", myTicker.ToString(), "failed to be dealt with successfully");
 				}
 			}
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			
+			return this.Connection.TryProcess (parameters);
 		}
 	}
 }

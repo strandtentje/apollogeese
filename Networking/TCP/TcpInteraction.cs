@@ -31,7 +31,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking
 
 		private StreamWriter writer = null;
 
-		public TextWriter GetOutgoingBodyWriter() {
+		public StreamWriter GetOutgoingBodyWriter() {
 			if (writer == null) {
 				writer = new StreamWriter (OutgoingBody);
 			}
