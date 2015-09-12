@@ -1,16 +1,17 @@
-﻿using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections.Settings;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
 using System.Threading.Tasks;
 using BorrehSoft.ApolloGeese.CoreTypes;
+using BorrehSoft.ApolloGeese.Extensions.Networking.TCP;
+using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utensils.Collections.Settings;
 
 namespace DiscreteHttpServer
 {
-    public class HttpServer : Service
+	public class IncomingHttp : TcpServer
     {
         private TcpListener listener;
         private Service httpBranch;
@@ -27,11 +28,14 @@ namespace DiscreteHttpServer
                 httpBranch = e.NewValue;
         }
 
+		public List<string> EnabledSites { get; set; }
+
+		private Map<string> Filters;
+
         protected override void Initialize(Settings modSettings)
         {
-            listener = new TcpListener(IPAddress.Any, modSettings.GetInt("port", 8000));
+			this.EnabledSites = modSettings.GetStringList ("enabledsites", "default");
 
-            listener.BeginAcceptTcpClient(SetIncomingClient, listener);
         }
 
         /// <summary>

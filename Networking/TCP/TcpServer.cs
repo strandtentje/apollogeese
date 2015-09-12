@@ -48,12 +48,17 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 					"Tcp connection", myTicker.ToString(),
 					"made from", client.Client.RemoteEndPoint.ToString ());
 
-				if (this.Connection.TryProcess (new TcpInteraction (client, myTicker))) {
+				if (ProcessConnection(client, myTicker)) {
 					Secretary.Report (8, "Tcp connection", myTicker.ToString(), "dealt with successfully");
 				} else {
 					Secretary.Report (5, "Tcp connection", myTicker.ToString(), "failed to be dealt with successfully");
 				}
 			}
+		}
+
+		protected virtual bool ProcessConnection (TcpClient client, long myTicker)
+		{
+			return this.Connection.TryProcess (new TcpInteraction (client, myTicker));
 		}
 
 		protected override bool Process (IInteraction parameters)
