@@ -64,7 +64,7 @@ namespace Imaging
 		protected override void Initialize (Settings settings)
 		{
 			base.Initialize (settings);
-			this.DefaultScale = settings.GetFloat ("defaultscale", 1.0f);
+			this.DefaultScale = 1.0f; // settings.GetFloat ("defaultscale", 1.0f);
 			this.ScaleSteps = settings.GetStringList ("scalesteps", new string[] {});
 			this.Stepvar = settings.GetString ("stepvariable", "scale");
 		}
