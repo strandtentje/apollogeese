@@ -7,8 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Networking</RootNamespace>
     <AssemblyName>Networking</AssemblyName>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -40,6 +38,9 @@
     <Compile Include="TCP\Mail\EmailInteraction.cs" />
     <Compile Include="TCP\Mail\MailException.cs" />
     <Compile Include="TCP\Mail\SmtpPicker.cs" />
+    <Compile Include="TCP\TcpServer.cs" />
+    <Compile Include="TCP\TcpInteraction.cs" />
+    <Compile Include="IPService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
