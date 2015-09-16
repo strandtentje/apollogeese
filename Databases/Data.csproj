@@ -6,8 +6,6 @@
     <ProjectGuid>{9E729FC7-F412-46E5-847F-488E2E97BE9C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <RootNamespace>Data</RootNamespace>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,6 +60,7 @@
     <Compile Include="Cache\NosyInteraction.cs" />
     <Compile Include="Lookup\LookupAccessor.cs" />
     <Compile Include="Cache\ConcatCache.cs" />
+    <Compile Include="Databases\Tabledata.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

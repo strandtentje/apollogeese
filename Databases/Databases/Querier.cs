@@ -71,7 +71,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		[Instruction("Default values for parameters, if they're not available in context.")]
 		public Settings Defaults { get; set; }
 
-		public string QueryText { 
+		public virtual string QueryText { 
 			get {
 				return this.queryText; 
 			}
@@ -92,7 +92,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 
 			Connection = CreateConnection(modSettings);
 
-			this.QueryFile = modSettings.GetString ("query");
+			if (modSettings.Has ("query")) {
+				this.QueryFile = modSettings.GetString ("query");
+			} else if (modSettings.Has("querytext")) {
+				this.queryText = modSettings.GetString ("querytext");
+			}
+
 			this.ResultCap = modSettings.GetInt ("resultcap", -1);
 			this.Params = modSettings.GetStringList ("params");
 			this.Defaults = modSettings.GetSubsettings ("defaults");
@@ -324,7 +329,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 				StringBuilder signatureBuilder = new StringBuilder ();
 				object value;
 
-				signatureBuilder.AppendLine (queryFile);
+				signatureBuilder.AppendLine (queryText);
 
 				foreach (string paramName in Connection.DefaultOrderedParameters) {
 					if (parameters.TryGetFallback (paramName, out value)) {
