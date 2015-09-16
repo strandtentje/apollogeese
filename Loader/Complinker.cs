@@ -60,14 +60,26 @@ namespace BorrehSoft.ApolloGeese.Loader
 			}
 		}
 
+		Map<Service> GetInheritedInstances ()
+		{
+			return InstanceLoader.GetInstances (Configuration.GetString ("base"), false);
+		}
+
 		/// <summary>
 		/// Gets the instances defined in the file
 		/// </summary>
 		/// <returns>The instances.</returns>
 		public Map<Service> GetInstances()
 		{
+			Map<Service> instances;
+
+			if (Configuration.Has ("base")) {
+				instances = GetInheritedInstances ();
+			} else {
+				instances = new Map<Service> ();
+			}
+
 			Settings configurations = Configuration.GetSubsettings("instances");
-			Map<Service> instances = new Map<Service> ();
 
 			foreach (KeyValuePair<string, object> kvp in configurations.Dictionary) {
 				instances[kvp.Key] = GetServiceForSettings ((Settings)kvp.Value);
