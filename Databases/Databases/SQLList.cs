@@ -27,7 +27,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 
 		public override string Description {
 			get {
-				return "Generic table data getter";
+				return string.Format (
+					this.Format, 
+					string.Join (", ", Columns), 
+					(this.Tablename.Length == 0 ? "[table]" : this.Tablename), 
+					string.Format(
+						this.WhereFormat, 
+						this.Where));
 			}
 		}
 
@@ -76,7 +82,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			this.TablenamePattern = modSettings.GetString("tablenamepattern", @"^\w+$");
 			this.Where = modSettings.GetString ("where", "");
 			this.Format = modSettings.GetString ("format", "SELECT {0} FROM {1} {2}");
-			this.WhereFormat = modSettings.GetString ("whereformat", "WHERE {2}");
+			this.WhereFormat = modSettings.GetString ("whereformat", "WHERE {0}");
 		}
 
 		Service MissingTable = Stub;
