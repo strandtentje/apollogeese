@@ -49,7 +49,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 				this.BranchName = modSettings.GetString ("branch");
 
 			if (modSettings.Has ("branchvariable")) {
-				this.BranchVariable = modSettings.GetString ("branch");
+				this.BranchVariable = modSettings.GetString ("branchvariable");
 			} else {
 				this.BranchVariable = "branchname";
 			}
