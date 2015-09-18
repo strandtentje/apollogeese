@@ -77,7 +77,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			if (BranchName == null) {
 				if (parameters is DirectedInteraction) {
 					pickedBranchName = ((DirectedInteraction)parameters).BranchName;
-				} else {
+				} else if (!parameters.TryGetFallbackString("branchname", out pickedBranchName)) {
 					throw new JumpException ("{none supplied in settings}");
 				}
 			} else {

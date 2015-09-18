@@ -22,7 +22,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		/// <param name="branch">Branch.</param>
 		public DirectedInteraction (IInteraction parent, string branch) : base(parent)
 		{
-			this.BranchName = branch;
+			this["branchname"] = BranchName = branch;
 		}
 	}
 }
