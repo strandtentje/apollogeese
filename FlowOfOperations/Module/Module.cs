@@ -27,6 +27,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		[Instruction("Name of branch in module to fire up.")]
 		public string BranchName { get; set; }
 
+		[Instruction("Name of the context variable wherefrom the branch name should be acquired")]
+		public string BranchVariable { get; set; }
+
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
 			string[] pathAndBranch = defaultParameter.Split ('@');
@@ -44,6 +47,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 			if (modSettings.Has ("branch"))
 				this.BranchName = modSettings.GetString ("branch");
+
+			if (modSettings.Has ("branchvariable")) {
+				this.BranchVariable = modSettings.GetString ("branch");
+			} else {
+				this.BranchVariable = "branchname";
+			}
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -67,6 +76,15 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			}
 		}
 
+		class ModuleBranchException : Exception
+		{
+			public ModuleBranchException(string branchVariable) : base(
+				string.Format("No branch name found in context at {0}", 
+					branchVariable)) {
+
+				}
+		}
+
 		protected override bool Process (IInteraction parameters)
 		{
 			Service referredService;
@@ -75,20 +93,19 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			string pickedBranchName;
 
 			if (BranchName == null) {
-				if (parameters is DirectedInteraction) {
-					pickedBranchName = ((DirectedInteraction)parameters).BranchName;
-				} else if (!parameters.TryGetFallbackString("branchname", out pickedBranchName)) {
-					throw new JumpException ("{none supplied in settings}");
+				if (!jumpInteraction.TryGetFallbackString(this.BranchVariable, out pickedBranchName)) {
+					throw new ModuleBranchException (this.BranchVariable);
 				}
 			} else {
 				pickedBranchName = BranchName;
 			}
 
 			referredService = ModuleBranches [pickedBranchName];
+
 			jumpInteraction = new JumpInteraction (parameters, Branches, GetSettings ());
 
 			return referredService.TryProcess (jumpInteraction);
 		}
 	}
 }
-
+	
