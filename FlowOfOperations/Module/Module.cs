@@ -93,7 +93,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			string pickedBranchName;
 
 			if (BranchName == null) {
-				if (!jumpInteraction.TryGetFallbackString(this.BranchVariable, out pickedBranchName)) {
+				if (!parameters.TryGetFallbackString(this.BranchVariable, out pickedBranchName)) {
 					throw new ModuleBranchException (this.BranchVariable);
 				}
 			} else {

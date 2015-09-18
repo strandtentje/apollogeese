@@ -155,7 +155,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 					}
 
 					if (FailureHandler != null) {
-						interaction = new DirectedInteraction (interaction, failName);
+						SimpleInteraction failureInteraction;
+						interaction = failureInteraction = new SimpleInteraction (interaction);
+						failureInteraction ["failurename"] = failName;
 					}
 
 					success &= handler.TryProcess (interaction);
