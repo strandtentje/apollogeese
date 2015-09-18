@@ -71,7 +71,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		protected override void Initialize (Settings modSettings)
 		{
 			this.Columns = modSettings.GetStringList ("columns", new string[] { "*" });
-			this.Tablename = modSettings ["tablename"];
+			this.Tablename = modSettings.GetString ("tablename", "");
 			this.TablenameSource = modSettings.GetString ("tablenamesource", "tablename");
 			this.TablenamePattern = modSettings.GetString("tablenamepattern", @"^\w+$");
 			this.Where = modSettings.GetString ("where", "");
@@ -139,7 +139,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 
 			Service foundService;
 
-			if (this.Tablename != null) {
+			if (this.Tablename.Length > 0) {
 				foundService = this.GetTableQuerier (this.Tablename);
 			} else if (parameters.TryGetFallbackString (this.TablenameSource, out tableName)) {
 				foundService = this.GetTableQuerier (tableName);
