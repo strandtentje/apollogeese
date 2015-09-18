@@ -33,21 +33,21 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 		{
 			this.ParentHttp = http;
 
-			this ["branchname"] = "main";
+			this ["directoryname"] = "main";
 
 			HasTail = http.URL.Count > 0;
 
 			if (HasTail) 
-				this ["branchname"] = http.URL.Peek ();
+				this ["directoryname"] = http.URL.Peek ();
 		}
 
 		/// <summary>
 		/// The branchname that was elected by the url section
 		/// </summary>
 		/// <value>The name of the branch.</value>
-		public string BranchName {
+		public string DirectoryName {
 			get {
-				return (string)this ["branchname"];
+				return (string)this ["directoryname"];
 			}
 		}
 

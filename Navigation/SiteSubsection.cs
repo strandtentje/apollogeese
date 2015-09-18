@@ -32,7 +32,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 			Service branch = Stub;
 
 			if (branch == Stub) 
-				branch = Branches [interaction.BranchName] ?? Stub;
+				branch = Branches [interaction.DirectoryName] ?? Stub;
 			
 			if (branch == Stub)
 				branch = Branches ["default"];
