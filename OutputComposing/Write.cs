@@ -40,9 +40,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			StreamWriter writer = interaction.GetOutgoingBodyWriter ();
 
 			if (VariableName.Length == 0) {
-				writer.WriteLine(Format);
+				writer.Write(Format);
 			} else if (success = parameters.TryGetFallbackString (VariableName, out text)) {
-				writer.WriteLine (string.Format(Format, text));
+				writer.Write(string.Format(Format, text));
 			}
 
 			writer.Flush ();
