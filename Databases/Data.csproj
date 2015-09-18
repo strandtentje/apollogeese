@@ -60,7 +60,8 @@
     <Compile Include="Cache\NosyInteraction.cs" />
     <Compile Include="Lookup\LookupAccessor.cs" />
     <Compile Include="Cache\ConcatCache.cs" />
-    <Compile Include="Databases\Tabledata.cs" />
+    <Compile Include="Databases\SQLList.cs" />
+    <Compile Include="Databases\SQLRow.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

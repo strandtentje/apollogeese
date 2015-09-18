@@ -8,7 +8,7 @@ using System.Text.RegularExpressions;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 {
-	public class Tabledata : Service
+	public class SQLList : Service
 	{
 		public List<string> Columns {
 			get;
@@ -58,9 +58,20 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 			}
 		}
 
+		string Tablename {
+			get;
+			set;
+		}
+
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			Settings ["tablename"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			this.Columns = modSettings.GetStringList ("columns", new string[] { "*" });
+			this.Tablename = modSettings ["tablename"];
 			this.TablenameSource = modSettings.GetString ("tablenamesource", "tablename");
 			this.TablenamePattern = modSettings.GetString("tablenamepattern", @"^\w+$");
 			this.Where = modSettings.GetString ("where", "");
@@ -126,11 +137,17 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		{
 			string tableName;
 
-			if (parameters.TryGetFallbackString (this.TablenameSource, out tableName)) {
-				return this.GetTableQuerier (tableName).TryProcess (parameters);
+			Service foundService;
+
+			if (this.Tablename != null) {
+				foundService = this.GetTableQuerier (this.Tablename);
+			} else if (parameters.TryGetFallbackString (this.TablenameSource, out tableName)) {
+				foundService = this.GetTableQuerier (tableName);
 			} else {
-				return this.MissingTable.TryProcess (parameters);
+				foundService = this.MissingTable;
 			}
+
+			return foundService.TryProcess (parameters);
 		}
 	}
 }
