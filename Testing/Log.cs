@@ -52,6 +52,8 @@ namespace Testing
 
 		protected override bool Process (IInteraction parameters)
 		{
+			Secretary.Report (5, this.Label);
+
  			foreach (string varName in this.WatchVariables) {
 				object candidate;
 				string candidateString = "not present";
