@@ -8,7 +8,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 {
 	public class SQL : Service
 	{
-		Querier pickedQuerier = null;
+		DataQuerier pickedQuerier = null;
 
 		public override string Description {
 			get {
@@ -30,7 +30,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 				string databaseType = (string)credentials ["dbtype"];
 
 				if (databaseType == "mysql")
-					pickedQuerier = new MySqlQuerier ();
+					pickedQuerier = new DataQuerier (MySQL.MySql.CreateConnection (modSettings));
 				else 
 					throw new QueryException (string.Format (
 						"Datbase type {0} has not (yet) been implemented", 

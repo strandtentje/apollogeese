@@ -51,10 +51,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.SQLite
 			this.queryText = File.ReadAllText(QueryTextFile);
 			this.defaultParams = queryParameters ?? new List<string>();
 		}
-				
-		public IQueryCommand GetDefaultCommand() 
-		{
-			return new SQLiteQueryCommand(this.DefaultQueryText, this.connection);
+
+		public IDataReader UseCommand(Action<IQueryCommand> callback) {
+			SQLLiteQueryCommand cmd = new SQLiteQueryCommand(this.DefaultQueryText, this.connection);
+
+			callback(cmd);
+			return cmd.Run();
 		}
 	}
 }

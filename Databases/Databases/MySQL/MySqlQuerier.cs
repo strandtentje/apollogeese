@@ -6,14 +6,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.MySQL
 	/// <summary>
 	/// A querier for MySQL-like databases. Works for PostgreSQL too, last time I checked
 	/// </summary>
-	public class MySqlQuerier : Querier
+	public class MySql
 	{
 		/// <summary>
 		/// Creates the connection.
 		/// </summary>
 		/// <returns>The connection.</returns>
 		/// <param name="modSettings">Mod settings.</param>
-		protected override IQueryConnection CreateConnection (Settings modSettings)
+		public static IQueryConnection CreateConnection (Settings modSettings)
 		{	
 			Settings pickedSettings = modSettings;
 			string credsetName;

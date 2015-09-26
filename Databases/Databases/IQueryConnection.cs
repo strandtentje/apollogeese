@@ -49,10 +49,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases
 		void SetDefaultCommandQuery(string QueryText, List<string> queryParameters = null);
 
 		/// <summary>
-		/// Gets the default command for this connection
+		/// Runs the command.
 		/// </summary>
-		/// <returns>The default command.</returns>
-		IQueryCommand GetDefaultCommand();
+		/// <returns>The command.</returns>
+		/// <param name="preparationCallback">Preparation callback.</param>
+		IDataReader RunCommand(Action<IQueryCommand> preparationCallback);
 	}
 }
 

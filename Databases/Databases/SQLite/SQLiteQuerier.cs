@@ -4,11 +4,11 @@ using System.Collections.Generic;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.SQLite
 {
-	public class SQLiteQuerier : Querier
+	public class SQLite : Querier
 	{
-		Dictionary<string, IQueryConnection> openConnections = new Dictionary<string, IQueryConnection>();
+		static Dictionary<string, IQueryConnection> openConnections = new Dictionary<string, IQueryConnection>();
 
-		protected override IQueryConnection CreateConnection (Settings modSettings)
+		public static IQueryConnection CreateConnection (Settings modSettings)
 		{
 			string dbFileName = modSettings.GetString("databasefile", "db.sqlite3");
 

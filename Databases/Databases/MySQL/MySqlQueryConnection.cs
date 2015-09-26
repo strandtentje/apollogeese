@@ -118,15 +118,22 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Databases.MySQL
 			this.DefaultOrderedParameters = queryParameters ?? new List<string> ();
 		}
 
-		/// <summary>
-		/// Gets the default command for this connection
-		/// </summary>
-		/// <returns>The default command.</returns>
-		public IQueryCommand GetDefaultCommand()
-		{
-			MySqlQueryCommand newCommand = new MySqlQueryCommand(this, DefaultQueryText);
+		public IDataReader UseCommand(Action<IQueryCommand> callback) {
+			MySqlQueryCommand newCommand = new MySqlQueryCommand (this, DefaultQueryText);
+			IDataReader reader = null;
 
-			return newCommand;
+			try {
+				callback (newCommand);
+				reader = newCommand.Run();
+			} catch (MySqlException ex) {
+				if (ex.Number == 1054) {
+					throw new Exception (
+						"SQL command failure; there's likely a malreference to the database within the query. Review query.",
+						ex);
+				}
+			}
+
+			return reader;
 		}
 	}
 }

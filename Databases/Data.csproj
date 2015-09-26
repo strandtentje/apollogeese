@@ -35,7 +35,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Databases\IQueryCommand.cs" />
     <Compile Include="Databases\IQueryConnection.cs" />
-    <Compile Include="Databases\Querier.cs" />
     <Compile Include="Databases\ResultInteraction.cs" />
     <Compile Include="Databases\MySQL\MySqlQuerier.cs" />
     <Compile Include="Databases\MySQL\MySqlQueryCommand.cs" />
@@ -62,6 +61,10 @@
     <Compile Include="Cache\ConcatCache.cs" />
     <Compile Include="Databases\SQLList.cs" />
     <Compile Include="Databases\SQLRow.cs" />
+    <Compile Include="Databases\IQueryStats.cs" />
+    <Compile Include="Databases\QueryStats.cs" />
+    <Compile Include="Databases\DataQuerier.cs" />
+    <Compile Include="Databases\DataReader.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
