@@ -93,7 +93,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// <summary>
 		/// Scans from here to ancestors for data at specified name. Returns false if nothing found.
 		/// </summary>
-		/// <returns><c>true</c>, if get fallback was tryed, <c>false</c> otherwise.</returns>
+		/// <returns><c>true</c>, if get fallback was successful, <c>false</c> otherwise.</returns>
 		/// <param name="id">Identifier.</param>
 		/// <param name="luggage">Luggage.</param>
 		bool TryGetFallback (string id, out object luggage);

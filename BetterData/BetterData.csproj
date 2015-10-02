@@ -1,12 +1,13 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{0AF976EF-9F73-48D9-9ED5-2B9CD86724D8}</ProjectGuid>
+    <ProjectGuid>{303A62EB-3E24-45D3-8ED0-6EEEA66BA808}</ProjectGuid>
     <OutputType>Library</OutputType>
-    <RootNamespace>Game</RootNamespace>
-    <AssemblyName>Game</AssemblyName>
+    <RootNamespace>BetterData</RootNamespace>
+    <AssemblyName>BetterData</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -28,22 +29,31 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Drawing" />
-    <Reference Include="OpenTK">
-      <HintPath>..\..\..\Downloads\Release.5a\OpenTK.dll</HintPath>
+    <Reference Include="System.Data" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\Downloads\MySql.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Updating\Keys.cs" />
-    <Compile Include="Updating\Logic.cs" />
-    <Compile Include="OrderedHyrarchy.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="GraphicalView.cs" />
-    <Compile Include="Rendering\Poly.cs" />
-    <Compile Include="Rendering\RenderInteraction.cs" />
-    <Compile Include="Rendering\Rotate.cs" />
-    <Compile Include="Updating\UpdateInteraction.cs" />
-    <Compile Include="Rendering\VertexBuffer.cs" />
+    <Compile Include="Reader.cs" />
+    <Compile Include="Commander.cs" />
+    <Compile Include="NBranch.cs" />
+    <Compile Include="Connector.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
+      <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
+      <Name>Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\CoreTypes\CoreTypes.csproj">
+      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
+      <Name>CoreTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Logging\Logging.csproj">
+      <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
+      <Name>Logging</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>
