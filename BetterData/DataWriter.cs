@@ -5,12 +5,12 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BetterData
 {
-	public class Reader : Commander
+	public class DataWriter : Commander
 	{
 		public override string Description {
 			get {
 				return string.Format (
-					"Reader {0} using {1}", 
+					"Write with {0} on {1}", 
 					QueryName, DatasourceName);
 			}
 		}
@@ -21,24 +21,21 @@ namespace BetterData
 			}
 		}
 
-		Service ChangedMany {
+		protected override Service DefaultBranch {
 			get {
-				return (Branches ["changedmany"] ?? Stub);
+				return Branches ["default"] ?? Stub;
 			}
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
 			IDbCommand command = GetCommand (parameters);
+
 			int affectedRows = command.ExecuteNonQuery ();
 
 			bool success;
 
 			success &= FindBranch(affectedRows).TryProcess (parameters);
-
-			if (affectedRows > 1) {
-				success &= ChangedMany.TryProcess (parameters);
-			}
 
 			return success;
 		}

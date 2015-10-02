@@ -31,15 +31,17 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Downloads\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\Downloads\Release.5a\MySql.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Reader.cs" />
     <Compile Include="Commander.cs" />
-    <Compile Include="NBranch.cs" />
     <Compile Include="Connector.cs" />
+    <Compile Include="DataWriter.cs" />
+    <Compile Include="DataReader.cs" />
+    <Compile Include="DataInteraction.cs" />
+    <Compile Include="BranchesByNumber.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
