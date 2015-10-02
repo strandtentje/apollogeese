@@ -8,7 +8,7 @@ using MySql.Data.MySqlClient;
 
 namespace BetterData
 {
-	public abstract class Commander : NBranch
+	public abstract class Commander : Service
 	{
 		public string QueryName { 
 			get { 
@@ -20,6 +20,10 @@ namespace BetterData
 			get {
 				return ""; 
 			} 
+		}
+
+		protected virtual void OnNewCommand() {
+		
 		}
 
 		private IDbConnection connection {
