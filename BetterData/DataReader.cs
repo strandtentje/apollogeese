@@ -53,7 +53,7 @@ namespace BetterData
 		{
 			bool success = true;
 
-			IDataReader reader = GetCommand (parameters).ExecuteReader ();
+			IDataReader reader = TakeCommand (parameters).ExecuteReader ();
 
 			DataInteraction lastRow;
 
@@ -66,11 +66,13 @@ namespace BetterData
 
 				reader.GetValues (values);
 
-				DataInteraction dataRow = new DataInteraction (columnNames, values);
+				DataInteraction dataRow = new DataInteraction (parameters, columnNames, values);
 				lastRow = dataRow;
 
-				success &= rowBranches.FindBranch (currentRowNumber).TryProcess (dataRow);
+				success &= rowBranches.Find (currentRowNumber).TryProcess (dataRow);
 			}
+
+			GiveCommand ();
 
 			if (currentRowNumber == 0)
 				success &= None.TryProcess (parameters);

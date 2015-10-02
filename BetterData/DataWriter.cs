@@ -15,29 +15,28 @@ namespace BetterData
 			}
 		}
 
-		public override string BranchPrefix {
-			get {
-				return "changed";
-			}
-		}
+		BranchesByNumber changeCountBranches = new BranchesByNumber ("changed");
 
-		protected override Service DefaultBranch {
-			get {
-				return Branches ["default"] ?? Stub;
+		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
+		{
+			base.HandleBranchChanged (sender, e);
+
+			changeCountBranches.SetBranch (e.Name, e.NewValue);
+
+			if (e.Name == "default") {
+				changeCountBranches.DefaultBranch = e.NewValue;
 			}
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			IDbCommand command = GetCommand (parameters);
+			int affectedRows;
 
-			int affectedRows = command.ExecuteNonQuery ();
+			RunCommand (parameters, delegate(IDbCommand command) {				
+				affectedRows = command.ExecuteNonQuery ();
+			});
 
-			bool success;
-
-			success &= FindBranch(affectedRows).TryProcess (parameters);
-
-			return success;
+			return changeCountBranches.Find(affectedRows).TryProcess (parameters);
 		}
 	}
 }

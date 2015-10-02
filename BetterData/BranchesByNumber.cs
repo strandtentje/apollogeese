@@ -32,7 +32,7 @@ namespace BetterData
 
 		public Service DefaultBranch = Service.Stub;
 
-		public Service FindBranch (int branchNumber)
+		public Service Find (int branchNumber)
 		{
 			try {
 				return numberedBranches[branchNumber] ?? this.DefaultBranch;

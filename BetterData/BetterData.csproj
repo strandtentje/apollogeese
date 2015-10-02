@@ -42,6 +42,11 @@
     <Compile Include="DataReader.cs" />
     <Compile Include="DataInteraction.cs" />
     <Compile Include="BranchesByNumber.cs" />
+    <Compile Include="MissingConnectorException.cs" />
+    <Compile Include="ITextSource.cs" />
+    <Compile Include="PlainTextSource.cs" />
+    <Compile Include="TextFileSource.cs" />
+    <Compile Include="CommandPool.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
