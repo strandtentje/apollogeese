@@ -45,11 +45,9 @@ namespace BetterData
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
 			if (File.Exists (defaultParameter)) {
-				if (defaultParameter.EndsWith (".auto.sql")) {
-					Settings ["generate"] = defaultParameter;
-				} else {
-					Settings ["queryfile"] = defaultParameter;
-				}
+				Settings ["queryfile"] = defaultParameter;
+			} else if (defaultParameter.ToLower().EndsWith (".auto.sql")) {
+				Settings ["generate"] = defaultParameter;
 			} else {
 				Settings ["query"] = defaultParameter;
 			}
