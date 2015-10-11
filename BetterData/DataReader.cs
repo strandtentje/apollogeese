@@ -56,19 +56,20 @@ namespace BetterData
 			int currentRowNumber = -1;
 
 			UseCommand (parameters, delegate(IDbCommand command) {
-				IDataReader reader = command.ExecuteReader();
-								
-				string[] columnNames = GetColumnNames (reader);
+				using (IDataReader reader = command.ExecuteReader()) {
+					string[] columnNames = GetColumnNames (reader);
 
-				for (currentRowNumber = 0; reader.Read (); currentRowNumber++) {
-					object[] values = new object[reader.FieldCount];
+					for (currentRowNumber = 0; reader.Read (); currentRowNumber++) {
+						object[] values = new object[reader.FieldCount];
 
-					reader.GetValues (values);
+						reader.GetValues (values);
 
-					DataInteraction dataRow = new DataInteraction (parameters, columnNames, values);
-					lastRow = dataRow;
+						DataInteraction dataRow = new DataInteraction (
+							parameters, columnNames, values);
+						lastRow = dataRow;
 
-					success &= rowBranches[currentRowNumber].TryProcess (dataRow);
+						success &= rowBranches[currentRowNumber].TryProcess (dataRow);
+					}
 				}
 			}); 
 
