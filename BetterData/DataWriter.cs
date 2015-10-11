@@ -2,6 +2,7 @@
 using System.Data;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utensils.Collections;
 
 namespace BetterData
 {
@@ -10,33 +11,34 @@ namespace BetterData
 		public override string Description {
 			get {
 				return string.Format (
-					"Write with {0} on {1}", 
-					QueryName, DatasourceName);
+					"Write on {0}", DatasourceName);
+
+
 			}
 		}
 
-		BranchesByNumber changeCountBranches = new BranchesByNumber ("changed");
+		IntMap<Service> changeCountBranches = new IntMap<Service> ();
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			base.HandleBranchChanged (sender, e);
 
-			changeCountBranches.SetBranch (e.Name, e.NewValue);
+			changeCountBranches.Set (e.Name, e.NewValue, "changed_");
 
 			if (e.Name == "default") {
-				changeCountBranches.DefaultBranch = e.NewValue;
+				changeCountBranches.Default = e.NewValue;
 			}
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			int affectedRows;
+			int affectedRows = 0;
 
-			RunCommand (parameters, delegate(IDbCommand command) {				
+			UseCommand (parameters, delegate(IDbCommand command) {				
 				affectedRows = command.ExecuteNonQuery ();
 			});
 
-			return changeCountBranches.Find(affectedRows).TryProcess (parameters);
+			return changeCountBranches[affectedRows].TryProcess (parameters);
 		}
 	}
 }

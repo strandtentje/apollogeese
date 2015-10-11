@@ -13,80 +13,109 @@ namespace BetterData
 {
 	public abstract class Commander : Service
 	{
-		public string QueryName { 
-			get { 
-				return "";
+		List<string> ParameterNames;
+
+		private string DSN;
+		private IDbConnection Connection;
+
+		public string DatasourceName { 
+			get {
+				return this.DSN; 
+			}
+			set {
+				this.DSN = value;
+				this.Connection = Connector.Find (value);
 			}
 		}
 
-		List<string> ParameterNames;
-
-		public string DatasourceName { get; private set; }
-
 		private ITextSource querySource;
-
-		private ConnectionPool ConnectionPool;
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
 			if (File.Exists (defaultParameter)) {
-				Settings ["queryfile"] = defaultParameter;
+				if (defaultParameter.EndsWith (".auto.sql")) {
+					Settings ["generate"] = defaultParameter;
+				} else {
+					Settings ["queryfile"] = defaultParameter;
+				}
 			} else {
 				Settings ["query"] = defaultParameter;
+			}
+		}
+
+		string queryFile;
+
+		string Query {
+			get { 
+				return this.querySource.GetText ();
+			} set {
+				this.querySource = new PlainTextSource (value);
+			}
+		}
+
+		string QueryFile {
+			get {
+				return this.queryFile;
+			} set {
+				this.queryFile = value;
+				this.querySource = new TextFileSource (value);
+			}
+		}
+
+		string GenerateFile {
+			get {
+				return this.queryFile;
+			}
+			set {
+				this.queryFile = value;
+				this.querySource = new GeneratedSqlTextFile(value);
 			}
 		}
 
 		protected override void Initialize (Settings settings)
 		{
 			this.DatasourceName = settings.GetString ("connection", "default");
-			this.ConnectionPool = new ConnectionPool (this.DatasourceName);
 
 			if (settings.Has ("query")) {
-				querySource = new PlainTextSource (settings.GetString ("query"));
+				this.Query = settings.GetString ("query");
 			} else if (settings.Has ("queryfile")) {
-				querySource = new TextFileSource (settings.GetString ("queryfile"));
+				this.QueryFile = settings.GetString ("queryfile");
+			} else if (settings.Has ("generate")) {
+				this.GenerateFile = settings.GetString ("generate");
 			} else {
-				throw new Exception ("Expected either 'query' or 'queryfile'");
+				throw new Exception("Expected either 'query', 'queryfile' or 'generate'");
 			}
 
 			this.ParameterNames = settings.GetStringList ("params");
 		}
 
-		private void GetCommand(IInteraction parameters) {
-
-
-			if (querySource.IsChanged) {
-				querySource.AcknowledgeChange ();
-
-				if (residentCommand == null) {
-					residentCommand = Connection.CreateCommand ();
-				}
-
-				residentCommand.CommandText = querySource.GetText ();
-			}
-
-			residentCommand.Parameters.Clear ();
-
-			foreach (string parameterName in this.ParameterNames) {
-				IDbDataParameter parameter = residentCommand.CreateParameter ();
-
-				object paramValue; 
-				if (parameters.TryGetFallback(parameterName, out paramValue)) {
-					parameter.ParameterName = parameterName;
-					parameter.Value = paramValue;
-				}
-
-				residentCommand.Parameters.Add (parameter);
-			}
+		IDbDataParameter CreateParameter (IDbCommand command, string name, object value)
+		{
+			IDbDataParameter parameter = command.CreateParameter ();
+			parameter.ParameterName = name;
+			parameter.Value = value;
+			return parameter;
 		}
 
-		public void RunCommand(
-			IInteraction parameters,
-			Action<IDbCommand> callback) {
+		protected void UseCommand(IInteraction parameters, Action<IDbCommand> callback) {
+			// using commands within a lock. how kinky.
+			// i guess you could call this
+			lock (Connection) {
+				using (IDbCommand command = Connection.CreateCommand ()) {
+					command.CommandText = this.querySource.GetText ();
 
-			callback (GetCommand(parameters));
-		}
+					foreach (string name in this.ParameterNames) {
+						// **puts on sunglasses**
+						object value;
+						if (parameters.TryGetFallback (name, out value)) {
+							command.Parameters.Add (CreateParameter (command, name, value));
+						}
+					}
+
+					callback (command);
+				}
+			}
+			// DBSM
+		}	
 	}
-
 }
-

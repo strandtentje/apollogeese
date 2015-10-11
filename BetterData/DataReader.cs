@@ -3,6 +3,7 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Data;
 using System.Collections.Generic;
 using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utensils.Collections;
 
 namespace BetterData
 {
@@ -11,20 +12,19 @@ namespace BetterData
 		public override string Description {
 			get {
 				return string.Format (
-					"Read with {0} from {1}",
-					QueryName, DatasourceName);
+					"Read from {0}", DatasourceName);
 			}
 		}
 
-		BranchesByNumber rowBranches = new BranchesByNumber ("row");
+		IntMap<Service> rowBranches = new IntMap<Service>();
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			base.HandleBranchChanged (sender, e);
 
-			rowBranches.SetBranch (e.Name, e.NewValue);
+			rowBranches.Set (e.Name, e.NewValue, "row_");
 
-			if (e.Name == "iterator") rowBranches.DefaultBranch = e.NewValue;
+			if (e.Name == "iterator") rowBranches.Default = e.NewValue;
 		}
 
 		Service None {
@@ -52,32 +52,30 @@ namespace BetterData
 		protected override bool Process (IInteraction parameters)
 		{
 			bool success = true;
+			IInteraction lastRow = parameters;
+			int currentRowNumber = -1;
 
-			IDataReader reader = TakeCommand (parameters).ExecuteReader ();
+			UseCommand (parameters, delegate(IDbCommand command) {
+				IDataReader reader = command.ExecuteReader();
+								
+				string[] columnNames = GetColumnNames (reader);
 
-			DataInteraction lastRow;
+				for (currentRowNumber = 0; reader.Read (); currentRowNumber++) {
+					object[] values = new object[reader.FieldCount];
 
-			string[] columnNames = GetColumnNames (reader);
+					reader.GetValues (values);
 
-			int currentRowNumber;
+					DataInteraction dataRow = new DataInteraction (parameters, columnNames, values);
+					lastRow = dataRow;
 
-			for (currentRowNumber = 0; reader.Read (); currentRowNumber++) {
-				object[] values = new object[reader.FieldCount];
-
-				reader.GetValues (values);
-
-				DataInteraction dataRow = new DataInteraction (parameters, columnNames, values);
-				lastRow = dataRow;
-
-				success &= rowBranches.Find (currentRowNumber).TryProcess (dataRow);
-			}
-
-			GiveCommand ();
+					success &= rowBranches[currentRowNumber].TryProcess (dataRow);
+				}
+			}); 
 
 			if (currentRowNumber == 0)
 				success &= None.TryProcess (parameters);
 			else if (currentRowNumber == 1)
-				success &= Single.TryProcess (parameters);
+				success &= Single.TryProcess (lastRow); 
 
 			return success;
 		}

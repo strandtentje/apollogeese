@@ -16,7 +16,7 @@ namespace BetterData
 
 		string ConnectionString;
 
-		static Map<IDbConnection> NamedConnections = new Map<IDbConnection>();
+		static Map<Connector> NamedConnectors = new Map<Connector>();
 
 		public override string Description {
 			get {
@@ -37,8 +37,12 @@ namespace BetterData
 			this.ConnectionString = settings.GetString (
 				"connectionstring");
 
+			NamedConnectors [this.Name] = this;
+		}
+
+		public IDbConnection GetNewConnection() {			
 			if (Type == "mysql") {
-				NamedConnections [this.Name] = new MySqlConnection (
+				return new MySqlConnection (
 					this.ConnectionString);
 			} else {
 				throw new MissingConnectorException (this.Type);
@@ -47,7 +51,7 @@ namespace BetterData
 
 		public static IDbConnection Find (string name)
 		{
-			return NamedConnections [name];
+			return NamedConnectors [name].GetNewConnection ();
 		}
 	}
 
