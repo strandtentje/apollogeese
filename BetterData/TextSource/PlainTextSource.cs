@@ -11,9 +11,15 @@ namespace BetterData
 {
 	class PlainTextSource : ITextSource
 	{
-		public PlainTextSource (string str)
+		private string Text;
+
+		public string GetText() {
+			return this.Text;
+		}
+
+		public PlainTextSource (string textString)
 		{
-			throw new NotImplementedException ();
+			this.Text = textString;
 		}
 	}
 
