@@ -9,7 +9,7 @@ using System.IO;
 
 namespace BetterData
 {
-	class PlainTextSource : ITextSource
+	class QueryLiteralSource : ITextSource
 	{
 		private string Text;
 
@@ -17,7 +17,7 @@ namespace BetterData
 			return this.Text;
 		}
 
-		public PlainTextSource (string textString)
+		public QueryLiteralSource (string textString)
 		{
 			this.Text = textString;
 		}

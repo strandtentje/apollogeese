@@ -9,13 +9,13 @@ using System.IO;
 
 namespace BetterData
 {
-	class TextFileSource : ITextSource
+	class QueryFileSource : ITextSource
 	{
 		protected string FilePath;
 		DateTime LastDate = DateTime.MaxValue; // this will absolutely break something
 		string CachedText;
 
-		public TextFileSource (string filePath)
+		public QueryFileSource (string filePath)
 		{
 			this.FilePath = filePath;
 		}
