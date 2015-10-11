@@ -27,7 +27,7 @@ namespace BetterData
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
-			Settings ["name"] = defaultParameter;
+			Settings ["connectionstring"] = defaultParameter;
 		}
 
 		protected override void Initialize (Settings settings)

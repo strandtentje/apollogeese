@@ -53,6 +53,7 @@ namespace BorrehSoft.ApolloGeese
 		
 			StartLog(logfolder);
 
+
 			InstanceLoader.GetInstances (config, true);
 		}
 	}
