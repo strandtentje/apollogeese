@@ -7,6 +7,8 @@
     <OutputType>Exe</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese</RootNamespace>
     <AssemblyName>agrun</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugType>none</DebugType>
@@ -91,6 +93,10 @@
     <ProjectReference Include="..\Imaging\Imaging.csproj">
       <Project>{529790BF-2C23-4ECF-903A-0101205BE635}</Project>
       <Name>Imaging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\BetterData\BetterData.csproj">
+      <Project>{303A62EB-3E24-45D3-8ED0-6EEEA66BA808}</Project>
+      <Name>BetterData</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
