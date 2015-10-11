@@ -8,6 +8,7 @@ using MySql.Data.MySqlClient;
 using System.IO;
 using System.Threading;
 using System.Collections.Generic;
+using BorrehSoft.Utensils.Log;
 
 namespace BetterData
 {
@@ -23,6 +24,17 @@ namespace BetterData
 				return this.DSN; 
 			}
 			set {
+				if (this.Connection != null) {
+					try {
+						this.Connection.Dispose();
+					} catch (Exception ex) {
+						Secretary.Report (5, "Disposing of old connection failed. " +
+							"This shouldn't be *that* bad depending on what it says " +
+							"down there:");
+						Secretary.Report (5, ex.Message);
+					}
+				}
+
 				this.DSN = value;
 				this.Connection = Connector.Find (value);
 			}
@@ -98,14 +110,16 @@ namespace BetterData
 		}
 
 		protected void UseCommand(IInteraction parameters, Action<IDbCommand> callback) {
-			// using commands within a lock. how kinky.
+			// using idb-commands within a lock. how kinky.
 			// i guess you could call this
+			// **puts on sunglasses**
+			// DBSM
+
 			lock (Connection) {
 				using (IDbCommand command = Connection.CreateCommand ()) {
 					command.CommandText = this.querySource.GetText ();
 
 					foreach (string name in this.ParameterNames) {
-						// **puts on sunglasses**
 						object value;
 						if (parameters.TryGetFallback (name, out value)) {
 							command.Parameters.Add (CreateParameter (command, name, value));
@@ -115,7 +129,6 @@ namespace BetterData
 					callback (command);
 				}
 			}
-			// DBSM
 		}	
 	}
 }
