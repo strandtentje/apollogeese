@@ -38,7 +38,7 @@ namespace BetterData
 		void ParseConditionClause (string[] sections, StreamWriter writer, int start)
 		{
 			if (sections.Length > start + 1) {
-				if (sections [start] == "by") {
+				if (sections [start].ToLower() == "by") {
 					writer.WriteLine (Clauses.Where, sections [start + 1]);
 				}
 			}
@@ -67,13 +67,15 @@ namespace BetterData
 
 		void ParseActionClause (string[] sections, StreamWriter writer)
 		{
-			if (sections [0] == "get") {
+			string foundAction = sections [0].ToLower ();
+
+			if (foundAction == "get") {
 				// get thing by id
 				DemandTablename (sections);
 				writer.WriteLine (Clauses.SelectAll, sections [1]);
 
 				ParseConditionClause (sections, writer, 2);
-			} else if (sections [0] == "set") {
+			} else if (foundAction == "set") {
 				// 0   1     2    3  4
 				// set thing name by id
 				DemandTablename (sections);
@@ -85,7 +87,7 @@ namespace BetterData
 					writer.WriteLine (Clauses.Set, sections [2]);
 					ParseConditionClause (sections, writer, 3);
 				}
-			} else if (sections [0] == "add") {
+			} else if (foundAction == "add") {
 				// add thing name color smell
 				// 0   1     2    3     4
 				DemandTablename (sections);
@@ -93,7 +95,7 @@ namespace BetterData
 				ParseSeries (sections, writer, "{0}", 2);
 				writer.Write (Clauses.Values);
 				ParseSeries (sections, writer, "@{0}", 2);
-			} else if (sections [0] == "del") {
+			} else if (foundAction == "del") {
 				// del thing by id
 				DemandTablename (sections);
 				writer.Write (Clauses.Delete, sections [1]);
@@ -107,7 +109,10 @@ namespace BetterData
 				FileInfo info = new FileInfo (FilePath);
 
 				using (StreamWriter writer = new StreamWriter(info.OpenWrite())) {
-					ParseActionClause (info.Name.ToLower().Split(' '), writer);
+					string TinyInstruction = info.Name.Substring (
+						0, info.Name.Length - ".auto.sql".Length);
+					ParseActionClause (
+						TinyInstruction.Split(' '), writer);
 				}
 			}
 			return base.GetText ();
