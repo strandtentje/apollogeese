@@ -10,10 +10,6 @@ namespace BetterData
 {
 	interface ITextSource
 	{
-		bool IsChanged { get; }
-
-		void AcknowledgeChange ();
-
 		string GetText ();
 	}
 
