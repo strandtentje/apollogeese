@@ -10,13 +10,17 @@ namespace InputProcessing
 {
 	public interface IIncomingKeyValueInteraction : IIncomingReaderInteraction
 	{
-		bool ReadNextName ();
+		bool ReadName ();
 
-		string GetCurrentName();
+		object ReadValue();
 
-		bool IsViewing { get; set; }
+		string GetName();
 
 		void SetCurrentValue (object value);
+
+		void SetCurrentAction (Service view);
+
+		Service GetAction (string actionName);
 	}
 
 }

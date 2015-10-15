@@ -41,8 +41,8 @@ namespace InputProcessing
 
 			IIncomingKeyValueInteraction kvParameters = GetReader (parameters);
 
-			while (kvParameters.ReadNextName()) {
-				string inputName = kvParameters.GetCurrentName();
+			while (kvParameters.ReadName()) {
+				string inputName = kvParameters.GetName();
 				if (Branches.Has (inputName)) {
 					isValidationSuccessful &= Branches [inputName].TryProcess (kvParameters);
 				} else {
@@ -51,8 +51,6 @@ namespace InputProcessing
 					isValidationSuccessful &= TollerateUnknownFields;
 				}
 			}
-
-			kvParameters.IsViewing = true;
 
 			bool isSuccessful = true;
 
@@ -65,7 +63,7 @@ namespace InputProcessing
 			if (AlwaysShowForm || !isValidationSuccessful) {
 				foreach(string orderName in FieldOrder) {
 					if (Branches.Has(orderName)) {
-						isSuccessful &= Branches[orderName].TryProcess(kvParameters);
+						isSuccessful &= kvParameters.GetAction (orderName).TryProcess (kvParameters);
 					} else {
 						throw new MissingBranchException(orderName);
 					}
