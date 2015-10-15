@@ -9,20 +9,21 @@ using System.IO;
 
 namespace BetterData
 {
-	class QueryFileSource : ITextSource
+	class SqlFileSource : SqlSource
 	{
 		protected string FilePath;
 		DateTime LastDate = DateTime.MaxValue; // this will absolutely break something
 		string CachedText;
 
-		public QueryFileSource (string filePath)
+		public SqlFileSource (string filePath)
 		{
 			this.FilePath = filePath;
 		}
 
-		public virtual string GetText() {
+		public override string GetText() {
 			DateTime CurrentDate = File.GetLastWriteTime (this.FilePath);
 			if (!CurrentDate.Equals (LastDate)) {
+				this.UnchangedFlag = false;
 				this.LastDate = CurrentDate;
 				this.CachedText = File.ReadAllText (this.FilePath);
 			}

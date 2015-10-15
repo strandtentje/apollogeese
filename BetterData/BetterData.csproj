@@ -7,8 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BetterData</RootNamespace>
     <AssemblyName>BetterData</AssemblyName>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -43,10 +41,10 @@
     <Compile Include="DataReader.cs" />
     <Compile Include="DataInteraction.cs" />
     <Compile Include="MissingConnectorException.cs" />
-    <Compile Include="TextSource\ITextSource.cs" />
-    <Compile Include="TextSource\PlainTextSource.cs" />
-    <Compile Include="TextSource\TextFileSource.cs" />
-    <Compile Include="TextSource\GeneratedSqlTextFile.cs" />
+    <Compile Include="TextSource\AutoSqlFileSource.cs" />
+    <Compile Include="TextSource\SqlSource.cs" />
+    <Compile Include="TextSource\SqlLiteralSource.cs" />
+    <Compile Include="TextSource\SqlFileSource.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -61,6 +59,10 @@
     <ProjectReference Include="..\Utilities\Logging\Logging.csproj">
       <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
       <Name>Logging</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Parsing\Parsing.csproj">
+      <Project>{274A8AFD-1DE7-47D8-98CD-925982D59DE0}</Project>
+      <Name>Parsing</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

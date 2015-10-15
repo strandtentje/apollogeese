@@ -11,7 +11,7 @@ using System.Collections.Generic;
 
 namespace BetterData
 {
-	class AutoQueryFileSource : QueryFileSource
+	class AutoSqlFileSource : SqlFileSource
 	{
 		class GeneratedSqlException : Exception
 		{
@@ -44,7 +44,7 @@ namespace BetterData
 			}
 		}
 
-		public AutoQueryFileSource (string filePath) : base(filePath)
+		public AutoSqlFileSource (string filePath) : base(filePath)
 		{
 		}
 

@@ -9,13 +9,12 @@ using System.IO;
 using System.Threading;
 using System.Collections.Generic;
 using BorrehSoft.Utensils.Log;
+using System.Text.RegularExpressions;
 
 namespace BetterData
 {
 	public abstract class Commander : Service
 	{
-		List<string> ParameterNames;
-
 		private string DSN;
 		private IDbConnection Connection;
 
@@ -40,45 +39,45 @@ namespace BetterData
 			}
 		}
 
-		private ITextSource querySource;
+		private SqlSource sqlSource;
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
 			if (File.Exists (defaultParameter)) {
-				Settings ["queryfile"] = defaultParameter;
+				Settings ["sqlfile"] = defaultParameter;
 			} else if (defaultParameter.ToLower().EndsWith (".auto.sql")) {
-				Settings ["generate"] = defaultParameter;
+				Settings ["autosql"] = defaultParameter;
 			} else {
-				Settings ["query"] = defaultParameter;
+				Settings ["sql"] = defaultParameter;
 			}
 		}
 
-		string queryFile;
+		string sqlFile;
 
-		string Query {
+		string SqlText {
 			get { 
-				return this.querySource.GetText ();
+				return this.sqlSource.GetText ();
 			} set {
-				this.querySource = new PlainTextSource (value);
+				this.sqlSource = new SqlLiteralSource (value);
 			}
 		}
 
-		string QueryFile {
+		string SqlFile {
 			get {
-				return this.queryFile;
+				return this.sqlFile;
 			} set {
-				this.queryFile = value;
-				this.querySource = new TextFileSource (value);
+				this.sqlFile = value;
+				this.sqlSource = new SqlFileSource (value);
 			}
 		}
 
-		string GenerateFile {
+		string AutoSqlFile {
 			get {
-				return this.queryFile;
+				return this.sqlFile;
 			}
 			set {
-				this.queryFile = value;
-				this.querySource = new GeneratedSqlTextFile(value);
+				this.sqlFile = value;
+				this.sqlSource = new AutoSqlFileSource(value);
 			}
 		}
 
@@ -86,17 +85,15 @@ namespace BetterData
 		{
 			this.DatasourceName = settings.GetString ("connection", "default");
 
-			if (settings.Has ("query")) {
-				this.Query = settings.GetString ("query");
-			} else if (settings.Has ("queryfile")) {
-				this.QueryFile = settings.GetString ("queryfile");
-			} else if (settings.Has ("generate")) {
-				this.GenerateFile = settings.GetString ("generate");
+			if (settings.Has ("sql")) {
+				this.SqlText = settings.GetString ("sql");
+			} else if (settings.Has ("sqlfile")) {
+				this.SqlFile = settings.GetString ("sqlfile");
+			} else if (settings.Has ("autosql")) {
+				this.AutoSqlFile = settings.GetString ("autosql");
 			} else {
-				throw new Exception("Expected either 'query', 'queryfile' or 'generate'");
+				throw new Exception("Expected either 'sql', 'sqlfile' or 'autosql'");
 			}
-
-			this.ParameterNames = settings.GetStringList ("params");
 		}
 
 		IDbDataParameter CreateParameter (IDbCommand command, string name, object value)
@@ -115,9 +112,9 @@ namespace BetterData
 
 			lock (Connection) {
 				using (IDbCommand command = Connection.CreateCommand ()) {
-					command.CommandText = this.querySource.GetText ();
+					command.CommandText = this.sqlSource.GetText();
 
-					foreach (string name in this.ParameterNames) {
+					foreach (string name in this.sqlSource.GetParameterNames()) {
 						object value;
 						if (parameters.TryGetFallback (name, out value)) {
 							command.Parameters.Add (CreateParameter (command, name, value));

@@ -5,12 +5,22 @@ using System.Data;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
+using System.IO;
 
 namespace BetterData
 {
-	interface ITextSource
+	class SqlLiteralSource : SqlSource
 	{
-		string GetText ();
+		private string Text;
+
+		public override string GetText() {
+			return this.Text;
+		}
+
+		public SqlLiteralSource (string textString)
+		{
+			this.Text = textString;
+		}
 	}
 
 
