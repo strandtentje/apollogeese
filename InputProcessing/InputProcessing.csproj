@@ -44,10 +44,11 @@
     <Compile Include="FieldBased\FailureWrapperInteraction.cs" />
     <Compile Include="Seperated\IIncomingKeyValueInteraction.cs" />
     <Compile Include="Seperated\InputListing.cs" />
-    <Compile Include="Seperated\UrlEncoded\UrlForm.cs" />
-    <Compile Include="Seperated\UrlEncoded\UrlKeyValueInteraction.cs" />
-    <Compile Include="Seperated\Fields\ValueField.cs" />
-    <Compile Include="Seperated\UrlEncoded\ReluctantTextReader.cs" />
+    <Compile Include="Seperated\Forms\Fields\ValueField.cs" />
+    <Compile Include="Seperated\Forms\Form.cs" />
+    <Compile Include="Seperated\Forms\ReluctantTextReader.cs" />
+    <Compile Include="Seperated\Forms\UrlEncoded\UrlForm.cs" />
+    <Compile Include="Seperated\Forms\UrlEncoded\UrlKeyValueInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -80,7 +81,6 @@
     <Folder Include="FieldBased\" />
     <Folder Include="Hackjobs\" />
     <Folder Include="Seperated\" />
-    <Folder Include="Seperated\UrlEncoded\" />
-    <Folder Include="Seperated\Fields\" />
+    <Folder Include="Seperated\Forms\" />
   </ItemGroup>
 </Project>

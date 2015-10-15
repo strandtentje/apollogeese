@@ -5,10 +5,8 @@ using System.IO;
 
 namespace InputProcessing
 {
-	public class UrlForm : InputListing
+	public abstract class Form : InputListing
 	{
-		string sourceName;
-
 		bool IsBodySource {
 			get;
 			set;
@@ -18,6 +16,8 @@ namespace InputProcessing
 			get;
 			set;
 		}
+
+		string sourceName;
 
 		[Instruction("Source for URL-encoded data", "body")]
 		public string Source {
@@ -83,7 +83,7 @@ namespace InputProcessing
 			return reader;
 		}
 
-		TextReader GetTextReader (IInteraction parameters)
+		public TextReader GetTextReader (IInteraction parameters)
 		{
 			if (IsBodySource) {
 				return GetBodyTextReader (parameters);
@@ -91,12 +91,5 @@ namespace InputProcessing
 				return GetContextTextReader (parameters);
 			}
 		}
-
-		protected override IIncomingKeyValueInteraction GetReader (IInteraction parameters)
-		{
-			return new UrlKeyValueInteraction (parameters, GetTextReader(parameters));
-
-		}
 	}
 }
-

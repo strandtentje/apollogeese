@@ -22,7 +22,7 @@ namespace InputProcessing
 		[Instruction("Always show form", false)]
 		public bool AlwaysShowForm { get; set; }
 
-		[Instruction("Fail the form reading session if unknown fields were tossen in", false)]
+		[Instruction("Fail the form reading session if unknown fields were tossed in", false)]
 		public bool TollerateUnknownFields { get; set; }
 
 
