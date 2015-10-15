@@ -44,11 +44,14 @@
     <Compile Include="FieldBased\FailureWrapperInteraction.cs" />
     <Compile Include="Seperated\IIncomingKeyValueInteraction.cs" />
     <Compile Include="Seperated\InputListing.cs" />
-    <Compile Include="Seperated\Forms\Fields\ValueField.cs" />
     <Compile Include="Seperated\Forms\Form.cs" />
     <Compile Include="Seperated\Forms\ReluctantTextReader.cs" />
     <Compile Include="Seperated\Forms\UrlEncoded\UrlForm.cs" />
     <Compile Include="Seperated\Forms\UrlEncoded\UrlKeyValueInteraction.cs" />
+    <Compile Include="Seperated\Forms\Fields\ValueField.cs" />
+    <Compile Include="Seperated\Forms\Fields\DecimalField.cs" />
+    <Compile Include="Seperated\Forms\Fields\Field.cs" />
+    <Compile Include="Seperated\Forms\Fields\TextField.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
