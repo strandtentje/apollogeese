@@ -5,64 +5,70 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace InputProcessing
 {
-	public abstract class ValueField : TwoBranchedService
+	/// <summary>
+	/// Value field.
+	/// </summary>
+	public abstract class ValueField<T> : Field<T> where T : IComparable
 	{
-		public override string Description {
-			get {
-				throw new NotImplementedException ();
-			}
+		
+		[Instruction("Minimal value for this field")]
+		public T Min {
+			get;
+			set;
 		}
 
-		public override void LoadDefaultParameters (string defaultParameter)
-		{
-
+		[Instruction("Maximal value for this field")]
+		public T Max {
+			get;
+			set;
 		}
 
-		private Service View { get;	set; }
+		/// <summary>
+		/// Proxy for T.TryParse
+		/// </summary>
+		/// <returns><c>true</c>, if parse was successful, <c>false</c> otherwise.</returns>
+		/// <param name="serial">Serial data.</param>
+		/// <param name="data">Data.</param>
+		public abstract bool TryParse (string serial, out T data);
 
-		[Instruction("Use minimal limit when set to true", false)]
-		public bool UseMin { get; private set; }
+		/// <summary>
+		/// Finds the action for value.
+		/// </summary>
+		/// <returns>The action for value.</returns>
+		/// <param name="valueCandidate">Value candidate.</param>
+		/// <param name="value">Value.</param>
+		private Service FindActionForValue(object valueCandidate, out T value) {
+			Service action;
+			bool gotValue = false;
 
-		[Instruction("Use maximal limit when set to true", false)]
-		public bool UseMax { get; private set; }
+			value = this.Default;
 
-		protected override void Initialize (Settings settings)
-		{
-			this.UseMin = settings.GetBool ("usemin", false);
-			this.UseMax = settings.GetBool ("usemax", false);
-		}
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			base.HandleBranchChanged (sender, e);
-
-			if (e.Name == "view")
-				this.View = e.NewValue;
-		}
-			
-		protected override bool Process (IInteraction parameters)
-		{
-			bool successful = true;
-			IInteraction formInteractionCandidate;
-
-
-
-			if (parameters.TryGetClosest (typeof(IIncomingKeyValueInteraction), out formInteractionCandidate)) {
-				IIncomingKeyValueInteraction formInteraction = (IIncomingKeyValueInteraction)formInteractionCandidate;
-
-				if (formInteraction.IsViewing) {
-					successful = this.View.TryProcess (parameters);
+			if (valueCandidate is T) {
+				value = (T)valueCandidate;
+				gotValue = true;
+			} else if (valueCandidate is string) {
+				if (TryParse ((string)valueCandidate, out value)) {
+					gotValue = true;
 				} else {
-					object valueCandidate;
-					/* 
-					if (TryReadValue (formInteraction, out valueCandidate)) {
-
-					}
-					formInteraction.SetCurrentValue (ReadValue ());*/
+					action = Branches.Get ("badformat", this.Failure);
 				}
+			} else {
+				action = Branches.Get ("badtype", this.Failure);
 			}
 
-			return false;
+			if (gotValue || !this.IsRequired) {
+				if (this.Min.CompareTo(value) > 0) {
+					action = Branches.Get ("toolow", this.Failure);
+				} else if (this.Max.CompareTo(value) < 0) {
+					action = Branches.Get ("toohigh", this.Failure);
+				} else {
+					action = this.Successful;
+				}
+			} else {
+				action = Branches.Get("missing", this.Failure);
+			}
+
+			return action;
 		}
 	}
 }
