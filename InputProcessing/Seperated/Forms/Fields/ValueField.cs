@@ -29,7 +29,7 @@ namespace InputProcessing
 		/// <returns><c>true</c>, if parse was successful, <c>false</c> otherwise.</returns>
 		/// <param name="serial">Serial data.</param>
 		/// <param name="data">Data.</param>
-		public abstract bool TryParse (string serial, out T data);
+		public abstract bool TryParse (object serial, out T data);
 
 		/// <summary>
 		/// Finds the action for value.
@@ -46,14 +46,10 @@ namespace InputProcessing
 			if (valueCandidate is T) {
 				value = (T)valueCandidate;
 				gotValue = true;
-			} else if (valueCandidate is string) {
-				if (TryParse ((string)valueCandidate, out value)) {
-					gotValue = true;
-				} else {
-					action = Branches.Get ("badformat", this.Failure);
-				}
+			} else if (TryParse (valueCandidate, out value)) {
+				gotValue = true;
 			} else {
-				action = Branches.Get ("badtype", this.Failure);
+				action = Branches.Get ("badformat", this.Failure);
 			}
 
 			if (gotValue || !this.IsRequired) {

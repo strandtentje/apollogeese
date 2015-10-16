@@ -17,9 +17,10 @@ namespace InputProcessing
 			this.Max = settings.GetDecimal ("max", decimal.MaxValue);
 		}
 
-		public override bool TryParse (string serial, out decimal data)
+		public override bool TryParse (object serial, out decimal data)
 		{
-			return decimal.TryParse (serial, out data);
+			// i'm so proud of this hack
+			return decimal.TryParse (serial.ToString(), out data);
 		}
 	}
 }
