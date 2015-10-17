@@ -15,6 +15,8 @@ namespace InputProcessing
 
 		object ReadValue();
 
+		bool Readable { get; set; }
+
 		string GetName();
 
 		void SetCurrentValue (object value);
