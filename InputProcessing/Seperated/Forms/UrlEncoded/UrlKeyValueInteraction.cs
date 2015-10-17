@@ -12,13 +12,13 @@ namespace InputProcessing
 	{
 		ReluctantTextReader dataReader;
 
-		public Map<Service> Actions { get; set; }
+		public Map<Service> Feedback { get; set; }
 
 		string currentName;
 
 		public UrlKeyValueInteraction (IInteraction parent, TextReader dataReader) : base(parent)
 		{
-			this.Actions = new Map<Service> ();
+			this.Feedback = new Map<Service> ();
 			this.dataReader = new ReluctantTextReader (dataReader);
 		}
 

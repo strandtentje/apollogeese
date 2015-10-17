@@ -8,6 +8,9 @@ using BorrehSoft.Utensils.Log;
 
 namespace InputProcessing
 {
+	/// <summary>
+	/// Lists inputs; fires up validators.
+	/// </summary>
 	public abstract class InputListing : TwoBranchedService
 	{
 		public override string Description {
@@ -36,38 +39,54 @@ namespace InputProcessing
 			this.PositiveFeedback = settings.GetBool ("positivefeedback", false);
 		}
 
+		/// <summary>
+		/// Gets the reader for input data.
+		/// </summary>
+		/// <returns>The reader.</returns>
+		/// <param name="parameters">Parameters.</param>
 		protected abstract IIncomingKeyValueInteraction GetReader (IInteraction parameters);
 
-		bool ValidateInput (IIncomingKeyValueInteraction kvParameters, string inputName)
+		/// <summary>
+		/// Validates single input by name
+		/// </summary>
+		/// <returns><c>true</c>, if input was validated, <c>false</c> otherwise.</returns>
+		/// <param name="kvParameters">Kv parameters.</param>
+		/// <param name="inputName">Input name.</param>
+		bool ValidateInput (IIncomingKeyValueInteraction rawInput, string inputName)
 		{			
 			if (Branches.Has (inputName)) {
-				return Branches [inputName].TryProcess (kvParameters);
+				return Branches [inputName].TryProcess (rawInput);
 			} else {
 				Secretary.Report (3, "No handler for field", inputName);
 				return TollerateUnknownFields;
 			}
 		}
 
-		bool ValidateInput(IIncomingKeyValueInteraction kvParameters) {			
+		/// <summary>
+		/// Validates multiple inputs by kv-pairs
+		/// </summary>
+		/// <returns><c>true</c>, if input was valid, <c>false</c> otherwise.</returns>
+		/// <param name="kvParameters">Kv parameters.</param>
+		bool ValidateInput(IIncomingKeyValueInteraction rawInput) {			
 			bool isValidationSuccessful = true;
 
 			List<string> remainingFields = new List<string> (FieldOrder);
 
-			kvParameters.Readable = true;
+			rawInput.IsValueAvailable = true;
 
-			while (kvParameters.ReadName()) {
-				string inputName = kvParameters.GetName();
+			while (rawInput.ReadName()) {
+				string inputName = rawInput.GetName();
 				if (remainingFields.Remove (inputName)) {
-					isValidationSuccessful &= ValidateInput (kvParameters, inputName);
+					isValidationSuccessful &= ValidateInput (rawInput, inputName);
 				} else {
 					Secretary.Report (3, "Field literally not in order:", inputName);
 				}
 			}
 
-			kvParameters.Readable = false;
+			rawInput.IsValueAvailable = false;
 
 			foreach (string fieldName in remainingFields) {
-				isValidationSuccessful &= ValidateInput (kvParameters, fieldName);
+				isValidationSuccessful &= ValidateInput (rawInput, fieldName);
 			}
 
 			return isValidationSuccessful;
@@ -87,10 +106,9 @@ namespace InputProcessing
 				isSuccessful &= Failure.TryProcess (kvParameters);
 			}
 
-			if ((NegativeFeedback != isValid) || (PositiveFeedback == isValid)) {
+			if ((NegativeFeedback == !isValid) || (PositiveFeedback == isValid)) {
 				foreach(string orderName in FieldOrder) {
-					Service feedback = kvParameters.Actions.Get (
-						orderName, Branches [orderName]);
+					Service feedback = kvParameters.Feedback.Get (orderName, Branches [orderName]);
 					isSuccessful &= feedback.TryProcess (kvParameters);
 				}
 			}
@@ -99,4 +117,3 @@ namespace InputProcessing
 		}
 	}
 }
-
