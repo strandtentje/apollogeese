@@ -12,15 +12,13 @@ namespace InputProcessing
 	{
 		ReluctantTextReader dataReader;
 
-		Map<Service> ActionMap {
-			get;
-			set;
-		}
+		public Map<Service> Actions { get; set; }
 
 		string currentName;
 
 		public UrlKeyValueInteraction (IInteraction parent, TextReader dataReader) : base(parent)
 		{
+			this.Actions = new Map<Service> ();
 			this.dataReader = new ReluctantTextReader (dataReader);
 		}
 
@@ -56,14 +54,6 @@ namespace InputProcessing
 
 		public void SetCurrentValue(object value) {
 			this [GetName ()] = value;
-		}
-
-		public void SetCurrentAction(Service action) {
-			this.ActionMap [GetName ()] = action;
-		}
-
-		public Service GetAction(string name) {
-			return this.ActionMap[name];
 		}
 	}
 }

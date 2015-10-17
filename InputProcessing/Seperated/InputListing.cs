@@ -41,15 +41,20 @@ namespace InputProcessing
 
 			IIncomingKeyValueInteraction kvParameters = GetReader (parameters);
 
+			List<string> unprocessedFields = new List<string> (FieldOrder);
+
 			while (kvParameters.ReadName()) {
 				string inputName = kvParameters.GetName();
-				if (Branches.Has (inputName)) {
+				if (Branches.Has (inputName) && unprocessedFields.Remove(inputName)) {
 					isValidationSuccessful &= Branches [inputName].TryProcess (kvParameters);
 				} else {
-					Secretary.Report (3, "Input contained field named", 
-						inputName, "- we don't have a validator for that.");
+					Secretary.Report (3, "Unknown field name", inputName);
 					isValidationSuccessful &= TollerateUnknownFields;
 				}
+			}
+
+			foreach (string fieldName in unprocessedFields) {
+				kvParameters.Actions [fieldName] = Branches [fieldName];
 			}
 
 			bool isSuccessful = true;
@@ -63,9 +68,8 @@ namespace InputProcessing
 			if (AlwaysShowForm || !isValidationSuccessful) {
 				foreach(string orderName in FieldOrder) {
 					if (Branches.Has(orderName)) {
-						isSuccessful &= kvParameters.GetAction (orderName).TryProcess (kvParameters);
-					} else {
-						throw new MissingBranchException(orderName);
+						Service action = kvParameters.Actions.Get (orderName, Branches [orderName]);
+						isSuccessful &= action.TryProcess (kvParameters);
 					}
 				}
 			}

@@ -18,9 +18,7 @@ namespace InputProcessing
 
 		void SetCurrentValue (object value);
 
-		void SetCurrentAction (Service view);
-
-		Service GetAction (string actionName);
+		Map<Service> Actions { get; set; }
 	}
 
 }
