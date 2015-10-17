@@ -48,13 +48,17 @@ namespace InputProcessing
 				if (Branches.Has (inputName) && unprocessedFields.Remove(inputName)) {
 					isValidationSuccessful &= Branches [inputName].TryProcess (kvParameters);
 				} else {
-					Secretary.Report (3, "Unknown field name", inputName);
+					Secretary.Report (3, "Unknown field name provided", inputName);
 					isValidationSuccessful &= TollerateUnknownFields;
 				}
 			}
 
 			foreach (string fieldName in unprocessedFields) {
-				kvParameters.Actions [fieldName] = Branches [fieldName];
+				if (Branches.Has (fieldName)) {
+					kvParameters.Actions [fieldName] = Branches [fieldName];
+				} else {
+					Secretary.Report (3, "Unknown field name provided", fieldName);
+				}
 			}
 
 			bool isSuccessful = true;
