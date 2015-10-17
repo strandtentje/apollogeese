@@ -19,8 +19,11 @@ namespace InputProcessing
 		[Instruction("Order of fields")]
 		public IEnumerable<string> FieldOrder { get; set; }
 
-		[Instruction("Always show form", false)]
-		public bool AlwaysShowForm { get; set; }
+		[Instruction("Show form when it was filled incorrectly", true)]
+		public bool NegativeFeedback { get; set; }
+
+		[Instruction("Show form when it was filled correctly", false)]
+		public bool PositiveFeedback { get; set; }
 
 		[Instruction("Fail the form reading session if unknown fields were tossed in", false)]
 		public bool TollerateUnknownFields { get; set; }
@@ -29,52 +32,66 @@ namespace InputProcessing
 		protected override void Initialize (Settings settings)
 		{
 			this.FieldOrder = settings.GetStringList ("fieldorder");
-			this.AlwaysShowForm = settings.GetBool ("alwaysshowform", false);
-			this.TollerateUnknownFields = settings.GetBool ("tollerateunknownfields", true);
+			this.NegativeFeedback = settings.GetBool ("negativefeedback", true);
+			this.PositiveFeedback = settings.GetBool ("positivefeedback", false);
 		}
 
 		protected abstract IIncomingKeyValueInteraction GetReader (IInteraction parameters);
 
-		protected override bool Process (IInteraction parameters)
-		{
+		bool ValidateInput (IIncomingKeyValueInteraction kvParameters, string inputName)
+		{			
+			if (Branches.Has (inputName)) {
+				return Branches [inputName].TryProcess (kvParameters);
+			} else {
+				Secretary.Report (3, "No handler for field", inputName);
+				return TollerateUnknownFields;
+			}
+		}
+
+		bool ValidateInput(IIncomingKeyValueInteraction kvParameters) {			
 			bool isValidationSuccessful = true;
 
-			IIncomingKeyValueInteraction kvParameters = GetReader (parameters);
+			List<string> remainingFields = new List<string> (FieldOrder);
 
-			List<string> unprocessedFields = new List<string> (FieldOrder);
+			kvParameters.Readable = true;
 
 			while (kvParameters.ReadName()) {
 				string inputName = kvParameters.GetName();
-				if (Branches.Has (inputName) && unprocessedFields.Remove(inputName)) {
-					isValidationSuccessful &= Branches [inputName].TryProcess (kvParameters);
+				if (remainingFields.Remove (inputName)) {
+					isValidationSuccessful &= ValidateInput (kvParameters, inputName);
 				} else {
-					Secretary.Report (3, "Unknown field name provided", inputName);
-					isValidationSuccessful &= TollerateUnknownFields;
+					Secretary.Report (3, "Field literally not in order:", inputName);
 				}
 			}
 
-			foreach (string fieldName in unprocessedFields) {
-				if (Branches.Has (fieldName)) {
-					kvParameters.Actions [fieldName] = Branches [fieldName];
-				} else {
-					Secretary.Report (3, "Unknown field name provided", fieldName);
-				}
+			kvParameters.Readable = false;
+
+			foreach (string fieldName in remainingFields) {
+				isValidationSuccessful &= ValidateInput (kvParameters, fieldName);
 			}
+
+			return isValidationSuccessful;
+		}
+
+		protected override bool Process (IInteraction parameters)
+		{
+			IIncomingKeyValueInteraction kvParameters = GetReader (parameters);
+
+			bool isValid = ValidateInput (kvParameters);
 
 			bool isSuccessful = true;
 
-			if (isValidationSuccessful) {
+			if (isValid) {
 				isSuccessful &= Successful.TryProcess (kvParameters);
 			} else {
 				isSuccessful &= Failure.TryProcess (kvParameters);
 			}
 
-			if (AlwaysShowForm || !isValidationSuccessful) {
+			if ((NegativeFeedback != isValid) || (PositiveFeedback == isValid)) {
 				foreach(string orderName in FieldOrder) {
-					if (Branches.Has(orderName)) {
-						Service action = kvParameters.Actions.Get (orderName, Branches [orderName]);
-						isSuccessful &= action.TryProcess (kvParameters);
-					}
+					Service feedback = kvParameters.Actions.Get (
+						orderName, Branches [orderName]);
+					isSuccessful &= feedback.TryProcess (kvParameters);
 				}
 			}
 
