@@ -34,10 +34,30 @@ namespace InputProcessing
 
 		private abstract Service FindActionForValue (object valueCandidate, out T value);
 
+		protected Service BadFormat {
+			get {
+				return Branches.Get ("badformat", this.Failure);
+			}
+		}
+
+		protected Service Missing {
+			get {
+				return Branches.Get("missing", this.Failure);
+			}
+		}
+
+		protected Service View {
+			get {
+				return Branches.Get ("view", this.Successful);
+			}
+		}
+
 		protected override bool Process (IInteraction parameters)
 		{
 			bool successful = true;
 			IInteraction formInteractionCandidate;
+
+			Service action = this.View;
 
 			if (parameters.TryGetClosest (
 				typeof(IIncomingKeyValueInteraction), 
@@ -47,15 +67,15 @@ namespace InputProcessing
 					(IIncomingKeyValueInteraction)formInteractionCandidate;
 
 				T value;
-				Service action = FindActionForValue (
+				action = FindActionForValue (
 					formInteraction.ReadValue (), 
 					out value);
 
 				formInteraction.SetCurrentValue (value);
 				formInteraction.SetCurrentAction (action);
-
-				successful = action == this.Successful;
 			}
+
+			successful = action == this.Successful;
 
 			return successful;
 		}

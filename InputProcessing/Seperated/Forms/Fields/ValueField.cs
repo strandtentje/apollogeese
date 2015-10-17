@@ -31,6 +31,18 @@ namespace InputProcessing
 		/// <param name="data">Data.</param>
 		public abstract bool TryParse (object serial, out T data);
 
+		protected Service TooLow {
+			get {
+				return Branches.Get ("toolow", this.Failure);
+			}
+		}
+
+		protected Service TooHigh {
+			get {
+				return Branches.Get ("toohigh", this.Failure);
+			}
+		}
+
 		/// <summary>
 		/// Finds the action for value.
 		/// </summary>
@@ -49,19 +61,19 @@ namespace InputProcessing
 			} else if (TryParse (valueCandidate, out value)) {
 				gotValue = true;
 			} else {
-				action = Branches.Get ("badformat", this.Failure);
+				action = this.BadFormat;
 			}
 
 			if (gotValue || !this.IsRequired) {
 				if (this.Min.CompareTo(value) > 0) {
-					action = Branches.Get ("toolow", this.Failure);
+					action = this.TooLow;
 				} else if (this.Max.CompareTo(value) < 0) {
-					action = Branches.Get ("toohigh", this.Failure);
+					action = this.TooHigh;
 				} else {
 					action = this.Successful;
 				}
 			} else {
-				action = Branches.Get("missing", this.Failure);
+				action = this.Missing;
 			}
 
 			return action;
