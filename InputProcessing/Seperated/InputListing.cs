@@ -28,15 +28,25 @@ namespace InputProcessing
 		[Instruction("Show form when it was filled correctly", false)]
 		public bool PositiveFeedback { get; set; }
 
-		[Instruction("Fail the form reading session if unknown fields were tossed in", false)]
-		public bool TollerateUnknownFields { get; set; }
+		[Instruction("Show conclusion of input processing before providing feedback", true)]
+		public bool ConcludeBefore { get; set; }
 
+		[Instruction("Show conclusion of input processing after providing feedback", false)]
+		public bool ConcludeAfter { get; set; }
+
+		public Service Empty { 
+			get {
+				return Branches.Get ("empty", this.Failure);
+			}
+		}
 
 		protected override void Initialize (Settings settings)
 		{
 			this.FieldOrder = settings.GetStringList ("fieldorder");
 			this.NegativeFeedback = settings.GetBool ("negativefeedback", true);
 			this.PositiveFeedback = settings.GetBool ("positivefeedback", false);
+			this.ConcludeBefore = settings.GetBool ("concludebefore", true);
+			this.ConcludeAfter = settings.GetBool ("concludeafter", false);
 		}
 
 		/// <summary>
@@ -44,7 +54,26 @@ namespace InputProcessing
 		/// </summary>
 		/// <returns>The reader.</returns>
 		/// <param name="parameters">Parameters.</param>
-		protected abstract IIncomingKeyValueInteraction GetReader (IInteraction parameters);
+		protected abstract IRawInputInteraction GetReader (IInteraction parameters);
+
+		/// <summary>
+		/// Try to branch for unfamiliar input
+		/// </summary>
+		/// <returns><c>true</c>, if branch was tryed, <c>false</c> otherwise.</returns>
+		/// <param name="branchName">Branch name.</param>
+		/// <param name="rawInput">Raw input.</param>
+		/// <param name="inputName">Input name.</param>
+		/// <param name="successful">If set to <c>true</c> successful.</param>
+		bool TryBranch (string branchName, IRawInputInteraction rawInput, string inputName, bool successful = false)
+		{			
+			if (Branches.Has (branchName)) {
+				successful = Branches [branchName].TryProcess (
+					new KeyValueInteraction (rawInput, inputName, 
+				                         rawInput.ReadInput ()));
+			}
+
+			return successful;
+		}
 
 		/// <summary>
 		/// Validates single input by name
@@ -52,13 +81,12 @@ namespace InputProcessing
 		/// <returns><c>true</c>, if input was validated, <c>false</c> otherwise.</returns>
 		/// <param name="kvParameters">Kv parameters.</param>
 		/// <param name="inputName">Input name.</param>
-		bool ValidateInput (IIncomingKeyValueInteraction rawInput, string inputName)
+		bool ValidateInput (IRawInputInteraction rawInput, string inputName)
 		{			
 			if (Branches.Has (inputName)) {
 				return Branches [inputName].TryProcess (rawInput);
-			} else {
-				Secretary.Report (3, "No handler for field", inputName);
-				return TollerateUnknownFields;
+			} else {			
+				return TryBranch("iterator", rawInput, inputName);
 			}
 		}
 
@@ -67,23 +95,24 @@ namespace InputProcessing
 		/// </summary>
 		/// <returns><c>true</c>, if input was valid, <c>false</c> otherwise.</returns>
 		/// <param name="kvParameters">Kv parameters.</param>
-		bool ValidateInput(IIncomingKeyValueInteraction rawInput) {			
+		bool ValidateInput(IRawInputInteraction rawInput) {			
 			bool isValidationSuccessful = true;
 
 			List<string> remainingFields = new List<string> (FieldOrder);
 
-			rawInput.IsValueAvailable = true;
+			rawInput.HasValuesAvailable = true;
 
-			while (rawInput.ReadName()) {
-				string inputName = rawInput.GetName();
+			while (rawInput.ReadNextName()) {
+				rawInput.InputCount++;
+				string inputName = rawInput.GetCurrentName();
 				if (remainingFields.Remove (inputName)) {
 					isValidationSuccessful &= ValidateInput (rawInput, inputName);
 				} else {
-					Secretary.Report (3, "Field literally not in order:", inputName);
+					isValidationSuccessful &= TryBranch ("catchall", rawInput, inputName);
 				}
 			}
 
-			rawInput.IsValueAvailable = false;
+			rawInput.HasValuesAvailable = false;
 
 			foreach (string fieldName in remainingFields) {
 				isValidationSuccessful &= ValidateInput (rawInput, fieldName);
@@ -92,28 +121,50 @@ namespace InputProcessing
 			return isValidationSuccessful;
 		}
 
-		protected override bool Process (IInteraction parameters)
-		{
-			IIncomingKeyValueInteraction kvParameters = GetReader (parameters);
-
-			bool isValid = ValidateInput (kvParameters);
-
-			bool isSuccessful = true;
-
-			if (isValid) {
-				isSuccessful &= Successful.TryProcess (kvParameters);
-			} else {
-				isSuccessful &= Failure.TryProcess (kvParameters);
-			}
-
-			if ((NegativeFeedback == !isValid) || (PositiveFeedback == isValid)) {
-				foreach(string orderName in FieldOrder) {
-					Service feedback = kvParameters.Feedback.Get (orderName, Branches [orderName]);
-					isSuccessful &= feedback.TryProcess (kvParameters);
+		/// <summary>
+		/// Gets the conclusion.
+		/// </summary>
+		/// <returns>The conclusion.</returns>
+		/// <param name="kvParameters">Kv parameters.</param>
+		/// <param name="isValid">If set to <c>true</c> is valid.</param>
+		/// <param name="showFeedback">Show feedback.</param>
+		Service GetConclusion(IRawInputInteraction kvParameters, bool isValid, out bool showFeedback) {
+			Service conclusion = Empty;
+			showFeedback = NegativeFeedback;
+						
+			if (kvParameters.InputCount > 0) {
+				if (isValid) {
+					conclusion = Successful;
+					showFeedback = PositiveFeedback;
+				} else {
+					conclusion = Failure;
 				}
 			}
 
-			return isSuccessful;
+			return conclusion;
+		}
+
+		protected override bool Process (IInteraction parameters)
+		{
+			IRawInputInteraction kvParameters = GetReader (parameters);
+
+			bool isValid = ValidateInput (kvParameters);
+
+			bool showFeedback = false;
+			Service conclusion = GetConclusion (kvParameters, isValid, out showFeedback);
+
+			bool success = !this.ConcludeBefore || conclusion.TryProcess (kvParameters);
+
+			if (showFeedback) {
+				foreach(string orderName in FieldOrder) {
+					Service feedback = kvParameters.Feedback.Get (orderName, Branches [orderName]);
+					success &= feedback.TryProcess (kvParameters);
+				}
+			}
+
+			success &= !this.ConcludeAfter || conclusion.TryProcess(kvParameters);
+
+			return success;
 		}
 	}
 }

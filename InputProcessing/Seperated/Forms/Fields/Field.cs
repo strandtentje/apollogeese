@@ -32,7 +32,7 @@ namespace InputProcessing
 			this.IsRequired = settings.GetBool ("required", false);
 		}
 
-		private abstract Service FindActionForValue (object valueCandidate, out T value);
+		protected abstract Service GetFeedbackForInput (object rawInput, out T value);
 
 		protected Service BadFormat {
 			get {
@@ -57,25 +57,31 @@ namespace InputProcessing
 			bool successful = true;
 			IInteraction formInteractionCandidate;
 
-			Service action = this.View;
+			Service feedback = this.View;
 
 			if (parameters.TryGetClosest (
-				typeof(IIncomingKeyValueInteraction), 
+				typeof(IRawInputInteraction), 
 				out formInteractionCandidate)
 			) {
-				IIncomingKeyValueInteraction formInteraction = 
-					(IIncomingKeyValueInteraction)formInteractionCandidate;
+				IRawInputInteraction formInteraction = 
+					(IRawInputInteraction)formInteractionCandidate;
 
-				T value;
-				action = FindActionForValue (
-					formInteraction.ReadValue (), 
-					out value);
+				if (formInteraction.HasValuesAvailable) {
+					T processedValue;
 
-				formInteraction.SetCurrentValue (value);
-				formInteraction.SetCurrentAction (action);
+					feedback = GetFeedbackForInput (
+						formInteraction.ReadInput (), 
+						out processedValue);
+
+					formInteraction.SetProcessedValue (processedValue);
+				} else if (IsRequired) {
+					feedback = this.Missing;
+				}
+
+				formInteraction.Feedback [formInteraction.GetCurrentName ()] = feedback;
 			}
 
-			successful = action == this.Successful;
+			successful = feedback == this.Successful;
 
 			return successful;
 		}

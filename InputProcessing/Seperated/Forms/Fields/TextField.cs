@@ -22,17 +22,33 @@ namespace InputProcessing
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
-			Settings ["pattern"] = defaultParameter;
+			this.Settings ["pattern"] = defaultParameter;
 		}
 
 		protected override void Initialize (Settings settings)
 		{
+			base.Initialize (settings);
 			this.Pattern = settings.GetString ("pattern");
 		}
 
-		override Service FindActionForValue (object valueCandidate, out string value)
+		protected override Service GetFeedbackForInput (object rawInput, out string value)
 		{
+			Service feedback = this.Failure;
+			string stringInput = rawInput.ToString ();
 
+			if (this.regex.IsMatch (stringInput)) {
+				value = stringInput;
+				feedback = this.Successful;
+			} else {
+				value = this.Default;
+				if (this.IsRequired && (stringInput.Length == 0)) {
+					feedback = this.Missing;
+				} else {
+					feedback = this.BadFormat;
+				}
+			}
+
+			return feedback;
 		}
 	}
 }

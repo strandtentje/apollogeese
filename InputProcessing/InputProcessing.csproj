@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>InputProcessing</RootNamespace>
     <AssemblyName>InputProcessing</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -52,6 +54,10 @@
     <Compile Include="Seperated\Forms\Fields\DecimalField.cs" />
     <Compile Include="Seperated\Forms\Fields\Field.cs" />
     <Compile Include="Seperated\Forms\Fields\TextField.cs" />
+    <Compile Include="Seperated\Forms\Fields\NumberField.cs" />
+    <Compile Include="Seperated\Forms\Fields\EmailField.cs" />
+    <Compile Include="Seperated\Forms\Fields\NameField.cs" />
+    <Compile Include="Seperated\KeyValueInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

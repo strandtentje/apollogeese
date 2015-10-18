@@ -8,7 +8,7 @@ using BorrehSoft.Utensils.Collections;
 
 namespace InputProcessing
 {
-	class UrlKeyValueInteraction : SimpleInteraction, IIncomingKeyValueInteraction
+	class UrlKeyValueInteraction : SimpleInteraction, IRawInputInteraction
 	{
 		ReluctantTextReader dataReader;
 
@@ -21,7 +21,11 @@ namespace InputProcessing
 			this.Feedback = new Map<Service> ();
 			this.dataReader = new ReluctantTextReader (dataReader);
 		}
+		
+		public int InputCount { get; set; }
 
+		public bool HasValuesAvailable { get; set; }
+		
 		public bool HasReader() {
 			return true;
 		}
@@ -30,7 +34,7 @@ namespace InputProcessing
 			return this.dataReader;
 		}
 
-		public bool ReadName() {
+		public bool ReadNextName() {
 			this.dataReader.StopCharacter = '=';
 
 			if (-1 < this.dataReader.Peek ()) {
@@ -44,16 +48,16 @@ namespace InputProcessing
 			}
 		}
 
-		public object ReadValue() {
+		public object ReadInput() {
 			return this.dataReader.ReadToEnd();
 		}
 
-		public string GetName() {
+		public string GetCurrentName() {
 			return this.currentName;
 		}
 
-		public void SetCurrentValue(object value) {
-			this [GetName ()] = value;
+		public void SetProcessedValue(object value) {
+			this [GetCurrentName ()] = value;
 		}
 	}
 }

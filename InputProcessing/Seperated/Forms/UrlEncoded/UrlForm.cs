@@ -7,10 +7,9 @@ namespace InputProcessing
 {
 	public class UrlForm : Form
 	{
-		protected override IIncomingKeyValueInteraction GetReader (IInteraction parameters)
+		protected override IRawInputInteraction GetReader (IInteraction parameters)
 		{
 			return new UrlKeyValueInteraction (parameters, GetTextReader(parameters));
-
 		}
 	}
 }

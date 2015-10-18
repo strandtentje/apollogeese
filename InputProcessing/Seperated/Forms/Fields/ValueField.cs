@@ -9,8 +9,7 @@ namespace InputProcessing
 	/// Value field.
 	/// </summary>
 	public abstract class ValueField<T> : Field<T> where T : IComparable
-	{
-		
+	{	
 		[Instruction("Minimal value for this field")]
 		public T Min {
 			get;
@@ -42,41 +41,36 @@ namespace InputProcessing
 				return Branches.Get ("toohigh", this.Failure);
 			}
 		}
-
+		
 		/// <summary>
 		/// Finds the action for value.
 		/// </summary>
 		/// <returns>The action for value.</returns>
 		/// <param name="valueCandidate">Value candidate.</param>
 		/// <param name="value">Value.</param>
-		private Service FindActionForValue(object valueCandidate, out T value) {
-			Service action;
-			bool gotValue = false;
+		protected override Service GetFeedbackForInput (object rawInput, out T processedValue )
+		{
+			Service feedback = null;
 
-			value = this.Default;
+			processedValue = this.Default;
 
-			if (valueCandidate is T) {
-				value = (T)valueCandidate;
-				gotValue = true;
-			} else if (TryParse (valueCandidate, out value)) {
-				gotValue = true;
-			} else {
-				action = this.BadFormat;
+			if (rawInput is T) {
+				processedValue = (T)rawInput;
+			} else if (!TryParse (rawInput, out processedValue)) {
+				feedback = this.BadFormat;
 			}
 
-			if (gotValue || !this.IsRequired) {
-				if (this.Min.CompareTo(value) > 0) {
-					action = this.TooLow;
-				} else if (this.Max.CompareTo(value) < 0) {
-					action = this.TooHigh;
+			if (feedback == null) {
+				if (this.Min.CompareTo(processedValue) > 0) {
+					feedback = this.TooLow;
+				} else if (this.Max.CompareTo(processedValue) < 0) {
+					feedback = this.TooHigh;
 				} else {
-					action = this.Successful;
+					feedback = this.Successful;
 				}
-			} else {
-				action = this.Missing;
 			}
 
-			return action;
+			return feedback;
 		}
 	}
 }
