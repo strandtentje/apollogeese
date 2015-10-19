@@ -14,8 +14,6 @@ namespace InputProcessing
 
 		public Map<Service> Feedback { get; set; }
 
-		string currentName;
-
 		public UrlKeyValueInteraction (IInteraction parent, TextReader dataReader) : base(parent)
 		{
 			this.Feedback = new Map<Service> ();
@@ -25,6 +23,8 @@ namespace InputProcessing
 		public int InputCount { get; set; }
 
 		public bool HasValuesAvailable { get; set; }
+
+		public string CurrentName { get; set; }
 		
 		public bool HasReader() {
 			return true;
@@ -38,7 +38,11 @@ namespace InputProcessing
 			this.dataReader.StopCharacter = '=';
 
 			if (-1 < this.dataReader.Peek ()) {
-				this.currentName = this.dataReader.ReadToEnd ();
+
+				if ((char)this.dataReader.Peek () == '&')
+					this.dataReader.Read ();
+
+				this.CurrentName = this.dataReader.ReadToEnd ();
 
 				this.dataReader.StopCharacter = '&';
 
@@ -49,15 +53,18 @@ namespace InputProcessing
 		}
 
 		public object ReadInput() {
+			if ((char)this.dataReader.Peek () == '=')
+				this.dataReader.Read ();
+
 			return this.dataReader.ReadToEnd();
 		}
 
-		public string GetCurrentName() {
-			return this.currentName;
+		public void SkipInput() {
+			this.dataReader.SkipToEnd ();
 		}
 
 		public void SetProcessedValue(object value) {
-			this [GetCurrentName ()] = value;
+			this [this.CurrentName] = value;
 		}
 	}
 }

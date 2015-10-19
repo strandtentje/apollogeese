@@ -42,7 +42,7 @@ namespace InputProcessing
 
 		protected Service Missing {
 			get {
-				return Branches.Get("missing", this.Failure);
+				return Branches.Get("missing", this.View);
 			}
 		}
 
@@ -73,15 +73,18 @@ namespace InputProcessing
 						formInteraction.ReadInput (), 
 						out processedValue);
 
-					formInteraction.SetProcessedValue (processedValue);
+					successful = feedback == this.Successful;
+
+					if (successful) {
+						formInteraction.SetProcessedValue (processedValue);
+					}
 				} else if (IsRequired) {
 					feedback = this.Missing;
+					successful = false;
 				}
 
-				formInteraction.Feedback [formInteraction.GetCurrentName ()] = feedback;
+				formInteraction.Feedback [formInteraction.CurrentName] = feedback;
 			}
-
-			successful = feedback == this.Successful;
 
 			return successful;
 		}

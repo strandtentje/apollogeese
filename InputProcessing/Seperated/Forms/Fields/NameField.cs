@@ -7,8 +7,8 @@ namespace InputProcessing
 	{
 		protected override void Initialize (Settings settings)
 		{
+			settings["pattern"] = "^\\w+([\\s-+.']\\w+)*";
 			base.Initialize (settings);
-			this.Pattern = "^\\w+([\\s-+.']\\w+)*";
 		}
 	}
 }

@@ -114,5 +114,10 @@ namespace InputProcessing
 
 			return fullBuilder.ToString ();
 		}
+
+		public void SkipToEnd() {
+			while (-1 < Peek())
+				Read ();
+		}
 	}
 }

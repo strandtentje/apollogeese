@@ -64,12 +64,18 @@ namespace InputProcessing
 		/// <param name="rawInput">Raw input.</param>
 		/// <param name="inputName">Input name.</param>
 		/// <param name="successful">If set to <c>true</c> successful.</param>
-		bool TryBranch (string branchName, IRawInputInteraction rawInput, string inputName, bool successful = false)
+		bool TryBranch (string branchName, IRawInputInteraction rawInput, string inputName, bool successful = true)
 		{			
 			if (Branches.Has (branchName)) {
 				successful = Branches [branchName].TryProcess (
 					new KeyValueInteraction (rawInput, inputName, 
-				                         rawInput.ReadInput ()));
+				                          rawInput.ReadInput ()));
+			} else {
+				rawInput.SkipInput ();
+				Secretary.Report (5, 
+				                  "input", inputName, 
+				                  "remained uncaught by", branchName, 
+				                  "and was skipped consequently");
 			}
 
 			return successful;
@@ -104,7 +110,7 @@ namespace InputProcessing
 
 			while (rawInput.ReadNextName()) {
 				rawInput.InputCount++;
-				string inputName = rawInput.GetCurrentName();
+				string inputName = rawInput.CurrentName;
 				if (remainingFields.Remove (inputName)) {
 					isValidationSuccessful &= ValidateInput (rawInput, inputName);
 				} else {
@@ -115,6 +121,7 @@ namespace InputProcessing
 			rawInput.HasValuesAvailable = false;
 
 			foreach (string fieldName in remainingFields) {
+				rawInput.CurrentName = fieldName;
 				isValidationSuccessful &= ValidateInput (rawInput, fieldName);
 			}
 

@@ -35,17 +35,16 @@ namespace InputProcessing
 		{
 			Service feedback = this.Failure;
 			string stringInput = rawInput.ToString ();
+			
+ 			value = "";
 
-			if (this.regex.IsMatch (stringInput)) {
-				value = stringInput;
-				feedback = this.Successful;
+			if (this.IsRequired && (stringInput.Length == 0)) {
+				feedback = this.Missing;
 			} else {
-				value = this.Default;
-				if (this.IsRequired && (stringInput.Length == 0)) {
-					feedback = this.Missing;
-				} else {
-					feedback = this.BadFormat;
-				}
+				if (this.regex.IsMatch (stringInput)) {
+					value = stringInput;
+					feedback = this.Successful;				
+				} 
 			}
 
 			return feedback;

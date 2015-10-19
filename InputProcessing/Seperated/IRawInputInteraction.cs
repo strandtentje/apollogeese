@@ -30,16 +30,21 @@ namespace InputProcessing
 		object ReadInput();
 
 		/// <summary>
+		/// Skips the input.
+		/// </summary>
+		void SkipInput();
+
+		/// <summary>
 		/// Gets or sets a value indicating whether this instance has values available.
 		/// </summary>
 		/// <value><c>true</c> if this instance has values available; otherwise, <c>false</c>.</value>
 		bool HasValuesAvailable { get; set; }
 
 		/// <summary>
-		/// Gets the name where the cursor is currently at.
+		/// Gets or sets the name of the current field.
 		/// </summary>
-		/// <returns>The current name.</returns>
-		string GetCurrentName();
+		/// <value>The name of the current.</value>
+		string CurrentName { get; set; }
 
 		/// <summary>
 		/// Sets the processed value for the current name

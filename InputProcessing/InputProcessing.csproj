@@ -44,7 +44,6 @@
     <Compile Include="Hackjobs\HtmlReader.cs" />
     <Compile Include="Hackjobs\RegexFieldReader.cs" />
     <Compile Include="FieldBased\FailureWrapperInteraction.cs" />
-    <Compile Include="Seperated\IIncomingKeyValueInteraction.cs" />
     <Compile Include="Seperated\InputListing.cs" />
     <Compile Include="Seperated\Forms\Form.cs" />
     <Compile Include="Seperated\Forms\ReluctantTextReader.cs" />
@@ -58,6 +57,7 @@
     <Compile Include="Seperated\Forms\Fields\EmailField.cs" />
     <Compile Include="Seperated\Forms\Fields\NameField.cs" />
     <Compile Include="Seperated\KeyValueInteraction.cs" />
+    <Compile Include="Seperated\IRawInputInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
