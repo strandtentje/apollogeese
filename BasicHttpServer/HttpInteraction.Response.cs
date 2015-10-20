@@ -41,11 +41,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			} else {
 				Response.StatusCode = statuscode;
 
-				if (HasWriter ()) {
-					GetOutgoingBodyWriter ().Flush ();
-
-				}
-
 				if (bufferStream.Position > 0) {
 					bufferStream.Position = 0;
 					bufferStream.CopyTo (streamToClient);
@@ -77,28 +72,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 					return bufferStream;
 				}
 			}
-		}
-
-		private StreamWriter writer = null;
-
-		/// <summary>
-		/// Gets a value indicating whether or not a writer has been produced for the stream
-		/// </summary>
-		/// <returns>true</returns>
-		/// <c>false</c>
-		public bool HasWriter() {
-			return writer != null;
-		}
-
-		/// <summary>
-		/// Gets the outgoing body writer.
-		/// </summary>
-		/// <returns>The outgoing body writer.</returns>
-		public StreamWriter GetOutgoingBodyWriter() {
-			if (writer == null)
-				writer = new StreamWriter(OutgoingBody);
-
-			return writer;
 		}
 	}
 }
