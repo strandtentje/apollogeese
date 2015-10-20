@@ -105,8 +105,8 @@ namespace BetterData
 
 		public override string GetText ()
 		{
-			if (!File.Exists (FilePath)) {
-				FileInfo info = new FileInfo (FilePath);
+			if (!File.Exists (BackEnd.FilePath)) {
+				FileInfo info = new FileInfo (BackEnd.FilePath);
 
 				using (StreamWriter writer = new StreamWriter(info.OpenWrite())) {
 					string TinyInstruction = info.Name.Substring (

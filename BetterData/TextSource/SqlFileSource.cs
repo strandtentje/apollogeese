@@ -12,7 +12,7 @@ namespace BetterData
 {
 	class SqlFileSource : SqlSource
 	{
-		FileSource BackEnd {
+		protected FileSource BackEnd {
 			get;
 			set;
 		}
