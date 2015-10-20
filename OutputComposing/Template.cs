@@ -10,6 +10,7 @@ using System.Text;
 using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.ApolloGeese.Http.Headers;
 using BorrehSoft.Utensils.Log;
+using System.Collections.Generic;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
@@ -18,22 +19,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 	/// </summary>
 	public class Template : Service
 	{
-		/// <summary>
-		/// Regex Matches that may be replaced
-		/// </summary>
-		private MatchCollection replaceables;
-		/// <summary>
-		/// Variables this template supports
-		/// </summary>
-		private StringList templateVariables = new StringList();
+		List<IExpression> expressions = new List<IExpression> ();
 
 		private string templateFile;
 
 		[Instruction("Internal title of this template", "untitled")]
 		public string Title { get; set; }
-
-		[Instruction("Placeholder pattern", @"\{% ([a-z|_|\.]+) %\}")]
-		public string PlaceholderPattern { get; set; }
 
 		[Instruction("Absolute path to template file")]
 		public string TemplateFile { 
@@ -42,28 +33,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			}
 			set {
 				this.templateFile = value;
-				LoadTemplateAndRegisterReplacableSegments();
-			}
-		}
-
-		[Instruction("Filler text to appear when the value couldn't be acquired from context.", "")]
-		public string MissingContextFiller;
-
-		[Instruction("Filler text to appear when the value couldn't be acquired by means of branch invocation.", "")]
-		public string MissingBranchFiller;
-
-		[Instruction("When set to true, Template engine will reload template file when modified", true)]
-		public bool WillCheckForTemplateUpdates { get; private set; }
-
-		[Instruction("Will check existing context before invoking branch by placeholder name", false)]
-		public bool ChecksContextFirst { 
-			get {
-				return WriteElement == WriteContextFirst;
-			} set {
-				if (value)
-					WriteElement = WriteContextFirst;
-				else
-					WriteElement = WriteBranchFirst;
+				UpdateTemplate();
 			}
 		}
 
@@ -87,11 +57,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		protected override void Initialize (Settings modSettings)
 		{
 			Title = modSettings.GetString ("title", "untitled");
-			PlaceholderPattern = modSettings.GetString ("chunkpattern", @"\{% ([a-z|_|\.]+) %\}");
-			WillCheckForTemplateUpdates = modSettings.GetBool("checkfortemplateupdates", true);
-			ChecksContextFirst = modSettings.GetBool ("contextfirst", false);
-			MissingBranchFiller = modSettings.GetString("forwardfail", "");
-			MissingContextFiller = modSettings.GetString("backwardfail",  "");
 			TemplateFile = modSettings.GetString ("templatefile");
 		}
 
@@ -109,155 +74,84 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		}
 
 		/// <summary>
-		/// Checks for template updates.
-		/// </summary>
-		private void LoadTemplateUpdates ()
-		{
-			if (HasTemplateUpdates()) {
-				LoadTemplateAndRegisterReplacableSegments ();
-
-				Secretary.Report(5, "Template file was updated: ", TemplateFile);
-			} 
-		}
-
-		/// <summary>
 		/// Loads the template and register replacable segments.
 		/// </summary>
-		private void LoadTemplateAndRegisterReplacableSegments ()
+		private void UpdateTemplate ()
 		{
 			if (!File.Exists (TemplateFile))
 				File.Create (TemplateFile).Close();
 
 			rawTemplate = File.ReadAllText (TemplateFile);
 
-			replaceables = templateVariables.AddUniqueRegexMatches (rawTemplate, PlaceholderPattern);
+			// me 16: string.Split() ftw lolzors superfast superclear
+			// me 19: we should do this neatly using classes and regexes
+			//        because i'm an intelligent, skilled programmer
+			// me 22: LMAO STRING.SPLIT() FUCK YEAH SOCKS FOR CHRISTMAS
+			IEnumerable<string> rawExpressions = rawTemplate.Split ("{%".ToCharArray());
+			// to be fair, i can only imagine how much faster String.Split 
+			// is compared to regexes.
 
-			foreach(string templateVariable in templateVariables)
-				if (!Branches.Has(templateVariable))
-					Branches[templateVariable] = Stub;
-		}
+			char opener;
 
-		delegate void WriteElementDelegate(StreamWriter outputWriter, IInteraction source, string groupName);
+			foreach (string rawExpression in rawExpressions) {
+				if (rawExpression.EndsWith ("%}")) {
+					opener = rawExpression [0];
 
-		WriteElementDelegate WriteElement;
-
-		void WriteBranchFirst (StreamWriter outputWriter, IInteraction source, string groupName)
-		{			
-			Service branch = Branches[groupName];
-
-			if ((branch ?? Stub) == Stub) {
-				object chunk;
-				if (source.TryGetFallback(groupName, out chunk))
-				{
-					outputWriter.Write(chunk.ToString());
-				}
-				else 
-				{
-					outputWriter.Write(string.Format(MissingContextFiller, groupName));
-				}
-			} else if (!branch.TryProcess(source)) {
-				outputWriter.Write(string.Format(MissingBranchFiller, groupName));
-			}		
-		}
-
-		void WriteContextFirst (StreamWriter outputWriter, IInteraction source, string groupName)
-		{			
-			object chunk;
-			if (source.TryGetFallback (groupName, out chunk)) {
-				outputWriter.Write (chunk.ToString ());
-			} else {
-				Service branch = Branches[groupName];
-
-				if ((branch ?? Stub) == Stub) {
-					outputWriter.Write(string.Format(MissingContextFiller, groupName));
-				} else if (!branch.TryProcess(source)) {
-					outputWriter.Write(string.Format(MissingBranchFiller, groupName));
-				}	
-			}				
-		}
-
-		private string GetSignature(INosyInteraction nosyInteraction) {
-			if (nosyInteraction.IncludeContext) {
-				StringBuilder signatureBuilder = new StringBuilder ();
-
-				signatureBuilder.Append (this.TemplateFile);
-				signatureBuilder.Append (HasTemplateUpdates(false).ToString());
-				signatureBuilder.Append (LastTemplateUpdate.ToBinary ());
-
-				foreach (Match replaceable in replaceables) {
-					if (WriteElement == WriteContextFirst) {
-						string name = replaceable.Groups [1].Value;
-						object value;
-						if (nosyInteraction.TryGetFallback (name, out value)) {
-							signatureBuilder.Append (name);
-							signatureBuilder.Append (":");	
-							signatureBuilder.AppendLine (value.ToString ());
-						}
+					switch (opener) {
+					case '&':
+						expressions.Add (new Replacement (rawExpression.Substring(1)));
+						break;
+					case '*':
+						expressions.Add (new Call(rawExpression.Substring(1), this));
+						break;
+					default:
+						expressions.Add (new CallOrReplace (rawExpression, this));
+						break;
 					}
+				} else {
+					expressions.Add (new Literal (rawExpression));
 				}
+			}
 
-				return signatureBuilder.ToString ();
-			} else {
-				return string.Format ("{0}{1}{2}", this.TemplateFile, HasTemplateUpdates (false).ToString (), LastTemplateUpdate.ToBinary());
+			Secretary.Report(5, "Template file was updated: ", TemplateFile);
+		}
+
+		public Service Default {
+			get {
+				return Branches ["default"] ?? Stub;
 			}
 		}
 
 		protected override bool Process (IInteraction source)
 		{
-			if (source is INosyInteraction) {
-				INosyInteraction nosyInteraction = (INosyInteraction)source;
+			IOutgoingBodiedInteraction target;
+			MimeType type;
 
-				nosyInteraction.Signature = GetSignature (nosyInteraction);
-			} else {
-				IOutgoingBodiedInteraction target;
-				MimeType type;
-				int cursor = 0;
-				string groupName;
+			target = (IOutgoingBodiedInteraction)source.GetClosest (typeof(IOutgoingBodiedInteraction));
 
-				target = (IOutgoingBodiedInteraction)source.GetClosest (typeof(IOutgoingBodiedInteraction));
-
-
-				if (target is IHttpInteraction) {
-					type = MimeType.Text.Html;
-					type.Encoding = Encoding.UTF8;
-					((IHttpInteraction)target).ResponseHeaders.ContentType = type;
-				}
-
-				if (WillCheckForTemplateUpdates) LoadTemplateUpdates();
-
-				StreamWriter outputWriter = target.GetOutgoingBodyWriter ();
-
-				try	{
-					foreach (Match replaceable in replaceables) {
-						outputWriter.Write(rawTemplate.Substring (cursor, replaceable.Index - cursor));
-
-						groupName = replaceable.Groups[1].Value;
-
-						WriteElement(outputWriter, source, groupName);							
-
-						cursor = replaceable.Index + replaceable.Length;
-					}
-
-					// In the very likely event the cursor is not at the end of the document,
-					// the last bit of the document needs to be written to the body as well.
-					if (cursor < rawTemplate.Length)
-						outputWriter.Write(rawTemplate.Substring(cursor));
-
-					outputWriter.Flush();
-				}
-				catch (Exception ex) {
-					// Forward the exception but append a cursor position and a message
-					// so the user won't be entirely in the dark.
-					throw new Exception (
-						string.Format (
-						"Replacing template variables failed at cursor position {0}, {2}:\n{1}",
-						cursor.ToString (), 
-						rawTemplate.Substring (cursor, 40), 
-						ex.Message), ex);
-				}
+			if (target is IHttpInteraction) {
+				type = MimeType.Text.Html;
+				type.Encoding = Encoding.UTF8;
+				((IHttpInteraction)target).ResponseHeaders.ContentType = type;
 			}
 
-			return true;
+			if (HasTemplateUpdates ()) {
+				UpdateTemplate ();
+			}
+
+			StreamWriter outputWriter = new StreamWriter (target.OutgoingBody);
+
+			bool successful = true;
+
+			foreach(IExpression expression in expressions) {
+				successful &= (
+					expression.TryWriteTo (outputWriter, source) || 
+					Default.TryProcess (source));
+			}
+
+			outputWriter.Flush();
+
+			return successful;
 		}
 	}
 }
