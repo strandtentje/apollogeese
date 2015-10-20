@@ -4,6 +4,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
@@ -51,7 +52,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				SimpleOutgoingInteraction downstreamTarget;
 				MemoryStream formattables;
 				bool success;
-				string data;
+				string text;
 
 				upstreamTarget = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
 				downstreamTarget = new SimpleOutgoingInteraction (formattables = new MemoryStream (), parameters);
@@ -62,12 +63,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				formattables.Position = 0;
 
 				using (StreamReader reader = new StreamReader(formattables)) 
-					data = reader.ReadToEnd ();
+					text = reader.ReadToEnd ();
 			
 				foreach (Format format in formats)
-					data = format.Apply (data);
+					text = format.Apply (text);
+				
 
-				upstreamTarget.GetOutgoingBodyWriter ().Write (data);
+				byte[] data = Encoding.Unicode.GetBytes (text);
+
+				upstreamTarget.OutgoingBody.Write(data, 0, data.Length);
+
 				return success;
 			}
 		}

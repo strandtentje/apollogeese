@@ -3,6 +3,7 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Http;
 using System.IO;
+using System.Text;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
@@ -37,15 +38,15 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			bool success = true;
 			string text; 
 
-			StreamWriter writer = interaction.GetOutgoingBodyWriter ();
-
 			if (VariableName.Length == 0) {
-				writer.Write(Format);
+				text = Format;
 			} else if (success = parameters.TryGetFallbackString (VariableName, out text)) {
-				writer.Write(string.Format(Format, text));
+				text = string.Format(Format, text);
 			}
 
-			writer.Flush ();
+			byte[] data = Encoding.Unicode.GetBytes (text);
+
+			interaction.OutgoingBody.Write(data, 0, data.Length);
 
 			return success;
 		}
