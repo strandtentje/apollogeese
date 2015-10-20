@@ -59,9 +59,9 @@
       <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
       <Name>Collections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\Logging\Logging.csproj">
+    <ProjectReference Include="..\Utilities\Logging\IO.csproj">
       <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
-      <Name>Logging</Name>
+      <Name>IO</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
