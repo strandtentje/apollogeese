@@ -78,10 +78,6 @@
       <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
       <Name>Collections</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\Logging\Logging.csproj">
-      <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
-      <Name>Logging</Name>
-    </ProjectReference>
     <ProjectReference Include="..\CoreTypes\CoreTypes.csproj">
       <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>CoreTypes</Name>
@@ -97,6 +93,10 @@
     <ProjectReference Include="..\BetterData\BetterData.csproj">
       <Project>{303A62EB-3E24-45D3-8ED0-6EEEA66BA808}</Project>
       <Name>BetterData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Logging\IO.csproj">
+      <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
+      <Name>IO</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
