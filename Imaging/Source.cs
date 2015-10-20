@@ -35,10 +35,6 @@ namespace Imaging
 			if (parameters.TryGetClosest (typeof(IOutgoingBodiedInteraction), out candidateOutgoing)) {
 				IOutgoingBodiedInteraction outgoing = (IOutgoingBodiedInteraction)candidateOutgoing;
 
-				if (outgoing.HasWriter ()) {
-					outgoing.GetOutgoingBodyWriter ().Flush ();
-				}
-
 				using(FileStream source = File.OpenRead(this.Filename)) {
 					source.CopyTo (outgoing.OutgoingBody);
 				}

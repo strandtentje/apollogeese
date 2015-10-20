@@ -2,7 +2,6 @@
 using BorrehSoft.Utensils.Collections.Settings;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
@@ -29,9 +28,6 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
             IIncomingBodiedInteraction incoming = (IIncomingBodiedInteraction)parameters.GetClosest(typeof(IIncomingBodiedInteraction));
             IOutgoingBodiedInteraction outgoing = (IOutgoingBodiedInteraction)parameters.GetClosest(typeof(IOutgoingBodiedInteraction));
             
-            if (outgoing.HasWriter())
-                outgoing.GetOutgoingBodyWriter().Flush();
-
             incoming.IncomingBody.CopyTo(outgoing.OutgoingBody);
 
             return true;

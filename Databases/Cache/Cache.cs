@@ -89,12 +89,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 				lastUpdate = DateTime.Now;
 			} 
 
-			if (isStringCache) {
-				upstreamTarget.GetOutgoingBodyWriter ().Write (stringData);
-				upstreamTarget.GetOutgoingBodyWriter ().Flush ();
-			} else {
-				upstreamTarget.OutgoingBody.Write (binaryData, 0, binaryData.Length);
-			}
+			upstreamTarget.OutgoingBody.Write (binaryData, 0, binaryData.Length);
 
 			return success;
 		}

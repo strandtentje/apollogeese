@@ -64,9 +64,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			bool success = false;
 
 			try {
-				if (httpParameters.HasWriter())				
-					throw new Exception ("can't serve files to outgoing stream that has a writer");
-
 				p.StandardOutput.BaseStream.CopyTo (httpParameters.OutgoingBody);
 				success = true;
 			} catch (Exception ex) {

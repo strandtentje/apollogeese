@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese.CoreTypes</RootNamespace>
     <AssemblyName>CoreTypes</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,6 +50,7 @@
     <Compile Include="Services\Configuration\Configurables.cs" />
     <Compile Include="Services\Simple\KeywordService.cs" />
     <Compile Include="Services\MissingBranchException.cs" />
+    <Compile Include="Interactions\IOutgoingWriterInteraction.cs" />
     <Compile Include="Interactions\IIncomingReaderInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />

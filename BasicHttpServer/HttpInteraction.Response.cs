@@ -40,17 +40,18 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 				throw new HttpException ("Statuscode can only be set once");
 			} else {
 				Response.StatusCode = statuscode;
-				IsStatuscodeSet = true;
 
 				if (HasWriter ()) {
 					GetOutgoingBodyWriter ().Flush ();
-					writer = null;
+
 				}
 
 				if (bufferStream.Position > 0) {
 					bufferStream.Position = 0;
 					bufferStream.CopyTo (streamToClient);
 				}
+
+				IsStatuscodeSet = true;
 			}
 		}
 

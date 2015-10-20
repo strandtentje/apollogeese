@@ -66,10 +66,7 @@ namespace Imaging
 
 					inImage.Dispose ();
 
-					if (outImage != emptyBitmap) {						
-						if (imageOut.HasWriter ())
-							imageOut.GetOutgoingBodyWriter ().Flush ();
-
+					if (outImage != emptyBitmap) {	
 						outImage.Save (imageOut.OutgoingBody, selectedImageformat);
 
 						outImage.Dispose ();

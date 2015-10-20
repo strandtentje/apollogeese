@@ -138,12 +138,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 			if (mimeTypes.TryGetString(extension, out mimeType) || optionalMimetypes) {
 				if (sourcefile.Exists) {
-					if (parameters.HasWriter ()) {
-						parameters.GetOutgoingBodyWriter ().Flush ();
-					} else {
-						parameters.ResponseHeaders.ContentType = new MimeType (mimeType);
-						// parameters.ResponseHeaders.ContentLength = sourceStream.Length;
-					}
+					parameters.ResponseHeaders.ContentType = new MimeType (mimeType);
+					// parameters.ResponseHeaders.ContentLength = sourceStream.Length;
 
 					sendFileToStream (finalpath, parameters.OutgoingBody);
 				} else {
