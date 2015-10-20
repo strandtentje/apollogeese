@@ -6,31 +6,25 @@ using BorrehSoft.Utensils.Collections.Settings;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using System.IO;
+using Borrehsoft.Utensils.IO;
 
 namespace BetterData
 {
 	class SqlFileSource : SqlSource
 	{
-		protected string FilePath;
-		DateTime LastDate = DateTime.MaxValue; // this will absolutely break something
-		string CachedText;
+		FileSource BackEnd {
+			get;
+			set;
+		}
 
 		public SqlFileSource (string filePath)
 		{
-			this.FilePath = filePath;
+			this.BackEnd = new FileSource (filePath);
 		}
 
 		public override string GetText() {
-			DateTime CurrentDate = File.GetLastWriteTime (this.FilePath);
-			if (!CurrentDate.Equals (LastDate)) {
-				this.UnchangedFlag = false;
-				this.LastDate = CurrentDate;
-				this.CachedText = File.ReadAllText (this.FilePath);
-			}
-			return this.CachedText;
+			return this.BackEnd.GetText ();
 		}
 	}
-
-
 }
 
