@@ -49,15 +49,15 @@
     <Compile Include="Seperated\Forms\ReluctantTextReader.cs" />
     <Compile Include="Seperated\Forms\UrlEncoded\UrlForm.cs" />
     <Compile Include="Seperated\Forms\UrlEncoded\UrlKeyValueInteraction.cs" />
-    <Compile Include="Seperated\Forms\Fields\ValueField.cs" />
-    <Compile Include="Seperated\Forms\Fields\DecimalField.cs" />
-    <Compile Include="Seperated\Forms\Fields\Field.cs" />
-    <Compile Include="Seperated\Forms\Fields\TextField.cs" />
-    <Compile Include="Seperated\Forms\Fields\NumberField.cs" />
-    <Compile Include="Seperated\Forms\Fields\EmailField.cs" />
-    <Compile Include="Seperated\Forms\Fields\NameField.cs" />
     <Compile Include="Seperated\KeyValueInteraction.cs" />
     <Compile Include="Seperated\IRawInputInteraction.cs" />
+    <Compile Include="Seperated\Fields\DecimalField.cs" />
+    <Compile Include="Seperated\Fields\EmailField.cs" />
+    <Compile Include="Seperated\Fields\Field.cs" />
+    <Compile Include="Seperated\Fields\NameField.cs" />
+    <Compile Include="Seperated\Fields\NumberField.cs" />
+    <Compile Include="Seperated\Fields\TextField.cs" />
+    <Compile Include="Seperated\Fields\ValueField.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -91,5 +91,6 @@
     <Folder Include="Hackjobs\" />
     <Folder Include="Seperated\" />
     <Folder Include="Seperated\Forms\" />
+    <Folder Include="Seperated\Forms\JsonEncoded\" />
   </ItemGroup>
 </Project>

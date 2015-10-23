@@ -5,7 +5,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace InputProcessing
 {
-	public abstract class Field<T> : TwoBranchedService
+	public abstract class Field<T> : Service
 	{
 		public override string Description {
 			get {
@@ -34,6 +34,18 @@ namespace InputProcessing
 
 		protected abstract Service GetFeedbackForInput (object rawInput, out T value);
 
+		protected Service Failure {
+			get {
+				return Branches.Get ("failure");
+			}
+		}
+
+		protected Service View {
+			get {
+				return Branches.Get ("view");
+			}
+		}
+
 		protected Service BadFormat {
 			get {
 				return Branches.Get ("badformat", this.Failure);
@@ -42,13 +54,13 @@ namespace InputProcessing
 
 		protected Service Missing {
 			get {
-				return Branches.Get("missing", this.View);
+				return Branches.Get("missing", this.Failure);
 			}
 		}
 
-		protected Service View {
+		protected Service Successful {
 			get {
-				return Branches.Get ("view", this.Successful);
+				return Branches.Get ("successful", this.View);
 			}
 		}
 
