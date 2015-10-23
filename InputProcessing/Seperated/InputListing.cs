@@ -28,12 +28,6 @@ namespace InputProcessing
 		[Instruction("Show form when it was filled correctly", false)]
 		public bool PositiveFeedback { get; set; }
 
-		[Instruction("Show conclusion of input processing before providing feedback", true)]
-		public bool ConcludeBefore { get; set; }
-
-		[Instruction("Show conclusion of input processing after providing feedback", false)]
-		public bool ConcludeAfter { get; set; }
-
 		public Service Empty { 
 			get {
 				return Branches.Get ("empty", this.Failure);
@@ -45,8 +39,6 @@ namespace InputProcessing
 			this.FieldOrder = settings.GetStringList ("fieldorder");
 			this.NegativeFeedback = settings.GetBool ("negativefeedback", true);
 			this.PositiveFeedback = settings.GetBool ("positivefeedback", false);
-			this.ConcludeBefore = settings.GetBool ("concludebefore", true);
-			this.ConcludeAfter = settings.GetBool ("concludeafter", false);
 		}
 
 		/// <summary>
@@ -91,7 +83,7 @@ namespace InputProcessing
 		{			
 			if (Branches.Has (inputName)) {
 				return Branches [inputName].TryProcess (rawInput);
-			} else {			
+			} else {
 				return TryBranch("iterator", rawInput, inputName);
 			}
 		}
@@ -160,7 +152,7 @@ namespace InputProcessing
 			bool showFeedback = false;
 			Service conclusion = GetConclusion (kvParameters, isValid, out showFeedback);
 
-			bool success = !this.ConcludeBefore || conclusion.TryProcess (kvParameters);
+			bool success = true;
 
 			if (showFeedback) {
 				foreach(string orderName in FieldOrder) {
@@ -169,7 +161,7 @@ namespace InputProcessing
 				}
 			}
 
-			success &= !this.ConcludeAfter || conclusion.TryProcess(kvParameters);
+			success &= conclusion.TryProcess(kvParameters);
 
 			return success;
 		}
