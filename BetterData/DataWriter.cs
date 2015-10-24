@@ -12,8 +12,6 @@ namespace BetterData
 			get {
 				return string.Format (
 					"Write on {0}", DatasourceName);
-
-
 			}
 		}
 
