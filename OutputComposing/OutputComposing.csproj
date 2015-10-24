@@ -36,12 +36,12 @@
     <Compile Include="Formatter.cs" />
     <Compile Include="Format.cs" />
     <Compile Include="Translation.cs" />
-    <Compile Include="Expressions\IExpression.cs" />
     <Compile Include="Expressions\Literal.cs" />
     <Compile Include="Expressions\Replacement.cs" />
     <Compile Include="Expressions\Call.cs" />
     <Compile Include="Expressions\CallOrReplace.cs" />
     <Compile Include="Expressions\NamedExpression.cs" />
+    <Compile Include="Expressions\Expression.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
