@@ -46,6 +46,8 @@ namespace InputProcessing
 		/// <value>The name of the current.</value>
 		string CurrentName { get; set; }
 
+		IEnumerable<string> FieldOrder { get; }
+
 		/// <summary>
 		/// Sets the processed value for the current name
 		/// </summary>

@@ -5,6 +5,7 @@ using System.IO;
 using BorrehSoft.Utensils.Parsing;
 using System.Text;
 using BorrehSoft.Utensils.Collections;
+using System.Collections.Generic;
 
 namespace InputProcessing
 {
@@ -14,12 +15,15 @@ namespace InputProcessing
 
 		public Map<Service> Feedback { get; set; }
 
-		public UrlKeyValueInteraction (IInteraction parent, TextReader dataReader) : base(parent)
+		public UrlKeyValueInteraction (IInteraction parent, TextReader dataReader, IEnumerable<string> fieldOrder) : base(parent)
 		{
 			this.Feedback = new Map<Service> ();
 			this.dataReader = new ReluctantTextReader (dataReader);
+			this.FieldOrder = fieldOrder;
 		}
-		
+
+		public IEnumerable<string> FieldOrder { get; private set; }
+
 		public int InputCount { get; set; }
 
 		public bool HasValuesAvailable { get; set; }

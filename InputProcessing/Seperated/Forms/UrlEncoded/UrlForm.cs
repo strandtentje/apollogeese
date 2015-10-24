@@ -9,7 +9,7 @@ namespace InputProcessing
 	{
 		protected override IRawInputInteraction GetReader (IInteraction parameters)
 		{
-			return new UrlKeyValueInteraction (parameters, GetTextReader(parameters));
+			return new UrlKeyValueInteraction (parameters, GetTextReader(parameters), this.FieldOrder);
 		}
 	}
 }
