@@ -17,7 +17,7 @@ namespace BetterData
 			}
 		}
 
-		IntMap<Service> changeCountBranches = new IntMap<Service> ();
+		IntMap<Service> changeCountBranches = new IntMap<Service> () { Default = Stub };
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
