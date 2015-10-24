@@ -25,6 +25,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			string value;
 			if (context.TryGetFallbackString (this.Name, out value)) {
 				writer.Write (value);
+				writer.Flush ();
 				return true;
 			}
 			return false;

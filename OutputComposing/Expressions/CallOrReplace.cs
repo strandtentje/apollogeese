@@ -4,7 +4,7 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
-	public class CallOrReplace : IExpression
+	public class CallOrReplace : Expression
 	{
 		Call Call {
 			get;
@@ -22,7 +22,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			this.Replace = new Replacement (rawExpression);
 		}
 
-		public bool TryWriteTo (StreamWriter writer, IInteraction context) {
+		public override bool TryWriteTo (StreamWriter writer, IInteraction context) {
 			return this.Call.TryWriteTo (
 				writer, context) || this.Replace.TryWriteTo (
 				writer, context);

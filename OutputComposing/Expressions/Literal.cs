@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
-	class Literal : IExpression
+	class Literal : Expression
 	{
 		public string PlainText;
 
@@ -23,8 +23,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			this.PlainText = text;
 		}
 
-		public bool TryWriteTo (StreamWriter writer, IInteraction context) {
+		public override bool TryWriteTo (StreamWriter writer, IInteraction context) {
 			writer.Write (this.PlainText);
+			writer.Flush ();
 			return true;
 		}
 	}

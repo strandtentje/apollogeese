@@ -14,7 +14,7 @@ using System.Collections.Generic;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
-	abstract class NamedExpression : IExpression
+	abstract class NamedExpression : Expression
 	{
 		string expression;
 
@@ -34,8 +34,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				this.Name = expression.Trim (new char[] { ' ', '\t', '}', '%' });
 			}
 		}
-
-		public abstract bool TryWriteTo (StreamWriter writer, IInteraction context);
 	}
 }
 

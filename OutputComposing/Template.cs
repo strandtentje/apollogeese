@@ -19,7 +19,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 	/// </summary>
 	public class Template : Service
 	{
-		List<IExpression> expressions = new List<IExpression> ();
+		List<Expression> expressions = new List<Expression> ();
 
 		private string templateFile;
 
@@ -74,6 +74,30 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		}
 
 		/// <summary>
+		/// Finds the expression for the given replacement name
+		/// </summary>
+		/// <returns>The expression.</returns>
+		/// <param name="replacename">Replacename.</param>
+		Expression FindExpression (string replacename)
+		{			
+			Expression result;
+
+			switch (replacename[0]) {
+				case '<':
+				result = new Replacement (replacename.Substring(1));
+				break;
+			case '>':
+				result = new Call(replacename.Substring(1), this);
+				break;
+			default:
+				result = new CallOrReplace (replacename, this);
+				break;
+			}
+
+			return result;
+		}
+
+		/// <summary>
 		/// Loads the template and register replacable segments.
 		/// </summary>
 		private void UpdateTemplate ()
@@ -82,35 +106,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				File.Create (TemplateFile).Close();
 
 			rawTemplate = File.ReadAllText (TemplateFile);
+						
+			expressions.Clear ();
 
-			// me 16: string.Split() ftw lolzors superfast superclear
-			// me 19: we should do this neatly using classes and regexes
-			//        because i'm an intelligent, skilled programmer
-			// me 22: LMAO STRING.SPLIT() FUCK YEAH SOCKS FOR CHRISTMAS
-			IEnumerable<string> rawExpressions = rawTemplate.Split ("{%".ToCharArray());
-			// to be fair, i can only imagine how much faster String.Split 
-			// is compared to regexes.
-
-			char opener;
-
-			foreach (string rawExpression in rawExpressions) {
-				if (rawExpression.EndsWith ("%}")) {
-					opener = rawExpression [0];
-
-					switch (opener) {
-					case '&':
-						expressions.Add (new Replacement (rawExpression.Substring(1)));
-						break;
-					case '*':
-						expressions.Add (new Call(rawExpression.Substring(1), this));
-						break;
-					default:
-						expressions.Add (new CallOrReplace (rawExpression, this));
-						break;
-					}
-				} else {
-					expressions.Add (new Literal (rawExpression));
-				}
+			for (int i = 0; i < rawTemplate.Length;) {
+				expressions.Add (Expression.FromString (
+					rawTemplate, ref i, FindExpression));
 			}
 
 			Secretary.Report(5, "Template file was updated: ", TemplateFile);
@@ -143,7 +144,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 			bool successful = true;
 
-			foreach(IExpression expression in expressions) {
+			foreach(Expression expression in expressions) {
 				successful &= (
 					expression.TryWriteTo (outputWriter, source) || 
 					Default.TryProcess (source));
