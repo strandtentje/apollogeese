@@ -58,6 +58,7 @@
     <Compile Include="Seperated\Fields\NumberField.cs" />
     <Compile Include="Seperated\Fields\TextField.cs" />
     <Compile Include="Seperated\Fields\ValueField.cs" />
+    <Compile Include="Hackjobs\Match.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
