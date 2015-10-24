@@ -19,7 +19,7 @@ namespace BetterData
 			StringBuilder paramNameBuilder = new StringBuilder ();
 
 			while (Parser.IsAlphaNumericUsc ((char)queryReader.Peek ())) {
-				paramNameBuilder.Append (queryReader.Read ());
+				paramNameBuilder.Append ((char)queryReader.Read ());
 			}
 
 			return paramNameBuilder.ToString ();
@@ -35,7 +35,10 @@ namespace BetterData
 
 				while (queryReader.Peek () > -1) {
 					if (queryReader.Read () == '@') {
-						this.parameterNames.Add (ReadOneParameterName (queryReader));
+						string parName = ReadOneParameterName (queryReader);
+						if (!this.parameterNames.Contains (parName)) {
+							this.parameterNames.Add (parName);
+						}
 					}
 				}
 			}
