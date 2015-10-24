@@ -16,7 +16,7 @@ namespace BetterData
 			}
 		}
 
-		IntMap<Service> rowBranches = new IntMap<Service>();
+		IntMap<Service> rowBranches = new IntMap<Service>() { Default = Stub };
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
@@ -62,7 +62,9 @@ namespace BetterData
 					for (currentRowNumber = 0; reader.Read (); currentRowNumber++) {
 						object[] values = new object[reader.FieldCount];
 
-						reader.GetValues (values);
+						for (int i = 0; i < reader.FieldCount; i++) {
+							values[i] = reader.GetValue(i);
+						}
 
 						DataInteraction dataRow = new DataInteraction (
 							parameters, columnNames, values);
