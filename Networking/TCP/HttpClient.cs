@@ -52,22 +52,19 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{			
-			string[] hostnamePortCombo = defaultParameter.Split (':');
+			Settings ["uri"] = defaultParameter;
+		}
 
-			this.Settings["hostname"] = hostnamePortCombo [0];
-			if (hostnamePortCombo.Length > 1) {
-				this.Settings["port"] = int.Parse (hostnamePortCombo [1]);
-			} else {
-				this.Settings["port"] = 80;
-			}
+		string PresetUri {
+			get;
+			set;
 		}
 
 		protected override void Initialize (Settings modSettings)
 		{
-			Hostname = modSettings.GetString ("hostname");
-			Port = modSettings.GetInt ("port");
 			SessionID = modSettings.GetString ("sessionid", "httpclientsession");
 			UseSessionID = modSettings.GetBool ("usesession", false);
+			PresetUri = modSettings.GetString ("uri");
 		}
 
 		/// <summary>
@@ -88,6 +85,37 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 			webRequest.CookieContainer = container;
 		}
 
+		protected virtual Stream GetResponse(string uri, IInteraction parameters) {			
+			HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create (uri);
+			SimpleOutgoingInteraction postBody;
+
+			// Preserve CookieContainer here!
+
+			webRequest.ContentType = "text/json; charset=utf-8";
+			webRequest.Expect = "200";
+
+			if (UseSessionID) {
+				string keeperid = "";
+				if (parameters.TryGetFallbackString (SessionID, out keeperid)) {
+					PreserveCookies (webRequest, keeperid);
+				} else {
+					throw new Exception (string.Format("No {0} found in context", SessionID));
+				}
+			}
+
+			if (hasPostBuilder) {
+				webRequest.Method = "POST";
+
+				postBody = new SimpleOutgoingInteraction (webRequest.GetRequestStream (), parameters);
+
+				postbuilder.TryProcess (postBody);
+			}
+
+			HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse ();
+
+			return response.GetResponseStream ();
+		}
+
 		/// <summary>
 		/// Reads request into web request body and returns response stream.
 		/// </summary>
@@ -96,31 +124,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		protected virtual Stream GetResponse (Stream request, IInteraction parameters)
 		{
 			using (StreamReader requestReader = new StreamReader(request)) {
-				HttpWebRequest webRequest = (HttpWebRequest)HttpWebRequest.Create (requestReader.ReadToEnd ());
-				SimpleOutgoingInteraction postBody;
-
-				// Preserve CookieContainer here!
-
-				if (UseSessionID) {
-					string keeperid = "";
-					if (parameters.TryGetFallbackString (SessionID, out keeperid)) {
-						PreserveCookies (webRequest, keeperid);
-					} else {
-						throw new Exception (string.Format("No {0} found in context", SessionID));
-					}
-				}
-
-				if (hasPostBuilder) {
-					webRequest.Method = "POST";
-                
-					postBody = new SimpleOutgoingInteraction (webRequest.GetRequestStream (), parameters);
-                    
-					postbuilder.TryProcess (postBody);
-				}
-
-				HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse ();
-                
-				return response.GetResponseStream ();
+				string uri = requestReader.ReadToEnd ();
+				return GetResponse (uri, parameters);
 			}
 		}
 
@@ -151,7 +156,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 			Stream responseStream;
 			SimpleIncomingInteraction incomingInteraction;
 
-			responseStream = RequestForResponse (parameters);
+			if (Branches.Has ("uri")) {
+				responseStream = RequestForResponse (parameters);
+			} else {
+				responseStream = GetResponse (PresetUri, parameters);
+			}
 			incomingInteraction = new SimpleIncomingInteraction (responseStream, parameters, "http-response-body");
 
 			return responseProcessor.TryProcess (incomingInteraction);

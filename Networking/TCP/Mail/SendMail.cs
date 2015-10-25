@@ -5,6 +5,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.ComponentModel;
 using System.Collections.Generic;
+using System.Threading;
 
 namespace Networking
 {
@@ -32,15 +33,33 @@ namespace Networking
 		[Instruction("Subject of e-mail", null, true)]
 		public string Subject { get; set; }
 
-		[Instruction("Possible mail servers", new string[] { "localhost" })]
-		public IEnumerable<string> MailServers {
+		public string MailServer {
 			get {
-				return this.mailServers;
+				return smtpClient.Host;
 			}
 			set {
-				this.mailServers = value;
-				smtpClient = SmtpPicker.GetClient (value);
+
+				if (Username.Length > 0) {
+					smtpClient = new SmtpClient (value, 587);
+
+					smtpClient.UseDefaultCredentials = false;
+
+					smtpClient.Credentials = new System.Net.NetworkCredential (
+						this.Username, this.Password);
+				} else {
+					smtpClient = new SmtpClient (value);
+				}
 			}
+		}
+
+		string Username {
+			get;
+			set;
+		}
+
+		string Password {
+			get;
+			set;
 		}
 
 		public override string Description {
@@ -70,7 +89,9 @@ namespace Networking
 			this.Subject = modSettings.GetString ("subject", null);
 			this.ReplyTo = modSettings.GetString ("replyto", null);
 			this.BodyTypeName = modSettings.GetString ("bodyname", "emailbody");
-			this.MailServers = modSettings.GetStringList ("mailservers", "localhost");
+			this.Username = modSettings.GetString ("username", "");
+			this.Password = modSettings.GetString ("password", "");
+			this.MailServer = modSettings.GetString ("server", "");
 
 			smtpClient.SendCompleted += HandleSendCompleted;
 		}
@@ -93,6 +114,7 @@ namespace Networking
 
 		void HandleSendCompleted (object sender, AsyncCompletedEventArgs e)
 		{
+			// phre.Release ();
 			sent.TryProcess (e.UserState as IInteraction);
 		}
 	}
