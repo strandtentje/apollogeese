@@ -22,12 +22,6 @@ namespace InputProcessing
 		[Instruction("Order of fields")]
 		public IEnumerable<string> FieldOrder { get; set; }
 
-		[Instruction("Show form when it was filled incorrectly", true)]
-		public bool NegativeFeedback { get; set; }
-
-		[Instruction("Show form when it was filled correctly", false)]
-		public bool PositiveFeedback { get; set; }
-
 		public Service Empty { 
 			get {
 				return Branches.Get ("empty", this.Failure);
@@ -37,8 +31,6 @@ namespace InputProcessing
 		protected override void Initialize (Settings settings)
 		{
 			this.FieldOrder = settings.GetStringList ("fieldorder");
-			this.NegativeFeedback = settings.GetBool ("negativefeedback", true);
-			this.PositiveFeedback = settings.GetBool ("positivefeedback", false);
 		}
 
 		/// <summary>
@@ -127,14 +119,12 @@ namespace InputProcessing
 		/// <param name="kvParameters">Kv parameters.</param>
 		/// <param name="isValid">If set to <c>true</c> is valid.</param>
 		/// <param name="showFeedback">Show feedback.</param>
-		Service GetConclusion(IRawInputInteraction kvParameters, bool isValid, out bool showFeedback) {
+		Service GetConclusion(IRawInputInteraction kvParameters, bool isValid) {
 			Service conclusion = Empty;
-			showFeedback = NegativeFeedback;
 						
 			if (kvParameters.InputCount > 0) {
 				if (isValid) {
 					conclusion = Successful;
-					showFeedback = PositiveFeedback;
 				} else {
 					conclusion = Failure;
 				}
@@ -150,20 +140,9 @@ namespace InputProcessing
 			bool isValid = ValidateInput (kvParameters);
 
 			bool showFeedback = false;
-			Service conclusion = GetConclusion (kvParameters, isValid, out showFeedback);
+			Service conclusion = GetConclusion (kvParameters, isValid);
 
-			bool success = true;
-
-			if (showFeedback) {
-				foreach(string orderName in FieldOrder) {
-					Service feedback = kvParameters.Feedback.Get (orderName, Branches [orderName]);
-					success &= feedback.TryProcess (kvParameters);
-				}
-			}
-
-			success &= conclusion.TryProcess(kvParameters);
-
-			return success;
+			return conclusion.TryProcess(kvParameters);
 		}
 	}
 }

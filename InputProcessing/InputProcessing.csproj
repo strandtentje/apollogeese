@@ -59,6 +59,7 @@
     <Compile Include="Seperated\Fields\TextField.cs" />
     <Compile Include="Seperated\Fields\ValueField.cs" />
     <Compile Include="Hackjobs\Equals.cs" />
+    <Compile Include="Seperated\InputFeedback.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
