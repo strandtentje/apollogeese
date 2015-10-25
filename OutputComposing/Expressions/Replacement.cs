@@ -22,9 +22,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		}
 
 		public override bool TryWriteTo (StreamWriter writer, IInteraction context) {
-			string value;
-			if (context.TryGetFallbackString (this.Name, out value)) {
-				writer.Write (value);
+			object value;
+			if (context.TryGetFallback (this.Name, out value)) {
+				writer.Write (value.ToString());
 				writer.Flush ();
 				return true;
 			}
