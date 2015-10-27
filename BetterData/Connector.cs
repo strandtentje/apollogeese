@@ -45,8 +45,6 @@ namespace BetterData
 				IDbConnection connection = new MySqlConnection (
 					this.ConnectionString);
 
-				connection.Open ();
-
 				return connection;
 			} else {
 				throw new MissingConnectorException (this.Type);

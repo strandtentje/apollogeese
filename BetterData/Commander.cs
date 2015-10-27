@@ -16,26 +16,39 @@ namespace BetterData
 	public abstract class Commander : Service
 	{
 		private string DSN;
-		private IDbConnection Connection;
+
+		IDbConnection cachedConnection;
+
+		private IDbConnection Connection {
+			get {
+				lock (this) {
+					if (this.cachedConnection == null) {
+						this.cachedConnection = Connector.Find (this.DatasourceName);
+					}
+
+					if (this.cachedConnection.State != ConnectionState.Open) {
+						this.cachedConnection.Close ();
+						this.cachedConnection.Open ();
+					}
+				}
+
+				return this.cachedConnection;
+			}
+		}
 
 		public string DatasourceName { 
 			get {
 				return this.DSN; 
 			}
 			set {
-				if (this.Connection != null) {
-					try {
-						this.Connection.Dispose();
-					} catch (Exception ex) {
-						Secretary.Report (5, "Disposing of old connection failed. " +
-							"This shouldn't be *that* bad depending on what it says " +
-							"down there:");
-						Secretary.Report (5, ex.Message);
+				if (this.cachedConnection != null) {
+					lock (this) {
+						this.cachedConnection.Dispose ();
+						this.cachedConnection = null;
 					}
 				}
 
 				this.DSN = value;
-				this.Connection = Connector.Find (value);
 			}
 		}
 
