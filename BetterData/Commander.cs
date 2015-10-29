@@ -17,22 +17,44 @@ namespace BetterData
 	{
 		private string DSN;
 
-		IDbConnection cachedConnection;
 
-		private IDbConnection Connection {
+		IDbConnection connection;
+		DateTime timestamp;
+
+		/// <summary>
+		/// Gets the connection.
+		/// </summary>
+		/// <value>
+		/// The connection.
+		/// </value>
+		public IDbConnection Connection { 
 			get {
-				lock (this) {
-					if (this.cachedConnection == null) {
-						this.cachedConnection = Connector.Find (this.DatasourceName);
+				DateTime nowish = DateTime.Now;
+				TimeSpan dif = (nowish - timestamp);
+
+				bool 
+				noconnection = connection == null,
+				notopen = noconnection || (connection.State != ConnectionState.Open),
+				tooold = dif.TotalMinutes > 1;
+
+				timestamp = nowish;
+
+				if (notopen || tooold) {
+					Secretary.Report (5, "Reviving MySQL connection because it was:", (notopen ? "not open" : ""), (tooold ? "too old" : ""));
+
+					if (connection != null) {
+						try {
+							connection.Dispose();
+						} catch(Exception ex) {
+							Secretary.Report (5, "Failed to dispose of old one due to:", ex.Message);
+						}
 					}
 
-					if (this.cachedConnection.State != ConnectionState.Open) {
-						this.cachedConnection.Close ();
-						this.cachedConnection.Open ();
-					}
+					connection = Connector.Find (this.DatasourceName);
+					connection.Open ();
 				}
 
-				return this.cachedConnection;
+				return connection;
 			}
 		}
 
@@ -41,13 +63,7 @@ namespace BetterData
 				return this.DSN; 
 			}
 			set {
-				if (this.cachedConnection != null) {
-					lock (this) {
-						this.cachedConnection.Dispose ();
-						this.cachedConnection = null;
-					}
-				}
-
+				this.connection = null;
 				this.DSN = value;
 			}
 		}
