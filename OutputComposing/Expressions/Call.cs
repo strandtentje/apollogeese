@@ -26,7 +26,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		
 		public override bool TryWriteTo (StreamWriter writer, IInteraction context) {
 			// they should've never told me about branch prediction
-			return this.Caller.Branches.Has (this.Name) && this.Caller.Branches.Get (this.Name).TryProcess (context);
+			return this.Caller.Branches.Has (
+				this.Name) && this.Caller.Branches.Get (
+					this.Name).TryProcess (
+						context);
 		}
 	}
 }

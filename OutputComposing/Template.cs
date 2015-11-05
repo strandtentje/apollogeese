@@ -11,6 +11,7 @@ using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.ApolloGeese.Http.Headers;
 using BorrehSoft.Utensils.Log;
 using System.Collections.Generic;
+using System.Web;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
@@ -88,6 +89,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				break;
 			case '>':
 				result = new Call(replacename.Substring(1), this);
+				break;
+			case '&':
+				result = new Replacement (
+					replacename.Substring (1),
+					HttpUtility.HtmlEncode);
+				break;
+			case '*':
+				result = new Replacement (
+					replacename.Substring (1),
+					HttpUtility.HtmlDecode);
 				break;
 			default:
 				result = new CallOrReplace (replacename, this);
