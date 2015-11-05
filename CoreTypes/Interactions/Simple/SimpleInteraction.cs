@@ -38,6 +38,12 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			this.parent = parent;
 		}
 
+		public SimpleInteraction (IInteraction parent, string name, object value)
+		{
+			this.parent = parent;
+			this [name] = value;
+		}
+
 		/// <summary>
 		/// Gets the root interaction, typically the one that invoked the chain.
 		/// This usually, in case of a website, ends you up with an IHttpInteraction.
