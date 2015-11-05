@@ -39,10 +39,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 
 		protected override void Initialize (Settings modSettings)
 		{
-			LookupKeyName = modSettings.GetString ("lookupkeyname");
-			LookupName = modSettings.GetString ("lookupname");
+			base.Initialize (modSettings);
 			MetaName = modSettings.GetString ("metaname");
-			KeywordSplitterRegex = modSettings.GetString("keywordsplitregex", @"\W|_");
 			SplitKeywords = modSettings.GetBool ("splitkeywords", true);
 
 			Lookups.DropLookup (LookupName);

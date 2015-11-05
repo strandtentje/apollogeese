@@ -17,6 +17,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 	{
 		private Service iterator;
 		private Service capreached = Stub;
+		private Service count = null;
 
 		[Instruction("Maximum query size in words.", 6)]
 		public int KeyCap { get; set; }
@@ -36,13 +37,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 				this.iterator = e.NewValue;
 			if (e.Name == "capreached")
 				this.capreached = e.NewValue;
+			if (e.Name == "count")
+				this.count = e.NewValue;
 		}
 
 		protected override void Initialize (Settings modSettings)
 		{
-			LookupKeyName = modSettings.GetString ("lookupkeyname");
-			LookupName = modSettings.GetString ("lookupname");
-			KeywordSplitterRegex = modSettings.GetString("keywordsplitregex", @"\W|_");
+			base.Initialize (modSettings);
 			KeyCap = modSettings.GetInt("keycap", 6);
 			ResultCap = modSettings.GetInt ("resultcap", -1);
 		}
@@ -50,20 +51,29 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 		protected override bool Process (IInteraction parameters)
 		{
 			string queryText; int resultCount = 0;
-			bool success = parameters.TryGetFallbackString (this.LookupKeyName, out queryText);
+			bool success = true;
 
-			if (success) {
+			if (parameters.TryGetFallbackString (this.LookupKeyName, out queryText)) {
 				IEnumerable<string> keylist = Lookups.GetKeylist (KeywordSplitter.Split(queryText), KeyCap);
 				CleverSet<LookupEntry> results =  Lookups.Get(LookupName).Find (keylist);
 
 				foreach (LookupEntry result in results.Values) {
 					if ((ResultCap != -1) && (resultCount++ >= ResultCap)) {
-						this.capreached.TryProcess (parameters);
+						success &= this.capreached.TryProcess (parameters);
 						break;
 					} else {
-						this.iterator.TryProcess (result.Parameters.Clone (parameters));
+						success &= this.iterator.TryProcess (result.Parameters.Clone (parameters));
 					}
 				} 
+			}
+
+			if (count != null) {
+				// jezus wat staat hier
+				success &= this.count.TryProcess (
+					new SimpleInteraction (
+						parameters, "count", 
+						Lookups.Get (
+							LookupName).AllItems.Count));
 			}
 
 			return success;

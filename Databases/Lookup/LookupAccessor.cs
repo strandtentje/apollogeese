@@ -17,6 +17,26 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 
 		[Instruction("Name of the lookup this instance writes to.")]
 		public string LookupName {	get; set; }
+
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			string[] split = defaultParameter.Split ('[');
+
+			if (split.Length > 1) {
+				Settings ["lookupname"] = split [0];
+				Settings ["lookupkeyname"] = split [1].TrimEnd (']');
+			} else {
+				throw new ArgumentException (
+					"Default argument should be formatted like lookupname[indexvariable]");
+			}
+		}
+
+		protected override void Initialize (Settings modSettings)
+		{
+			LookupKeyName = modSettings.GetString ("lookupkeyname");
+			LookupName = modSettings.GetString ("lookupname");
+			KeywordSplitterRegex = modSettings.GetString("keywordsplitregex", @"\W|_");
+		}
 	}
 
 }
