@@ -1,12 +1,13 @@
 using System;
-using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Collections.Maps;
+using System.Net;
 using System.Net.Sockets;
 using System.Threading;
-using System.Net;
-using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping;
+using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.ApolloGeese.Extensions.Networking;
+using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {
@@ -93,30 +94,56 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 			};
 		}
 
+		BlockingPool<TcpClient> pool;
+
+		bool CheckTcpClient (TcpClient arg)
+		{
+			return arg.Connected;
+		}
+
+		TcpClient GetTcpClient ()
+		{
+			return new TcpClient (Ip, Port);
+		}
+
+		void ResetTcpClient (TcpClient obj)
+		{
+			obj.Close ();
+		}
+
+		protected override void Initialize (Settings modSettings)
+		{
+			base.Initialize (modSettings);
+
+			pool = new BlockingPool<TcpClient> (
+				modSettings.GetInt ("poolsize", 4), 
+				GetTcpClient, ResetTcpClient, CheckTcpClient);
+		}
+
+		public override void Dispose ()
+		{
+			pool.Dispose ();
+			base.Dispose ();
+		}
+
 		protected override bool Process (IInteraction parameters)
 		{
-			TcpClient connector = new TcpClient (Ip, Port);
+			pool.Fetch(delegate(TcpClient connector) {
+				Pipe informationExchange = new Pipe (connector.Client);
 
-			Pipe informationExchange = new Pipe (connector.Client);
+				informationExchange.Handshake ();
 
-			informationExchange.Handshake ();
-
-			while (
-				GetPipeCommandCallback(
-					informationExchange.ReceiveCommand ())(
-						informationExchange, parameters));
-							// dikkertje dap
-								// zat op de trap
-									// 's morgens vroeg om kwart over zeven
-										// zijn collega had spaghetticode geschreven
-
-
-
-
-			connector.Close ();
+				while (
+					GetPipeCommandCallback(
+						informationExchange.ReceiveCommand ())(
+							informationExchange, parameters));
+								// dikkertje dap
+									// zat op de trap
+										// 's morgens vroeg om kwart over zeven
+											// zijn collega had spaghetticode geschreven
+			});
 
 			return true;
-
 		}
 	}
 }
