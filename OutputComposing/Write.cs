@@ -44,7 +44,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				text = string.Format(Format, text);
 			}
 
-			byte[] data = Encoding.Unicode.GetBytes (text);
+			byte[] data = interaction.Encoding.GetBytes (text);
 
 			interaction.OutgoingBody.Write(data, 0, data.Length);
 

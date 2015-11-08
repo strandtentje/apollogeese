@@ -19,10 +19,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 	{
 		private MemoryStream body;
 		private StreamWriter writer = null;
+		public Encoding Encoding { get; private set; }
 
-		public FailureWrapperInteraction (IInteraction parameters) : base(parameters)
+		public FailureWrapperInteraction (IInteraction parameters, Encoding encoding) : base(parameters)
 		{
 			body = new MemoryStream ();
+
+			this.Encoding = encoding;
 		}
 
 		public Stream OutgoingBody {
@@ -33,7 +36,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 
 		public StreamWriter GetOutgoingBodyWriter() {
 			if (writer == null)
-				writer = new StreamWriter (body);
+				writer = new StreamWriter (body, Encoding);
 
 			return writer;
 		}

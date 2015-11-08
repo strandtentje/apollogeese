@@ -139,6 +139,17 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 		private bool DoFaultyForm(VerificationInteraction parsedData, IInteraction parameters)
 		{
 			bool success = true;
+
+			Encoding encoding;
+
+			IInteraction outgoingCandidate;
+			if (parameters.TryGetClosest (typeof(IOutgoingBodiedInteraction), out outgoingCandidate)) {
+				IOutgoingBodiedInteraction outgoing = (IOutgoingBodiedInteraction)outgoingCandidate;
+
+				encoding = outgoing.Encoding;
+			} else {
+				encoding = Encoding.UTF8;
+			}
 			
 			foreach (string fieldName in parsedData.FaultyFields) {
 				string failName = string.Format ("{0}_failure", fieldName);
@@ -151,7 +162,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 
 				if (handler != null) {
 					if (MapErrorStrings) {
-						interaction = fwInteraction = new FailureWrapperInteraction (parameters);
+						interaction = fwInteraction = new FailureWrapperInteraction (parameters, encoding);
 					}
 
 					if (FailureHandler != null) {

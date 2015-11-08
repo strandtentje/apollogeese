@@ -2,6 +2,7 @@
 using System.Net.Sockets;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
+using System.Text;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Networking
 {
@@ -21,6 +22,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking
 			}
 
 			return reader;
+		}
+
+		public Encoding Encoding {
+			get {
+				return Encoding.UTF8;
+			}
 		}
 
 		public bool HasReader() {

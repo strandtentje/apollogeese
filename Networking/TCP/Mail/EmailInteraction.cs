@@ -43,7 +43,11 @@ namespace Networking
 		/// <value>The subject key.</value>
 		private string SubjectKey { get { return string.Format ("{0}.subject", BodyTypeName); } }
 
-		public EmailInteraction(IInteraction parent, string emailTypeName, string sender, string recepient, string subject, string replyTo = null) : base(new MemoryStream(), parent)
+		public EmailInteraction(
+			IInteraction parent, 
+			string emailTypeName, string sender, string recepient, 
+			string subject, string replyTo = null) : base(
+				new MemoryStream(), parent)
 		{
 			this.BodyTypeName = emailTypeName;
 			// pull sender and recepient from context, but only if they weren't given in constructor

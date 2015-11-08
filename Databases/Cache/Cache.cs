@@ -58,7 +58,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 		{
 			bool success = true;
 			IOutgoingBodiedInteraction upstreamTarget;
-			upstreamTarget = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
+			upstreamTarget = (IOutgoingBodiedInteraction)parameters.GetClosest (
+				typeof(IOutgoingBodiedInteraction));
 
 			if (timeUntilCacheDrop != TimeSpan.MaxValue) {
 				if (DateTime.Now - lastUpdate > timeUntilCacheDrop) {
@@ -69,7 +70,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 			if ((binaryData == null) && (stringData == null)) {
 				MemoryStream targetStream = new MemoryStream();
-				SimpleOutgoingInteraction downstreamTarget = new SimpleOutgoingInteraction (targetStream, parameters);
+				SimpleOutgoingInteraction downstreamTarget = new SimpleOutgoingInteraction (
+					targetStream, upstreamTarget.Encoding, parameters);
 
 				success = begin.TryProcess (downstreamTarget);		
 				downstreamTarget.Done ();

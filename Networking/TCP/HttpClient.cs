@@ -8,6 +8,7 @@ using System.IO;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Log;
 using System.Text.RegularExpressions;
+using System.Text;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 {
@@ -106,7 +107,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 			if (hasPostBuilder) {
 				webRequest.Method = "POST";
 
-				postBody = new SimpleOutgoingInteraction (webRequest.GetRequestStream (), parameters);
+				postBody = new SimpleOutgoingInteraction (
+					webRequest.GetRequestStream (),Encoding.UTF8, parameters);
 
 				postbuilder.TryProcess (postBody);
 			}
@@ -139,7 +141,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 			SimpleOutgoingInteraction outgoingInteraction;
 
 			using (MemoryStream uriComposingStream = new MemoryStream ()) {
-				outgoingInteraction = new SimpleOutgoingInteraction (uriComposingStream, parameters);
+				outgoingInteraction = new SimpleOutgoingInteraction (
+					uriComposingStream, Encoding.ASCII , parameters);
 
 				if (!uriBranch.TryProcess (outgoingInteraction))
 					throw new Exception ("URI failed to compose");

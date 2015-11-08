@@ -10,6 +10,7 @@ using System.Drawing.Imaging;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.ApolloGeese.Http.Headers;
+using System.Text;
 
 namespace Imaging
 {
@@ -57,7 +58,8 @@ namespace Imaging
 				}
 
 				MemoryStream imageData = new MemoryStream ();
-				SimpleOutgoingInteraction imageSourcer = new SimpleOutgoingInteraction (imageData, parameters);
+				SimpleOutgoingInteraction imageSourcer = new SimpleOutgoingInteraction (
+					imageData, Encoding.Default, parameters);
 
 				if (Source.TryProcess (imageSourcer)) {
 					Image inImage = Bitmap.FromStream (imageData);

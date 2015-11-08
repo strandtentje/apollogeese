@@ -30,6 +30,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			this.Response = Response;
 		}	
 
+		public Encoding Encoding {
+			get {
+				return this.Response.ContentEncoding;
+			}
+		}
+
 		public string SourceName {
 			get {
 				return "http-request-body";

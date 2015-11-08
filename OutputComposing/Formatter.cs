@@ -55,7 +55,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				string text;
 
 				upstreamTarget = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
-				downstreamTarget = new SimpleOutgoingInteraction (formattables = new MemoryStream (), parameters);
+				downstreamTarget = new SimpleOutgoingInteraction (
+					formattables = new MemoryStream (), upstreamTarget.Encoding, parameters);
 
 				success = begin.TryProcess (downstreamTarget);
 				downstreamTarget.Done ();

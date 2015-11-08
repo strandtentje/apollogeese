@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Text;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
@@ -9,6 +10,8 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 	public interface IOutgoingBodiedInteraction : IInteraction
 	{
 		Stream OutgoingBody { get; }
+
+		Encoding Encoding { get; }
 	}
 }
 

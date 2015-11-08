@@ -1,6 +1,7 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
+using System.Text;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
@@ -15,8 +16,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		public OutgoingIterator (IInteraction parent, string name) : base(parent)
 		{
 			this.name = name;
+			this.Encoding = Encoding.UTF8;
 			body = new MemoryStream();
+		}
 
+		public Encoding Encoding { 
+			get;
+			private set;
 		}
 
 		public string GetFinished()
@@ -40,7 +46,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		public StreamWriter GetOutgoingBodyWriter() 
 		{
 			if (writer == null)
-				writer = new StreamWriter (body);
+				writer = new StreamWriter (body, this.Encoding);
 
 			return writer;
 		}
