@@ -6,7 +6,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using System.Data.SqlClient;
 using MySql.Data.MySqlClient;
 using System.IO;
-using Borrehsoft.Utensils.IO;
+using BorrehSoft.Utensils.IO;
 
 namespace BetterData
 {

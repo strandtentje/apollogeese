@@ -6,9 +6,9 @@ using System.Runtime.CompilerServices;
 [assembly: AssemblyTitle ("Navigation")]
 [assembly: AssemblyDescription ("")]
 [assembly: AssemblyConfiguration ("")]
-[assembly: AssemblyCompany ("Borrehsoft")]
+[assembly: AssemblyCompany ("BorrehSoft")]
 [assembly: AssemblyProduct ("")]
-[assembly: AssemblyCopyright ("Borrehsoft 2013")]
+[assembly: AssemblyCopyright ("BorrehSoft 2013")]
 [assembly: AssemblyTrademark ("")]
 [assembly: AssemblyCulture ("")]
 // The assembly version has the format "{Major}.{Minor}.{Build}.{Revision}".
