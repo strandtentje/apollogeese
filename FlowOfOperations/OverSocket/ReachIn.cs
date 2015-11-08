@@ -7,6 +7,7 @@ using System.Net.Sockets;
 using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Networking;
 using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping;
 using BorrehSoft.ApolloGeese.Extensions.Networking;
+using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {
@@ -14,7 +15,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 	{
 		public override string Description {
 			get {
-				return "Awaits connection from a reachout";
+				return string.Format("ReachIn at {0}:{1}", this.Ip, this.Port);
 			}
 		}
 
@@ -22,24 +23,39 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 
 		Service begin;
 
+		[Instruction("Love isn't always on time")]
+		public bool HoldTheLine {
+			get;
+			private set;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			base.Initialize (modSettings);
 			listener = new ListenerWithEvents (Ip, Port);
 			listener.NewClient += HandleNewClient;
+
+			HoldTheLine = modSettings.GetBool ("holdtheline", true);
 		}
 
 		void HandleNewClient (object sender, NewClientEventArgs e)
-		{
-			Pipe pipe = new Pipe (e.Client.Client);
+		{	
+			try {
+				Pipe pipe = new Pipe (e.Client.Client);
 
-			pipe.Handshake ();
+				while(this.HoldTheLine) {
+					pipe.Handshake ();
+					begin.TryProcess (new ReachInteraction (pipe));
+					pipe.SendCommand (Command.Close);
+				}
 
-			begin.TryProcess (new ReachInteraction (pipe));
-
-			pipe.SendCommand (Command.Close);
-
-			e.Client.Close ();
+				e.Client.Close ();
+			} catch (SocketException ex) {
+				Secretary.Report (5, "Connection failed at", this.Description);
+			} catch (Exception ex) {
+				Secretary.Report (5, "Misc. exception occured at", this.Description, ":", ex.Message);
+				e.Client.Close ();
+			}
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
