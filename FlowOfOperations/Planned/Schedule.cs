@@ -32,7 +32,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 					job.abort ();
 				}
 
-				job = daemon.AddJob (value, Start);
+				job = new CronJob (value, Start);
+				daemon.AddJob (job);
 			}
 		}
 
