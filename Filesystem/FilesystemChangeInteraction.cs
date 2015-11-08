@@ -65,7 +65,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		/// <param name="info">File info</param>
 		/// <param name="keywords">Keywords this file associates with</param>
 		/// <param name="rootPath">Root that was being watched</param>
-		public FilesystemChangeInteraction (FileSystemInfo info, string[] keywords, string rootPath = "")
+		public FilesystemChangeInteraction (
+			FileSystemInfo info, string[] keywords, string rootPath = "",
+			IInteraction parent = null) : base (parent)
 		{
 			this.info = info;	
 			this ["name"] = info.Name;
