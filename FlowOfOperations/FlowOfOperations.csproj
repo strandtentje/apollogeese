@@ -61,6 +61,7 @@
     <Compile Include="Reflection\Control\NewService.cs" />
     <Compile Include="Reflection\Control\ReloadService.cs" />
     <Compile Include="Reflection\Control\SetSetting.cs" />
+    <Compile Include="Planned\Schedule.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -70,6 +71,7 @@
     <Folder Include="Reflection\" />
     <Folder Include="Reflection\View\" />
     <Folder Include="View\" />
+    <Folder Include="Planned\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Loader\Loader.csproj">
@@ -95,6 +97,10 @@
     <ProjectReference Include="..\Utilities\Logging\IO.csproj">
       <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
       <Name>IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\CronNET\CronNET\CronNET.csproj">
+      <Project>{F31D7AF3-FDFA-44F1-9C63-305BAF11D002}</Project>
+      <Name>CronNET</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
