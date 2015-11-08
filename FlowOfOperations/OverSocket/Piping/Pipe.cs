@@ -8,7 +8,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
 	/// <summary>
 	/// Pipe.
 	/// </summary>
-	public class Pipe
+	public class Pipe : IDisposable
 	{
 		/// <summary>
 		/// Information source delegate.
@@ -29,6 +29,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping
 		public Pipe (Socket socket)
 		{
 			this.Socket = socket;
+		}
+
+		public void Dispose() {
+			this.Socket.Close ();
 		}
 
 		/// <summary>
