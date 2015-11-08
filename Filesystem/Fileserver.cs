@@ -15,7 +15,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	/// <summary>
 	/// Serves files from a directory from the filesystem.
 	/// </summary>
-	public class Fileserver : Service
+	public class Fileserver : KeywordService
 	{
 		private static Settings allExtensions;
 
@@ -40,7 +40,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		/// Allowed mime types
 		/// </summary>
 		Settings mimeTypes;
-		Service notFoundBranch, badRequestBranch;
+		Service notFoundBranch, badRequestBranch, doneBranch;
 
 		[Instruction("When set to true, files will be served, regardless of whether or not mime type is known.")]
 		public bool optionalMimetypes { get; set; }
@@ -111,15 +111,23 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
-			if (e.Name == "notfound") notFoundBranch = e.NewValue;
-			if (e.Name == "badrequest") badRequestBranch  = e.NewValue;
+			if (e.Name == "notfound")
+				notFoundBranch = e.NewValue;
+			else if (e.Name == "badrequest")
+				badRequestBranch = e.NewValue;
+			else if (e.Name == "done")
+				doneBranch = e.NewValue;
 		}
 
-		void sendFileToStream (string finalpath, Stream outgoingBody)
+		FileInfo sendFileToStream (string finalpath, Stream outgoingBody)
 		{
-			using (FileStream sourceStream = new FileStream (finalpath, FileMode.Open, FileAccess.Read)) {																
+			FileInfo info = new FileInfo (finalpath);
+
+			using (FileStream sourceStream = info.OpenRead()) {																
 				sourceStream.CopyTo (outgoingBody, 4096);		
 			}
+
+			return info;
 		}
 
 		protected override bool Process (IInteraction uncastParameters)
@@ -141,7 +149,18 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 					parameters.ResponseHeaders.ContentType = new MimeType (mimeType);
 					// parameters.ResponseHeaders.ContentLength = sourceStream.Length;
 
-					sendFileToStream (finalpath, parameters.OutgoingBody);
+					FileInfo info = sendFileToStream (finalpath, parameters.OutgoingBody);					 
+
+					if ((doneBranch ?? Stub) != Stub) {
+						doneBranch.TryProcess (
+							new FilesystemChangeInteraction (
+								info, 
+								KeywordSplitter.Split (
+									info.Name), 
+								this.rootPath, 
+								uncastParameters));
+					}
+
 				} else {
 					parameters.SetStatuscode (404);
 					notFoundBranch.TryProcess(uncastParameters);
