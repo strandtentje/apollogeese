@@ -39,6 +39,12 @@ namespace BetterData
 			}
 		}
 
+		Service Last {
+			get {
+				return (Branches ["last"] ?? Stub);
+			}
+		}
+
 		string[] GetColumnNames (IDataReader reader)
 		{
 			string[] columnNames = new string[reader.FieldCount];
@@ -79,6 +85,9 @@ namespace BetterData
 				success &= None.TryProcess (parameters);
 			else if (currentRowNumber == 1)
 				success &= Single.TryProcess (lastRow); 
+
+			if (currentRowNumber > 0)
+				success &= Last.TryProcess (lastRow);
 
 			return success;
 		}
