@@ -57,6 +57,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		{
 			return this.Successful.TryProcess (parameters);
 		}
+
+		public override void Dispose ()
+		{
+			daemon.Stop ();
+			base.Dispose ();
+		}
 	}
 }
 
