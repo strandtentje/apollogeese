@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Filesystem</RootNamespace>
     <AssemblyName>Filesystem</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -35,6 +37,12 @@
     <Compile Include="FilesystemIndexer.cs" />
     <Compile Include="FilesystemItemInteraction.cs" />
     <Compile Include="Tarballer.cs" />
+    <Compile Include="Indexing\FindFile.cs" />
+    <Compile Include="Indexing\WatchDirectory.cs" />
+    <Compile Include="Indexing\FileInteraction.cs" />
+    <Compile Include="Indexing\DirectoryInteraction.cs" />
+    <Compile Include="Indexing\FSInteraction.cs" />
+    <Compile Include="Indexing\FSService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -63,5 +71,8 @@
     <Content Include="mimetypes.clon">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Indexing\" />
   </ItemGroup>
 </Project>
