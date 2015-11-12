@@ -25,13 +25,17 @@ namespace BetterData
 			}
 		}
 
-		const string simpleMySqlCon = 
-			"Server=localhost; " +
-			"Database={0}; " +
-			"User ID={0}; " +
-			"Password={0}; " +
-			"Pooling=true; " +
-			"Allow User Variables=True";
+		public virtual string ConnectionstringTemplate { 
+			get {
+				return 
+					"Server=localhost; " +
+					"Database={0}; " +
+					"User ID={0}; " +
+					"Password={0}; " +
+					"Pooling=true; " +
+					"Allow User Variables=True";
+			}
+		}
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
@@ -39,7 +43,8 @@ namespace BetterData
 				Settings ["connectionstring"] = defaultParameter;
 			} else {
 				Settings ["name"] = defaultParameter;
-				Settings ["connectionstring"] = string.Format (simpleMySqlCon, defaultParameter);
+				Settings ["connectionstring"] = string.Format (
+					ConnectionstringTemplate, defaultParameter);
 			}
 		}
 
