@@ -160,6 +160,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 				string[] keywords = KeywordSplitter.Split (info.Name.ToLower ());
 				IInteraction newInteraction = new FilesystemChangeInteraction (info, keywords, RootPath);
 
+
+
 				if (info is FileInfo)
 					newFile.TryProcess (newInteraction);
 				if (info is DirectoryInfo)
@@ -181,7 +183,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 		protected override bool Process (IInteraction parameters)
 		{
-			return false;
+			return true;
 		}
 	}
 }
