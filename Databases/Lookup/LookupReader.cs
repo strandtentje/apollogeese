@@ -54,7 +54,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 			bool success = true;
 
 			if (parameters.TryGetFallbackString (this.LookupKeyName, out queryText)) {
-				IEnumerable<string> keylist = Lookups.GetKeylist (KeywordSplitter.Split(queryText), KeyCap);
+				IEnumerable<string> keylist = Lookups.GetKeylist (Splitter.Split(queryText), KeyCap);
 				CleverSet<LookupEntry> results =  Lookups.Get(LookupName).Find (keylist);
 
 				foreach (LookupEntry result in results.Values) {

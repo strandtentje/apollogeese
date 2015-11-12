@@ -10,7 +10,7 @@ using System.Text.RegularExpressions;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 {
-	public abstract class LookupAccessor : KeywordService
+	public abstract class LookupAccessor : SplitterService
 	{
 		[Instruction("Name of context variable to use as lookup query.")]
 		public string LookupKeyName { get; set; }
@@ -35,7 +35,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 		{
 			LookupKeyName = modSettings.GetString ("lookupkeyname");
 			LookupName = modSettings.GetString ("lookupname");
-			KeywordSplitterRegex = modSettings.GetString("keywordsplitregex", @"\W|_");
+			SplitterRegex = modSettings.GetString("keywordsplitregex", @"\W|_");
 		}
 	}
 

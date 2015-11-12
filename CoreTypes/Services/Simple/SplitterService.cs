@@ -3,18 +3,20 @@ using System.Text.RegularExpressions;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
-	public abstract class KeywordService : Service
+	public abstract class SplitterService : Service
 	{
 		private string splitterRegex;
 
+		public const string WordSplitter = @"\W|_";
+
 		[Instruction("Regex that is used to seperate keywords.", @"\W|_")]
-		public string KeywordSplitterRegex { 
+		public string SplitterRegex { 
 			get {
 				return splitterRegex;
 			}
 			set {
 				splitterRegex = value;
-				KeywordSplitter = new Regex (splitterRegex);
+				Splitter = new Regex (splitterRegex);
 			}
 		}
 
@@ -22,7 +24,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// Gets or sets the keyword splitter used to turn a query string into seperate query words.
 		/// </summary>
 		/// <value>The keyword splitter.</value>
-		public Regex KeywordSplitter { get; set; }
+		public Regex Splitter { get; set; }
 	}
 }
 

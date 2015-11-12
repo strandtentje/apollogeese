@@ -53,7 +53,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 			object keywordSource = parameters [LookupKeyName];
 
 			if (SplitKeywords && (keywordSource is string)) {
-				keywords = KeywordSplitter.Split ((string)keywordSource);
+				keywords = Splitter.Split ((string)keywordSource);
 			} else if (keywordSource is IEnumerable<object>) {
 				IEnumerable<object> keywordSourceEnumerable = (IEnumerable<object>)keywordSource;
 				List<string> keywordStrings = new List<string> ();

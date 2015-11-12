@@ -14,7 +14,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	/// <summary>
 	/// Indexes the filesystem at a certain root directory
 	/// </summary>
-	public class FilesystemIndexer : KeywordService
+	public class FilesystemIndexer : SplitterService
 	{
 		public override string Description {
 			get {
@@ -36,7 +36,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		protected override void Initialize (Settings modSettings)
 		{
 			RootPath = modSettings.GetString("rootpath", ".");
-			KeywordSplitterRegex = modSettings.GetString ("keywordsplitterregex", @"\W|_");
+			SplitterRegex = modSettings.GetString ("keywordsplitterregex", @"\W|_");
 
 			Thread walkPathThread = new Thread(WalkPath);
 			walkPathThread.Start(RootPath);
@@ -138,7 +138,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			try {
 				infoCache.Dictionary.Remove (info.FullName);
 
-				string[] keywords = KeywordSplitter.Split (info.Name.ToLower ());
+				string[] keywords = Splitter.Split (info.Name.ToLower ());
 				IInteraction removalInteraction = new FilesystemChangeInteraction (info, keywords);
 
 				if (info is FileInfo)
@@ -157,7 +157,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		void NewItem (FileSystemInfo info)
 		{
 			try {
-				string[] keywords = KeywordSplitter.Split (info.Name.ToLower ());
+				string[] keywords = Splitter.Split (info.Name.ToLower ());
 				IInteraction newInteraction = new FilesystemChangeInteraction (info, keywords, RootPath);
 
 

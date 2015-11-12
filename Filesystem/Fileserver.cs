@@ -15,7 +15,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	/// <summary>
 	/// Serves files from a directory from the filesystem.
 	/// </summary>
-	public class Fileserver : KeywordService
+	public class Fileserver : SplitterService
 	{
 		private static Settings allExtensions;
 
@@ -155,7 +155,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 						doneBranch.TryProcess (
 							new FilesystemChangeInteraction (
 								info, 
-								KeywordSplitter.Split (
+								Splitter.Split (
 									info.Name), 
 								this.rootPath, 
 								uncastParameters));
