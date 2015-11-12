@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BetterData</RootNamespace>
     <AssemblyName>BetterData</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -32,6 +34,7 @@
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\Downloads\Release.5a\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Mono.Data.Sqlite" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -45,6 +48,7 @@
     <Compile Include="TextSource\SqlLiteralSource.cs" />
     <Compile Include="TextSource\SqlFileSource.cs" />
     <Compile Include="TextSource\SqlSource.cs" />
+    <Compile Include="Sqlite.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

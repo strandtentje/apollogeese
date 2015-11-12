@@ -8,13 +8,11 @@ using BorrehSoft.Utensils.Collections;
 
 namespace BetterData
 {
-	class Connector : Service
+	public class Connector : Service
 	{
 		string Name;
 
-		string Type;
-
-		string ConnectionString;
+		public string ConnectionString { get; private set; }
 
 		static Map<Connector> NamedConnectors = new Map<Connector>();
 
@@ -25,7 +23,7 @@ namespace BetterData
 			}
 		}
 
-		public virtual string ConnectionstringTemplate { 
+		public virtual string ConnectionStringTemplate { 
 			get {
 				return 
 					"Server=localhost; " +
@@ -36,15 +34,23 @@ namespace BetterData
 					"Allow User Variables=True";
 			}
 		}
+		
+		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
+		{
+			if (e.Name == "init") {
+				e.NewValue.TryProcess (new SimpleInteraction ());
+			}
+		}
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
-			if (defaultParameter.ToLower ().Contains("database=")) {
+			// yeah that's quite the assumption
+			if (defaultParameter.ToLower ().Contains("=")) {
 				Settings ["connectionstring"] = defaultParameter;
 			} else {
 				Settings ["name"] = defaultParameter;
 				Settings ["connectionstring"] = string.Format (
-					ConnectionstringTemplate, defaultParameter);
+					ConnectionStringTemplate, defaultParameter);
 			}
 		}
 
@@ -57,10 +63,8 @@ namespace BetterData
 		}
 
 		public virtual IDbConnection GetNewConnection() {	
-			IDbConnection connection = new MySqlConnection (
+			return new MySqlConnection (
 				this.ConnectionString);
-
-			return connection;
 		}
 
 		public static IDbConnection Find (string name)
