@@ -25,30 +25,37 @@ namespace BetterData
 			}
 		}
 
+		const string simpleMySqlCon = 
+			"Server=localhost; " +
+			"Database={0}; " +
+			"User ID={0}; " +
+			"Password={0}; " +
+			"Pooling=true; " +
+			"Allow User Variables=True";
+
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
-			Settings ["connectionstring"] = defaultParameter;
+			if (defaultParameter.ToLower ().Contains("database=")) {
+				Settings ["connectionstring"] = defaultParameter;
+			} else {
+				Settings ["name"] = defaultParameter;
+				Settings ["connectionstring"] = string.Format (simpleMySqlCon, defaultParameter);
+			}
 		}
 
 		protected override void Initialize (Settings settings)
 		{
 			this.Name = settings.GetString ("name", "default");
-			this.Type = settings.GetString ("type", "mysql");
-			this.ConnectionString = settings.GetString (
-				"connectionstring");
+			this.ConnectionString = settings.GetString ("connectionstring");
 
 			NamedConnectors [this.Name] = this;
 		}
 
-		public IDbConnection GetNewConnection() {			
-			if (Type == "mysql") {
-				IDbConnection connection = new MySqlConnection (
-					this.ConnectionString);
+		public virtual IDbConnection GetNewConnection() {	
+			IDbConnection connection = new MySqlConnection (
+				this.ConnectionString);
 
-				return connection;
-			} else {
-				throw new MissingConnectorException (this.Type);
-			}
+			return connection;
 		}
 
 		public static IDbConnection Find (string name)
