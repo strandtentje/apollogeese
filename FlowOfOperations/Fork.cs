@@ -4,6 +4,8 @@ using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections;
 using System.Threading;
+using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
@@ -12,7 +14,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		private bool IsWorking { get; set; }
 
 		Service offloadBranch;
-		WaitingQueue<IInteraction> jobs = new WaitingQueue<IInteraction>();
+		Queue<IInteraction> jobs = new Queue<IInteraction>();
 		Thread worker;
 
 		public override string Description {
@@ -33,16 +35,29 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			worker.Start();
 		}
 
+		Semaphore locker = new Semaphore(0,1);
+
 		private void JobWorker (object argument)
 		{
 			while (IsWorking) {
-				offloadBranch.TryProcess (jobs.Dequeue ());
+				if (jobs.Count == 0) {
+					locker.WaitOne ();
+					locker.Release ();
+				}
+				lock (jobs) {
+					offloadBranch.TryProcess (jobs.Dequeue ());
+				}
 			}
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			jobs.Enqueue(parameters);
+			lock (jobs) {
+				jobs.Enqueue(parameters);
+				locker.Release ();
+				locker.WaitOne ();
+			}
+
 			return true;
 		}
 	}

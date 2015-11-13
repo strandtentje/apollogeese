@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese.Extensions.FlowOfOperations</RootNamespace>
     <AssemblyName>FlowOfOperations</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -62,6 +64,7 @@
     <Compile Include="Reflection\Control\ReloadService.cs" />
     <Compile Include="Reflection\Control\SetSetting.cs" />
     <Compile Include="Planned\Schedule.cs" />
+    <Compile Include="Recur.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -102,5 +105,8 @@
       <Project>{F31D7AF3-FDFA-44F1-9C63-305BAF11D002}</Project>
       <Name>CronNET</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Buffer.cs" />
   </ItemGroup>
 </Project>
