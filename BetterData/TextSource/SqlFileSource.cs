@@ -12,6 +12,17 @@ namespace BetterData
 {
 	class SqlFileSource : SqlSource
 	{
+		public override string ToString ()
+		{
+			return string.Format ("[SqlFileSource: {0}]", BackEnd.FilePath);
+		}
+
+		public override bool IsOutdated {
+			get {
+				return this.BackEnd.IsOutdated;
+			}
+		}
+
 		protected FileSource BackEnd {
 			get;
 			set;

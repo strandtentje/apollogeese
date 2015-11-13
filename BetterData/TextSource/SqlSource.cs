@@ -8,6 +8,12 @@ namespace BetterData
 {
 	public abstract class SqlSource
 	{
+		public virtual bool IsOutdated {
+			get {
+				return false;
+			}
+		}
+
 		public abstract string GetText();
 
 		public bool UnchangedFlag { get; protected set; }
