@@ -12,7 +12,7 @@ namespace BetterData
 		public override string Description {
 			get {
 				return string.Format (
-					"Read from {0}", DatasourceName);
+					"Read from {0} using {1}", DatasourceName, GetSqlSource());
 			}
 		}
 
