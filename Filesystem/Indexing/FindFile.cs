@@ -20,12 +20,17 @@ namespace Filesystem
 		protected override bool Process (IInteraction parameters)
 		{
 			bool success = true;
-			FileSystemInfo[] infos = rootDirectory.GetFileSystemInfos ("*", SearchOption.AllDirectories);
-			
-			foreach (FileSystemInfo info in infos) {
+			// FileSystemInfo[] infos = rootDirectory.GetFileSystemInfos ("*", SearchOption.AllDirectories);
+
+			IEnumerable<FileSystemInfo> infos = rootDirectory.EnumerateFileSystemInfos ("*", SearchOption.AllDirectories);
+
+			IEnumerator<FileSystemInfo> infoEnumerator = infos.GetEnumerator ();
+
+			while(infoEnumerator.MoveNext()) {			
 				try {
+					FileSystemInfo info = infoEnumerator.Current;
 					if (info is FileInfo) {
-						success &= FileFound.TryProcess (new FileInteraction (info, this.RootPath, parameters));
+ 						success &= FileFound.TryProcess (new FileInteraction (info, this.RootPath, parameters));
 					} else if (info is DirectoryInfo) {
 						success &= DirectoryFound.TryProcess(new DirectoryInteraction(info, this.RootPath, parameters));
 					}					

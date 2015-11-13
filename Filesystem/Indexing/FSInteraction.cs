@@ -96,8 +96,12 @@ namespace Filesystem
 
 		bool TryGetPropValue(object obj, string name, out object value) {
 			value = null;
+
 			try {
-				PropertyInfo info = obj.GetType ().GetProperty (name, BindingFlags.IgnoreCase);
+				PropertyInfo info = obj.GetType ().GetProperty (name, 
+				                                                BindingFlags.IgnoreCase | 
+				                                                BindingFlags.Public | 
+				                                                BindingFlags.Instance);
 				value = info.GetValue(obj, null);
 				return true;
 			} catch(Exception ex) {
