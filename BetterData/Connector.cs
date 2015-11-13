@@ -44,14 +44,7 @@ namespace BetterData
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
-			// yeah that's quite the assumption
-			if (defaultParameter.ToLower ().Contains("=")) {
-				Settings ["connectionstring"] = defaultParameter;
-			} else {
-				Settings ["name"] = defaultParameter;
-				Settings ["connectionstring"] = string.Format (
-					ConnectionStringTemplate, defaultParameter);
-			}
+			Settings ["connectionstring"] = defaultParameter;
 		}
 
 		protected override void Initialize (Settings settings)
