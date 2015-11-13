@@ -46,10 +46,10 @@
     <Compile Include="Services\Configuration\Instructions\ConfigInstruction.cs" />
     <Compile Include="Services\Configuration\Instructions\InstructionAttribute.cs" />
     <Compile Include="Services\Configuration\Configurables.cs" />
-    <Compile Include="Services\Simple\KeywordService.cs" />
     <Compile Include="Services\MissingBranchException.cs" />
     <Compile Include="Interactions\IOutgoingWriterInteraction.cs" />
     <Compile Include="Interactions\IIncomingReaderInteraction.cs" />
+    <Compile Include="Services\Simple\SplitterService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
