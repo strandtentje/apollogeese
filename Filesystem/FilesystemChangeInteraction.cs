@@ -12,52 +12,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	/// </summary>
 	public class FilesystemChangeInteraction : SimpleInteraction
 	{
-		FileSystemInfo info;
-
-		/// <summary>
-		///  Gets or sets the filename. 
-		/// </summary>
-		/// <value>
-		/// The name.
-		/// </value>
-		public string Name { 
-			get {
-				return this.GetString("name", null);
-			}
-		}
-
-		/// <summary>
-		/// Gets the full name.
-		/// </summary>
-		/// <value>
-		/// The full name.
-		/// </value>
-		public string FullName { 
-			get {
-				return this.GetString("fullname", null); 
-			}
-		}
-
-		/// <summary>
-		/// Keywords associated with this file
-		/// </summary>
-		/// <value>The keywords.</value>
-		public string[] Keywords { 
-			get { 
-				return this["keywords"] as string[];
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether this instance is a directory.
-		/// </summary>
-		/// <value><c>true</c> if this instance is directory; otherwise, <c>false</c> if it's a file.</value>
-		public bool IsDirectory { 
-			get {
-				return (bool)this["isdirectory"];
-			}
-		}
-
 		/// <summary>
 		/// Initializes a new instance of the
 		/// <see cref="BorrehSoft.Extensions.BasicWeblings.Site.Filesystem.FilesystemChangeInteraction"/> class.
@@ -69,7 +23,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			FileSystemInfo info, string[] keywords, string rootPath = "",
 			IInteraction parent = null) : base (parent)
 		{
-			this.info = info;	
 			this ["name"] = info.Name;
 			this ["fullname"] = info.FullName;
 			this ["lastdate"] = info.LastWriteTime.ToString ("s", System.Globalization.CultureInfo.InvariantCulture);
@@ -81,7 +34,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 				this ["parenturl"] = this ["parent"];
 			}
 			this["keywords"] = keywords;
-			this["isdirectory"] = (this.info.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
+			this["isdirectory"] = (info.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
 
 			FileInfo fileInfo = info as FileInfo;
 

@@ -87,6 +87,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			}
 		}
 
+		bool doSendFile {
+			get;
+			set;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			mimeTypes = new Settings ();
@@ -105,6 +110,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 			if (modSettings.Has("allowedextensions"))
 				allowedExtensions = modSettings.GetStringList ("allowedextensions");
 
+			doSendFile = modSettings.GetBool ("sendfile", true);
+
+			if (modSettings.GetBool ("allowany", false)) {
+				mimeTypes = ExtensionMimes;
+				optionalMimetypes = true;
+			}
+
 			Branches["notfound"] = Stub;
 			Branches["badrequest"] = Stub;
 		}
@@ -119,15 +131,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 				doneBranch = e.NewValue;
 		}
 
-		FileInfo sendFileToStream (string finalpath, Stream outgoingBody)
+		void sendFileToStream (FileInfo info, Stream outgoingBody)
 		{
-			FileInfo info = new FileInfo (finalpath);
-
 			using (FileStream sourceStream = info.OpenRead()) {																
 				sourceStream.CopyTo (outgoingBody, 4096);		
 			}
-
-			return info;
 		}
 
 		protected override bool Process (IInteraction uncastParameters)
@@ -146,10 +154,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 			if (mimeTypes.TryGetString(extension, out mimeType) || optionalMimetypes) {
 				if (sourcefile.Exists) {
-					parameters.ResponseHeaders.ContentType = new MimeType (mimeType);
-					// parameters.ResponseHeaders.ContentLength = sourceStream.Length;
+					FileInfo info = new FileInfo (finalpath);
 
-					FileInfo info = sendFileToStream (finalpath, parameters.OutgoingBody);					 
+					if (doSendFile) {
+						parameters.ResponseHeaders.ContentType = new MimeType (mimeType);
+						// parameters.ResponseHeaders.ContentLength = sourceStream.Length;
+
+						sendFileToStream (info, parameters.OutgoingBody);					 
+					}
 
 					if ((doneBranch ?? Stub) != Stub) {
 						doneBranch.TryProcess (
@@ -160,7 +172,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 								this.rootPath, 
 								uncastParameters));
 					}
-
 				} else {
 					parameters.SetStatuscode (404);
 					notFoundBranch.TryProcess(uncastParameters);

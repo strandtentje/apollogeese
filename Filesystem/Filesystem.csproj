@@ -43,6 +43,7 @@
     <Compile Include="Indexing\DirectoryInteraction.cs" />
     <Compile Include="Indexing\FSInteraction.cs" />
     <Compile Include="Indexing\FSService.cs" />
+    <Compile Include="LightFilesystemInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

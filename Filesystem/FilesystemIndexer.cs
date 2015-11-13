@@ -139,7 +139,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 				infoCache.Dictionary.Remove (info.FullName);
 
 				string[] keywords = Splitter.Split (info.Name.ToLower ());
-				IInteraction removalInteraction = new FilesystemChangeInteraction (info, keywords);
+				IInteraction removalInteraction = new LightFilesystemInteraction (info, keywords, RootPath);
 
 				if (info is FileInfo)
 					deletedFile.TryProcess (removalInteraction);
@@ -158,9 +158,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		{
 			try {
 				string[] keywords = Splitter.Split (info.Name.ToLower ());
-				IInteraction newInteraction = new FilesystemChangeInteraction (info, keywords, RootPath);
-
-
+				IInteraction newInteraction = new LightFilesystemInteraction (info, keywords, RootPath);
 
 				if (info is FileInfo)
 					newFile.TryProcess (newInteraction);
