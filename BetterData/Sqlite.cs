@@ -5,6 +5,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.ApolloGeese.CoreTypes;
+using System.IO;
 
 namespace BetterData
 {
@@ -12,7 +13,7 @@ namespace BetterData
 	{
 		public override string ConnectionStringTemplate {
 			get {
-				return "Data Source=file:{0}.db";
+				return "URI=file:{0};Version=3;";
 			}
 		}
 
@@ -23,6 +24,8 @@ namespace BetterData
 
 		protected override void Initialize (Settings settings)
 		{
+			string file = settings.GetString ("dbfile", "db.sqlite");
+			settings ["connectionstring"] = string.Format (ConnectionStringTemplate, file);
 			base.Initialize (settings);
 		}
 	}
