@@ -78,6 +78,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 				string url = info.FullName.Remove (0, rootPath.Length);
 				this ["url"] = url;
 				this ["parent"] = url.Remove(url.Length - info.Name.Length);
+				this ["parenturl"] = this ["parent"];
 			}
 			this["keywords"] = keywords;
 			this["isdirectory"] = (this.info.Attributes & FileAttributes.Directory) == FileAttributes.Directory;
