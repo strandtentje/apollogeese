@@ -4,6 +4,7 @@ using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.ApolloGeese.Loader;
 using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 {
@@ -53,6 +54,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			} else {
 				this.BranchVariable = "branchname";
 			}
+
+            this.AutoInvoke = modSettings.GetBool("autoinvoke", false);
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -60,11 +63,29 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 		}
 
-		/// <summary>
-		/// Gets the branches within the module file 
-		/// </summary>
-		/// <value>The module branches.</value>
-		public Map<Service> ModuleBranches { 
+        public override void OnReady()
+        {
+            if (this.AutoInvoke)
+            {
+                if (this.BranchName != null)
+                {
+                    if (!ModuleBranches[this.BranchName].TryProcess(new JumpInteraction(null, Branches, GetSettings())))
+                    {
+                        Secretary.Report(5, "Autoinvoke branch", this.BranchName, "failed");
+                    }
+                }
+                else
+                {
+                    Secretary.Report(5, "Can't autoinvoke", Description, "- branch needs explicit stating.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Gets the branches within the module file 
+        /// </summary>
+        /// <value>The module branches.</value>
+        public Map<Service> ModuleBranches { 
 			get {
 				return InstanceLoader.GetInstances (File); 
 			}
@@ -76,7 +97,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			}
 		}
 
-		class ModuleBranchException : Exception
+        public bool AutoInvoke { get; private set; }
+
+        class ModuleBranchException : Exception
 		{
 			public ModuleBranchException(string branchVariable) : base(
 				string.Format("No branch name found in context at {0}", 
