@@ -152,7 +152,11 @@ namespace BorrehSoft.ApolloGeese.Loader
 				log = config.GetBool("log", false);
 				logparams = config.GetString("logparams", "").Split(',');
 
-				newService = plugins.GetConstructed (type);
+				try {
+					newService = plugins.GetConstructed (type);	
+				} catch (Exception ex) {
+					throw new ArgumentException (string.Format ("Service {0} not found", type), ex);
+				}
 
 				succesfulInit = newService.SetSettings (moduleConfiguration);
 
