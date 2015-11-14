@@ -27,11 +27,12 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="OpenTK, Version=1.1.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\..\Documents\OpenTK\1.1\Binaries\OpenTK\Release\OpenTK.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
-    <Reference Include="OpenTK">
-      <HintPath>..\..\..\Downloads\Release.5a\OpenTK.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Updating\Keys.cs" />
@@ -44,6 +45,16 @@
     <Compile Include="Rendering\Rotate.cs" />
     <Compile Include="Updating\UpdateInteraction.cs" />
     <Compile Include="Rendering\VertexBuffer.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CoreTypes\CoreTypes.csproj">
+      <Project>{4e2886f5-a220-45e7-a3da-d60a98f2ac2d}</Project>
+      <Name>CoreTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
+      <Project>{81dfa659-4906-4653-ac13-e0886d28b9a0}</Project>
+      <Name>Collections</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

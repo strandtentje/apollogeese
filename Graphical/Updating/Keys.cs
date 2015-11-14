@@ -1,10 +1,8 @@
-﻿using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.Utensils.Collections.Maps;
+﻿using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using OpenTK.Input;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Graphical
 {

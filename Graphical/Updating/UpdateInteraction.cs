@@ -1,4 +1,5 @@
-﻿using BorrehSoft.ApolloGeese.Duckling;
+﻿using BorrehSoft.ApolloGeese.CoreTypes;
+
 using OpenTK.Input;
 using System;
 using System.Collections.Generic;

@@ -1,10 +1,4 @@
-﻿using BorrehSoft.ApolloGeese.Duckling;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using BorrehSoft.ApolloGeese.CoreTypes;
 
 namespace Graphical
 {

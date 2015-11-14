@@ -1,9 +1,6 @@
-﻿using BorrehSoft.ApolloGeese.Duckling;
+﻿using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace Graphical
 {

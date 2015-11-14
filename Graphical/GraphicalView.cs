@@ -1,11 +1,10 @@
 using System;
-using BorrehSoft.ApolloGeese.Duckling;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections.Settings;
 using System.Threading;
 using System.Collections.Generic;
-using OpenTK.Input;
 using Graphical;
+using BorrehSoft.ApolloGeese.CoreTypes;
+using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Graphical
 {
@@ -33,18 +32,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.Graphical
             TargetFPS = (float)modSettings.GetInt("framerate", 60);
             WindowWidth = modSettings.GetInt("width", 800);
             WindowHeight = modSettings.GetInt("height", 600);
-            WindowTitle = modSettings.GetString("title", "graphics");
-
-            AllBrancesLoaded += GraphicalView_AllBrancesLoaded;
+            WindowTitle = modSettings.GetString("title", "graphics");            
 		}
 
-        void GraphicalView_AllBrancesLoaded(object sender, EventArgs e)
+        public override void OnReady()
         {
             Thread windowThread = new Thread(StartWindow);
             windowThread.SetApartmentState(ApartmentState.STA);
             windowThread.Start();
         }
-
+        
         private void StartWindow()
         {
             using (Window = new Display(UpdateBranch, RenderBranch, WindowWidth, WindowHeight, WindowTitle))
