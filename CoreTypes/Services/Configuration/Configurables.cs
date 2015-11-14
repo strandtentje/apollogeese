@@ -71,7 +71,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		protected virtual void Initialize(Settings settings) {
 
 		}
-
+        
 		/// <summary>
 		/// Tries to Initialize and leaves the an InitErrorMessage set if applicable.
 		/// When no error is produced, the errormessage will remain blank.

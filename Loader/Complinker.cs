@@ -179,6 +179,8 @@ namespace BorrehSoft.ApolloGeese.Loader
 					Secretary.Report (5, type, " produced an error on initialization: ", newService.InitErrorMessage);
 
 
+                newService.OnReady();
+
 				config.Tag = newService;
 			}
 

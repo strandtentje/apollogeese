@@ -129,7 +129,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 				                 string.Format (
 					"Processing for Service {0} failed with the following message: \n{1}",
 					Description, ProcessErrorMessage));
-
+                
 				for(Exception inner = ex; inner != null; inner = inner.InnerException)
 					Secretary.Report(0, "Inner: ", inner.Message);
 			}
@@ -157,5 +157,10 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			foreach (Service service in Branches.Dictionary.Values)
 				service.Dispose ();
 		}
-	}
+
+        public virtual void OnReady()
+        {
+            
+        }
+    }
 }
