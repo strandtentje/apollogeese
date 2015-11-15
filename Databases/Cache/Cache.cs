@@ -45,8 +45,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 		private Service begin;
 		private bool isStringCache;
-		private byte[] binaryData = null;
-		private string stringData = null;
+
+		protected virtual byte[] binaryData { get; set; }
+		protected virtual string stringData { get; set; }
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
