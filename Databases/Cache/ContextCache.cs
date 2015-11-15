@@ -18,7 +18,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			}
 		}
 
-		Map<Cache> cacheMap = new Map<Cache>();
+		Map<AnonymousCache> cacheMap = new Map<AnonymousCache>();
 
 		Settings cacheSettings = new Settings();
 
@@ -37,9 +37,15 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			this.Settings ["keyname"] = defaultParameter;
 		}
 
+		bool Reset {
+			get;
+			set;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			this.CacheNameSource = modSettings.GetString ("keyname", "cachename");
+			this.Reset = modSettings.GetBool ("reset", false);
 
 			if (modSettings.Has ("lifetime"))
 				cacheSettings ["lifetime"] = modSettings ["lifetime"];
@@ -65,14 +71,18 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 		{
 			string cacheName = GetCacheName (parameters);
 
-			Cache currentCache;
+			AnonymousCache currentCache;
 
-			if (cacheMap.Has (cacheName)) {
-				currentCache = cacheMap [cacheName];
+			if (this.Reset) {
+				cacheMap.Dictionary.Remove (cacheName);
 			} else {
-				currentCache = cacheMap [cacheName] = new Cache ();
-				currentCache.SetSettings (cacheSettings);
-				currentCache.Branches ["begin"] = this.BeginBranch;
+				if (cacheMap.Has (cacheName)) {
+					currentCache = cacheMap [cacheName];
+				} else {
+					currentCache = cacheMap [cacheName] = new AnonymousCache ();
+					currentCache.SetSettings (cacheSettings);
+					currentCache.Branches ["begin"] = this.BeginBranch;
+				}
 			}
 
 			return currentCache.TryProcess (parameters);
