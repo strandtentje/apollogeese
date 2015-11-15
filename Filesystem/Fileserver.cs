@@ -134,7 +134,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 		void sendFileToStream (FileInfo info, Stream outgoingBody)
 		{
 			using (FileStream sourceStream = info.OpenRead()) {																
-				sourceStream.CopyTo (outgoingBody, 4096);		
+				sourceStream.CopyTo (outgoingBody);		
 			}
 		}
 
