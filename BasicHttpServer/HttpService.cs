@@ -54,10 +54,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		{
 			MeasurePerformance = modSettings.GetBool("measureperformance", false);
 			Prefixes = modSettings.GetStringList ("prefixes");
-
+            
 			listener.Start ();
-			listener.BeginGetContext (RequestMade, listener);
 
+            listener.IgnoreWriteExceptions = true;
+
+			listener.BeginGetContext (RequestMade, listener);
+            
 			Branches["http"] = Stub;
 		}
 
@@ -104,14 +107,26 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		{
 			HttpInteraction parameters = new HttpInteraction (
 				context.Request, context.Response);
-            
-			if (Process (parameters)) {
-				if (!parameters.IsStatuscodeSet) {
-					parameters.SetStatuscode (200);
-				}
-			} else {
-				context.Response.StatusCode = 500;
-			}
+
+            try
+            {
+                if (Process(parameters))
+                {
+                    if (!parameters.IsStatuscodeSet)
+                    {
+                        parameters.SetStatuscode(200);
+                    }
+                }
+                else
+                {
+                    context.Response.StatusCode = 500;
+                }
+            }
+            catch (Exception ex)
+            {
+                Secretary.Report(5, "Unhandled fault occurred near the server", ex.Message);
+                Secretary.Report(7, ex.ToString());
+            }
 
             try
             {
