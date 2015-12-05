@@ -28,7 +28,7 @@
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Downloads\Release.5a\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\Downloads\Release.13\MySql.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +62,7 @@
     <Compile Include="Cache\ConcatCache.cs" />
     <Compile Include="Databases\SQLList.cs" />
     <Compile Include="Databases\SQLRow.cs" />
+    <Compile Include="Cache\AnonymousCache.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

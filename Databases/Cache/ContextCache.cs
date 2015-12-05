@@ -75,14 +75,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 			if (this.Reset) {
 				cacheMap.Dictionary.Remove (cacheName);
+			} 
+
+			if (cacheMap.Has (cacheName)) {
+				currentCache = cacheMap [cacheName];
 			} else {
-				if (cacheMap.Has (cacheName)) {
-					currentCache = cacheMap [cacheName];
-				} else {
-					currentCache = cacheMap [cacheName] = new AnonymousCache ();
-					currentCache.SetSettings (cacheSettings);
-					currentCache.Branches ["begin"] = this.BeginBranch;
-				}
+				currentCache = cacheMap [cacheName] = new AnonymousCache ();
+				currentCache.SetSettings (cacheSettings);
+				currentCache.Branches ["begin"] = this.BeginBranch;
 			}
 
 			return currentCache.TryProcess (parameters);
