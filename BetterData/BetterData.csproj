@@ -7,8 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BetterData</RootNamespace>
     <AssemblyName>BetterData</AssemblyName>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,10 +29,10 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
-    <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Downloads\Release.5a\MySql.Data.dll</HintPath>
-    </Reference>
     <Reference Include="Mono.Data.Sqlite" />
+    <Reference Include="MySql.Data">
+      <HintPath>..\..\..\Downloads\Release.13\MySql.Data.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
