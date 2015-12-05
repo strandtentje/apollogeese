@@ -1,17 +1,16 @@
 using System;
-using System.Text.RegularExpressions;
-using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Settings;
-using System.Net;
-using System.IO;
-using BorrehSoft.Utensils.Collections;
-using Stringtionary = System.Collections.Generic.Dictionary<string, string>;
-using System.Text;
-using BorrehSoft.ApolloGeese.Http;
-using BorrehSoft.ApolloGeese.Http.Headers;
-using BorrehSoft.Utensils.Log;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
+using System.Text;
+using System.Text.RegularExpressions;
 using System.Web;
+using BorrehSoft.ApolloGeese.CoreTypes;
+using BorrehSoft.ApolloGeese.Http;
+using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utensils.Log;
+using Stringtionary = System.Collections.Generic.Dictionary<string, string>;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
@@ -40,6 +39,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 		private string rawTemplate;
 
+		[Instruction("Type of content being templated", "text/html")]
+		public string MimeType {
+			get;
+			set;
+		}
+
 		public DateTime LastTemplateUpdate { get; private set; }
 
 		/// <summary>
@@ -59,6 +64,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		{
 			Title = modSettings.GetString ("title", "untitled");
 			TemplateFile = modSettings.GetString ("templatefile");
+			MimeType = modSettings.GetString ("mimetype", "text/html");
 		}
 
 		private bool HasTemplateUpdates(bool reset = true) {
@@ -137,14 +143,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		protected override bool Process (IInteraction source)
 		{
 			IOutgoingBodiedInteraction target;
-			MimeType type;
-
+		
 			target = (IOutgoingBodiedInteraction)source.GetClosest (typeof(IOutgoingBodiedInteraction));
 
 			if (target is IHttpInteraction) {
-				type = MimeType.Text.Html;
-				type.Encoding = Encoding.UTF8;
-				((IHttpInteraction)target).ResponseHeaders.ContentType = type;
+				((IHttpInteraction)target).ResponseHeaders ["Content-Type"] = 
+					string.Format ("{0}; charset={1}",
+					this.MimeType,
+					target.Encoding.WebName);
 			}
 
 			if (HasTemplateUpdates ()) {

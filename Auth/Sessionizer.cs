@@ -55,7 +55,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 		{
 			IHttpInteraction parameters = (IHttpInteraction)uncastParameters.GetClosest (typeof(IHttpInteraction));
 
-			string givenCookie = parameters.RequestHeaders.Cookies.Get (CookieName, null);
+			string givenCookie = parameters.GetCookie (CookieName);
 
 			if (Closing && (givenCookie != null)) {
 				knownSessions.Remove(givenCookie);
@@ -78,7 +78,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 
 				} while (knownSessions.Contains(cookieValue));
 								
-				parameters.ResponseHeaders.SetCookie (CookieName, cookieValue);
+				parameters.SetCookie (CookieName, cookieValue);
 
 				givenCookie = cookieValue;
 

@@ -51,9 +51,9 @@ namespace Imaging
 
 				if (imageOut is IHttpInteraction) {
 					if (this.UseJpgInsteadOfPng) {
-						((IHttpInteraction)imageOut).ResponseHeaders.ContentType = new MimeType ("image/jpg");
+						((IHttpInteraction)imageOut).ResponseHeaders["Content-Type"] = "image/jpg";
 					} else {
-						((IHttpInteraction)imageOut).ResponseHeaders.ContentType = new MimeType ("image/png");
+						((IHttpInteraction)imageOut).ResponseHeaders["Content-Type"] = "image/png";
 					}
 				}
 

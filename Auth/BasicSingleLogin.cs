@@ -46,14 +46,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.Auth
 		protected override bool Process (IInteraction parameters)
 		{
 			IHttpInteraction httpParameters = (IHttpInteraction)parameters.GetClosest (typeof(IHttpInteraction));
-			string[] authHeader = httpParameters.RequestHeaders.Backend.GetValues ("Authorization");
+			string authHeader = httpParameters.RequestHeaders["Authorization"];
 			bool successful = true ;
 
-			if ((authHeader != null) && (authHeader.Length > 0) && (authHeader [0] == LoginString)) {
+			if ((authHeader != null) && (authHeader == LoginString)) {
 				 successful &= Successful.TryProcess (parameters);
 			} else {
 				httpParameters.SetStatuscode (401);
-				httpParameters.ResponseHeaders.Backend.Add ("WWW-Authenticate", ResponseHeader);
+				httpParameters.ResponseHeaders ["WWW-Authenticate"] = ResponseHeader;
 				successful &= Failure.TryProcess (parameters);
 			}
 

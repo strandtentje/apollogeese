@@ -19,7 +19,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		object accessingOutgoing = new object();
 		Stream incoming;
 		Timer splitterThread;
-		MimeType mimeType;
+		string mimeType;
 
 		int bufsize = 500000, interval = 100;
 
@@ -43,7 +43,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 
 			delimiter = delimiterByteList.ToArray ();
 
-			mimeType = MimeType.FromString(modSettings.GetString("mimetype", "application/octet-stream"));
+			mimeType = modSettings.GetString ("mimetype", "application/octet-stream");
 
 			if (modSettings.Has ("bufsize"))
 				bufsize = (int)modSettings ["bufsize"];
@@ -130,7 +130,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 			outgoingData = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
 
 			if (outgoingData is IHttpInteraction) 	
-				((IHttpInteraction)outgoingData).ResponseHeaders.ContentType = mimeType;
+				((IHttpInteraction)outgoingData).ResponseHeaders["Content-Type"] = mimeType;
 
 			BufferAndSplit (incomingData.IncomingBody);
 

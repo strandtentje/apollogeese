@@ -1,13 +1,14 @@
 using System.IO;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.ApolloGeese.CoreTypes;
+using System.Collections.Specialized;
 
 namespace BorrehSoft.ApolloGeese.Http
 {
 	/// <summary>
 	/// Parameters to an HTTP-related service-interaction.
 	/// </summary>
-	public interface IHttpInteraction : IInteraction, IOutgoingBodiedInteraction, IIncomingBodiedInteraction
+	public interface IHttpInteraction : IInteraction, IHeaderedInteraction, IOutgoingBodiedInteraction, IIncomingBodiedInteraction
 	{
 		/// <summary>
 		/// Gets the request  method.
@@ -25,11 +26,9 @@ namespace BorrehSoft.ApolloGeese.Http
 
 		string GetQuery { get; }
 
-		/// <summary>
-		/// Gets the request headers.
-		/// </summary>
-		/// <value>The request headers.</value>
-		RequestHeaders RequestHeaders { get; }
+		void SetCookie (string name, string value);
+
+		string GetCookie (string name);
 
 		/// <summary>
 		/// Gets or sets the status code for the HTTP response
@@ -38,13 +37,6 @@ namespace BorrehSoft.ApolloGeese.Http
 		/// The status code.
 		/// </value>
 		void SetStatuscode(int statuscode);
-
-		/// <summary>
-		/// Gets the response headers.
-		/// </summary>
-		/// <value>The response headers.</value>
-		ResponseHeaders ResponseHeaders { get; }
-
 	}
 }
 

@@ -3,6 +3,7 @@ using System.Net;
 using BorrehSoft.ApolloGeese.Http;
 using System.IO;
 using System.Web;
+using System.Collections.Specialized;
 
 namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {
@@ -25,7 +26,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			get { return _response; }
 			set {
 				_response = value;
-				_responseHeaders = new ResponseHeaders (value.Headers);
+				ResponseHeaders = value.Headers;
 				streamToClient = value.OutputStream;
 			}
 		}
@@ -52,13 +53,15 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
 		public bool IsStatuscodeSet { get; private set; }
 
-		ResponseHeaders _responseHeaders;
+		public void SetCookie(string name, string value) {
+			Response.SetCookie(new Cookie(name, value));
+		}
 
 		/// <summary>
 		/// Gets the response headers.
 		/// </summary>
 		/// <value>The response headers.</value>
-		public ResponseHeaders ResponseHeaders { get { return _responseHeaders; } }
+		public NameValueCollection ResponseHeaders { get; private set; }
 
 		/// <summary>
 		/// Gets the outgoing body.

@@ -52,7 +52,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 
 			string requestedPath = Path.Combine (RootPath, decodedPathFromURL);
 
-			httpParameters.ResponseHeaders.ContentType = new MimeType ("application/tar");
+			httpParameters.ResponseHeaders ["Content-Type"] = "application/tar";
 
 			ProcessStartInfo pStart = new ProcessStartInfo (TarCommand, "-cO .");
 			pStart.WorkingDirectory = requestedPath;

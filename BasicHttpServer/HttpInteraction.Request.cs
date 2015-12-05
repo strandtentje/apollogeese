@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using BorrehSoft.Utensils.Collections;
 using System.IO;
+using System.Collections.Specialized;
 
 namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {
@@ -37,9 +38,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
 				SetUrl(value.RawUrl);
 
-				RequestHeaders = new RequestHeaders (value.Headers, Request.Cookies);
+				RequestHeaders = Request.Headers;
 				IncomingBody = value.InputStream;
 			}
+		}
+
+		public string GetCookie(string name) {
+			return Request.Cookies [name].Value;
+
 		}
 
 		/// <summary>
@@ -80,7 +86,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		/// Gets the request headers.
 		/// </summary>
 		/// <value>The request headers.</value>
-		public RequestHeaders RequestHeaders { get; private set; }
+		public NameValueCollection RequestHeaders { get; private set; }
 
 		/// <summary>
 		/// Gets the request body.

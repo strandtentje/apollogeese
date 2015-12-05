@@ -157,7 +157,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 					FileInfo info = new FileInfo (finalpath);
 
 					if (doSendFile) {
-						parameters.ResponseHeaders.ContentType = new MimeType (mimeType);
+						parameters.ResponseHeaders["Content-Type"] = mimeType;
 						// parameters.ResponseHeaders.ContentLength = sourceStream.Length;
 
 						sendFileToStream (info, parameters.OutgoingBody);					 
