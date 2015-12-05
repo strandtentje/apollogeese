@@ -7,8 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>InputProcessing</RootNamespace>
     <AssemblyName>InputProcessing</AssemblyName>
-    <ProductVersion>12.0.0</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,7 +27,7 @@
     <Reference Include="System" />
     <Reference Include="System.Web" />
     <Reference Include="CsQuery">
-      <HintPath>..\..\..\Downloads\Release.5a\CsQuery.dll</HintPath>
+      <HintPath>..\..\..\Downloads\Release.13\CsQuery.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -62,6 +60,7 @@
     <Compile Include="Seperated\InputFeedback.cs" />
     <Compile Include="Hackjobs\Spliterate.cs" />
     <Compile Include="Hackjobs\SplitInteraction.cs" />
+    <Compile Include="Seperated\Forms\Multipart\MultipartForm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -96,5 +95,6 @@
     <Folder Include="Seperated\" />
     <Folder Include="Seperated\Forms\" />
     <Folder Include="Seperated\Forms\JsonEncoded\" />
+    <Folder Include="Seperated\Forms\Multipart\" />
   </ItemGroup>
 </Project>
