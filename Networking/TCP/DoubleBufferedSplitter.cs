@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using BorrehSoft.ApolloGeese.Http;
-using BorrehSoft.ApolloGeese.Http.Headers;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 {

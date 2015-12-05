@@ -9,7 +9,6 @@ using System.IO;
 using System.Drawing.Imaging;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.ApolloGeese.Http;
-using BorrehSoft.ApolloGeese.Http.Headers;
 using System.Text;
 
 namespace Imaging

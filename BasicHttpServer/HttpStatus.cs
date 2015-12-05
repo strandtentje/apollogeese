@@ -2,7 +2,6 @@ using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.ApolloGeese.Http.Headers;
 
 namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {

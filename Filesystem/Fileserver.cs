@@ -5,7 +5,6 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.ApolloGeese.Http;
-using BorrehSoft.ApolloGeese.Http.Headers;
 using System.Web;
 using BorrehSoft.Utensils.Log;
 using System.Collections.Generic;
