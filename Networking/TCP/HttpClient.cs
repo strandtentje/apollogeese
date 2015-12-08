@@ -49,6 +49,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 				postbuilder = e.NewValue;
 				hasPostBuilder = !((postbuilder ?? Stub) is StubService);
 			}
+            if (e.Name == "failure")
+                failure = e.NewValue;
 		}
 
 		public override void LoadDefaultParameters (string defaultParameter)
@@ -155,18 +157,31 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		}
 
 		protected override bool Process (IInteraction parameters)
-		{			
-			Stream responseStream;
-			SimpleIncomingInteraction incomingInteraction;
+		{
+            try
+            {
+                Stream responseStream;
+                SimpleIncomingInteraction incomingInteraction;
 
-			if (Branches.Has ("uri")) {
-				responseStream = RequestForResponse (parameters);
-			} else {
-				responseStream = GetResponse (PresetUri, parameters);
-			}
-			incomingInteraction = new SimpleIncomingInteraction (responseStream, parameters, "http-response-body");
+                if (Branches.Has("uri"))
+                {
+                    responseStream = RequestForResponse(parameters);
+                }
+                else
+                {
+                    responseStream = GetResponse(PresetUri, parameters);
+                }
+                incomingInteraction = new SimpleIncomingInteraction(responseStream, parameters, "http-response-body");
 
-			return responseProcessor.TryProcess (incomingInteraction);
+                return responseProcessor.TryProcess(incomingInteraction);
+            }
+            catch (Exception ex)
+            {
+                Secretary.Report(5, "Http Client failed due to", ex.Message);
+                return failure.TryProcess(parameters);
+            }
 		}
-	}
+
+        Service failure = Stub;
+    }
 }
