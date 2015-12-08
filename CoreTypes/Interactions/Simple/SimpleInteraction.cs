@@ -68,13 +68,18 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// </value>
 		public IInteraction Parent { get { return parent; } }
 
-		public bool TryGetClosest(Type t, out IInteraction closest)
-		{			
-			for (closest = this; (closest != null); closest = closest.Parent)
-				if (t.IsAssignableFrom (closest.GetType ())) 
-					return true;
+        public bool TryGetClosest(Type t, IInteraction limit, out IInteraction closest) 
+        {
+            for (closest = this; (closest != limit); closest = closest.Parent)
+                if (t.IsAssignableFrom(closest.GetType()))
+                    return true;
 
-			return false;
+            return false;
+        }
+
+		public bool TryGetClosest(Type t, out IInteraction closest)
+		{
+            return TryGetClosest(t, null, out closest);
 		}
 
 		/// <summary>
