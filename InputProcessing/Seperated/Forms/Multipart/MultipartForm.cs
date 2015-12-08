@@ -18,6 +18,8 @@ namespace InputProcessing
 			} else {
 				throw new Exception ("Multipart form only works in http context.");
 			}
+
+            return null;
 		}
 	}
 }
