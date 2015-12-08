@@ -7,14 +7,16 @@ using System.Xml;
 
 namespace Data
 {
-    class XmlNodeInteraction : SimpleInteraction
+    class XMLNodeInteraction : SimpleInteraction
     {
         private IInteraction parameters;
         public XmlNode Node { get; private set; }
 
-        public XmlNodeInteraction(IInteraction parameters, XmlNode node) : base(parameters)
+        public XMLNodeInteraction(IInteraction parameters, XmlNode node, IIncomingBodiedInteraction source)
+            : base(parameters)
         {   
             this.Node = node;
+            this.Source = source;
 
             this["node_name"] = this.Node.LocalName;
 
@@ -26,6 +28,8 @@ namespace Data
                 }
             }            
         }
+
+        public IIncomingBodiedInteraction Source { get; private set; }
 
         public override bool Has(string key)
         {

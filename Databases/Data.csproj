@@ -64,8 +64,8 @@
     <Compile Include="Databases\SQLList.cs" />
     <Compile Include="Databases\SQLRow.cs" />
     <Compile Include="Cache\AnonymousCache.cs" />
-    <Compile Include="XmlAttributeInteraction.cs" />
-    <Compile Include="XMLNodes.cs" />
+    <Compile Include="XMLNodeInteraction.cs" />
+    <Compile Include="XML.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

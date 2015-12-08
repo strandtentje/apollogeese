@@ -30,12 +30,13 @@ namespace Data
         {
             if (e.Name == "anynode")            
                 this.AnyNode = e.NewValue;
-            
+            if (e.Name == "nonode")
+                this.NoNode = e.NewValue;            
         }
 
         protected override bool Process(IInteraction parameters)
         {
-            XmlNodeInteraction preceeding = FindNode(parameters);
+            XMLNodeInteraction preceeding = FindNode(parameters);
             string name;
             bool successful = true;
 
@@ -46,45 +47,51 @@ namespace Data
             
             else
                 children = preceeding.Node.ChildNodes;
-            
 
+            
             foreach (XmlNode child in children)
             {
                 name = child.LocalName.TrimStart('#');
 
                 if (Branches.Has(name))
-                    successful &= Branches[name].TryProcess(new XmlNodeInteraction(parameters, child));
+                    successful &= Branches[name].TryProcess(new XMLNodeInteraction(parameters, child, preceeding.Source));
                 else if (this.AnyNode != null)
-                    successful &= this.AnyNode.TryProcess(new XmlNodeInteraction(parameters, child));                
+                    successful &= this.AnyNode.TryProcess(new XMLNodeInteraction(parameters, child, preceeding.Source));                
             }
 
-            return true;
+            if ((children.Count == 0) && (this.NoNode != null))            
+                successful &= this.NoNode.TryProcess(parameters);
+            
+            return successful;
         }
 
-        private XmlNodeInteraction FindNode(IInteraction parameters)
+        private XMLNodeInteraction FindNode(IInteraction parameters)
         {
             IInteraction candidate;
-
-            if (parameters.TryGetClosest(typeof(XmlNodeInteraction), out candidate))
+            XMLNodeInteraction nodeInteraction = null;
+            
+            // find an XmlNodeInteraction and hold on to that
+            if (parameters.TryGetClosest(typeof(XMLNodeInteraction), out candidate))
+                nodeInteraction = (XMLNodeInteraction)candidate;            
+            
+            // But if a new incoming body was acquired after that
+            if (parameters.TryGetClosest(typeof(IIncomingBodiedInteraction), nodeInteraction, out candidate))
             {
-                XmlNodeInteraction xmlNodeInteraction = (XmlNodeInteraction)candidate;
-
-                return xmlNodeInteraction;
-            }
-            else if (parameters.TryGetClosest(typeof(IIncomingBodiedInteraction), out candidate))
-            {
+                // produce an XmlNodeInteraction from that instead.
                 IIncomingBodiedInteraction source = (IIncomingBodiedInteraction)candidate;
 
                 XmlDocument document = new XmlDocument();
 
                 document.Load(source.IncomingBody);
 
-                return new XmlNodeInteraction(parameters, document);
+                nodeInteraction = new XMLNodeInteraction(parameters, document, source);                
             }
-            else
-            {
-                throw new Exception("Couldn't find or produce XML document");
-            }
+
+            if (nodeInteraction == null)            
+                // bitter failure
+                throw new Exception("Couldn't find or produce XML document");                        
+
+            return nodeInteraction;
         }
 
         public string DefaultBranch { get; set; }
@@ -96,5 +103,7 @@ namespace Data
         public string Path { get; set; }
 
         public Service AnyNode { get; set; }
+
+        public Service NoNode { get; set; }
     }
 }
