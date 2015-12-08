@@ -16,19 +16,22 @@ namespace Data
             get { return "XML Iterator"; }
         }
 
+        public override void LoadDefaultParameters(string defaultParameter)
+        {
+            this.Settings["path"] = defaultParameter;
+        }
+
         protected override void Initialize(Settings settings)
         {
-            this.DefaultBranch = settings.GetString("defaultbranch", "default");
-            this.TextBranch = settings.GetString("textbranch", "text");
-            this.TextVariable = settings.GetString("textvariable", "text");
+            this.Path = settings.GetString("path", "");
         }
 
         protected override void HandleBranchChanged(object sender, ItemChangedEventArgs<Service> e)
         {
+            if (e.Name == "anynode")            
+                this.AnyNode = e.NewValue;
             
         }
-
-
 
         protected override bool Process(IInteraction parameters)
         {
@@ -36,14 +39,23 @@ namespace Data
             string name;
             bool successful = true;
 
-            foreach (XmlNode child in preceeding.Node.ChildNodes)
+            XmlNodeList children;
+
+            if (this.Path.Length > 0) 
+                children = preceeding.Node.SelectNodes(this.Path);
+            
+            else
+                children = preceeding.Node.ChildNodes;
+            
+
+            foreach (XmlNode child in children)
             {
                 name = child.LocalName.TrimStart('#');
 
                 if (Branches.Has(name))
-                {
                     successful &= Branches[name].TryProcess(new XmlNodeInteraction(parameters, child));
-                }
+                else if (this.AnyNode != null)
+                    successful &= this.AnyNode.TryProcess(new XmlNodeInteraction(parameters, child));                
             }
 
             return true;
@@ -80,5 +92,9 @@ namespace Data
         public string TextBranch { get; set; }
 
         public string TextVariable { get; set; }
+
+        public string Path { get; set; }
+
+        public Service AnyNode { get; set; }
     }
 }
