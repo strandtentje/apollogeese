@@ -16,6 +16,8 @@ namespace Data
         {   
             this.Node = node;
 
+            this["node_name"] = this.Node.LocalName;
+
             if (node.Attributes != null)
             {
                 foreach (XmlAttribute attrib in node.Attributes)
