@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -30,6 +30,7 @@
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\Downloads\Release.13\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="System.XML" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -63,14 +64,11 @@
     <Compile Include="Databases\SQLList.cs" />
     <Compile Include="Databases\SQLRow.cs" />
     <Compile Include="Cache\AnonymousCache.cs" />
+    <Compile Include="XmlAttributeInteraction.cs" />
+    <Compile Include="XMLNodes.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <Folder Include="Databases\" />
-    <Folder Include="Lookup\" />
-    <Folder Include="Cache\" />
-    <Folder Include="Credentials\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
       <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
