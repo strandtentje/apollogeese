@@ -16,13 +16,14 @@ namespace BetterData
 {
 	class TransactionInteraction : SimpleInteraction
 	{
-		public TransactionInteraction(IInteraction parent, BlockingPool<IDbCommand> commandPool) : base(parent) {
-			this.CommandPool = commandPool;
-		}
+        public TransactionInteraction(IDbConnection connection, string datasourceName, IInteraction parent) : base(parent)
+        {
+            this.Connection = connection;
+            this.DatasourceName = datasourceName;
+        }
 
-		public BlockingPool<IDbCommand> CommandPool {
-			get;
-			private set;
-		}
-	}
+        public IDbConnection Connection { get; set; }
+
+        public string DatasourceName { get; set; }
+    }
 }
