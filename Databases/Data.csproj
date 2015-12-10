@@ -36,13 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Databases\IQueryCommand.cs" />
-    <Compile Include="Databases\IQueryConnection.cs" />
-    <Compile Include="Databases\Querier.cs" />
-    <Compile Include="Databases\ResultInteraction.cs" />
-    <Compile Include="Databases\MySQL\MySqlQuerier.cs" />
-    <Compile Include="Databases\MySQL\MySqlQueryCommand.cs" />
-    <Compile Include="Databases\MySQL\MySqlQueryConnection.cs" />
     <Compile Include="Lookup\LookupEntry.cs" />
     <Compile Include="Lookup\LookupExterminator.cs" />
     <Compile Include="Lookup\LookupReader.cs" />
@@ -54,17 +47,13 @@
     <Compile Include="Cache\CacheException.cs" />
     <Compile Include="Cache\CacheInteraction.cs" />
     <Compile Include="Cache\CacheListClear.cs" />
-    <Compile Include="Databases\QueryException.cs" />
     <Compile Include="Credentials\CredentialsStore.cs" />
     <Compile Include="Credentials\Remember.cs" />
-    <Compile Include="Databases\SQL.cs" />
     <Compile Include="Cache\ContextCache.cs" />
     <Compile Include="Cache\NosyCache.cs" />
     <Compile Include="Cache\NosyInteraction.cs" />
     <Compile Include="Lookup\LookupAccessor.cs" />
     <Compile Include="Cache\ConcatCache.cs" />
-    <Compile Include="Databases\SQLList.cs" />
-    <Compile Include="Databases\SQLRow.cs" />
     <Compile Include="Cache\AnonymousCache.cs" />
     <Compile Include="XML.cs" />
     <Compile Include="XmlNodeInteraction.cs" />
@@ -84,10 +73,5 @@
       <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
       <Name>IO</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Databases\SQLite\SQLiteQuerier.cs" />
-    <None Include="Databases\SQLite\SQLiteQueryCommand.cs" />
-    <None Include="Databases\SQLite\SQLiteQueryConnection.cs" />
   </ItemGroup>
 </Project>
