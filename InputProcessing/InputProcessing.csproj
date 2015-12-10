@@ -61,6 +61,8 @@
     <Compile Include="Hackjobs\Spliterate.cs" />
     <Compile Include="Hackjobs\SplitInteraction.cs" />
     <Compile Include="Seperated\Forms\Multipart\MultipartForm.cs" />
+    <Compile Include="Seperated\FormException.cs" />
+    <Compile Include="Seperated\Forms\Multipart\MultipartKeyValueInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
