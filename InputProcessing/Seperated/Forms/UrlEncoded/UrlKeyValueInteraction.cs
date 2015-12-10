@@ -15,7 +15,9 @@ namespace InputProcessing
 
 		public Map<Service> Feedback { get; set; }
 
-		public UrlKeyValueInteraction (IInteraction parent, TextReader dataReader, IEnumerable<string> fieldOrder) : base(parent)
+		public UrlKeyValueInteraction (
+			IInteraction parent, TextReader dataReader, 
+			IEnumerable<string> fieldOrder) : base(parent)
 		{
 			this.Feedback = new Map<Service> ();
 			this.dataReader = new ReluctantTextReader (dataReader);
