@@ -135,14 +135,25 @@ namespace InputProcessing
 
 		protected override bool Process (IInteraction parameters)
 		{
-			IRawInputInteraction kvParameters = GetReader (parameters);
+			Service conclusion;
 
-			bool isValid = ValidateInput (kvParameters);
+			try {
+				IRawInputInteraction kvParameters = GetReader (parameters);
 
-			bool showFeedback = false;
-			Service conclusion = GetConclusion (kvParameters, isValid);
+				bool isValid = ValidateInput (kvParameters);
 
-			return conclusion.TryProcess(kvParameters);
+				conclusion = GetConclusion (kvParameters, isValid);
+
+				parameters = kvParameters;
+			} catch(FormException ex) {
+				Secretary.Report (6, 
+					"User input rejected due to form exception:",
+					ex.Message);
+
+				conclusion = Empty;
+			}
+
+			return conclusion.TryProcess(parameters);
 		}
 	}
 }
