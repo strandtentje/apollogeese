@@ -47,8 +47,6 @@
     <Compile Include="Cache\CacheException.cs" />
     <Compile Include="Cache\CacheInteraction.cs" />
     <Compile Include="Cache\CacheListClear.cs" />
-    <Compile Include="Credentials\CredentialsStore.cs" />
-    <Compile Include="Credentials\Remember.cs" />
     <Compile Include="Cache\ContextCache.cs" />
     <Compile Include="Cache\NosyCache.cs" />
     <Compile Include="Cache\NosyInteraction.cs" />
