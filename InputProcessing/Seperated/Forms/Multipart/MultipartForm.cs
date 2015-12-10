@@ -40,7 +40,7 @@ namespace InputProcessing
 			if (parameters.TryGetClosest (typeof(IHttpInteraction), out ancestor)) {
 				httpAncestor = (IHttpInteraction)ancestor;
 
-				string boundary = FindBoundary (httpAncestor.RequestMethod ["Content-Type"]);
+				string boundary = FindBoundary (httpAncestor.RequestHeaders ["Content-Type"]);
 
 				inputReader = new MultipartKeyValueInteraction (
 					parameters, GetTextReader (parameters),	boundary, this.FieldOrder);

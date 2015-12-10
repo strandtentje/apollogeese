@@ -35,18 +35,23 @@ namespace InputProcessing
 		}
 
 		public bool ReadNextName () {
-
+			return false;
 		}
 
 		public object ReadInput() {
+			return null;
+		}
 
+		public TextReader GetIncomingBodyReader() {
+			return this.TextReader;
 		}
 
 		public void SkipInput() {
 
 		}
 
-		public void SetProcessedValue (object value);
+		public void SetProcessedValue (object value) {
+
+		}
 	}
 }
-
