@@ -147,10 +147,15 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			target = (IOutgoingBodiedInteraction)source.GetClosest (typeof(IOutgoingBodiedInteraction));
 
 			if (target is IHttpInteraction) {
+                string encoding = "utf-8";
+
+                if (target.Encoding != null)                
+                    encoding = target.Encoding.WebName;
+                
+
 				((IHttpInteraction)target).ResponseHeaders ["Content-Type"] = 
 					string.Format ("{0}; charset={1}",
-					this.MimeType,
-					target.Encoding.WebName);
+					this.MimeType, encoding);
 			}
 
 			if (HasTemplateUpdates ()) {

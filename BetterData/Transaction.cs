@@ -1,10 +1,12 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
+using System.Data;
+using BorrehSoft.Utensils.Collections.Settings;
 
 namespace BetterData
 {
-	public class Transaction : Communicator
+	public class Transaction : Commander
 	{
 		public override string Description {
 			get {
@@ -17,6 +19,11 @@ namespace BetterData
 			set;
 		}
 
+        protected override void Initialize(Settings settings)
+        {
+            this.DatasourceName = settings.GetString("connection", "default");
+        }
+
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			if (e.Name == "begin") 
@@ -25,9 +32,15 @@ namespace BetterData
 
 		protected override bool Process (IInteraction parameters)
 		{
-			BlockingPool<IDbCommand> commandPool
+            bool success = true;
 
-			return this.Begin.TryProcess (new TransactionInteraction (parameters, commandPool));
+            IDbTransaction actualTransaction = this.Connection.BeginTransaction();   
+
+            success &= Begin.TryProcess(new TransactionInteraction(this.Connection, this.DatasourceName, parameters));
+
+            actualTransaction.Commit();
+
+            return success;
 		}
 	}
 }

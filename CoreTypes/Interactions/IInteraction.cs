@@ -39,6 +39,15 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// <param name="closest">Found ancestor</param>
 		bool TryGetClosest (Type t, out IInteraction closest);
 
+        /// <summary>
+        /// Tries to get the nearest ancestor with the specified type, but stops looking at given reference.
+        /// </summary>
+        /// <param name="t"></param>
+        /// <param name="limit"></param>
+        /// <param name="closest"></param>
+        /// <returns></returns>
+        bool TryGetClosest(Type t, IInteraction limit, out IInteraction closest);
+
 		/// <summary>
 		/// Clone this interaction, and give it a new parent. Don't
 		/// tell the biologists I can do this.

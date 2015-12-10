@@ -48,11 +48,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\CoreTypes\CoreTypes.csproj">
-      <Project>{4e2886f5-a220-45e7-a3da-d60a98f2ac2d}</Project>
+      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
       <Name>CoreTypes</Name>
     </ProjectReference>
     <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
-      <Project>{81dfa659-4906-4653-ac13-e0886d28b9a0}</Project>
+      <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
       <Name>Collections</Name>
     </ProjectReference>
   </ItemGroup>

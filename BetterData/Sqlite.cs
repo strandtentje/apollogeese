@@ -13,7 +13,7 @@ namespace BetterData
 	{
 		public override string ConnectionStringTemplate {
 			get {
-				return "URI=file:{0};Version=3;";
+				return "Data Source={0};Version=3;";
 			}
 		}
 

@@ -113,6 +113,7 @@ namespace BetterData
 		protected override void Initialize (Settings settings)
 		{
 			this.DatasourceName = settings.GetString ("connection", "default");
+            this.UseTransaction = settings.GetBool("usetransaction", false);
 
 			if (settings.Has ("sql")) {
 				this.SqlText = settings.GetString ("sql");
@@ -133,26 +134,53 @@ namespace BetterData
 			return parameter;
 		}
 
+        protected void UseCommand(IInteraction parameters, Action<IDbCommand> callback, IDbCommand command)
+        {
+            command.CommandText = this.sqlSource.GetText();
+
+            foreach (string name in this.sqlSource.GetParameterNames())
+            {
+                object value;
+                if (parameters.TryGetFallback(name, out value))
+                {
+                    command.Parameters.Add(CreateParameter(command, name, value));
+                }
+            }
+
+            callback(command);
+        }
+
+        private IDbConnection GetConnection(IInteraction parameters)
+        {
+            if (this.UseTransaction)
+            {
+                IInteraction candidate;
+                TransactionInteraction transaction;
+
+                while((parameters != null) && parameters.TryGetClosest(typeof(TransactionInteraction), out candidate)) {
+                    parameters = candidate.Parent;
+                    transaction = (TransactionInteraction)candidate;
+                    if (transaction.DatasourceName == this.DatasourceName)
+                    {
+                        return transaction.Connection;
+                    }
+                }
+            }
+
+            return Connection;
+        }
+
 		protected void UseCommand(IInteraction parameters, Action<IDbCommand> callback) {
-			// using idb-commands within a lock. how kinky.
-			// i guess you could call this
-			// **puts on sunglasses**
-			// DBSM
+            IDbConnection connection = GetConnection(parameters);
 
-			lock (Connection) {
-				using (IDbCommand command = Connection.CreateCommand ()) {
-					command.CommandText = this.sqlSource.GetText();
-
-					foreach (string name in this.sqlSource.GetParameterNames()) {
-						object value;
-						if (parameters.TryGetFallback (name, out value)) {
-							command.Parameters.Add (CreateParameter (command, name, value));
-						}
-					}
-
-					callback (command);
+			lock (connection) {
+				using (IDbCommand command = connection.CreateCommand ()) {
+                    UseCommand(parameters, callback, command);
 				}
 			}
-		}	
-	}
+		}
+
+
+        public bool UseTransaction { get; set; }
+    }
 }

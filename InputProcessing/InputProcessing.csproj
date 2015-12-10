@@ -7,6 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>InputProcessing</RootNamespace>
     <AssemblyName>InputProcessing</AssemblyName>
+    <ProductVersion>12.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -26,9 +28,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Web" />
-    <Reference Include="CsQuery">
-      <HintPath>..\..\..\Downloads\Release.13\CsQuery.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -39,7 +38,6 @@
     <Compile Include="FieldBased\Compatibility\GetFieldReader.cs" />
     <Compile Include="FieldBased\Compatibility\PostFieldReader.cs" />
     <Compile Include="FieldBased\VerificationInteraction.cs" />
-    <Compile Include="Hackjobs\HtmlReader.cs" />
     <Compile Include="Hackjobs\RegexFieldReader.cs" />
     <Compile Include="FieldBased\FailureWrapperInteraction.cs" />
     <Compile Include="Seperated\InputListing.cs" />

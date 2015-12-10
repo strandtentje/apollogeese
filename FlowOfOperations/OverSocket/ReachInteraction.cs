@@ -34,11 +34,17 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 			return closest;
 		}
 
-		public bool TryGetClosest (Type t, out IInteraction closest) {
-			bool success = t.Equals (this.GetType ());
-			closest = (success ? this : null);
 
-			return success;
+        public bool TryGetClosest(Type t, IInteraction limit, out IInteraction closest)
+        {
+            bool success = t.Equals(this.GetType());
+            closest = (success ? this : null);
+
+            return success;
+        }
+
+		public bool TryGetClosest (Type t, out IInteraction closest) {
+            return TryGetClosest(t, null, out closest);
 		}
 
 		public IInteraction Clone(IInteraction parent) {
