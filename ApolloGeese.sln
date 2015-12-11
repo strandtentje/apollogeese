@@ -7,7 +7,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreTypes", "CoreTypes\Core
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlowOfOperations", "FlowOfOperations\FlowOfOperations.csproj", "{FF10A427-5CC9-4C4F-8AAA-FE6D65D66AE7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Data", "Databases\Data.csproj", "{9E729FC7-F412-46E5-847F-488E2E97BE9C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VolatileData", "Databases\VolatileData.csproj", "{9E729FC7-F412-46E5-847F-488E2E97BE9C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicHttpServer", "BasicHttpServer\BasicHttpServer.csproj", "{8C04E544-F8DF-4A27-A071-57DE8C407C72}"
 EndProject
@@ -45,7 +45,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CronNET", "Utilities\CronNE
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Imaging", "Imaging\Imaging.csproj", "{529790BF-2C23-4ECF-903A-0101205BE635}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterData", "BetterData\BetterData.csproj", "{303A62EB-3E24-45D3-8ED0-6EEEA66BA808}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PersistentData", "BetterData\PersistentData.csproj", "{303A62EB-3E24-45D3-8ED0-6EEEA66BA808}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
