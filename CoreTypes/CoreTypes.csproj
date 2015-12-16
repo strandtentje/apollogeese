@@ -51,6 +51,8 @@
     <Compile Include="Interactions\IIncomingReaderInteraction.cs" />
     <Compile Include="Services\Simple\SplitterService.cs" />
     <Compile Include="Interactions\IHeaderedInteraction.cs" />
+    <Compile Include="Interactions\Simple\StringComposeInteraction.cs" />
+    <Compile Include="Interactions\Simple\BareInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

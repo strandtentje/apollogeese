@@ -3,7 +3,7 @@ using System.IO;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
-	public interface IIncomingReaderInteraction : IInteraction
+		public interface IIncomingReaderInteraction : IInteraction
 	{
 		/// <summary>
 		/// Gets a StreamReader for the underlying bodystream.
