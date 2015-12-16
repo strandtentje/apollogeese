@@ -31,8 +31,6 @@
     <Compile Include="UDP\UdpAdvertiser.cs" />
     <Compile Include="UDP\UdpQuerier.cs" />
     <Compile Include="UDP\UdpQueryResult.cs" />
-    <Compile Include="TCP\DoubleBufferedSplitter.cs" />
-    <Compile Include="TCP\GlobalTcpClient.cs" />
     <Compile Include="TCP\HttpClient.cs" />
     <Compile Include="TCP\Mail\SendMail.cs" />
     <Compile Include="TCP\Mail\EmailInteraction.cs" />
@@ -41,12 +39,17 @@
     <Compile Include="TCP\TcpServer.cs" />
     <Compile Include="TCP\TcpInteraction.cs" />
     <Compile Include="IPService.cs" />
+    <Compile Include="HTTP\Credentials.cs" />
+    <Compile Include="HTTP\CredentialInteraction.cs" />
+    <Compile Include="HTTP\HTTP.cs" />
+    <Compile Include="HTTP\HTTPResponseInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="UDP\" />
     <Folder Include="TCP\" />
     <Folder Include="TCP\Mail\" />
+    <Folder Include="HTTP\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Http\Http.csproj">
