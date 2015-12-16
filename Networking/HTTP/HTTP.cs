@@ -84,7 +84,7 @@ namespace Networking
 
 		protected override void Initialize (Settings settings)
 		{
-			this.UrlEncoding = Encoding.GetEncoding (settings.GetString ("urlencoding"));
+			this.UrlEncoding = Encoding.GetEncoding (settings.GetString ("urlencoding", "utf-8"));
 			this.DefaultURI = settings.GetString ("uri", "");
 			this.Method = settings.GetString ("method", "GET");
 			this.IsMethodValidatedStrictly = settings.GetBool ("validatemethodstrictly", true);
