@@ -10,25 +10,60 @@ namespace Networking
 {
 	public class HTTP : TwoBranchedService
 	{
+		/// <summary>
+		/// The valid HTTP methods.
+		/// </summary>
 		public static readonly string[] ValidMethods = new string[] {
 			"OPTIONS", "GET", "HEAD", "POST", "PUT", "DELETE", "TRACE", "CONNECT"
 		};
 
+		/// <summary>
+		/// Gets or sets the URL encoding.
+		/// </summary>
+		/// <value>The URL encoding.</value>
 		Encoding UrlEncoding { get; set; }
 
+		/// <summary>
+		/// Gets or sets the Request MIME type
+		/// </summary>
+		/// <value>The type of the MIME.</value>
 		object MimeType { get; set; }
 
-		string DefaultURI { get; set; }
+		/// <summary>
+		/// Gets or sets the default URI
+		/// </summary>
+		/// <value>The default URI</value>
+		protected string DefaultURI { get; set; }
 
-		Service URI { get; set; }
+		/// <summary>
+		/// Gets or sets the URI Composition Service.
+		/// </summary>
+		/// <value>The UR.</value>
+		protected Service URI { get; set; }
 
-		Service Body { get; set; }
+		/// <summary>
+		/// Gets or sets the body composition Service.
+		/// </summary>
+		/// <value>The body.</value>
+		protected Service Body { get; set; }
 
+		/// <summary>
+		/// Gets or sets the request method.
+		/// </summary>
+		/// <value>The method.</value>
 		string Method { get; set; }
 
-		bool ValidateMethodStrictly { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance validates the HTTP method strictly.
+		/// </summary>
+		/// <value><c>true</c> if this instance is method validated strictly; otherwise, <c>false</c>.</value>
+		bool IsMethodValidatedStrictly { get; set; }
 
-		bool Authenitcate { get; set; }
+		/// <summary>
+		/// Gets or sets a value indicating whether this instance uses HTTP authentication.
+		/// </summary>
+		/// <value><c>true</c> if use authentication; otherwise, <c>false</c>.</value>
+		bool UseAuthentication { get; set; }
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
@@ -52,14 +87,14 @@ namespace Networking
 			this.UrlEncoding = Encoding.GetEncoding (settings.GetString ("urlencoding"));
 			this.DefaultURI = settings.GetString ("uri", "");
 			this.Method = settings.GetString ("method", "GET");
-			this.ValidateMethodStrictly = settings.GetBool ("validatemethodstrictly", true);
-			this.Authenitcate = settings.GetBool ("authenticate", false);
+			this.IsMethodValidatedStrictly = settings.GetBool ("validatemethodstrictly", true);
+			this.UseAuthentication = settings.GetBool ("authenticate", false);
 			this.MimeType = settings.GetString ("mimetype", "application/x-www-form-urlencoded");
 			
 			if (Array.IndexOf (ValidMethods, this.Method) < 0) {
 				string message = "Method should be \"OPTIONS\", \"GET\", \"HEAD\", " +
 					"\"POST\", \"PUT\", \"DELETE\", \"TRACE\" or \"CONNECT\"";
-				if (this.ValidateMethodStrictly) {
+				if (this.IsMethodValidatedStrictly) {
 					throw new ArgumentException (message);
 				} else {
 					Secretary.Report (5, message);
@@ -121,7 +156,7 @@ namespace Networking
 			request.ContentType = GetContentType ();
 			request.Expect = "200";
 
-			if (this.Authenitcate) request.Credentials = Credentials.Recover (parameters);
+			if (this.UseAuthentication) request.Credentials = Credentials.Recover (parameters);
 
 			if (this.Body != null) {
 				SimpleOutgoingInteraction bodyBuilder = new SimpleOutgoingInteraction (

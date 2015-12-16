@@ -5,9 +5,9 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 {
 	public abstract class TwoBranchedService : Service
 	{
-		protected Service Successful { get; private set; }
+		protected Service Successful { get; set; }
 
-		protected Service Failure { get; private set; }
+		protected Service Failure { get; set; }
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
