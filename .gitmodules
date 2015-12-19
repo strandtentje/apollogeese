@@ -7,3 +7,6 @@
 [submodule "Tests"]
 	path = Tests
 	url = git@github.com:strandtentje/apollogeese-tests.git
+[submodule "documentation"]
+	path = documentation
+	url = git@github.com:strandtentje/apollogeese-doc.git
