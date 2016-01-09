@@ -4,7 +4,7 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 
-namespace BorrehSoft.ApolloGeese.Extensions.Auth
+namespace BorrehSoft.ApolloGeese.Auth
 {
 	class SessionException : Exception
 	{
