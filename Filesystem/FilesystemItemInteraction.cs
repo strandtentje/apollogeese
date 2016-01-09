@@ -3,7 +3,6 @@ using System.IO;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;

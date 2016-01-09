@@ -1,6 +1,5 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.ApolloGeese.Http;
 using System.IO;
 using BorrehSoft.Utensils.Collections;
 using System.Collections.Generic;

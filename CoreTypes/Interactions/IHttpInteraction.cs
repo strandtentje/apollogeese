@@ -3,7 +3,7 @@ using BorrehSoft.Utensils.Collections;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Collections.Specialized;
 
-namespace BorrehSoft.ApolloGeese.Http
+namespace BorrehSoft.ApolloGeese.CoreTypes
 {
 	/// <summary>
 	/// Parameters to an HTTP-related service-interaction.

@@ -1,6 +1,5 @@
 ﻿using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.ApolloGeese.Http;
 
 namespace InputProcessing
 {
