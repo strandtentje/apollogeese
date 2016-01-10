@@ -7,9 +7,9 @@ using System.Text;
 using System.Xml;
 using System.IO;
 
-namespace Data
+namespace ExternalData
 {
-	class XML : DecoderService
+	class XML : ExternalDataService
     {
         public override string Description
         {
@@ -83,6 +83,8 @@ namespace Data
                 XmlDocument document = new XmlDocument();
 
 				document.Load(reader);
+
+				reader.Close ();
 
                 nodeInteraction = new XMLNodeInteraction(parameters, document);                
             }
