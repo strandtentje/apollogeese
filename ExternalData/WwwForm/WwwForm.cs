@@ -29,7 +29,7 @@ namespace ExternalData
 				foreach (string pair in pairs) {
 					WwwInputInteraction input = new WwwInputInteraction (pair, parameters);
 
-					success &= TryReportPart (inputs, input);
+					success &= TryReportPair (inputs, input);
 				}
 
 				if (this.DoMapping)
