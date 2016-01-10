@@ -13,25 +13,79 @@ namespace ExternalData
 		protected override void Initialize (Settings settings)
 		{
 			this.Encoding = Encoding.GetEncoding (settings.GetString ("encoding", "utf-8"));
+			this.Variable = settings.GetString ("variable", "");
 			base.Initialize (settings);
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether this instance is variable sourcing.
+		/// </summary>
+		/// <value><c>true</c> if this instance is variable sourcing; otherwise, <c>false</c>.</value>
+		public bool IsVariableSourcing {
+			get { return Variable.Length > 0; }
+		}
+			
+		/// <summary>
+		/// Gets a value indicating whether this instance uses a branch for acquiring data
+		/// instead of existing context
+		/// </summary>
+		/// <value><c>true</c> if this instance is forward sourcing; otherwise, <c>false</c>.</value>
+		public bool IsForwardSourcing {
+			get { return Branches.Has ("source"); }
+		}
+
+		/// <summary>
+		/// Gets the variable name to be read
+		/// </summary>
+		/// <value>The variable.</value>
+		public string Variable {
+			get;
+		}
+
+		/// <summary>
+		/// Gets the branch to invoke for acquiring data
+		/// </summary>
+		/// <value>The forward source.</value>
+		public Service ForwardSource {
+			get { return Branches ["source"]; }
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether this instance is self sourcing; useful for finding
+		/// out if reader needs to be closed.
+		/// </summary>
+		/// <value><c>true</c> if this instance is self sourcing; otherwise, <c>false</c>.</value>
+		public bool IsSelfSourcing {
+			get { return IsVariableSourcing || IsForwardSourcing; }
 		}
 
 		public bool TryGetDatareader(IInteraction parameters, IInteraction until, out TextReader reader) {
 			IInteraction candidate;
 			bool success;
 
-			if (Branches.Has ("source")) {
+			if (IsForwardSourcing) {
 				MemoryStream dataTarget = new MemoryStream ();
 				SimpleOutgoingInteraction dataTargetInteraction;
-				dataTargetInteraction = new SimpleOutgoingInteraction(
+				dataTargetInteraction = new SimpleOutgoingInteraction (
 					dataTarget, this.Encoding, parameters);
 
-				success = Branches ["source"].TryProcess (dataTargetInteraction);
+				success = ForwardSource.TryProcess (dataTargetInteraction);
 
-				dataTargetInteraction.Done();
+				dataTargetInteraction.Done ();
 				dataTarget.Position = 0;
 
-				reader = new StreamReader(dataTarget, this.Encoding);
+				reader = new StreamReader (dataTarget, this.Encoding);
+			} else if (IsVariableSourcing) {
+			
+				string value;
+
+				success = parameters.TryGetFallbackString (this.Variable, out value);
+			
+				if (success) {
+					reader = new StringReader (value);
+				} else {
+					reader = null;
+				}
 			} else if (parameters.TryGetClosest (typeof(IIncomingBodiedInteraction), until, out candidate)) {
 				IIncomingBodiedInteraction source = (IIncomingBodiedInteraction)candidate;
 

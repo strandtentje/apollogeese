@@ -15,7 +15,8 @@ namespace ExternalData
         {   
             this.Node = node;
 
-            this["node_name"] = this.Node.LocalName;
+			this ["name"] = this.Node.LocalName;
+            this ["node_name"] = this.Node.LocalName;
 
             if (node.Attributes != null)
             {
@@ -28,12 +29,12 @@ namespace ExternalData
 
         public override bool Has(string key)
         {
-            return (key == "node_text") || base.Has(key);
+			return (key == "value") || (key == "node_text") || base.Has(key);
         }
 
         public override object Get(string key)
         {
-            if (key == "node_text")
+			if ((key == "node_text") || (key == "value"))
             {
                 return this.Node.InnerText;
             }

@@ -33,7 +33,11 @@ namespace ExternalData
             if (e.Name == "anynode")            
                 this.AnyNode = e.NewValue;
             if (e.Name == "nonode")
-                this.NoNode = e.NewValue;            
+                this.NoNode = e.NewValue;          
+			if (e.Name == "iterator")
+				this.AnyNode = e.NewValue;
+			if (e.Name == "none")
+				this.NoNode = e.NewValue;
         }
 
         protected override bool Process(IInteraction parameters)
@@ -84,7 +88,7 @@ namespace ExternalData
 
 				document.Load(reader);
 
-				reader.Close ();
+				if (this.IsForwardSourcing)	reader.Close ();
 
                 nodeInteraction = new XMLNodeInteraction(parameters, document);                
             }
