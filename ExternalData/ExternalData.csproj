@@ -37,8 +37,12 @@
     <Compile Include="XML\XML.cs" />
     <Compile Include="XML\XMLNodeInteraction.cs" />
     <Compile Include="WwwForm\WwwForm.cs" />
-    <Compile Include="WwwForm\WwwFormInteraction.cs" />
     <Compile Include="WwwForm\WwwInputInteraction.cs" />
+    <Compile Include="PlainText\RegexFieldReader.cs" />
+    <Compile Include="PlainText\Spliterate.cs" />
+    <Compile Include="PlainText\SplitInteraction.cs" />
+    <Compile Include="NameValueInteraction.cs" />
+    <Compile Include="NameValueService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -50,9 +54,14 @@
       <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
       <Name>Collections</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Utilities\Parsing\Parsing.csproj">
+      <Project>{274A8AFD-1DE7-47D8-98CD-925982D59DE0}</Project>
+      <Name>Parsing</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="XML\" />
     <Folder Include="WwwForm\" />
+    <Folder Include="PlainText\" />
   </ItemGroup>
 </Project>

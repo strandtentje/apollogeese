@@ -1,11 +1,11 @@
-using System;
+	using System;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
 
 namespace ExternalData
 {
-	class WwwInputInteraction : SimpleInteraction
+	class WwwInputInteraction : NameValueInteraction
 	{
 		public WwwInputInteraction (string pair, IInteraction parameters) : base(parameters)
 		{
@@ -16,19 +16,6 @@ namespace ExternalData
 				this.Value = splitPair [1];
 			else
 				this.Value = "";
-
-			this ["name"] = this.Name;
-			this ["value"] = this.Value;
-		}
-
-		public string Name {
-			get;
-			set;
-		}
-
-		public string Value {
-			get;
-			set;
 		}
 	}
 
