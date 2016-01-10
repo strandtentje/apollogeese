@@ -13,7 +13,7 @@ namespace ExternalData
 	/// Regex field reader. This is exactly what you think it is.
 	/// A dirty hack.
 	/// </summary>
-	public class RegexFieldReader : NameValueService
+	public class RegexGroups : NameValueService
 	{
 		private Regex matcher;
 		private Service successful;
