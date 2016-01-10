@@ -3,7 +3,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Web;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Log;

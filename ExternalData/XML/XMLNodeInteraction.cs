@@ -4,20 +4,19 @@ using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
-namespace Data
+namespace ExternalData
 {
     class XMLNodeInteraction : SimpleInteraction
     {
-        private IInteraction parameters;
         public XmlNode Node { get; private set; }
 
-        public XMLNodeInteraction(IInteraction parameters, XmlNode node, IIncomingBodiedInteraction source)
+        public XMLNodeInteraction(IInteraction parameters, XmlNode node)
             : base(parameters)
         {   
             this.Node = node;
-            this.Source = source;
 
-            this["node_name"] = this.Node.LocalName;
+			this ["name"] = this.Node.LocalName;
+            this ["node_name"] = this.Node.LocalName;
 
             if (node.Attributes != null)
             {
@@ -28,16 +27,14 @@ namespace Data
             }            
         }
 
-        public IIncomingBodiedInteraction Source { get; private set; }
-
         public override bool Has(string key)
         {
-            return (key == "node_text") || base.Has(key);
+			return (key == "value") || (key == "node_text") || base.Has(key);
         }
 
         public override object Get(string key)
         {
-            if (key == "node_text")
+			if ((key == "node_text") || (key == "value"))
             {
                 return this.Node.InnerText;
             }

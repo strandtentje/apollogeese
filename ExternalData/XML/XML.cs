@@ -5,10 +5,11 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Xml;
+using System.IO;
 
-namespace Data
+namespace ExternalData
 {
-    class XML : Service
+	class XML : ExternalDataService
     {
         public override string Description
         {
@@ -22,15 +23,21 @@ namespace Data
 
         protected override void Initialize(Settings settings)
         {
+			base.Initialize (settings);
             this.Path = settings.GetString("path", "");
         }
 
         protected override void HandleBranchChanged(object sender, ItemChangedEventArgs<Service> e)
         {
+			base.HandleBranchChanged (sender, e);
             if (e.Name == "anynode")            
                 this.AnyNode = e.NewValue;
             if (e.Name == "nonode")
-                this.NoNode = e.NewValue;            
+                this.NoNode = e.NewValue;          
+			if (e.Name == "iterator")
+				this.AnyNode = e.NewValue;
+			if (e.Name == "none")
+				this.NoNode = e.NewValue;
         }
 
         protected override bool Process(IInteraction parameters)
@@ -53,9 +60,9 @@ namespace Data
                 name = child.LocalName.TrimStart('#');
 
                 if (Branches.Has(name))
-                    successful &= Branches[name].TryProcess(new XMLNodeInteraction(parameters, child, preceeding.Source));
+                    successful &= Branches[name].TryProcess(new XMLNodeInteraction(parameters, child));
                 else if (this.AnyNode != null)
-                    successful &= this.AnyNode.TryProcess(new XMLNodeInteraction(parameters, child, preceeding.Source));                
+                    successful &= this.AnyNode.TryProcess(new XMLNodeInteraction(parameters, child));                
             }
 
             if ((children.Count == 0) && (this.NoNode != null))            
@@ -66,24 +73,24 @@ namespace Data
 
         private XMLNodeInteraction FindNode(IInteraction parameters)
         {
-            IInteraction candidate;
-            XMLNodeInteraction nodeInteraction = null;
+			TextReader reader;
+			IInteraction candidate;
+			XMLNodeInteraction nodeInteraction = null;
             
             // find an XmlNodeInteraction and hold on to that
             if (parameters.TryGetClosest(typeof(XMLNodeInteraction), out candidate))
                 nodeInteraction = (XMLNodeInteraction)candidate;            
             
             // But if a new incoming body was acquired after that
-            if (parameters.TryGetClosest(typeof(IIncomingBodiedInteraction), nodeInteraction, out candidate))
+			if (TryGetDatareader(parameters, nodeInteraction, out reader)) 
             {
-                // produce an XmlNodeInteraction from that instead.
-                IIncomingBodiedInteraction source = (IIncomingBodiedInteraction)candidate;
-
                 XmlDocument document = new XmlDocument();
 
-                document.Load(source.IncomingBody);
+				document.Load(reader);
 
-                nodeInteraction = new XMLNodeInteraction(parameters, document, source);                
+				if (this.IsForwardSourcing)	reader.Close ();
+
+                nodeInteraction = new XMLNodeInteraction(parameters, document);                
             }
 
             if (nodeInteraction == null)            

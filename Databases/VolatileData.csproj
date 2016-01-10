@@ -51,8 +51,6 @@
     <Compile Include="Lookup\LookupAccessor.cs" />
     <Compile Include="Cache\ConcatCache.cs" />
     <Compile Include="Cache\AnonymousCache.cs" />
-    <Compile Include="XML.cs" />
-    <Compile Include="XmlNodeInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup />

@@ -3,7 +3,7 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 
-namespace Auth
+namespace BorrehSoft.ApolloGeese.Auth
 {
 	public class MakePassword : Service
 	{

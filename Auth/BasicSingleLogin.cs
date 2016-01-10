@@ -3,9 +3,8 @@ using System.Text;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.ApolloGeese.Http;
 
-namespace BorrehSoft.ApolloGeese.Extensions.Auth
+namespace BorrehSoft.ApolloGeese.Auth
 {
 	public class BasicSingleLogin : TwoBranchedService
 	{

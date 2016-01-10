@@ -1,7 +1,6 @@
 using System;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Web;
 using BorrehSoft.Utensils.Collections.Settings;

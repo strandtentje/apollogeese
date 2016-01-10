@@ -34,10 +34,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\Http\Http.csproj">
-      <Project>{FC505C08-0BA6-46A0-90CE-147823D3F2A8}</Project>
-      <Name>Http</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Utilities\Collections\Collections.csproj">
       <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
       <Name>Collections</Name>

@@ -6,7 +6,6 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.ApolloGeese.Http;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Log;
