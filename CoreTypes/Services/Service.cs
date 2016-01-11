@@ -23,6 +23,8 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		private static int modelIDCounter;
 		private int modelID = -1;
 
+		public string ConfigLine { get; set; }
+
 		/// <summary>
 		/// Numeric identity attribute for this service.
 		/// </summary>
@@ -111,12 +113,18 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 
             successful = Process(parameters);
             if (!successful)
-                Secretary.Report(4, "Service", this.Description, "reported in as unsuccesful");
+				Secretary.Report(4, 
+					"Service", this.Description, 
+					"reported in as unsuccesful on line", 
+					this.ConfigLine);
 
 			if (HasSuccessor) {
 				if (!Successor.TryProcess (parameters)) {
 					successful = false;
-					Secretary.Report (4, "Service's successor", this.Description, "reported in as unsuccesful");
+					Secretary.Report (4, 
+						"Service's successor", this.Description, 
+						"reported in as unsuccesful on line", 
+						Successor.ConfigLine);
 				}
 			}
 
@@ -146,16 +154,18 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			catch (Exception ex) {
 				if (InitErrorMessage.Length > 0) {
 					ProcessErrorMessage = string.Format (
-						"Already initialized badly with the message:\n{1}.\nThe message for this failure was:\n{2}",
-						Description, InitErrorMessage, ex.Message);
+						"Already initialized badly with the message on line {3}:\n" +
+						"{1}.\n" +
+						"The message for this failure was:\n{2}",
+						Description, InitErrorMessage, ex.Message, this.ConfigLine);
 				} else {
 					ProcessErrorMessage = ex.Message;
 				}
 
-				Secretary.Report (0, 
-				                 string.Format (
-					"Processing for Service {0} failed with the following message: \n{1}",
-					Description, ProcessErrorMessage));
+				Secretary.Report (0, string.Format (
+						"Processing for Service {0} " +
+						"failed with the following message: \n{1}\n" +
+						"on line {2}", Description, ProcessErrorMessage, this.ConfigLine));
                 
 				for(Exception inner = ex; inner != null; inner = inner.InnerException)
 					Secretary.Report(0, "Inner: ", inner.Message);

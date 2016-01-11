@@ -24,7 +24,7 @@ namespace ExternalData
 			this.WhiteList = settings.GetStringList ("whitelist");
 
 			if (this.WhiteList.Count == 0) {
-				Secretary.Report (5, "Whitelist Empty");
+				Secretary.Report (5, "Whitelist Empty line:", this.ConfigLine.ToString());
 			}
 		}
 

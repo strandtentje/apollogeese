@@ -82,7 +82,9 @@ namespace BorrehSoft.ApolloGeese.Loader
 			Settings configurations = Configuration.GetSubsettings("instances");
 
 			foreach (KeyValuePair<string, object> kvp in configurations.Dictionary) {
-				instances[kvp.Key] = GetServiceForSettings ((Settings)kvp.Value);
+				if (kvp.Value is Settings) {
+					instances [kvp.Key] = GetServiceForSettings ((Settings)kvp.Value);
+				}
             }
 
             Secretary.Report (5, "Loaded Instances from ", Configuration.SourceFile.Name);
@@ -140,17 +142,13 @@ namespace BorrehSoft.ApolloGeese.Loader
 			string type;
 			Settings moduleConfiguration;
 			Service newService;
-			bool succesfulInit, log;
-			string[] logparams;
+			bool succesfulInit;
 
 			if (config.Tag is Service) {
 				newService = config.Tag as Service;
 			} else {
 				type = config.GetString ("type", "StubService");
 				moduleConfiguration = (Settings)config ["modconf"];
-
-				log = config.GetBool("log", false);
-				logparams = config.GetString("logparams", "").Split(',');
 
 				try {
 					newService = plugins.GetConstructed (type);	
@@ -160,6 +158,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 
 				succesfulInit = newService.SetSettings (moduleConfiguration);
 
+				newService.ConfigLine = config ["_configline"].ToString();
 				newService.PossibleSiblingTypes = plugins;
 				newService.FailHard = config.GetBool("fail", false);
 
