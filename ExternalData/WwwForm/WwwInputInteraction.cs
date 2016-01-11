@@ -2,6 +2,7 @@
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
+using System.Web;
 
 namespace ExternalData
 {
@@ -13,7 +14,7 @@ namespace ExternalData
 
 			this.Name = splitPair [0];
 			if (splitPair.Length > 1)
-				this.Value = splitPair [1];
+				this.Value = HttpUtility.UrlDecode (splitPair [1]);
 			else
 				this.Value = "";
 		}
