@@ -27,6 +27,11 @@ namespace InputProcessing
 			set;
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["variable"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings settings)
 		{
 			this.IsRequired = settings.GetBool ("required", false);
@@ -43,7 +48,6 @@ namespace InputProcessing
 		protected override bool Process (IInteraction parameters)
 		{
 			bool successful = true;
-			IInteraction formInteractionCandidate;
 
 			object candidateValue;
 
