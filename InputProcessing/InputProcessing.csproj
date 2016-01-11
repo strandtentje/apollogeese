@@ -36,22 +36,7 @@
     <Compile Include="FieldBased\Compatibility\GetFieldReader.cs" />
     <Compile Include="FieldBased\Compatibility\PostFieldReader.cs" />
     <Compile Include="FieldBased\VerificationInteraction.cs" />
-    <Compile Include="Hackjobs\RegexFieldReader.cs" />
     <Compile Include="FieldBased\FailureWrapperInteraction.cs" />
-    <Compile Include="Seperated\InputListing.cs" />
-    <Compile Include="Seperated\Forms\Form.cs" />
-    <Compile Include="Seperated\Forms\ReluctantTextReader.cs" />
-    <Compile Include="Seperated\Forms\UrlEncoded\UrlForm.cs" />
-    <Compile Include="Seperated\Forms\UrlEncoded\UrlKeyValueInteraction.cs" />
-    <Compile Include="Seperated\KeyValueInteraction.cs" />
-    <Compile Include="Seperated\IRawInputInteraction.cs" />
-    <Compile Include="Hackjobs\Equals.cs" />
-    <Compile Include="Seperated\InputFeedback.cs" />
-    <Compile Include="Hackjobs\Spliterate.cs" />
-    <Compile Include="Hackjobs\SplitInteraction.cs" />
-    <Compile Include="Seperated\Forms\Multipart\MultipartForm.cs" />
-    <Compile Include="Seperated\FormException.cs" />
-    <Compile Include="Seperated\Forms\Multipart\MultipartKeyValueInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -78,11 +63,5 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="FieldBased\" />
-    <Folder Include="Hackjobs\" />
-    <Folder Include="Seperated\" />
-    <Folder Include="Seperated\Forms\" />
-    <Folder Include="Seperated\Forms\JsonEncoded\" />
-    <Folder Include="Seperated\Forms\Multipart\" />
-    <Folder Include="Seperated\Fields\" />
   </ItemGroup>
 </Project>
