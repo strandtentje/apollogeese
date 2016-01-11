@@ -42,6 +42,7 @@
     <Compile Include="NumberField.cs" />
     <Compile Include="TextField.cs" />
     <Compile Include="ValueField.cs" />
+    <Compile Include="Equals.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
