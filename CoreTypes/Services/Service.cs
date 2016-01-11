@@ -85,7 +85,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 
 		void HandleAllBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
-			if (e.Name == "successor") {
+			if (e.Name == "_successor") {
 				Successor = e.NewValue;
 				HasSuccessor = e.NewValue != null;
 			}
