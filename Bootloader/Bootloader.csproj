@@ -96,5 +96,13 @@
       <Project>{303A62EB-3E24-45D3-8ED0-6EEEA66BA808}</Project>
       <Name>PersistentData</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ExternalData\ExternalData.csproj">
+      <Project>{031E9962-7F53-468C-AEF8-03F35FFE37D4}</Project>
+      <Name>ExternalData</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Validating\Validating.csproj">
+      <Project>{2A09EF6A-68DF-4A41-ADDC-7981114E31C4}</Project>
+      <Name>Validating</Name>
+    </ProjectReference>
   </ItemGroup>
 </Project>
