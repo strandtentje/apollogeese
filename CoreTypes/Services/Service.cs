@@ -72,7 +72,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			// if a watchablemap with branches previously existed. also handlers for the old 
 			// watchablemap should be cleared. but this doesn't happen, so we won't.
 
-			// instead we will throw an event we attempt to set the branches twice.
+			// instead we will throw an exception we attempt to set the branches twice.
 
 			if (this.watchedBranches != null)
 				throw new InvalidOperationException ("Branches may only be set once");
@@ -113,9 +113,11 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
             if (!successful)
                 Secretary.Report(4, "Service", this.Description, "reported in as unsuccesful");
 
-			if (!HasSuccessor || !Successor.TryProcess (parameters)) {
-				successful = false;
-				Secretary.Report (4, "Service's successor", this.Description, "reported in as unsuccesful");
+			if (HasSuccessor) {
+				if (!Successor.TryProcess (parameters)) {
+					successful = false;
+					Secretary.Report (4, "Service's successor", this.Description, "reported in as unsuccesful");
+				}
 			}
 
             return successful;
