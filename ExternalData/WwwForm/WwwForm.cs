@@ -2,6 +2,8 @@
 using BorrehSoft.Utensils.Collections.Maps;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
+using BorrehSoft.Utensils.Collections.Settings;
+using System.Collections.Generic;
 
 namespace ExternalData
 {
@@ -11,6 +13,14 @@ namespace ExternalData
 			get {
 				return "URL Encoded data parser";
 			}
+		}
+
+		List<string> WhiteList;
+
+		protected override void Initialize (Settings settings)
+		{
+			base.Initialize (settings);
+			this.WhiteList = settings.GetStringList ("whitelist");
 		}
 
 		protected override bool Process (IInteraction parameters)
@@ -29,7 +39,9 @@ namespace ExternalData
 				foreach (string pair in pairs) {
 					WwwInputInteraction input = new WwwInputInteraction (pair, parameters);
 
-					success &= TryReportPair (inputs, input);
+					if (WhiteList.Contains (input.Name)) {
+						success &= TryReportPair (inputs, input);
+					}
 				}
 
 				if (this.DoMapping)
