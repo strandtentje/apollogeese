@@ -32,15 +32,12 @@ namespace Validating
 
 		protected override bool Process (IInteraction parameters)
 		{
-			CheckInteraction parameters = new CheckInteraction(parameters);
+			CheckInteraction callback = new CheckInteraction(parameters);
 
-			bool success;
+			bool success = this.Subject.TryProcess (callback) && callback.Successful;
 
-			if (this.Subject.TryProcess(parameters) && parameters.Successful)  {
-				success &= this.Successful.TryProcess(parameters);
-			} else {
-				success &= this.Failure.TryProcess(parameters);
-			}
+			success = success & this.Successful.TryProcess (parameters);
+			success = success | this.Failure.TryProcess (parameters);
 
 			return success;
 		}

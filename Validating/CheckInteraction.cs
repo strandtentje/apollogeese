@@ -11,6 +11,11 @@ namespace Validating
 		}	
 
 		public bool Successful { get; set; }
+
+		public override IInteraction Clone (IInteraction parent)
+		{
+			throw new UnclonableException ();
+		}
 	}
 }
 
