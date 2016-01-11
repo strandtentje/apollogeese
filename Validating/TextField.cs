@@ -31,23 +31,14 @@ namespace InputProcessing
 			this.Pattern = settings.GetString ("pattern");
 		}
 
-		protected override Service GetFeedbackForInput (object rawInput, out string value)
+		protected override bool CheckValid (object rawInput)
 		{
-			Service feedback = this.Failure;
 			string stringInput = rawInput.ToString ();
-			
- 			value = "";
 
-			if (this.IsRequired && (stringInput.Length == 0)) {
-				feedback = this.Missing;
-			} else {
-				if (this.regex.IsMatch (stringInput)) {
-					value = stringInput;
-					feedback = this.Successful;				
-				} 
-			}
+			bool isValid = (stringInput.Length != 0) || !this.IsRequired;
+			isValid &= this.regex.IsMatch (stringInput);
 
-			return feedback;
+			return isValid;
 		}
 	}
 }

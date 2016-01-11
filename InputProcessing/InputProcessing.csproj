@@ -45,13 +45,6 @@
     <Compile Include="Seperated\Forms\UrlEncoded\UrlKeyValueInteraction.cs" />
     <Compile Include="Seperated\KeyValueInteraction.cs" />
     <Compile Include="Seperated\IRawInputInteraction.cs" />
-    <Compile Include="Seperated\Fields\DecimalField.cs" />
-    <Compile Include="Seperated\Fields\EmailField.cs" />
-    <Compile Include="Seperated\Fields\Field.cs" />
-    <Compile Include="Seperated\Fields\NameField.cs" />
-    <Compile Include="Seperated\Fields\NumberField.cs" />
-    <Compile Include="Seperated\Fields\TextField.cs" />
-    <Compile Include="Seperated\Fields\ValueField.cs" />
     <Compile Include="Hackjobs\Equals.cs" />
     <Compile Include="Seperated\InputFeedback.cs" />
     <Compile Include="Hackjobs\Spliterate.cs" />
@@ -90,5 +83,6 @@
     <Folder Include="Seperated\Forms\" />
     <Folder Include="Seperated\Forms\JsonEncoded\" />
     <Folder Include="Seperated\Forms\Multipart\" />
+    <Folder Include="Seperated\Fields\" />
   </ItemGroup>
 </Project>

@@ -34,6 +34,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Check.cs" />
     <Compile Include="CheckInteraction.cs" />
+    <Compile Include="FailCheck.cs" />
+    <Compile Include="DecimalField.cs" />
+    <Compile Include="EmailField.cs" />
+    <Compile Include="Field.cs" />
+    <Compile Include="NameField.cs" />
+    <Compile Include="NumberField.cs" />
+    <Compile Include="TextField.cs" />
+    <Compile Include="ValueField.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

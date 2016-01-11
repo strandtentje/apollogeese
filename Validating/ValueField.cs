@@ -48,29 +48,27 @@ namespace InputProcessing
 		/// <returns>The action for value.</returns>
 		/// <param name="valueCandidate">Value candidate.</param>
 		/// <param name="value">Value.</param>
-		protected override Service GetFeedbackForInput (object rawInput, out T processedValue )
+		protected override bool CheckValid (object rawInput)
 		{
-			Service feedback = null;
+			bool isValid = true;
 
-			processedValue = this.Default;
+			T processedValue;
 
 			if (rawInput is T) {
 				processedValue = (T)rawInput;
 			} else if (!TryParse (rawInput, out processedValue)) {
-				feedback = this.BadFormat;
+				isValid = false;
 			}
 
-			if (feedback == null) {
+			if (isValid) {
 				if (this.Min.CompareTo(processedValue) > 0) {
-					feedback = this.TooLow;
+					isValid = false;
 				} else if (this.Max.CompareTo(processedValue) < 0) {
-					feedback = this.TooHigh;
-				} else {
-					feedback = this.Successful;
+					isValid = false;
 				}
 			}
 
-			return feedback;
+			return isValid;
 		}
 	}
 }
