@@ -8,7 +8,8 @@ namespace Validating
 	{
 		protected override Service Compare (object testPattern, object testSubject)
 		{
-			if (System.Text.RegularExpressions.Regex.Match (testSubject, testPattern)) {
+			if (System.Text.RegularExpressions.Regex.IsMatch (
+				testSubject.ToString(), testPattern.ToString())) {
 				return Successful;
 			} else {
 				return Failure;
