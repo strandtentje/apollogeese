@@ -40,6 +40,7 @@ namespace ExternalData
 		/// <value>The variable.</value>
 		public string Variable {
 			get;
+			set; 
 		}
 
 		/// <summary>
