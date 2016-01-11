@@ -78,12 +78,32 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 				throw new InvalidOperationException ("Branches may only be set once");
 
 			this.watchedBranches = newBranches;
-			this.watchedBranches.ItemChanged += HandleBranchChanged;
+			this.watchedBranches.ItemChanged += HandleAllBranchChanged;
 		}
 
 		public Service() { }
 
+		void HandleAllBranchChanged (object sender, ItemChangedEventArgs<Service> e)
+		{
+			if (e.Name == "successor") {
+				Successor = e.NewValue;
+				HasSuccessor = e.NewValue != null;
+			}
+
+			HandleBranchChanged (sender, e);
+		}
+
 		protected virtual void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e) { }
+
+		private Service Successor {
+			get;
+			set;
+		}
+
+		private bool HasSuccessor {
+			get;
+			set;
+		}
 
         private bool InvokeProcess(IInteraction parameters)
         {
@@ -92,6 +112,11 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
             successful = Process(parameters);
             if (!successful)
                 Secretary.Report(4, "Service", this.Description, "reported in as unsuccesful");
+
+			if (!HasSuccessor || !Successor.TryProcess (parameters)) {
+				successful = false;
+				Secretary.Report (4, "Service's successor", this.Description, "reported in as unsuccesful");
+			}
 
             return successful;
         }
