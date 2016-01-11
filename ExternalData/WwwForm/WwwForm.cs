@@ -4,6 +4,7 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
+using BorrehSoft.Utensils.Log;
 
 namespace ExternalData
 {
@@ -21,6 +22,10 @@ namespace ExternalData
 		{
 			base.Initialize (settings);
 			this.WhiteList = settings.GetStringList ("whitelist");
+
+			if (this.WhiteList.Count == 0) {
+				Secretary.Report (5, "Whitelist Empty");
+			}
 		}
 
 		protected override bool Process (IInteraction parameters)
