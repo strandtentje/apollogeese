@@ -20,11 +20,6 @@ namespace InputProcessing
 			}
 		}
 
-		public override void LoadDefaultParameters (string defaultParameter)
-		{
-			this.Settings ["pattern"] = defaultParameter;
-		}
-
 		protected override void Initialize (Settings settings)
 		{
 			base.Initialize (settings);
