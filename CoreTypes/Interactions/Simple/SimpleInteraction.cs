@@ -15,6 +15,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		public SimpleInteraction ()
 		{
 			this.parent = null;
+			this.ExceptionHandler = LoggingExceptionHandler.Handle;
 		}
 
 		/// <summary>
@@ -25,6 +26,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		public SimpleInteraction (IInteraction parent)
 		{
 			this.parent = parent;
+			this.ExceptionHandler = parent.ExceptionHandler;
 		}
 
 		/// <summary>
@@ -36,11 +38,14 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		public SimpleInteraction (IInteraction parent, Map<object> values) : base(values)
 		{
 			this.parent = parent;
+			this.ExceptionHandler = parent.ExceptionHandler;
+
 		}
 
 		public SimpleInteraction (IInteraction parent, string name, object value)
 		{
 			this.parent = parent;
+			this.ExceptionHandler = parent.ExceptionHandler;
 			this [name] = value;
 		}
 
@@ -59,6 +64,8 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 					return parent.Root; 
 			} 
 		}
+
+		public Action<Service, Exception> ExceptionHandler { get; private set; }
 
 		/// <summary>
 		/// Gets the parent interaction.

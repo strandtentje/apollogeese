@@ -53,7 +53,10 @@ namespace Filesystem
 			this.Info = info;	
 			this.RootPath = rootPath;
 			this.Parent = parameters;
+			this.ExceptionHandler = this.Parent.ExceptionHandler;
 		}
+
+		public Action<Service, Exception> ExceptionHandler { get; private set; }
 
 		public IInteraction Root { get { return (Parent == null ? null : Parent.Root); } }
 

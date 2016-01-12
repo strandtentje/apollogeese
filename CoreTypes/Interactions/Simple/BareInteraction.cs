@@ -9,11 +9,13 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		public BareInteraction ()
 		{
 			this.parent = null;
+			this.ExceptionHandler = LoggingExceptionHandler.Handle;
 		}
 
 		public BareInteraction (IInteraction parent)
 		{
 			this.parent = parent;
+			this.ExceptionHandler = parent.ExceptionHandler;
 		}
 
 		public IInteraction Root { 
@@ -24,6 +26,8 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 					return parent.Root; 
 			} 
 		}
+		
+		public Action<Service, Exception> ExceptionHandler { get; private set; }
 
 		public IInteraction Parent { get { return parent; } }
 

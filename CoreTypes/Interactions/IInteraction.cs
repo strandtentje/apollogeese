@@ -25,6 +25,12 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		IInteraction Parent { get; }
 
 		/// <summary>
+		/// Gets the exception handler for this interaction chain
+		/// </summary>
+		/// <value>The exception handler.</value>
+		Action<Service, Exception> ExceptionHandler { get; }
+
+		/// <summary>
 		/// Gets the closest ancestor with the specified type.
 		/// </summary>
 		/// <returns>The closest ancestor with the specified type.</returns>
