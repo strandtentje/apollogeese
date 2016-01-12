@@ -54,6 +54,7 @@
     <Compile Include="Interactions\Simple\StringComposeInteraction.cs" />
     <Compile Include="Interactions\Simple\BareInteraction.cs" />
     <Compile Include="Interactions\IHttpInteraction.cs" />
+    <Compile Include="LoggingExceptionHandler.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
