@@ -152,23 +152,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
                 ProcessErrorMessage = "";
 			}
 			catch (Exception ex) {
-				if (InitErrorMessage.Length > 0) {
-					ProcessErrorMessage = string.Format (
-						"Already initialized badly with the message on line {3}:\n" +
-						"{1}.\n" +
-						"The message for this failure was:\n{2}",
-						Description, InitErrorMessage, ex.Message, this.ConfigLine);
-				} else {
-					ProcessErrorMessage = ex.Message;
-				}
-
-				Secretary.Report (0, string.Format (
-						"Processing for Service {0} " +
-						"failed with the following message: \n{1}\n" +
-						"on line {2}", Description, ProcessErrorMessage, this.ConfigLine));
-                
-				for(Exception inner = ex; inner != null; inner = inner.InnerException)
-					Secretary.Report(0, "Inner: ", inner.Message);
+				parameters.ExceptionHandler (this, ex);
 			}
 
 			return succesful;
