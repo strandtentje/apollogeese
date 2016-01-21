@@ -43,8 +43,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		}
 
 		public string GetCookie(string name) {
-			return Request.Cookies [name].Value;
-
+			Cookie gottenCookie = Request.Cookies [name];
+			if (gottenCookie == null) {
+				return null;
+			} else {
+				return gottenCookie.Value;
+			}
 		}
 
 		/// <summary>

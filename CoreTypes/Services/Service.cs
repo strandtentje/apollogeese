@@ -152,7 +152,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
                 ProcessErrorMessage = "";
 			}
 			catch (Exception ex) {
-				parameters.ExceptionHandler (this, ex);
+				parameters.ExceptionHandler (this, parameters, ex);
 			}
 
 			return succesful;

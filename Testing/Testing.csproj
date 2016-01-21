@@ -40,6 +40,9 @@
     <Compile Include="StreamTests\IncomingTestData.cs" />
     <Compile Include="StreamTests\OutgoingTestableData.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="ErrorHandler.cs" />
+    <Compile Include="ErrorHandlingInteraction.cs" />
+    <Compile Include="ErrorHandledInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

@@ -20,7 +20,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 			this.pipe = pipe;
 		}
 
-		public Action<Service, Exception> ExceptionHandler {
+		public ExceptionHandler ExceptionHandler {
 			get {
 				return LoggingExceptionHandler.Handle;
 			}

@@ -56,7 +56,7 @@ namespace Filesystem
 			this.ExceptionHandler = this.Parent.ExceptionHandler;
 		}
 
-		public Action<Service, Exception> ExceptionHandler { get; private set; }
+		public ExceptionHandler ExceptionHandler { get; private set; }
 
 		public IInteraction Root { get { return (Parent == null ? null : Parent.Root); } }
 

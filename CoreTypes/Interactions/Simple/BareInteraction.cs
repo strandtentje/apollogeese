@@ -27,7 +27,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			} 
 		}
 		
-		public Action<Service, Exception> ExceptionHandler { get; private set; }
+		public ExceptionHandler ExceptionHandler { get; protected set; }
 
 		public IInteraction Parent { get { return parent; } }
 

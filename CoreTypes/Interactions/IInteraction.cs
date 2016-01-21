@@ -2,6 +2,9 @@ using System;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
+	public delegate void ExceptionHandler(
+		Service cause, IInteraction context, Exception problem);
+
 	/// <summary>
 	/// Parameters to a service call
 	/// </summary>
@@ -28,7 +31,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// Gets the exception handler for this interaction chain
 		/// </summary>
 		/// <value>The exception handler.</value>
-		Action<Service, Exception> ExceptionHandler { get; }
+		ExceptionHandler ExceptionHandler { get; }
 
 		/// <summary>
 		/// Gets the closest ancestor with the specified type.

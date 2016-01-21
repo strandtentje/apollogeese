@@ -52,42 +52,50 @@ namespace BorrehSoft.ApolloGeese.Auth
 
 		protected override bool Process (IInteraction uncastParameters)
 		{
-			IHttpInteraction parameters = (IHttpInteraction)uncastParameters.GetClosest (typeof(IHttpInteraction));
+			bool success = false;
+			
+			IInteraction candidateParameters;
+			IHttpInteraction parameters;
 
-			string givenCookie = parameters.GetCookie (CookieName);
+			if (uncastParameters.TryGetClosest (typeof(IHttpInteraction), out candidateParameters)) {
+				parameters = (IHttpInteraction)candidateParameters;
 
-			if (Closing && (givenCookie != null)) {
-				knownSessions.Remove(givenCookie);
-			}
+				string givenCookie = parameters.GetCookie (CookieName);
 
-			if ((givenCookie ?? "").Length == 0)   // an empty sescookie
-			{
-				// we create a cookie
+				if (Closing && (givenCookie != null)) {
+					knownSessions.Remove (givenCookie);
+				}
 
-				string cookieValue;
+				if ((givenCookie ?? "").Length == 0) {   // an empty sescookie
+					// we create a cookie
 
-				do { // we have a loop here for a stupidly rare case that probably only occurs
-					 // when we don't expect it to, so there.
-					 // The Base64 thing is there to make sure only letters and numbers
-					 // end up in the cookie.
+					string cookieValue;
 
-					cookieValue = Convert.ToBase64String (URandom.GetTrue(128));
+					do { // we have a loop here for a stupidly rare case that probably only occurs
+						// when we don't expect it to, so there.
+						// The Base64 thing is there to make sure only letters and numbers
+						// end up in the cookie.
 
-					Console.WriteLine(string.Format("cookie length {0}", cookieValue.Length));
+						cookieValue = Convert.ToBase64String (URandom.GetTrue (128));
 
-				} while (knownSessions.Contains(cookieValue));
+						Console.WriteLine (string.Format ("cookie length {0}", cookieValue.Length));
+
+					} while (knownSessions.Contains (cookieValue));
 								
-				parameters.SetCookie (CookieName, cookieValue);
+					parameters.SetCookie (CookieName, cookieValue);
 
-				givenCookie = cookieValue;
+					givenCookie = cookieValue;
 
-				knownSessions.Add(givenCookie);
+					knownSessions.Add (givenCookie);
 
-				// Yes, I made the Sescookie-creation loop around in case of a duplicate
-				// gloBALLY UNIQUE IDENTIFIER now hand me my tinfoil hat.
+					// Yes, I made the Sescookie-creation loop around in case of a duplicate
+					// gloBALLY UNIQUE IDENTIFIER now hand me my tinfoil hat.
+				}
+
+				success = Http.TryProcess (new SessionInteraction (uncastParameters, CookieName, givenCookie));
 			}
 
-			return Http.TryProcess(new SessionInteraction(uncastParameters, CookieName, givenCookie));
+			return success;
 		}
 	}
 }

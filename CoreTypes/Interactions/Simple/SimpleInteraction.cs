@@ -65,7 +65,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			} 
 		}
 
-		public Action<Service, Exception> ExceptionHandler { get; private set; }
+		public ExceptionHandler ExceptionHandler { get; private set; }
 
 		/// <summary>
 		/// Gets the parent interaction.
