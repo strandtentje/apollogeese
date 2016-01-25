@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
-using URandom = BorrehSoft.Utensils.Random;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utensils.Collections;
+using System.Security.Cryptography;
 
 namespace BorrehSoft.ApolloGeese.Auth
 {
@@ -14,14 +15,21 @@ namespace BorrehSoft.ApolloGeese.Auth
 	{
 		public override string Description {
 			get {
-				return string.Format("Session cookie keeper for '{0}'", CookieName);
+				return string.Format(
+					"Session cookie keeper for '{0}'", 
+					CookieName);
 			}
+		}
+
+		public enum SessionState
+		{
+			Existing, Closed
 		}
 
 		/// <summary>
 		/// The known sessions cookie strings
 		/// </summary>
-		public static List<string> knownSessions = new List<string> ();
+		public static Map<SessionState> SessionStates = new Map<SessionState>();
 
 		private Service Http;
 
@@ -50,6 +58,15 @@ namespace BorrehSoft.ApolloGeese.Auth
 				Http = e.NewValue;
 		}
 
+		private static RandomNumberGenerator rng = new RNGCryptoServiceProvider ();
+
+		public static byte[] GetTrue (int i)
+		{
+			byte[] bytes = new byte[i];
+			rng.GetBytes (bytes);
+			return bytes;
+		}
+
 		protected override bool Process (IInteraction uncastParameters)
 		{
 			bool success = false;
@@ -62,9 +79,21 @@ namespace BorrehSoft.ApolloGeese.Auth
 
 				string givenCookie = parameters.GetCookie (CookieName);
 
-				if (Closing && (givenCookie != null)) {
-					knownSessions.Remove (givenCookie);
+				if (givenCookie != null) {
+					if (Closing) {
+						SessionStates [givenCookie] = SessionState.Closed;
+					}
+
+					if (SessionStates [givenCookie] == SessionState.Closed) {
+						givenCookie = "";
+					}
 				}
+
+				if (Closing && (givenCookie != null)) {
+					SessionStates [givenCookie] = SessionState.Closed;
+				}
+
+
 
 				if ((givenCookie ?? "").Length == 0) {   // an empty sescookie
 					// we create a cookie
@@ -76,17 +105,17 @@ namespace BorrehSoft.ApolloGeese.Auth
 						// The Base64 thing is there to make sure only letters and numbers
 						// end up in the cookie.
 
-						cookieValue = Convert.ToBase64String (URandom.GetTrue (128));
+						cookieValue = Convert.ToBase64String (GetTrue (128));
 
 						Console.WriteLine (string.Format ("cookie length {0}", cookieValue.Length));
 
-					} while (knownSessions.Contains (cookieValue));
+					} while (SessionStates.Has(cookieValue));
 								
 					parameters.SetCookie (CookieName, cookieValue);
 
 					givenCookie = cookieValue;
 
-					knownSessions.Add (givenCookie);
+					SessionStates [cookieValue] = SessionState.Existing;
 
 					// Yes, I made the Sescookie-creation loop around in case of a duplicate
 					// gloBALLY UNIQUE IDENTIFIER now hand me my tinfoil hat.
