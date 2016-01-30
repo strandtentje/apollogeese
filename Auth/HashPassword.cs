@@ -21,11 +21,11 @@ namespace BorrehSoft.ApolloGeese.Auth
 			string password = "";
 
 			return parameters.TryGetFallbackString (
-				this.FromVariable, 
+				this.PlainVariable, 
 				out password) & this.Successful.TryProcess (
 					new SimpleInteraction (
 						parameters, 
-						this.ToVariable,
+						this.HashVariable,
 						BCryptHasher.HashPassword (
 							password)));
 		}
