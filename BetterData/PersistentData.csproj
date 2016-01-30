@@ -7,6 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>PersistentData</RootNamespace>
     <AssemblyName>BetterData</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -53,7 +54,7 @@
       <HintPath>..\..\..\Documents\Mono.Data.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Downloads\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\Downloads\mysql-connector-net-6.8.3-noinstall %281%29\v4.5\mysql.data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
