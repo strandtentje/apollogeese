@@ -68,6 +68,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		{
 			if (e.Name == "http")
 				httpBranch = e.NewValue;
+			else if (e.Name == "request")
+				httpBranch = e.NewValue;
 		}
 
 		/// <summary>
