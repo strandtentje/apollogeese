@@ -105,7 +105,4 @@
       <Name>CronNET</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <None Include="Buffer.cs" />
-  </ItemGroup>
 </Project>
