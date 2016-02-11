@@ -36,8 +36,6 @@
     <Compile Include="TCP\Mail\EmailInteraction.cs" />
     <Compile Include="TCP\Mail\MailException.cs" />
     <Compile Include="TCP\Mail\SmtpPicker.cs" />
-    <Compile Include="TCP\TcpServer.cs" />
-    <Compile Include="TCP\TcpInteraction.cs" />
     <Compile Include="IPService.cs" />
     <Compile Include="HTTP\Credentials.cs" />
     <Compile Include="HTTP\CredentialInteraction.cs" />
