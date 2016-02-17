@@ -59,7 +59,7 @@ namespace InputProcessing
 			bool success = true;
 			string sourceData;
 
-			if (parameters.TryGetString (this.From, out sourceData)) {
+			if (parameters.TryGetFallbackString (this.From, out sourceData)) {
 				string[] splitData = Splitter.Split (sourceData);
 
 				IInteraction lastParams = parameters;
