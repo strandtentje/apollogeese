@@ -37,9 +37,13 @@ namespace Validating
 			bool success = this.Subject.TryProcess (callback) && callback.Successful;
 
 			if (success) {
-				success = this.Successful.TryProcess (parameters);
+				if (this.Successful != null) {
+					success = this.Successful.TryProcess (parameters);
+				}
 			} else {
-				success = this.Failure.TryProcess (parameters);
+				if (this.Successful != null) {
+					success = this.Failure.TryProcess (parameters);
+				}
 			}
 
 			return success;
