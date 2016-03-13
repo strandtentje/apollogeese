@@ -109,6 +109,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				result = new Replacement (
 					replacename.Substring (1),
 					HttpUtility.UrlEncode);
+				break;
 			default:
 				result = new CallOrReplace (replacename, this);
 				break;
