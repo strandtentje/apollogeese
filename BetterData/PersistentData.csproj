@@ -54,7 +54,7 @@
       <HintPath>..\..\..\Documents\Mono.Data.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Downloads\Release.5a\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\Downloads\Release.13\MySql.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

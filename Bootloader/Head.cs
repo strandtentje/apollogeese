@@ -39,22 +39,56 @@ namespace BorrehSoft.ApolloGeese
 		{
 			Queue<string> CommandLineArguments = new Queue<string> (args);
 
-			string config = "apollogeese.conf", logfolder = ".";
+			string config = "apollogeese.conf", logfolder = ".", runbranch = "";
+			bool pluginsFromConfig = true;
+			bool pluginsFromBin = false;
+			SimpleInteraction miscArgs = new SimpleInteraction ();
+
+			StartLog(logfolder);
 
 			while (CommandLineArguments.Count > 0) {
 				string paramAhead = CommandLineArguments.Dequeue();
-				if (paramAhead.ToLower() == "-c") 
-					config = CommandLineArguments.Dequeue();
-				else if (paramAhead.ToLower() == "-l")
-					logfolder = CommandLineArguments.Dequeue();
-				else 
-					Secretary.Report(5, "Unknown command line parameter: ", paramAhead);
+				if (paramAhead.ToLower () == "-c") {
+					config = CommandLineArguments.Dequeue ();
+					Secretary.Report (0, "Config file: ", config);
+				} else if (paramAhead.ToLower () == "-l") {
+					logfolder = CommandLineArguments.Dequeue ();
+					Secretary.Report (0, "Logfile: ", config);				
+				} else if (paramAhead.ToLower () == "-pfc") {
+					pluginsFromConfig = bool.Parse (CommandLineArguments.Dequeue ());
+					Secretary.Report (0, "Plugins from Config: ", pluginsFromConfig.ToString());
+				} else if (paramAhead.ToLower () == "-pfb") {
+					pluginsFromBin = bool.Parse (CommandLineArguments.Dequeue ());
+					Secretary.Report (0, "Plugins from Bin: ", pluginsFromBin.ToString());
+				} else if (runbranch.Length > 0) {
+					string[] pair = paramAhead.ToLower ().Split ('=');
+
+					if (pair.Length == 2) {
+						miscArgs [pair [0]] = pair [1];
+						Secretary.Report (0, pair [0], "=", pair [1]);
+					} else {
+						throw new Exception (
+							"Interaction variables need to be supplied as key=value-pair");
+					}
+				} else {
+					throw new Exception ("Not sure what to do with " + paramAhead.ToLower ());
+				}
 			}
 		
-			StartLog(logfolder);
+			if (config.Length > 0) {
+				string[] branchPair = config.Split ('@');
 
+				if (branchPair.Length > 0) {
+					runbranch = branchPair [1];
+					config = branchPair [0];
+				}
+			}
 
-			InstanceLoader.GetInstances (config, true);
+			Map<Service> services = InstanceLoader.GetInstances (config, pluginsFromConfig, pluginsFromBin);
+
+			if (runbranch.Length > 0) {
+				services [runbranch].TryProcess (miscArgs);
+			}
 		}
 	}
 }
