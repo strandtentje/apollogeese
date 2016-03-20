@@ -56,6 +56,9 @@
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\Downloads\Release.13\MySql.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Npgsql">
+      <HintPath>..\..\..\Downloads\npgsql.3.0.5.nupkg_FILES\lib\net45\Npgsql.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -72,6 +75,7 @@
     <Compile Include="Sqlite.cs" />
     <Compile Include="Transaction.cs" />
     <Compile Include="TransactionInteraction.cs" />
+    <Compile Include="PostgreSQL.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
