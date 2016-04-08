@@ -105,6 +105,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 					replacename.Substring (1),
 					HttpUtility.HtmlDecode);
 				break;
+			case '%':
+				result = new Replacement (
+					replacename.Substring (1),
+					HttpUtility.UrlEncode);
+				break;
 			default:
 				result = new CallOrReplace (replacename, this);
 				break;

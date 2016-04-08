@@ -105,7 +105,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 		/// Scans the directory for plugins.
 		/// </summary>
 		/// <param name="pluginDirectoryPath">Plugin directory path.</param>
-		void ScanDirectoryForPlugins (string pluginDirectoryPath)
+		public void ScanDirectoryForPlugins (string pluginDirectoryPath)
 		{
 			IEnumerable<string> candidateDlls;
 			candidateDlls = Directory.GetFiles (
