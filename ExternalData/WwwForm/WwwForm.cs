@@ -6,6 +6,10 @@ using BorrehSoft.Utensils.Collections.Settings;
 using System.Collections.Generic;
 using BorrehSoft.Utensils.Log;
 using BorrehSoft.Utensils.Collections;
+using System.Text;
+using System.Threading.Tasks;
+using System.Threading;
+using Parsing;
 
 namespace ExternalData
 {
@@ -17,71 +21,105 @@ namespace ExternalData
 			}
 		}
 
-		List<string> FieldList;
+		List<string> FieldNameWhitelist;
+
+		Encoding Encoding;
 
 		bool Immediate;
+
+		TimeSpan parsingTimeout;
+	
+		NameValuePiper<TextReader> ParserRunner;
+
+		public TimeSpan ParsingTimeout { 
+			get {
+				return this.parsingTimeout;
+			}
+			set {
+				this.parsingTimeout = TimeSpan.Parse (value);
+				this.ParserRunner = new NameValuePiper<TextReader> (UrlParseReader, this.parsingTimeout);
+			}
+		}
 
 		protected override void Initialize (Settings settings)
 		{
 			base.Initialize (settings);
-			this.FieldList = settings.GetStringList ("fieldlist");
+			this.FieldNameWhitelist = settings.GetStringList ("fieldlist");
 			this.Immediate = settings.GetBool ("immediate", false);
+			this.ParsingTimeout = TimeSpan.Parse (settings.GetString ("timeout", "500ms"));
 
-			if (this.FieldList.Count == 0) {
+			if (this.FieldNameWhitelist.Count == 0) {
 				Secretary.Report (5, "Fieldlist Empty line:", this.ConfigLine.ToString());
+			}
+		}
+
+		private const char Concatenator = '&';
+		private const char Assigner = '=';
+
+		private void UrlParseReader(TextReader reader, NameValuePiper<TextReader>.NameValueCallback callback) {
+			char currentCharacter;
+
+			StringBuilder nameBuilder = new StringBuilder ();
+			StringBuilder valueBuilder = new StringBuilder ();
+			StringBuilder currentBuilder = nameBuilder;
+
+			while (reader.Peek > -1) {
+				currentCharacter = (char)reader.Read ();
+
+				switch (currentCharacter) {
+				case Concatenator:						
+					callback (nameBuilder.ToString (), valueBuilder.ToString ());
+					nameBuilder.Clear ();
+					valueBuilder.Clear ();
+					currentBuilder = nameBuilder;
+					break;
+				case Assigner:
+					currentBuilder = valueBuilder;
+					break;
+				default:
+					currentBuilder.Append (currentCharacter);
+					break;
+				}
 			}
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			TextReader reader;
-			bool success;
+			TextReader urlDataReader;
+			bool success = true;
+			SimpleInteraction valuesByName = new SimpleInteraction (parameters);
+			Map<IInteraction> inputInteractionsByName = new Map<IInteraction> ();
 
-			if (success = TryGetDatareader (parameters, null, out reader)) {
-				// #yolo
-				string fullData = reader.ReadToEnd ();
+			success = success && TryGetDatareader (parameters, null, out urlDataReader);
+			success = success && this.ParserRunner.TryRun (urlDataReader, delegate(string name, string value) {
+				WwwInputInteraction inputInteractions = new WwwInputInteraction (name, value, parameters);
 
-				string[] pairs = fullData.Split ('&');
-
-				SimpleInteraction inputs = new SimpleInteraction (parameters);
-				Map<IInteraction> interactions = new Map<IInteraction> ();
-
-				foreach (string pair in pairs) {
-					WwwInputInteraction input = new WwwInputInteraction (pair, parameters);
-
-					if (FieldList.Contains (input.Name)) {
-						if (Immediate)
-							success &= TryReportPair (inputs, input);
-						else {
-							if (this.DoMapping) inputs [input.Name] = input.Value;
-							interactions [input.Name] = input;
-						}
+				if (FieldNameWhitelist.Contains (inputInteractions.Name)) {
+					if (Immediate)
+						success &= TryReportPair (valuesByName, inputInteractions);
+					else {
+						if (this.DoMapping)
+							valuesByName [inputInteractions.Name] = inputInteractions.Value;
+						inputInteractionsByName [inputInteractions.Name] = inputInteractions;
 					}
 				}
+			});
 
-				if (!Immediate) {
-					foreach (string fieldName in this.FieldList) {
-						IInteraction currentField;
-						if (interactions.Has (fieldName))
-							currentField = interactions [fieldName];
-						else
-							currentField = new SimpleInteraction(
-								parameters, "name", fieldName);
+			foreach (string fieldName in this.FieldNameWhitelist) {
+				IInteraction currentField;
 
-						if (Branches.Has (fieldName))
-							success &= Branches [fieldName].TryProcess (currentField);
-						if (DoIterate)
-							success &= this.Iterator.TryProcess (currentField);
-					}
-				}
+				if (inputInteractionsByName.Has (fieldName))
+					currentField = inputInteractionsByName [fieldName];
+				else
+					currentField = new SimpleInteraction (parameters, "name", fieldName);
 
-				if (this.DoMapping)
-					success &= this.Mapped.TryProcess (inputs);
+				success = success && (!Branches.Has (fieldName) || Branches [fieldName].TryProcess (currentField));
+				success = success && (!DoIterate || this.Iterator.TryProcess (currentField));
+			}			
 
-			}
-
+			success = success && (!this.DoMapping || this.Mapped.TryProcess (valuesByName));
+	
 			return success;
 		}
 	}
 }
-

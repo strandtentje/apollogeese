@@ -8,15 +8,22 @@ namespace ExternalData
 {
 	class WwwInputInteraction : NameValueInteraction
 	{
-		public WwwInputInteraction (string pair, IInteraction parameters) : base(parameters)
+		public static WwwInputInteraction FromPair (string pair, IInteraction parameters)
 		{
 			string[] splitPair = pair.Split ('=');
 
-			this.Name = splitPair [0];
+			string name = splitPair [0];
+			string value = "";
 			if (splitPair.Length > 1)
-				this.Value = HttpUtility.UrlDecode (splitPair [1]);
-			else
-				this.Value = "";
+				value = HttpUtility.UrlDecode (splitPair [1]);	
+
+			return new WwwInputInteraction (name, value, parameters);
+		}
+
+		public WwwInputInteraction (string name, string value, IInteraction parent) : base (parent) 
+		{
+			this.Name = name;
+			this.Value = value;
 		}
 	}
 

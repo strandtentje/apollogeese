@@ -44,6 +44,8 @@
     <Compile Include="NameValueInteraction.cs" />
     <Compile Include="NameValueService.cs" />
     <Compile Include="PlainText\RegexGroups.cs" />
+    <Compile Include="MultipartForm\MultipartForm.cs" />
+    <Compile Include="WwwForm\UrlPairParser.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -68,5 +70,6 @@
     <Folder Include="XML\" />
     <Folder Include="WwwForm\" />
     <Folder Include="PlainText\" />
+    <Folder Include="MultipartForm\" />
   </ItemGroup>
 </Project>
