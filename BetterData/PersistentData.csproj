@@ -57,7 +57,7 @@
       <HintPath>..\..\..\Downloads\Release.13\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql">
-      <HintPath>..\..\..\Downloads\npgsql.3.0.5.nupkg_FILES\lib\net45\Npgsql.dll</HintPath>
+      <HintPath>..\..\..\Downloads\GAC\Npgsql.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
