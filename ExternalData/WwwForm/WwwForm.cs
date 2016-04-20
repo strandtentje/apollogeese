@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using Parsing;
+using System.Web;
 
 namespace ExternalData
 {
@@ -36,7 +37,7 @@ namespace ExternalData
 				return this.parsingTimeout;
 			}
 			set {
-				this.parsingTimeout = TimeSpan.Parse (value);
+				this.parsingTimeout = value;
 				this.ParserRunner = new NameValuePiper<TextReader> (UrlParseReader, this.parsingTimeout);
 			}
 		}
@@ -46,7 +47,7 @@ namespace ExternalData
 			base.Initialize (settings);
 			this.FieldNameWhitelist = settings.GetStringList ("fieldlist");
 			this.Immediate = settings.GetBool ("immediate", false);
-			this.ParsingTimeout = TimeSpan.Parse (settings.GetString ("timeout", "500ms"));
+			this.ParsingTimeout = TimeSpan.Parse (settings.GetString ("timeout", "00:00:00.5"));
 
 			if (this.FieldNameWhitelist.Count == 0) {
 				Secretary.Report (5, "Fieldlist Empty line:", this.ConfigLine.ToString());
@@ -63,12 +64,12 @@ namespace ExternalData
 			StringBuilder valueBuilder = new StringBuilder ();
 			StringBuilder currentBuilder = nameBuilder;
 
-			while (reader.Peek > -1) {
+			while (reader.Peek() > -1) {
 				currentCharacter = (char)reader.Read ();
 
 				switch (currentCharacter) {
 				case Concatenator:						
-					callback (nameBuilder.ToString (), valueBuilder.ToString ());
+					callback (nameBuilder.ToString (), HttpUtility.UrlDecode (valueBuilder.ToString ()));
 					nameBuilder.Clear ();
 					valueBuilder.Clear ();
 					currentBuilder = nameBuilder;
@@ -85,7 +86,7 @@ namespace ExternalData
 
 		protected override bool Process (IInteraction parameters)
 		{
-			TextReader urlDataReader;
+			TextReader urlDataReader = null;
 			bool success = true;
 			SimpleInteraction valuesByName = new SimpleInteraction (parameters);
 			Map<IInteraction> inputInteractionsByName = new Map<IInteraction> ();

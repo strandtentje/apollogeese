@@ -19,7 +19,7 @@ namespace ExternalData
 
 			return new WwwInputInteraction (name, value, parameters);
 		}
-
+			
 		public WwwInputInteraction (string name, string value, IInteraction parent) : base (parent) 
 		{
 			this.Name = name;
