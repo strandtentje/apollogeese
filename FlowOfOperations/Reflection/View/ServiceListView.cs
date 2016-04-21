@@ -5,7 +5,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	public class TypeList : Service
+	public class ServiceList : Service
 	{
 		public override string Description {
 			get {
@@ -13,16 +13,19 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			}
 		}
 
-		private Service SiblingIterator;
+		private Service SiblingIterator = Stub;
 
 		protected override void Initialize (Settings modSettings)
 		{
-			Branches["siblingiterator"] = Stub;
+			
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
-			if (e.Name == "siblingiterator") SiblingIterator = e.NewValue;
+			if (e.Name == "siblingiterator")
+				SiblingIterator = e.NewValue;
+			else if (e.Name == "iterator")
+				SiblingIterator = e.NewValue;
 		}
 
 		protected override bool Process (IInteraction parameters)
@@ -33,7 +36,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 			foreach (string name in PossibleSiblingTypes.Dictionary.Keys) {
 				foundType = new SimpleInteraction (parameters);
-				foundType ["typename"] = name;
+				foundType ["servicename"] = name;
 				success &= SiblingIterator.TryProcess(foundType);
 			}
 

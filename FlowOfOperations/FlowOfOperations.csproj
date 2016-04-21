@@ -48,7 +48,6 @@
     <Compile Include="Reflection\View\FlowView.cs" />
     <Compile Include="Reflection\View\ModuleView.cs" />
     <Compile Include="Reflection\View\SettingsView.cs" />
-    <Compile Include="Reflection\View\TypeListView.cs" />
     <Compile Include="Reflection\MetaInteraction.cs" />
     <Compile Include="Reflection\MetaServiceInteraction.cs" />
     <Compile Include="Reflection\OutgoingIterator.cs" />
@@ -64,6 +63,7 @@
     <Compile Include="Reflection\Control\SetSetting.cs" />
     <Compile Include="Planned\Schedule.cs" />
     <Compile Include="Recur.cs" />
+    <Compile Include="Reflection\View\ServiceListView.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
