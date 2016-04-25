@@ -91,6 +91,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		/// <value>The request headers.</value>
 		public NameValueCollection RequestHeaders { get; private set; }
 
+		public string ContentType { 
+			get {
+				return this.Request.ContentType;
+			}
+		}
+
 		/// <summary>
 		/// Gets the request body.
 		/// </summary>
