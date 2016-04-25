@@ -17,7 +17,9 @@ namespace Filesystem
 
 		public bool HasGeneratedFilename { get { return Filename.Length == 0; } }
 
-		private Service Source = null;
+		public bool AppendExisting { get; private set; }
+
+		private Service SourcingBranch = null;
 
 		private Service Success = Stub;
 
@@ -58,6 +60,7 @@ namespace Filesystem
 		{
 			this.DirectoryPath = settings.GetString ("rootpath");
 			this.Filename = settings.GetString ("filename", "");
+			this.AppendExisting = settings.GetBool ("append", false);
 			this.Encoding = Encoding.GetEncoding(settings.GetString("encoding", "utf-8"));
 			this.BufferSize = settings.GetInt ("buffersize", 1024 * 128);
 		}
@@ -65,7 +68,7 @@ namespace Filesystem
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			if (e.Name == "source")
-				this.Source = e.NewValue;
+				this.SourcingBranch = e.NewValue;
 			else if (e.Name == "success")
 				this.Success = e.NewValue;
 		}
@@ -94,35 +97,37 @@ namespace Filesystem
 			return composedFilename;
 		}
 
+		private void WriteFileFromReader(TextReader sourceReader) {
+			string fileName = ComposeSinkFilename ();
+
+			using (StreamWriter sinkWriter = new StreamWriter (fileName, this.AppendExisting, this.Encoding)) {
+				char[] buffer = new char[this.BufferSize];
+				int position;
+
+				while ((position = sourceReader.Read (buffer, 0, buffer.Length)) > 0)
+					sinkWriter.Write (buffer, 0, position);
+			}
+		}
+
 		protected override bool Process (IInteraction parameters)
 		{
-			TextReader sourceReader;
 			bool success = true;
 
-			if (Source == null) {
+			if (SourcingBranch == null) {
 				IInteraction sourceInteraction;
-				success &= parameters.TryGetClosest (typeof(IIncomingReaderInteraction), out sourceInteraction);
-				if (success) sourceReader = ((IIncomingReaderInteraction)sourceInteraction).GetIncomingBodyReader ();				
+
+				if (success = parameters.TryGetClosest (typeof(IIncomingReaderInteraction), out sourceInteraction)) {
+					WriteFileFromReader (((IIncomingReaderInteraction)sourceInteraction).GetIncomingBodyReader ());
+				}
 			} else {
 				SimpleOutgoingInteraction sourceInteraction = new SimpleOutgoingInteraction (new MemoryStream (), parameters);
-				success &= this.Source.TryProcess (sourceInteraction);
 
-				if (sourceInteraction.HasWriter ())
-					sourceInteraction.GetOutgoingBodyWriter ().Flush ();
-				sourceInteraction.OutgoingBody.Position = 0;
+				if (success = this.SourcingBranch.TryProcess (sourceInteraction)) {
+					if (sourceInteraction.HasWriter ())
+						sourceInteraction.GetOutgoingBodyWriter ().Flush ();
+					sourceInteraction.OutgoingBody.Position = 0;
 
-				sourceReader = new StreamReader (sourceInteraction.OutgoingBody);
-			}
-
-			if (success) {
-				string fileName = ComposeSinkFilename ();
-
-				using (StreamWriter sinkWriter = new StreamWriter (fileName, this.Encoding)) {
-					char[] buffer = new char[this.BufferSize];
-					int position;
-
-					while ((position = sourceReader.Read (buffer, 0, buffer.Length)) > 0)
-						sinkWriter.Write (buffer, 0, position);
+					WriteFileFromReader (new StreamReader (sourceInteraction.OutgoingBody));
 				}
 			}
 
