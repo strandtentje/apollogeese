@@ -14,12 +14,15 @@ namespace Networking
 		public HTTPResponseInteraction (HttpWebRequest request, HttpWebResponse response, IInteraction parameters) : base(parameters)
 		{
 			this.SourceName = request.RequestUri.ToString ();
+			this.ContentType = request.ContentType;
 			this.IncomingBody = response.GetResponseStream ();
 		}
 
 		public string SourceName { get; private set; }
 
 		public Stream IncomingBody { get; private set; }
+
+		public string ContentType { get; private set; }
 
 		private TextReader reader = null;
 
