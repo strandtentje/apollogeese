@@ -42,11 +42,18 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// </summary>
 		/// <param name="bodyStream">Body stream.</param>
 		/// <param name="parent">Parent.</param>
-		public SimpleIncomingInteraction (Stream bodyStream, IInteraction parent, string sourceName) : base(parent)
+		public SimpleIncomingInteraction (Stream bodyStream, IInteraction parent, string sourceName, string contentType) : base(parent)
 		{
 			this.sourceName = sourceName;
+			this.ContentType = contentType;
 			IncomingBody = bodyStream;
 		}
+
+		/// <summary>
+		/// Gets the MIME-type associated with the underlying data
+		/// </summary>
+		/// <value>The type of the MIME.</value>
+		public string ContentType { get; private set; }
 
 		/// <summary>
 		/// Gets a value indicating whether or not a reader has been produced for the stream

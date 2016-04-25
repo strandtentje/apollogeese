@@ -8,8 +8,8 @@ namespace Testing
 {
 	class IncomingTestData : SimpleIncomingInteraction, IDisposable
 	{
-		public IncomingTestData (string ingoingDataFile, IInteraction testContext, string sourceName) : base(
-			File.OpenRead(ingoingDataFile), testContext, sourceName)
+		public IncomingTestData (string ingoingDataFile, IInteraction testContext, string sourceName, string mimeType) : base(
+			File.OpenRead(ingoingDataFile), testContext, sourceName, mimeType)
 		{
 
 		}
