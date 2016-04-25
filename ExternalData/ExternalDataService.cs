@@ -13,9 +13,16 @@ namespace ExternalData
 		protected override void Initialize (Settings settings)
 		{
 			this.Encoding = Encoding.GetEncoding (settings.GetString ("encoding", "utf-8"));
+			this.IsMimetypeChecking = settings.GetBool ("checkmimetype", true);
 			this.Variable = settings.GetString ("variable", "");
 			base.Initialize (settings);
 		}
+
+		/// <summary>
+		/// Gets a value indicating whether this instance is mimetype checking.
+		/// </summary>
+		/// <value><c>true</c> if this instance is mimetype checking; otherwise, <c>false</c>.</value>
+		public bool IsMimetypeChecking { get; private set; }
 
 		/// <summary>
 		/// Gets a value indicating whether this instance is variable sourcing.
@@ -60,6 +67,8 @@ namespace ExternalData
 			get { return IsVariableSourcing || IsForwardSourcing; }
 		}
 
+		public abstract bool CheckMimetype (string mimeType);
+
 		public bool TryGetDatareader(IInteraction parameters, IInteraction until, out TextReader reader) {
 			IInteraction candidate;
 			bool success;
@@ -90,7 +99,7 @@ namespace ExternalData
 			} else if (parameters.TryGetClosest (typeof(IIncomingBodiedInteraction), until, out candidate)) {
 				IIncomingBodiedInteraction source = (IIncomingBodiedInteraction)candidate;
 
-				success = true;
+				success = CheckMimetype (source.ContentType);
 				reader = source.GetIncomingBodyReader ();
 			} else {
 				success = false;

@@ -76,7 +76,7 @@ namespace ExternalData
 			success = success && this.ParserRunner.TryRun (urlDataReader, delegate(string name, string value) {
 				WwwInputInteraction inputInteractions = new WwwInputInteraction (name, value, parameters);
 
-				if (FieldNameWhitelist.Contains (inputInteractions.Name)) {
+				if (StringFieldWhiteList.Contains (inputInteractions.Name)) {
 					if (Immediate)
 						success &= TryReportPair (valuesByName, inputInteractions);
 					else {
@@ -87,7 +87,7 @@ namespace ExternalData
 				}
 			});
 
-			foreach (string fieldName in this.FieldNameWhitelist) {
+			foreach (string fieldName in this.StringFieldWhiteList) {
 				IInteraction currentField;
 
 				if (inputInteractionsByName.Has (fieldName))
