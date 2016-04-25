@@ -16,6 +16,12 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// </summary>
 		/// <returns><c>true</c> if this instance has a reader; otherwise, <c>false</c>.</returns>
 		bool HasReader();
+
+		/// <summary>
+		/// Gets the MIME-type associated with the underlying data
+		/// </summary>
+		/// <value>The type of the MIME.</value>
+		string ContentType { get; }
 	}
 }
 

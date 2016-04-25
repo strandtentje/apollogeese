@@ -11,7 +11,6 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		string SourceName { get; }
 
 		Stream IncomingBody { get; }
-
 	}
 }
 
