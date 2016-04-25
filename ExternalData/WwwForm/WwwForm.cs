@@ -14,7 +14,7 @@ using System.Web;
 
 namespace ExternalData
 {
-	public class WwwForm : NameValueService
+	public class WwwForm : HttpForm<string>
 	{
 		public override string Description {
 			get {
@@ -22,42 +22,18 @@ namespace ExternalData
 			}
 		}
 
-		List<string> FieldNameWhitelist;
-
-		Encoding Encoding;
-
 		bool Immediate;
-
-		TimeSpan parsingTimeout;
-	
-		NameValuePiper<TextReader> ParserRunner;
-
-		public TimeSpan ParsingTimeout { 
-			get {
-				return this.parsingTimeout;
-			}
-			set {
-				this.parsingTimeout = value;
-				this.ParserRunner = new NameValuePiper<TextReader> (UrlParseReader, this.parsingTimeout);
-			}
-		}
 
 		protected override void Initialize (Settings settings)
 		{
 			base.Initialize (settings);
-			this.FieldNameWhitelist = settings.GetStringList ("fieldlist");
-			this.Immediate = settings.GetBool ("immediate", false);
-			this.ParsingTimeout = TimeSpan.Parse (settings.GetString ("timeout", "00:00:00.5"));
-
-			if (this.FieldNameWhitelist.Count == 0) {
-				Secretary.Report (5, "Fieldlist Empty line:", this.ConfigLine.ToString());
-			}
+			this.Immediate = settings.GetBool ("immediate", false); 
 		}
 
 		private const char Concatenator = '&';
 		private const char Assigner = '=';
 
-		private void UrlParseReader(TextReader reader, NameValuePiper<TextReader>.NameValueCallback callback) {
+		private void UrlParseReader(TextReader reader, NameValuePiper<TextReader, string>.NameValueCallback callback) {
 			char currentCharacter;
 
 			StringBuilder nameBuilder = new StringBuilder ();
@@ -82,6 +58,11 @@ namespace ExternalData
 					break;
 				}
 			}
+		}
+
+		public override bool CheckMimetype (string mimeType)
+		{
+			return mimeType == "application/x-www-form-urlencoded";
 		}
 
 		protected override bool Process (IInteraction parameters)
