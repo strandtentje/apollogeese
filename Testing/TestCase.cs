@@ -49,6 +49,12 @@ namespace Testing
 		/// </summary>
 		/// <value>The ingoing data file.</value>
 		string IngoingDataFile { get { return this.Settings.GetString ("ingoingfile"); } }
+
+		/// <summary>
+		/// Gets the type of the ingoing content.
+		/// </summary>
+		/// <value>The type of the ingoing content.</value>
+		string IngoingContentType { get { return this.Settings.GetString ("mimetype", "text/plain"); } }
 				
 		/// <summary>
 		/// Gets or sets the test subject.
@@ -87,7 +93,7 @@ namespace Testing
 			testBundle = testContext = new TestContextInteraction (this.Name, this.AvailableContext);
 
 			if (HasIngoingData)
-				testBundle = testInput = new IncomingTestData (this.IngoingDataFile, testBundle, this.SourceName);
+				testBundle = testInput = new IncomingTestData (this.IngoingDataFile, testBundle, this.SourceName, this.IngoingContentType);
 
 			if (HasOutgoingDataViewer)
 				testBundle = testOutput = new OutgoingTestableData (testBundle);
@@ -100,7 +106,7 @@ namespace Testing
 			if (HasOutgoingDataViewer) {
 				// obscure name of the year award goes to
 				IInteraction incomingInteractionWithOutgoingData;
-				incomingInteractionWithOutgoingData = new SimpleIncomingInteraction (testOutput.GetProduct (), parameters, "test-case-output");
+				incomingInteractionWithOutgoingData = new SimpleIncomingInteraction (testOutput.GetProduct (), parameters, "test-case-output", this.IngoingContentType);
 
 				success &= this.OutgoingDataViewer.TryProcess (incomingInteractionWithOutgoingData);
 
