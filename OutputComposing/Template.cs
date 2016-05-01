@@ -100,6 +100,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 					replacename.Substring (1),
 					HttpUtility.HtmlEncode);
 				break;
+			case '/':
 			case '*':
 				result = new Replacement (
 					replacename.Substring (1),
@@ -109,6 +110,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				result = new Replacement (
 					replacename.Substring (1),
 					HttpUtility.UrlEncode);
+				break;
+			case '=': 
+				result = new Replacement (
+					replacename.Substring (1),
+					HttpUtility.HtmlAttributeEncode);
+				break;
+			case ';':
+				result = new Replacement (
+					replacename.Substring (1),
+					HttpUtility.JavaScriptStringEncode);
 				break;
 			default:
 				result = new CallOrReplace (replacename, this);
