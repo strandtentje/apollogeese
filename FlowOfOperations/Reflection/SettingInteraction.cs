@@ -11,8 +11,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 	{
 		public SettingInteraction (IInteraction parameters, string Key, object Value) : base(parameters)
 		{
-			this ["key"] = Key;
-			this ["value"] = Value;
+			this ["settingkey"] = Key;
+			this ["settingvalue"] = Value;
 		}
 	}
 }
