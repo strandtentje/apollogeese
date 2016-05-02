@@ -40,6 +40,20 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 				this ["directoryname"] = http.URL.Peek ();
 		}
 
+		public override object Get (string key)
+		{
+			if (key == "resourcename") {
+				return DirectoryName;
+			} else {
+				return base.Get (key);
+			}
+		}
+
+		public override bool Has (string key)
+		{
+			return (key == "resourcename") || base.Has (key);
+		}
+
 		/// <summary>
 		/// The branchname that was elected by the url section
 		/// </summary>
