@@ -7,7 +7,7 @@ using BorrehSoft.Utensils.Log;
 
 namespace ExternalData
 {
-	public class HttpForm<T> : NameValueService
+	public abstract class HttpForm<T> : NameValueService
 	{
 		TimeSpan parsingTimeout;
 
@@ -38,7 +38,6 @@ namespace ExternalData
 		}
 
 		protected abstract void UrlParseReader(TextReader reader, NameValuePiper<TextReader, T>.NameValueCallback callback);
-
 	}
 }
 

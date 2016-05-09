@@ -67,7 +67,10 @@ namespace ExternalData
 			get { return IsVariableSourcing || IsForwardSourcing; }
 		}
 
-		public abstract bool CheckMimetype (string mimeType);
+		public virtual bool CheckMimetype (string mimeType)
+		{
+			return true;
+		}
 
 		public bool TryGetDatareader(IInteraction parameters, IInteraction until, out TextReader reader) {
 			IInteraction candidate;
