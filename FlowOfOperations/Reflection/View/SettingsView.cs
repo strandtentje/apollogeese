@@ -26,7 +26,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			if (modSettings.Has ("sourcesettings")) {
 				this.sourceSettings = modSettings.GetSubsettings ("sourcesettings");
 			} else if (modSettings.Has ("sourcesettingsvariable")) {
-				this.sourceSettingsVariable = modSettings.GetString ("sourcesettigsvariable");
+				this.sourceSettingsVariable = modSettings.GetString ("sourcesettingsvariable");
 			}
 		}
 
@@ -48,7 +48,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 				this.None.TryProcess (parameters);
 			} else {
 				foreach (KeyValuePair<string, object> pair in data.Dictionary) {
-					this.Iterator.TryProcess (new SettingInteraction (parameters, pair.Key, pair.Value));
+					if (!pair.Key.StartsWith ("_")) {
+						this.Iterator.TryProcess (new SettingInteraction (parameters, pair.Key, pair.Value));
+					}
 				}
 			}
 		}
