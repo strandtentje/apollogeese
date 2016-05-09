@@ -27,14 +27,18 @@ namespace Filesystem
 
 		public override string Description {
 			get {
-				string description;
+				string description = "file writer";
 
-				if (this.HasGeneratedFilename) {
-					description = string.Format ("Writes uniquely named file to directory {0}",
-						this.DirectoryPath);
-				} else {
-					description = string.Format ("Writes file to directory {0}, using name {1}",
-						this.DirectoryPath, this.Filename);
+				try {
+					if (this.HasGeneratedFilename) {
+						description = string.Format ("Writes uniquely named file to directory {0}",
+							this.DirectoryPath);
+					} else {
+						description = string.Format ("Writes file to directory {0}, using name {1}",
+							this.DirectoryPath, this.Filename);
+					}
+				} catch (Exception ex) {
+					// ignore!
 				}
 
 				return description;
@@ -47,12 +51,12 @@ namespace Filesystem
 				FileInfo info = new FileInfo (defaultParameter);
 
 				if (info.Exists) {
-					this.DirectoryPath = info.DirectoryName;
-					this.Filename = info.Name;
+					this.Settings["rootpath"] = info.DirectoryName;
+					this.Settings["filename"] = info.Name;
 				}
 			} else if (Directory.Exists (defaultParameter)) {
-				this.DirectoryPath = defaultParameter;
-				this.Filename = "";
+				this.Settings["rootpath"] = defaultParameter;
+				this.Settings ["filename"] = "";
 			}
 		}
 
