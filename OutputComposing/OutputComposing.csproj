@@ -42,6 +42,7 @@
     <Compile Include="Expressions\NamedExpression.cs" />
     <Compile Include="Expressions\Expression.cs" />
     <Compile Include="NullSink.cs" />
+    <Compile Include="FormatDateTime.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
