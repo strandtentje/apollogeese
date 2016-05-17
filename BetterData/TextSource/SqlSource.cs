@@ -11,7 +11,7 @@ namespace BetterData
 		public virtual bool IsOutdated {
 			get {
 				return false;
-			}
+			}	
 		}
 
 		public abstract string GetText();
@@ -19,6 +19,8 @@ namespace BetterData
 		public bool UnchangedFlag { get; protected set; }
 
 		private List<string> parameterNames = new List<string> ();
+
+		public char Separator = '@';
 
 		string ReadOneParameterName (StringReader queryReader)
 		{
@@ -40,7 +42,7 @@ namespace BetterData
 				StringReader queryReader = new StringReader (GetText ());
 
 				while (queryReader.Peek () > -1) {
-					if (queryReader.Read () == '@') {
+					if (queryReader.Read () == this.Separator) {
 						string parName = ReadOneParameterName (queryReader);
 						if (!this.parameterNames.Contains (parName)) {
 							this.parameterNames.Add (parName);
