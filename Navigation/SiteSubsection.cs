@@ -16,17 +16,27 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 			}
 		}
 
+		private string ResourceNameVariable { get; private set; }
+
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["resourcenamevariable"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
+			this.ResourceNameVariable = modSettings.GetString ("resourcenamevariable", "resourcename");
 			Branches ["main"] = Stub;
 			Branches ["default"] = Stub;
 		}
 
 		protected override bool Process (IInteraction uncastParameters)
 		{
-			IHttpInteraction httpParameters = (IHttpInteraction)uncastParameters.GetClosest(typeof(IHttpInteraction));
+			IHttpInteraction httpParameters = (IHttpInteraction)uncastParameters.GetClosest(
+				typeof(IHttpInteraction));
 
-			SubsectionInteraction interaction = new SubsectionInteraction (httpParameters, uncastParameters);
+			SubsectionInteraction interaction = new SubsectionInteraction (
+				httpParameters, uncastParameters, this.ResourceNameVariable);
 
 			Service branch = Stub;
 
