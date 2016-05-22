@@ -18,7 +18,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 
 		private const string ResourceNameKeySetting = "resourcenamekey";
 
-		private string ResourceNameKey { get; private set; }
+		[Instruction("Variable name at which the name of the current resource gets stored")]
+		public string ResourceNameKey { get; private set; }
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
