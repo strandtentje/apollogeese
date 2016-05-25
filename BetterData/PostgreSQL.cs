@@ -16,6 +16,12 @@ namespace BetterData
 			}
 		}
 
+		public override char ParameterSeparator {
+			get {
+				return ':';
+			}
+		}
+
 		public override IDbConnection GetNewConnection ()
 		{
 			return new NpgsqlConnection (this.ConnectionString);

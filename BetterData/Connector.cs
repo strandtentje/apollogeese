@@ -47,6 +47,8 @@ namespace BetterData
 			Settings ["connectionstring"] = defaultParameter;
 		}
 
+		public virtual char ParameterSeparator { get { return '@'; } }
+
 		protected override void Initialize (Settings settings)
 		{
 			this.Name = settings.GetString ("name", "default");
