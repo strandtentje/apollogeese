@@ -43,7 +43,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 
 			if (HasTail) {
 				this [this.ResourceNameKey] = http.URL.Peek ();
-				this ["directoryname"] = "main";
+				this ["directoryname"] = http.URL.Peek();
 			}
 		}
 

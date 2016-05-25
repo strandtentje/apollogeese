@@ -1,5 +1,6 @@
 ﻿using System;
 using BorrehSoft.Utensils.Collections.Settings;
+using System.Globalization;
 
 namespace InputProcessing
 {
@@ -20,7 +21,7 @@ namespace InputProcessing
 		public override bool TryParse (object serial, out decimal data)
 		{
 			// i'm so proud of this hack
-			return decimal.TryParse (serial.ToString(), out data);
+			return decimal.TryParse (serial.ToString(), System.Globalization.NumberStyles.Any, CultureInfo.InvariantCulture, out data);
 		}
 	}
 }
