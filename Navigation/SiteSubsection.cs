@@ -16,17 +16,31 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 			}
 		}
 
+		private const string ResourceNameKeySetting = "resourcenamekey";
+
+		[Instruction("Variable name at which the name of the current resource gets stored")]
+		public string ResourceNameKey { get; private set; }
+
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings [ResourceNameKeySetting] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
+			this.ResourceNameKey = modSettings.GetString (
+				ResourceNameKeySetting, "resourcename");
 			Branches ["main"] = Stub;
 			Branches ["default"] = Stub;
 		}
 
 		protected override bool Process (IInteraction uncastParameters)
 		{
-			IHttpInteraction httpParameters = (IHttpInteraction)uncastParameters.GetClosest(typeof(IHttpInteraction));
+			IHttpInteraction httpParameters = (IHttpInteraction)uncastParameters.GetClosest(
+				typeof(IHttpInteraction));
 
-			SubsectionInteraction interaction = new SubsectionInteraction (httpParameters, uncastParameters);
+			SubsectionInteraction interaction = new SubsectionInteraction (
+				httpParameters, uncastParameters, this.ResourceNameKey);
 
 			Service branch = Stub;
 

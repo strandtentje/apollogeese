@@ -25,21 +25,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		/// <param name="parent">Parent.</param>
 		/// <param name="branches">Branches.</param>
 		/// <param name="modSettings">Mod settings.</param>
-		public JumpInteraction(IInteraction parent, Map<Service> branches, Settings modSettings) : base(parent, modSettings)
+		public JumpInteraction(IInteraction parent, Map<Service> branches, Map<string> variableOverrides, Map<object> injectedVariables) : base(parent, injectedVariables)
 		{
 			this.Branches = branches;
 
-			object reassignObject = modSettings["reassignments"] ?? modSettings["remap"];
-
-			if (reassignObject != null) {
-				Settings reassignments = (Settings)reassignObject;
-				object value;
-				foreach (KeyValuePair<string, object> pair in reassignments.Dictionary) {
-					string sourceName = pair.Value as string;
-					if (parent.TryGetFallback (sourceName, out value)) 
-						this [pair.Key] = value;
-				}						
-			}
+			foreach (KeyValuePair<string, string> overrideVariable in variableOverrides.Dictionary) {
+				string sourceName = overrideVariable.Value;
+				object newValue;
+				if (parent.TryGetFallback (sourceName, out newValue)) 
+					this [overrideVariable.Key] = newValue;
+			}						
 		}
 
 		public bool TryGetDeepBranch (string branchName, out Service deepBranch)

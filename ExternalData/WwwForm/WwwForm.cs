@@ -33,7 +33,8 @@ namespace ExternalData
 		private const char Concatenator = '&';
 		private const char Assigner = '=';
 
-		private void UrlParseReader(TextReader reader, NameValuePiper<TextReader, string>.NameValueCallback callback) {
+		protected override void UrlParseReader (TextReader reader, NameValuePiper<TextReader, string>.NameValueCallback callback)
+		{
 			char currentCharacter;
 
 			StringBuilder nameBuilder = new StringBuilder ();
@@ -56,6 +57,14 @@ namespace ExternalData
 				default:
 					currentBuilder.Append (currentCharacter);
 					break;
+				}
+			}
+
+			if (nameBuilder.Length > 0) {
+				if (valueBuilder.Length > 0) {
+					callback (nameBuilder.ToString (), HttpUtility.UrlDecode (valueBuilder.ToString ()));
+				} else {
+					callback (nameBuilder.ToString (), "");
 				}
 			}
 		}

@@ -23,35 +23,28 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 		/// <value><c>true</c> if this instance has more 'directory'-names; otherwise, <c>false</c>.</value>
 		public bool HasTail { get; private set; }
 
+		public string ResourceNameKey { get; private set; }
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.Extensions.Navigation.SubsectionInteraction"/> class.
 		/// </summary>
 		/// <param name="http">Http.</param>
 		/// <param name="parent">Parent.</param>
-		public SubsectionInteraction(IHttpInteraction http, IInteraction parent) : base(parent)
+		public SubsectionInteraction(IHttpInteraction http, IInteraction parent, string resourceNameKey) : base(parent)
 		{
 			this.ParentHttp = http;
+			this.ResourceNameKey = resourceNameKey;
 
+			this [this.ResourceNameKey] = "main";
+			// Directoryname is legacy!
 			this ["directoryname"] = "main";
 
 			HasTail = http.URL.Count > 0;
 
-			if (HasTail) 
-				this ["directoryname"] = http.URL.Peek ();
-		}
-
-		public override object Get (string key)
-		{
-			if (key == "resourcename") {
-				return DirectoryName;
-			} else {
-				return base.Get (key);
+			if (HasTail) {
+				this [this.ResourceNameKey] = http.URL.Peek ();
+				this ["directoryname"] = "main";
 			}
-		}
-
-		public override bool Has (string key)
-		{
-			return (key == "resourcename") || base.Has (key);
 		}
 
 		/// <summary>
@@ -60,7 +53,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 		/// <value>The name of the branch.</value>
 		public string DirectoryName {
 			get {
-				return (string)this ["directoryname"];
+				return (string)this [this.ResourceNameKey];
 			}
 		}
 
