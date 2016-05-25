@@ -54,10 +54,10 @@
       <HintPath>..\..\..\Documents\Mono.Data.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Downloads\Release.13\MySql.Data.dll</HintPath>
+      <HintPath>..\..\..\Downloads\MySql.Data.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql">
-      <HintPath>..\..\..\Downloads\GAC\Npgsql.dll</HintPath>
+      <HintPath>..\..\..\Downloads\npgsql.3.1.2.nupkg_FILES\lib\net45\Npgsql.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
