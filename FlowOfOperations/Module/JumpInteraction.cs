@@ -25,7 +25,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		/// <param name="parent">Parent.</param>
 		/// <param name="branches">Branches.</param>
 		/// <param name="modSettings">Mod settings.</param>
-		public JumpInteraction(IInteraction parent, Map<Service> branches, Map<string> variableOverrides, Map<object> injectedVariables) : base(parent, injectedVariables)
+		public JumpInteraction(IInteraction parent, Map<Service> branches, Map<string> variableOverrides, Map<object> injectedVariables) : base(parent, injectedVariables.Clone())
 		{
 			this.Branches = branches;
 
