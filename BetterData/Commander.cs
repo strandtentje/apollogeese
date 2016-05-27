@@ -17,6 +17,7 @@ namespace BetterData
 	{
 		private string DSN;
 
+		private bool AutoSelectLastInsertId;
 
 		IDbConnection connection;
 		DateTime timestamp;
@@ -106,7 +107,7 @@ namespace BetterData
 			}
 			set {
 				this.sqlFile = value;
-				this.sqlSource = new AutoSqlFileSource(value);
+				this.sqlSource = new AutoSqlFileSource(value, AutoSelectLastInsertId);
 			}
 		}
 
@@ -114,6 +115,7 @@ namespace BetterData
 		{
 			this.DatasourceName = settings.GetString ("connection", "default");
             this.UseTransaction = settings.GetBool("usetransaction", false);
+			this.AutoSelectLastInsertId = settings.GetBool ("lastinsertid", false);
 
 			if (settings.Has ("sql")) {
 				this.SqlText = settings.GetString ("sql");
