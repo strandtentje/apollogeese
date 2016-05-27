@@ -33,7 +33,7 @@ namespace BetterData
 			public const string Insert = "INSERT INTO {0}";
 			public const string Values = "VALUES";
 
-			public const string Delete = "DELETE FROM {0}";
+			public const string Delete = "DELETE FROM {0} ";
 
 			public const string SelectLastInsertId = ";\nSELECT LAST_INSERT_ID() AS last_insert_id;";
 		}
