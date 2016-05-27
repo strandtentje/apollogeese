@@ -121,6 +121,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 					replacename.Substring (1),
 					HttpUtility.JavaScriptStringEncode);
 				break;
+			case '#':
+				result = new Constant (this.Settings.GetString (replacename.Substring (1)));
+				break;
 			default:
 				result = new CallOrReplace (replacename, this);
 				break;
