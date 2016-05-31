@@ -23,20 +23,13 @@ namespace BorrehSoft.ApolloGeese.Loader
 		public DateTime LastChanged { get; private set; }
 
 		/// <summary>
-		/// Gets the meta data.
-		/// </summary>
-		/// <value>The meta data.</value>
-		public Map<object> MetaData { get; private set; }
-
-		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.ApolloGeese.Loader.CachedInstances"/> class.
 		/// </summary>
 		/// <param name="instances">Instances.</param>
 		/// <param name="lastChanged">Last changed.</param>
-		public CachedInstances(Map<Service> instances, Map<object> metaData, DateTime lastChanged)
+		public CachedInstances(Map<Service> instances, DateTime lastChanged)
 		{
 			this.Instances = instances;
-			this.MetaData = metaData;
 			this.LastChanged = lastChanged;
 		}
 

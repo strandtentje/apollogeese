@@ -175,12 +175,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			}
 		}
 
-		public Map<object> ModuleMetadata {
-			get {
-				return InstanceLoader.GetMetadata (File);
-			}
-		}
-
         public bool AutoInvoke { get; private set; }
 
         class ModuleBranchException : Exception

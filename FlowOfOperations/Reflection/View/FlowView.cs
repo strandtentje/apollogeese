@@ -74,8 +74,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 				}
 
 				if ((model is MModule) && (ModuleView != Stub)) {
+					// got rid of the module metadata it was a bit silly
 					MetaModuleInteraction modelContext = new MetaModuleInteraction (
-						parentParameters, model, ((MModule)model).ModuleMetadata);
+						parentParameters, model, new Map<object>());
 
 					success &= ModuleView.TryProcess (modelContext);
 				} else {
