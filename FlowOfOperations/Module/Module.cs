@@ -179,7 +179,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
         /// <value>The module branches.</value>
         public Map<Service> ModuleBranches { 
 			get {
-				return ServiceCollectionCache.Get (File); 
+				return ServiceCollectionCache.Get (File, WorkingDirectory); 
 			}
 		}
 

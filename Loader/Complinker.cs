@@ -44,10 +44,11 @@ namespace BorrehSoft.ApolloGeese.Loader
 		/// a configuration file defining service structure.
 		/// </summary>
 		/// <param name="config">Configuration file</param>
-		public Complinker(FileInfo configFile)
+		public Complinker(FileInfo configFile, string workingDirectory = null)
 		{
 			this.ConfigFile = configFile;
-			Configuration = SettingsParser.FromFile (this.ConfigFile.FullName);	
+			Configuration = SettingsParser.FromFile (
+				this.ConfigFile.FullName, workingDirectory);	
 		}
 
 		public void LoadPlugins ()

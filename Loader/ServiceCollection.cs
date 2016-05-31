@@ -72,14 +72,31 @@ namespace BorrehSoft.ApolloGeese.Loader
 		}
 
 		/// <summary>
+		/// Creates ServiceCollection from file for directory.
+		/// </summary>
+		/// <returns>The from file for directory.</returns>
+		/// <param name="info">Info.</param>
+		/// <param name="workingDirectory">Working directory.</param>
+		/// <param name="loadPlugins">If set to <c>true</c> load plugins.</param>
+		/// <param name="loadBinPlugins">If set to <c>true</c> load bin plugins.</param>
+		public static ServiceCollection CreateFromFileForDirectory(
+			FileInfo info, string workingDirectory, bool loadPlugins, bool loadBinPlugins = false
+		) {
+			return CreateFromComplinker (
+				new Complinker (info, workingDirectory),
+				loadPlugins, loadBinPlugins);
+		}
+
+		/// <summary>
 		/// Creates InstanceCache from file.
 		/// </summary>
 		/// <returns>The from file.</returns>
 		/// <param name="info">Info.</param>
 		/// <param name="loadPlugins">If set to <c>true</c> load plugins.</param>
 		/// <param name="loadBinPlugins">If set to <c>true</c> load bin plugins.</param>
-		public static ServiceCollection CreateFromFile(FileInfo info, bool loadPlugins, bool loadBinPlugins = false) 
-		{
+		public static ServiceCollection CreateFromFile(
+			FileInfo info, bool loadPlugins, bool loadBinPlugins = false
+		) {
 			return CreateFromComplinker (
 				new Complinker (info), 
 				loadPlugins, 
