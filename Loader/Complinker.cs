@@ -34,13 +34,20 @@ namespace BorrehSoft.ApolloGeese.Loader
 		public Settings Configuration { get; private set; }
 
 		/// <summary>
+		/// Gets the file.
+		/// </summary>
+		/// <value>The file.</value>
+		public FileInfo ConfigFile { get; private set; }
+
+		/// <summary>
 		/// Initializes a new instance of the <see cref="BorrehSoft.ApolloGeese.Duckling.Complinker"/> class using
 		/// a configuration file defining service structure.
 		/// </summary>
 		/// <param name="config">Configuration file</param>
-		public Complinker(string config)
+		public Complinker(FileInfo configFile)
 		{
-			Configuration = SettingsParser.FromFile (config);	
+			this.ConfigFile = configFile;
+			Configuration = SettingsParser.FromFile (this.ConfigFile.FullName);	
 		}
 
 		public void LoadPlugins ()
@@ -62,7 +69,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 
 		Map<Service> GetInheritedInstances ()
 		{
-			return InstanceLoader.GetInstances (Configuration.GetString ("base"), false);
+			return ServiceCollectionCache.Get (Configuration.GetString ("base"), false);
 		}
 
 		/// <summary>

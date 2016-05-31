@@ -85,7 +85,10 @@ namespace BorrehSoft.ApolloGeese
 					}
 				}
 
-				Map<Service> services = InstanceLoader.GetInstances (config, pluginsFromConfig, pluginsFromBin);
+				Map<Service> services = ServiceCollectionCache.Get (
+					config, 
+					pluginsFromConfig, 
+					pluginsFromBin);
 
 				if (runbranch.Length > 0) {
 					services [runbranch].TryProcess (miscArgs);

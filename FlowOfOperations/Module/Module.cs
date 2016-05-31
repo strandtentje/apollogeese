@@ -6,6 +6,7 @@ using BorrehSoft.ApolloGeese.Loader;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Log;
 using System.Collections.Generic;
+using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 {
@@ -26,7 +27,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 				AutoInvoke = "autoinvoke",
 				InjectOwnSettings = "injectownsettings",
 				Remap = "remap",
-				Reassignments = "reassignments";
+				Reassignments = "reassignments",
+				WorkingDirectory = "rootpath";
 
 			public static bool Contains(string candidateSetting) {
 				switch (candidateSetting) {
@@ -56,6 +58,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 		[Instruction("Module file to load.")]
 		public string File { get; set; }
+
+		[Instruction("Alternative working directory for using when parsing module", null)]
+		public string WorkingDirectory { get; set; }
 
 		[Instruction("Name of branch in module to fire up.")]
 		public string BranchName { get; set; }
@@ -94,6 +99,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			this.BranchVariable = modSettings.GetString (SettingsKeys.BranchVariable, SettingsKeys.BranchName);
 			this.AutoInvoke = modSettings.GetBool(SettingsKeys.AutoInvoke, false);
 			this.InjectOwnSettings = modSettings.GetBool (SettingsKeys.InjectOwnSettings, false);
+			this.WorkingDirectory = modSettings.GetString (
+				SettingsKeys.WorkingDirectory,
+				(new FileInfo (this.File)).DirectoryName);
 
 			RegisterVariableOverrides (modSettings.GetSubsettings (SettingsKeys.Reassignments));
 			RegisterVariableOverrides (modSettings.GetSubsettings (SettingsKeys.Remap));
@@ -171,7 +179,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
         /// <value>The module branches.</value>
         public Map<Service> ModuleBranches { 
 			get {
-				return InstanceLoader.GetInstances (File); 
+				return ServiceCollectionCache.Get (File); 
 			}
 		}
 
@@ -206,7 +214,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			if (referredService == null) {
 				throw new NullReferenceException (
 					string.Format ("Branch with name '{0}' was not found among [{1}]",
-						pickedBranchName, string.Join (",", ModuleBranches.Dictionary.Keys)));
+						pickedBranchName, 
+						string.Join (
+							",", 
+							ModuleBranches.Dictionary.Keys
+						)
+					)
+				);
 			} else {
 				return referredService.TryProcess (CreateJump(parameters));
 			}
