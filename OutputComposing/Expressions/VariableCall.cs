@@ -10,12 +10,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		Template Caller;
 		Map<Service> Branches;
 		const string TEMPLATE_VARIABLE = "templatevariable";
+		Replacement Replacement;
 
 		public VariableCall (string rawExpression, Template template)
 		{
 			this.Expression = rawExpression;
 			this.Caller = template;
 			this.Branches = this.Caller.Branches;
+			this.Replacement = new Replacement (rawExpression);
 		}
 
 		public override bool TryWriteTo (StreamWriter writer, IInteraction context) {
@@ -25,11 +27,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			if (Branches.Has (TEMPLATE_VARIABLE)) {
 				called = Branches [TEMPLATE_VARIABLE];
 				callContext = new SimpleInteraction (context, TEMPLATE_VARIABLE, this.Name);
-			} else {
-				return false;
+				if (called.TryProcess (callContext)) {
+					return true;
+				}
 			}
 
-			return called.TryProcess (callContext);
+			return this.Replacement.TryWriteTo (writer, context);			
 		}
 	}
 }
