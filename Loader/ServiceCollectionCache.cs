@@ -48,31 +48,28 @@ namespace BorrehSoft.ApolloGeese.Loader
 			ServiceCollection resultCollection = null;
 			ServiceCollection cachedCollection = cache.Get(cacheKey, null);
 			bool wasCollectionCached = cachedCollection != null;
+			bool cacheValid = wasCollectionCached && cachedCollection.LastChanged.Equals (info.LastWriteTime);
 
-			if (wasCollectionCached && cachedCollection.LastChanged.Equals(info.LastWriteTime)) {				
+			if (cacheValid) {				
+				resultCollection = cachedCollection;
+
 				Secretary.Report (
-					5, 
-					"Retrieved valid cached ServiceCollection", 
+					5, "Retrieved valid cached ServiceCollection", 
 					cachedCollection.ToString());
 			} else {
+				if (wasCollectionCached) {
+					Secretary.Report (
+						5, "Disposing outdated ServiceCollection", 
+						cachedCollection.ToString ());
+					cachedCollection.Dispose ();
+				}
+
 				resultCollection = ServiceCollection.CreateFromFileForDirectory(
-					info,
-					workingDirectory,
-					loadPlugins, 
-					loadBinPlugins);
+					info, workingDirectory, loadPlugins,  loadBinPlugins);
 				Secretary.Report (
-					5, 
-					"Instantiated new ServiceCollection", 
+					5, "Instantiated new ServiceCollection", 
 					resultCollection.ToString());
 				cache [cacheKey] = resultCollection;
-			}
-
-			if (wasCollectionCached) {
-				Secretary.Report (
-					5, 
-					"Disposing outdated ServiceCollection", 
-					cachedCollection.ToString());
-				cachedCollection.Dispose ();
 			}
 
 			return resultCollection;
