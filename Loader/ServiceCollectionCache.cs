@@ -49,7 +49,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 			ServiceCollection cachedCollection = cache.Get(cacheKey, null);
 			bool wasCollectionCached = cachedCollection != null;
 
-			if (wasCollectionCached && cachedCollection.Equals(info.LastWriteTime)) {				
+			if (wasCollectionCached && cachedCollection.LastChanged.Equals(info.LastWriteTime)) {				
 				Secretary.Report (
 					5, 
 					"Retrieved valid cached ServiceCollection", 

@@ -40,6 +40,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 				case InjectOwnSettings:
 				case Remap:
 				case Reassignments:
+				case WorkingDirectory:
 					return true;
 				default:
 					return false;
@@ -95,7 +96,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		protected override void Initialize (Settings modSettings)
 		{
 			this.File = modSettings.GetString (SettingsKeys.File);
-			this.BranchName = modSettings.GetString (SettingsKeys.Branch);			
+			this.BranchName = modSettings.GetString (SettingsKeys.Branch, null);			
 			this.BranchVariable = modSettings.GetString (SettingsKeys.BranchVariable, SettingsKeys.BranchName);
 			this.AutoInvoke = modSettings.GetBool(SettingsKeys.AutoInvoke, false);
 			this.InjectOwnSettings = modSettings.GetBool (SettingsKeys.InjectOwnSettings, false);
@@ -161,7 +162,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
             {
                 if (this.BranchName != null)
                 {
-					if (!ModuleBranches[this.BranchName].TryProcess(CreateJump()))
+					if (!GetService(this.BranchName).TryProcess(CreateJump()))
                     {
                         Secretary.Report(5, "Autoinvoke branch", this.BranchName, "failed");
                     }
@@ -173,14 +174,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
             }
         }
 
-        /// <summary>
-        /// Gets the branches within the module file 
-        /// </summary>
-        /// <value>The module branches.</value>
-        public Map<Service> ModuleBranches { 
-			get {
-				return ServiceCollectionCache.Get (File, WorkingDirectory); 
-			}
+		public Service GetService(string branchName) {
+			return ServiceCollectionCache.Get (File, WorkingDirectory).Get (branchName, null);
 		}
 
         public bool AutoInvoke { get; private set; }
@@ -209,16 +204,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 				pickedBranchName = BranchName;
 			}
 
-			referredService = ModuleBranches [pickedBranchName];
+			referredService = GetService (pickedBranchName);
 
 			if (referredService == null) {
 				throw new NullReferenceException (
 					string.Format ("Branch with name '{0}' was not found among [{1}]",
 						pickedBranchName, 
-						string.Join (
-							",", 
-							ModuleBranches.Dictionary.Keys
-						)
+						File
 					)
 				);
 			} else {
