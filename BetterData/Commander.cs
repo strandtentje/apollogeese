@@ -30,7 +30,7 @@ namespace BetterData
 		/// </value>
 		public IDbConnection Connection { 
 			get {
-				DateTime nowish = DateTime.Now;
+					DateTime nowish = DateTime.Now;
 				TimeSpan dif = (nowish - timestamp);
 
 				bool 

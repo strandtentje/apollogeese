@@ -52,10 +52,6 @@ namespace BorrehSoft.ApolloGeese.Loader
 
 			if (cacheValid) {				
 				resultCollection = cachedCollection;
-
-				Secretary.Report (
-					5, "Retrieved valid cached ServiceCollection", 
-					cachedCollection.ToString());
 			} else {
 				if (wasCollectionCached) {
 					Secretary.Report (
