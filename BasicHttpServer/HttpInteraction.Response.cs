@@ -52,11 +52,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
 		public bool IsStatuscodeSet { get; private set; }
 
-		public void SetCookie(string name, string value) {
+		public void SetCookie(string name, string value, bool httpOnly = true) {
 			if (Response.Cookies [name] != null) {
 				Response.Cookies [name].Value = value;
 			} else {
-				Response.SetCookie (new Cookie (name, value));
+				Cookie cookie = new Cookie (name, value);
+				cookie.HttpOnly = httpOnly;
+				Response.SetCookie (cookie);
 			}
 		}
 

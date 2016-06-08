@@ -26,7 +26,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 
 		string GetQuery { get; }
 
-		void SetCookie (string name, string value);
+		void SetCookie (string name, string value, bool httpOnly = true);
 
 		string GetCookie (string name);
 

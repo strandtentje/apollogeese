@@ -111,7 +111,7 @@ namespace BorrehSoft.ApolloGeese.Auth
 
 					} while (SessionStates.Has(cookieValue));
 								
-					parameters.SetCookie (CookieName, cookieValue);
+					parameters.SetCookie (CookieName, cookieValue, true);
 
 					givenCookie = cookieValue;
 

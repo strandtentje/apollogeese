@@ -52,9 +52,11 @@
     <Reference Include="System.Data" />
     <Reference Include="Mono.Data.Sqlite">
       <HintPath>..\..\..\Documents\Mono.Data.Sqlite.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Npgsql">
       <HintPath>..\..\..\Downloads\npgsql.3.1.2.nupkg_FILES\lib\net45\Npgsql.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\Downloads\MySql.Data.dll</HintPath>
