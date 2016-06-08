@@ -65,6 +65,14 @@
       <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
       <Name>IO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\BasicHttpServer\BasicHttpServer.csproj">
+      <Project>{8C04E544-F8DF-4A27-A071-57DE8C407C72}</Project>
+      <Name>BasicHttpServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\Http-Multipart-Data-Parser\HttpMultipartParser\HttpMultipartParser.csproj">
+      <Project>{4691988A-CE66-40CB-AFB4-2757255E03E0}</Project>
+      <Name>HttpMultipartParser</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="XML\" />
