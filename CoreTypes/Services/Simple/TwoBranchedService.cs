@@ -16,6 +16,11 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			if (e.Name == "failure") 
 				this.Failure = e.NewValue;
 		}
+
+		protected bool FailForException(IInteraction parameters, Exception ex) 
+		{
+			return this.Failure.TryProcess (new SimpleInteraction (parameters, "exceptionmessage", ex.Message));
+		}
 	}
 }
 
