@@ -9,23 +9,33 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 	/// </summary>
 	public class SimpleIncomingInteraction : SimpleInteraction, IIncomingBodiedInteraction
 	{		
-		private StreamReader writer = null;
+		private StreamReader reader = null;
 
 		/// <summary>
 		/// Gets the incoming body of data
 		/// </summary>
 		/// <value>The incoming body.</value>
-		public Stream IncomingBody { get; private set; }
+		public Stream IncomingBody { get; protected set; }
 
 		/// <summary>
 		/// Gets a streamreader to read from the incoming body of data
 		/// </summary>
 		/// <returns>The incoming body reader.</returns>
 		public TextReader GetIncomingBodyReader() { 
-			if (writer == null)
-				writer = new StreamReader (IncomingBody);
+			if (reader == null)
+				reader = new StreamReader (IncomingBody);
 
-			return writer;
+			return reader;
+		}
+
+		/// <summary>
+		/// Gets a value indicating whether or not a reader has been produced for the stream
+		/// </summary>
+		/// <returns>true</returns>
+		/// <c>false</c>
+		public bool HasReader()
+		{
+			return reader != null;
 		}
 
 		private string sourceName;
@@ -53,17 +63,8 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// Gets the MIME-type associated with the underlying data
 		/// </summary>
 		/// <value>The type of the MIME.</value>
-		public string ContentType { get; private set; }
+		public string ContentType { get; protected set; }
 
-		/// <summary>
-		/// Gets a value indicating whether or not a reader has been produced for the stream
-		/// </summary>
-		/// <returns>true</returns>
-		/// <c>false</c>
-		public bool HasReader()
-		{
-			return writer != null;
-		}
 	}
 }
 
