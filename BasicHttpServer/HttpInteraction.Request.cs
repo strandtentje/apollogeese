@@ -119,8 +119,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		/// </summary>
 		/// <returns>The incoming body reader.</returns>
 		public TextReader GetIncomingBodyReader() {
-			if (reader == null)
+			if (reader == null) {
 				reader = new StreamReader (IncomingBody);
+			}
 
 			return reader;
 		}
