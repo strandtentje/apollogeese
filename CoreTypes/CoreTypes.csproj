@@ -56,6 +56,7 @@
     <Compile Include="Interactions\Simple\BareInteraction.cs" />
     <Compile Include="Interactions\IHttpInteraction.cs" />
     <Compile Include="LoggingExceptionHandler.cs" />
+    <Compile Include="Services\Simple\SinkService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

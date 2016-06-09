@@ -62,7 +62,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		protected override void Initialize (Settings modSettings)
 		{
 			Title = modSettings.GetString ("title", "untitled");
-			TemplateFile = modSettings.GetString ("templatefile");
+			TemplateFile = (new FileInfo (modSettings.GetString ("templatefile"))).FullName;
 			MimeType = modSettings.GetString ("mimetype", "text/html");
 		}
 
@@ -95,6 +95,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			case '>':
 				result = new Call(replacename.Substring(1), this);
 				break;
+			case ':':
+				result = new VariableCall (replacename.Substring (1), this);
+				break;
 			case '&':
 				result = new Replacement (
 					replacename.Substring (1),
@@ -120,6 +123,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				result = new Replacement (
 					replacename.Substring (1),
 					HttpUtility.JavaScriptStringEncode);
+				break;
+			case '#':
+				result = new Constant (this.Settings.GetString (replacename.Substring (1)));
 				break;
 			default:
 				result = new CallOrReplace (replacename, this);

@@ -17,7 +17,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 					if (candidate is MModule) {
 						MModule module = (MModule)candidate;
 						if (module.BranchName != null) {
-							return module.ModuleBranches [module.BranchName];
+							return module.GetService (module.BranchName);
 						} else {
 							throw new Exception ("Module call requires branch too");
 						}

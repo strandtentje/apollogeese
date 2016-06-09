@@ -32,6 +32,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 				ResourceNameKeySetting, "resourcename");
 			Branches ["main"] = Stub;
 			Branches ["default"] = Stub;
+			Branches ["continue"] = Stub;
 		}
 
 		protected override bool Process (IInteraction uncastParameters)
@@ -46,13 +47,17 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 
 			if (branch == Stub) 
 				branch = Branches [interaction.DirectoryName] ?? Stub;
-			
+
+			if (branch == Stub) {
+				branch = Branches ["continue"];
+			}
+
 			if (branch == Stub)
 				branch = Branches ["default"];
 			else
 				interaction.Confirm ();
 
-			return branch.TryProcess (interaction);
+						return branch.TryProcess (interaction);
 		}
 	}
 }

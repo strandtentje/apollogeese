@@ -28,11 +28,14 @@ namespace BetterData
 
 			public const string Update = "UPDATE {0}";
 			public const string Set = "SET {0} = @{0}";
+			public const string ExtraSet = ", {0} = @{0}";
 
 			public const string Insert = "INSERT INTO {0}";
 			public const string Values = "VALUES";
 
-			public const string Delete = "DELETE FROM {0}";
+			public const string Delete = "DELETE FROM {0} ";
+
+			public const string SelectLastInsertId = ";\nSELECT LAST_INSERT_ID() AS last_insert_id;";
 		}
 		
 		void ParseConditionClause (string[] sections, StreamWriter writer, int start)
@@ -44,8 +47,11 @@ namespace BetterData
 			}
 		}
 
-		public AutoSqlFileSource (string filePath) : base(filePath)
+		private bool WriteLastInsertId;
+
+		public AutoSqlFileSource (string filePath, bool writeLastInsertId) : base(filePath)
 		{
+			this.WriteLastInsertId = writeLastInsertId;
 		}
 
 		void ParseSeries(string[] sections, StreamWriter writer, string format, int start) {
@@ -84,8 +90,11 @@ namespace BetterData
 				if (sections.Length < 3) {
 					throw new GeneratedSqlException ("Expected column name");
 				} else {
-					writer.WriteLine (Clauses.Set, sections [2]);
-					ParseConditionClause (sections, writer, 3);
+					int position = 2;
+					writer.WriteLine (Clauses.Set, sections [position++]);
+					while(position < sections.Length - 2)
+						writer.WriteLine (Clauses.ExtraSet, sections [position++]);
+					ParseConditionClause (sections, writer, position);
 				}
 			} else if (foundAction == "add") {
 				// add thing name color smell
@@ -95,6 +104,9 @@ namespace BetterData
 				ParseSeries (sections, writer, "{0}", 2);
 				writer.Write (Clauses.Values);
 				ParseSeries (sections, writer, "@{0}", 2);
+				if (WriteLastInsertId) {
+					writer.Write (Clauses.SelectLastInsertId);
+				}
 			} else if (foundAction == "del") {
 				// del thing by id
 				DemandTablename (sections);

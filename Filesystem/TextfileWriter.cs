@@ -4,26 +4,25 @@ using System.IO;
 using BorrehSoft.Utensils.Collections.Settings;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Text;
+using BorrehSoft.Utensils.Log;
 
 namespace Filesystem
 {
-	public class TextfileWriter : Service
+	public class TextfileWriter : SinkService
 	{
+		public int BufferSize { get; private set; }
+
 		public string DirectoryPath { get; private set; }
 
 		public string Filename { get; private set; }
 
-		public int BufferSize { get; private set; }
+		public string FilenameVariable { get; private set; }
 
 		public bool HasGeneratedFilename { get { return Filename.Length == 0; } }
 
 		public bool AppendExisting { get; private set; }
 
-		private Service SourcingBranch = null;
-
 		private Service Success = Stub;
-
-		private Encoding Encoding;
 
 		public override string Description {
 			get {
@@ -62,19 +61,12 @@ namespace Filesystem
 
 		protected override void Initialize (Settings settings)
 		{
+			base.Initialize (settings);
 			this.DirectoryPath = settings.GetString ("rootpath");
 			this.Filename = settings.GetString ("filename", "");
 			this.AppendExisting = settings.GetBool ("append", false);
-			this.Encoding = Encoding.GetEncoding(settings.GetString("encoding", "utf-8"));
 			this.BufferSize = settings.GetInt ("buffersize", 1024 * 128);
-		}
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "source")
-				this.SourcingBranch = e.NewValue;
-			else if (e.Name == "success")
-				this.Success = e.NewValue;
+			this.FilenameVariable = settings.GetString ("filenamevariable", "filename");
 		}
 
 		private string GenerateUniqueFilename() {
@@ -101,10 +93,8 @@ namespace Filesystem
 			return composedFilename;
 		}
 
-		private void WriteFileFromReader(TextReader sourceReader) {
-			string fileName = ComposeSinkFilename ();
-
-			using (StreamWriter sinkWriter = new StreamWriter (fileName, this.AppendExisting, this.Encoding)) {
+		private void WriteFileFromReader(TextReader sourceReader, Encoding encoding, string fileName) {
+			using (StreamWriter sinkWriter = new StreamWriter (fileName, this.AppendExisting, encoding)) {
 				char[] buffer = new char[this.BufferSize];
 				int position;
 
@@ -115,27 +105,28 @@ namespace Filesystem
 
 		protected override bool Process (IInteraction parameters)
 		{
-			bool success = true;
+			bool successful = true;
 
-			if (SourcingBranch == null) {
-				IInteraction sourceInteraction;
-
-				if (success = parameters.TryGetClosest (typeof(IIncomingReaderInteraction), out sourceInteraction)) {
-					WriteFileFromReader (((IIncomingReaderInteraction)sourceInteraction).GetIncomingBodyReader ());
-				}
-			} else {
-				SimpleOutgoingInteraction sourceInteraction = new SimpleOutgoingInteraction (new MemoryStream (), parameters);
-
-				if (success = this.SourcingBranch.TryProcess (sourceInteraction)) {
-					if (sourceInteraction.HasWriter ())
-						sourceInteraction.GetOutgoingBodyWriter ().Flush ();
-					sourceInteraction.OutgoingBody.Position = 0;
-
-					WriteFileFromReader (new StreamReader (sourceInteraction.OutgoingBody));
-				}
+			try {
+				string fileName = ComposeSinkFilename ();
+				WriteFileFromReader(
+					GetReader(parameters), 
+					GetEncoding(parameters), 
+					fileName
+				);
+				successful &= this.Success.TryProcess(
+					new SimpleInteraction(
+						parameters, 
+						this.FilenameVariable, 
+						fileName
+					)
+				);
+			} catch(Exception ex) {
+				Secretary.Report (5, ex.Message);
+				successful &= this.FailForException (parameters, ex);
 			}
-
-			return success;
+				
+			return successful;
 		}
 	}
 }

@@ -190,3 +190,5 @@ FakesAssemblies/
 *.userprefs
 
 *.gz
+debugbin/
+

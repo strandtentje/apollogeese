@@ -6,6 +6,7 @@ using BorrehSoft.ApolloGeese.Loader;
 using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Log;
 using System.Collections.Generic;
+using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 {
@@ -26,7 +27,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 				AutoInvoke = "autoinvoke",
 				InjectOwnSettings = "injectownsettings",
 				Remap = "remap",
-				Reassignments = "reassignments";
+				Reassignments = "reassignments",
+				WorkingDirectory = "rootpath";
 
 			public static bool Contains(string candidateSetting) {
 				switch (candidateSetting) {
@@ -38,6 +40,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 				case InjectOwnSettings:
 				case Remap:
 				case Reassignments:
+				case WorkingDirectory:
 					return true;
 				default:
 					return false;
@@ -56,6 +59,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 		[Instruction("Module file to load.")]
 		public string File { get; set; }
+
+		[Instruction("Alternative working directory for using when parsing module", null)]
+		public string WorkingDirectory { get; set; }
 
 		[Instruction("Name of branch in module to fire up.")]
 		public string BranchName { get; set; }
@@ -90,10 +96,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		protected override void Initialize (Settings modSettings)
 		{
 			this.File = modSettings.GetString (SettingsKeys.File);
-			this.BranchName = modSettings.GetString (SettingsKeys.Branch);			
+			this.BranchName = modSettings.GetString (SettingsKeys.Branch, null);			
 			this.BranchVariable = modSettings.GetString (SettingsKeys.BranchVariable, SettingsKeys.BranchName);
 			this.AutoInvoke = modSettings.GetBool(SettingsKeys.AutoInvoke, false);
 			this.InjectOwnSettings = modSettings.GetBool (SettingsKeys.InjectOwnSettings, false);
+			this.WorkingDirectory = modSettings.GetString (
+				SettingsKeys.WorkingDirectory,
+				(new FileInfo (this.File)).DirectoryName);
 
 			RegisterVariableOverrides (modSettings.GetSubsettings (SettingsKeys.Reassignments));
 			RegisterVariableOverrides (modSettings.GetSubsettings (SettingsKeys.Remap));
@@ -153,7 +162,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
             {
                 if (this.BranchName != null)
                 {
-					if (!ModuleBranches[this.BranchName].TryProcess(CreateJump()))
+					if (!GetService(this.BranchName).TryProcess(CreateJump()))
                     {
                         Secretary.Report(5, "Autoinvoke branch", this.BranchName, "failed");
                     }
@@ -165,20 +174,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
             }
         }
 
-        /// <summary>
-        /// Gets the branches within the module file 
-        /// </summary>
-        /// <value>The module branches.</value>
-        public Map<Service> ModuleBranches { 
-			get {
-				return InstanceLoader.GetInstances (File); 
-			}
-		}
-
-		public Map<object> ModuleMetadata {
-			get {
-				return InstanceLoader.GetMetadata (File);
-			}
+		public Service GetService(string branchName) {
+			return ServiceCollectionCache.Get (File, WorkingDirectory).Get (branchName, null);
 		}
 
         public bool AutoInvoke { get; private set; }
@@ -207,12 +204,15 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 				pickedBranchName = BranchName;
 			}
 
-			referredService = ModuleBranches [pickedBranchName];
+			referredService = GetService (pickedBranchName);
 
 			if (referredService == null) {
 				throw new NullReferenceException (
 					string.Format ("Branch with name '{0}' was not found among [{1}]",
-						pickedBranchName, string.Join (",", ModuleBranches.Dictionary.Keys)));
+						pickedBranchName, 
+						File
+					)
+				);
 			} else {
 				return referredService.TryProcess (CreateJump(parameters));
 			}
