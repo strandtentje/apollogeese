@@ -23,13 +23,15 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			);
 		}
 
+		protected delegate void ReadCallback(StreamReader reader);
+
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			if (e.Name == "source")
 				this.SourcingBranch = e.NewValue;
 		}
 
-		protected IIncomingReaderInteraction FindIncomingReader(IInteraction parameters)
+		protected void ReadFromParameters(IInteraction parameters, ReadCallback callback)
 		{
 			IInteraction sourceInteraction;
 
@@ -37,32 +39,34 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 				    typeof(IIncomingReaderInteraction), 
 				    out sourceInteraction
 			    )) {
-				return (IIncomingReaderInteraction)sourceInteraction;
+				callback (((IIncomingReaderInteraction)sourceInteraction).GetIncomingBodyReader ());
 			} else {
 				throw new Exception ("No IncomingReader available");
 			}
 		}
 
-		protected TextReader GetReader(IInteraction parameters)
+		protected void StartReading(IInteraction parameters, ReadCallback callback)
 		{
 			if (SourcingBranch == null) {
-				return FindIncomingReader (parameters).GetIncomingBodyReader ();
+				ReadFromParameters (parameters, callback);
 			} else {
-				SimpleOutgoingInteraction 
-				sourceInteraction = new SimpleOutgoingInteraction (
-                    new MemoryStream (), 
-					this.FallbackEncoding, 
-					parameters
-				);
+				using (MemoryStream workingStream = new MemoryStream ()) {
+					SimpleOutgoingInteraction sourceInteraction;
+					sourceInteraction = new SimpleOutgoingInteraction (
+                         workingStream, this.FallbackEncoding, parameters
+					);
 
-				if (this.SourcingBranch.TryProcess (sourceInteraction)) {
-					if (sourceInteraction.HasWriter ())
-						sourceInteraction.GetOutgoingBodyWriter ().Flush ();
-					sourceInteraction.OutgoingBody.Position = 0;
+					if (this.SourcingBranch.TryProcess (sourceInteraction)) {
+						if (sourceInteraction.HasWriter ())
+							sourceInteraction.GetOutgoingBodyWriter ().Flush ();
+						sourceInteraction.OutgoingBody.Position = 0;
 
-					return new StreamReader (sourceInteraction.OutgoingBody);
-				} else {
-					throw new Exception ("Failed to process source-branch");
+						using (StreamReader workingReader = new StreamReader (workingStream)) {
+							callback (workingReader);
+						}
+					} else {
+						throw new Exception ("Failed to process source-branch");
+					}
 				}
 			}
 		}
@@ -70,7 +74,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		protected Encoding GetEncoding(IInteraction parameters)
 		{
 			if (SourcingBranch == null) {
-				TextReader reader = FindIncomingReader (parameters).GetIncomingBodyReader ();
+				TextReader reader = ReadFromParameters (parameters).GetIncomingBodyReader ();
 				if (reader is StreamReader) {
 					return ((StreamReader)reader).CurrentEncoding;
 				}

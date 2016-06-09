@@ -8,7 +8,7 @@ using BorrehSoft.Utensils.Log;
 
 namespace Filesystem
 {
-	public class TextfileWriter : SinkService
+	public class FileSink : SinkService
 	{
 		public int BufferSize { get; private set; }
 
@@ -109,11 +109,12 @@ namespace Filesystem
 
 			try {
 				string fileName = ComposeSinkFilename ();
-				WriteFileFromReader(
-					GetReader(parameters), 
-					GetEncoding(parameters), 
-					fileName
-				);
+
+
+				StartReading(parameters, delegate(StreamReader reader) {
+					WriteFileFromReader(reader, GetEncoding(parameters), Filename);					
+				});
+
 				successful &= this.Success.TryProcess(
 					new SimpleInteraction(
 						parameters, 
