@@ -43,7 +43,7 @@
     <Compile Include="Indexing\FSInteraction.cs" />
     <Compile Include="Indexing\FSService.cs" />
     <Compile Include="LightFilesystemInteraction.cs" />
-    <Compile Include="TextfileWriter.cs" />
+    <Compile Include="FilesystemWriter.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
