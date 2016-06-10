@@ -33,6 +33,7 @@
     <Compile Include="HashPassword.cs" />
     <Compile Include="PasswordService.cs" />
     <Compile Include="MatchPassword.cs" />
+    <Compile Include="BasicAuthentication.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

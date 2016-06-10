@@ -39,6 +39,9 @@ namespace BorrehSoft.ApolloGeese.Auth
 		[Instruction("Name that is used for this cookie in browser and server context.", "SES")]
 		public string CookieName { get; set; }
 
+		[Instruction("Secure cookie header", true)]
+		public bool IsSecureSession { get; set; }
+
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
 			this.Settings ["cookiename"] = defaultParameter;
@@ -50,6 +53,7 @@ namespace BorrehSoft.ApolloGeese.Auth
 
 			this.CookieName = modSettings.GetString ("cookiename", "SES");
 			this.Closing = modSettings.GetBool("sessioncloser", false);
+			this.IsSecureSession = modSettings.GetBool ("issecure", true);
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -111,7 +115,7 @@ namespace BorrehSoft.ApolloGeese.Auth
 
 					} while (SessionStates.Has(cookieValue));
 								
-					parameters.SetCookie (CookieName, cookieValue, true);
+					parameters.SetCookie (CookieName, cookieValue, this.IsSecureSession);
 
 					givenCookie = cookieValue;
 

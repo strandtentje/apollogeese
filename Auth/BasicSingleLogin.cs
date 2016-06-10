@@ -19,7 +19,15 @@ namespace BorrehSoft.ApolloGeese.Auth
 
 		private string LoginString {
 			get {
-				return "Basic " + Convert.ToBase64String (Encoding.ASCII.GetBytes (string.Format ("{0}:{1}", Username, Password)));
+				return "Basic " + Convert.ToBase64String (
+					Encoding.ASCII.GetBytes (
+						string.Format (
+							"{0}:{1}", 
+							Username, 
+							Password
+						)
+					)
+				);
 			}
 		}
 
