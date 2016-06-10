@@ -17,7 +17,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 	{
 		private static Settings allExtensions;
 
-		private static Settings ExtensionMimes {
+		public static Settings ExtensionMimes {
 			get {
 				if (allExtensions == null) {
 					string binLocation = Assembly.GetAssembly (typeof(Fileserver)).Location;

@@ -2,54 +2,50 @@
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.IO;
+using System.Threading.Tasks;
 
 namespace Filesystem
 {
-	public class WriteToFile : TwoBranchedService
+	public class WriteToFile : FileService
 	{
-		public string PathVariable { get; set; }
+		public override string Description {
+			get {
+				return "Write" + base.Description;
+			}
+		}
 
-		public string ValidRootPath { get; set; }
-
-		public bool IsRelative { get; set; }
+		public bool MayOverwrite { get; set; }
 
 		protected override void Initialize (Settings settings)
 		{
-			this.PathVariable = settings.GetString ("pathvariable", "fullpath");
-			this.ValidRootPath = settings.GetString ("rootpath");
-			this.IsRelative = settings.GetBool ("isrelative", false);
+			base.Initialize (settings);
+
+			this.MayOverwrite = settings.GetBool ("overwrite", false);
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			IInteraction dataSource;
-
-			var dataBody = Closest<IIncomingBodiedInteraction>.From (parameters);
-			string providedFilename = Fallback<string>.From (parameters, this.PathVariable);
-			string fileName;
-
-			if (IsRelative) {
-				fileName = string.Format (
-					"{0}{1}{2}",
-					this.ValidRootPath.TrimEnd ('\\', '/'),
-					Path.DirectorySeparatorChar,
-					providedFilename
-				);
-			} else {
-				fileName = providedFilename;
-			}
-
-			FileInfo file = new FileInfo (fileName);
+			var dataSource = Closest<IIncomingBodiedInteraction>.From (parameters);
+			FileInfo file = GetFileInfo (parameters);
 
 			if (!file.FullName.StartsWith (this.ValidRootPath)) {
-				return Failure.TryProcess (parameters);
+				return FailForException (parameters, new Exception ("File not in root path"));
 			}
 
-			using (FileStream fileStream = File.OpenWrite (fileName)) {
-				dataBody.IncomingBody.CopyTo (fileStream);
+			if (file.Exists && !MayOverwrite) {
+				return FailForException (parameters, new Exception ("File already exists"));
 			}
 
-			return Successful.TryProcess (parameters);
+			try {
+				using (FileStream fileStream = file.OpenWrite()) {
+					Task copyTask = dataSource.IncomingBody.CopyToAsync (fileStream);
+					this.Meanwhile.TryProcess (parameters);
+					copyTask.Wait ();
+				}
+				return (Successful == null) || Successful.TryProcess (parameters);
+			} catch (Exception ex) {
+				return FailForException (parameters, ex);
+			}
 		}
 	}
 }

@@ -44,6 +44,8 @@
     <Compile Include="Indexing\FSService.cs" />
     <Compile Include="LightFilesystemInteraction.cs" />
     <Compile Include="WriteToFile.cs" />
+    <Compile Include="ReadFromFile.cs" />
+    <Compile Include="FileService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
