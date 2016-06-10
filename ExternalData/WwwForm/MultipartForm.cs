@@ -64,6 +64,16 @@ namespace ExternalData
 						this.BufferSize
 					);
 
+					parser.ParameterHandler += delegate(ParameterPart part) {
+						if (this.StringFieldWhiteList.Contains(part.Name)) {
+							mappedValues[part.Name] = part.Data;
+
+							successful &= this.Branches.Get(part.Name, Stub).TryProcess(
+								new WwwInputInteraction(part.Name, part.Data, parameters)
+							);
+						}
+					};
+
 					parser.FileHandler += delegate(
 						string name, 
 						string fileName, 
@@ -76,27 +86,17 @@ namespace ExternalData
 							MemoryStream stream = new MemoryStream (buffer, 0, bytes);
 
 							SimpleIncomingInteraction incoming = new SimpleIncomingInteraction (
-								                                     stream,
-								                                     parameters, 
-								                                     contentDisposition,
-								                                     contentType
-							                                     );
+                                 stream,
+                                 mappedValues, 
+                                 contentDisposition,
+                                 contentType
+                             );
 
 							incoming ["filename"] = fileName;
 
 							successful &= this.Branches.Get (name, Stub).TryProcess (incoming);
 
 							stream.Dispose ();
-						}
-					};
-
-					parser.ParameterHandler += delegate(ParameterPart part) {
-						if (this.StringFieldWhiteList.Contains(part.Name)) {
-							mappedValues[part.Name] = part.Data;
-
-							successful &= this.Branches.Get(part.Name, Stub).TryProcess(
-								new WwwInputInteraction(part.Name, part.Data, parameters)
-							);
 						}
 					};
 
