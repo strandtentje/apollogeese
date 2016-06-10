@@ -19,7 +19,17 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 
 		protected bool FailForException(IInteraction parameters, Exception ex) 
 		{
-			return this.Failure.TryProcess (new SimpleInteraction (parameters, "exceptionmessage", ex.Message));
+			if (this.Failure == null) {
+				throw new Exception ("Exception happened but no failurebranch", ex);
+			} else {
+				return this.Failure.TryProcess (
+					new SimpleInteraction (
+						parameters, 
+						"exceptionmessage", 
+						ex.Message
+					)
+				);
+			}
 		}
 	}
 }
