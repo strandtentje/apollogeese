@@ -14,14 +14,20 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			) { }
 		}
 
-		public static T From(IInteraction parameters, string name)
+		public static T From(IInteraction parameters, params string[] names)
 		{
 			object candidate;
-			if (parameters.TryGetFallback (name, out candidate) && (candidate is T)) {
-				return (T)candidate;
-			} else {
-				throw new VariableNotFoundException (name, typeof(T));
+
+			foreach (string name in names) {
+				if (parameters.TryGetFallback (name, out candidate) && (candidate is T)) {
+					return (T)candidate;
+				}	
 			}
+
+			throw new VariableNotFoundException (
+				string.Join(" or ", names), 
+				typeof(T)
+			);
 		}
 	}
 }
