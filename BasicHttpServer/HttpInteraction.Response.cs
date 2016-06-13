@@ -30,27 +30,49 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			}
 		}
 
-		/// <summary>
-		/// Sets the HTTP-statuscode, once.
-		/// </summary>
-		/// <value>The status code.</value>
-		/// <param name="statuscode">Statuscode.</param>
-		public void SetStatuscode(int statuscode) {
-			if (IsStatuscodeSet) {
-				throw new HttpException ("Statuscode can only be set once");
+		public void SetStatusCode(int statuscode)
+		{
+			if (SkipBuffer) {
+				throw new HttpException ("Can't change status; already writing data");
 			} else {
 				Response.StatusCode = statuscode;
-
-				if (bufferStream.Position > 0) {
-					bufferStream.Position = 0;
-					bufferStream.CopyTo (streamToClient);
-				}
-
-				IsStatuscodeSet = true;
 			}
 		}
 
-		public bool IsStatuscodeSet { get; private set; }
+		public void SetContentType(string contentType)
+		{
+			if (SkipBuffer) {
+				throw new HttpException ("Can't change mimetype; already writing data");
+			} else {
+				Response.ContentType = contentType;
+			}
+		}
+
+		public void SetContentLength(long contentLength) 
+		{
+			if (SkipBuffer) {
+				throw new HttpException ("Can't change contentlength; already writing data");
+			} else {
+				Response.ContentLength64 = contentLength;
+			}
+		}
+
+		public void PurgeBuffer()
+		{
+			SkipBuffer = true;
+		}
+
+		public void FlushBuffer()
+		{
+			if (bufferStream.Position > 0) {
+				bufferStream.Position = 0;
+				bufferStream.CopyTo (streamToClient);
+			}
+
+			SkipBuffer = true;
+		}
+
+		public bool SkipBuffer { get; private set; }
 
 		public void SetCookie(string name, string value, bool isSecureSession = true) {
 			if (Response.Cookies [name] != null) {
@@ -75,7 +97,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		/// <value>The outgoing body.</value>
 		public Stream OutgoingBody { 
 			get {
-				if (IsStatuscodeSet) {
+				if (SkipBuffer) {
 					return streamToClient;
 				} else {
 					return bufferStream;

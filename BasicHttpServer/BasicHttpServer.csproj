@@ -36,6 +36,7 @@
     <Compile Include="HttpService.cs" />
     <Compile Include="HttpStatus.cs" />
     <Compile Include="HttpMethod.cs" />
+    <Compile Include="HttpContent.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

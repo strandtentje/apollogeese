@@ -30,13 +30,15 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 
 		string GetCookie (string name);
 
-		/// <summary>
-		/// Gets or sets the status code for the HTTP response
-		/// </summary>
-		/// <value>
-		/// The status code.
-		/// </value>
-		void SetStatuscode(int statuscode);
+		void SetStatusCode (int statuscode);
+
+		void SetContentType (string contentType);
+
+		void SetContentLength (long contentLength);
+
+		void FlushBuffer();
+
+		void PurgeBuffer();
 	}
 }
 

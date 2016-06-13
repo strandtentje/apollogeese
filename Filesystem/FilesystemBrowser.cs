@@ -79,7 +79,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 					success &= fileItem.TryProcess(itemInteraction);
 				}
 			} else {
-				httpParameters.SetStatuscode (404);
+				httpParameters.SetStatusCode (404);
 				success &= dirNotFound.TryProcess(httpParameters);
 			}
 

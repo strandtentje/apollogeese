@@ -46,20 +46,28 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		{
 			this.Statuscode = modSettings.GetInt ("statuscode", 200);
 			this.MimeType = modSettings.GetString ("mimetype", "");
-			this.CharSet = modSettings.GetString ("charset", "utf-8");
+			this.CharSet = modSettings.GetString ("charset", "");
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
 			HttpInteraction interaction = (HttpInteraction)parameters.GetClosest (typeof(HttpInteraction));
-			interaction.SetStatuscode (this.Statuscode);
+
+			string mimeType;
 
 			if (MimeType.Length > 0) {
-				interaction.ResponseHeaders ["Content-Type"] = string.Format (
-					"{0}; charset={1}",
-					this.MimeType, 
-					this.CharSet);
-			}
+				if (this.CharSet.Length > 0) {
+					mimeType = string.Format (
+						"{0}; charset={1}",
+						this.MimeType, 
+						this.CharSet);
+				} else {
+					mimeType = this.MimeType;
+				}
+				interaction.SetContentType (mimeType);
+			} 
+
+			interaction.SetStatusCode (this.Statuscode);
 
 			return nextService.TryProcess(parameters);
 		}

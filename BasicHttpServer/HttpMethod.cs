@@ -58,7 +58,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			if (IsMethodValid (method)) {
 				success &= Branches [method.ToLower()].TryProcess (parameters);
 			} else {
-				interaction.SetStatuscode (405);
+				interaction.SetStatusCode (405);
 			}
 
 			return success;

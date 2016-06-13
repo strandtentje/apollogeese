@@ -60,7 +60,7 @@ namespace Auth
 					successful &= Failure.TryProcess (parameters);
 				}
 			} else {
-				httpParameters.SetStatuscode (401);
+				httpParameters.SetStatusCode (401);
 				httpParameters.ResponseHeaders ["WWW-Authenticate"] = ResponseHeader;
 				successful &= Failure.TryProcess (parameters);
 			}

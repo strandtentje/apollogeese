@@ -114,10 +114,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
             {
                 if (Process(parameters))
                 {
-                    if (!parameters.IsStatuscodeSet)
-                    {
-                        parameters.SetStatuscode(200);
-                    }
+					parameters.FlushBuffer();                    
                 }
                 else
                 {

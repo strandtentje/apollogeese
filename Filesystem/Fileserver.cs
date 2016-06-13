@@ -155,9 +155,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 					FileInfo info = new FileInfo (finalpath);
 
 					if (doSendFile) {
-						parameters.ResponseHeaders["Content-Type"] = mimeType;
-						// parameters.ResponseHeaders.ContentLength = sourceStream.Length;
-
+						parameters.SetStatusCode (200);
+						parameters.SetContentType (mimeType);
+						parameters.SetContentLength (info.Length);
+						parameters.PurgeBuffer ();
 						sendFileToStream (info, parameters.OutgoingBody);					 
 					}
 
@@ -171,11 +172,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 								uncastParameters));
 					}
 				} else {
-					parameters.SetStatuscode (404);
+					parameters.SetStatusCode (404);
 					notFoundBranch.TryProcess(uncastParameters);
 				}
 			} else {
-				parameters.SetStatuscode (410);
+				parameters.SetStatusCode (410);
 				badRequestBranch.TryProcess(uncastParameters);
 			}
 
