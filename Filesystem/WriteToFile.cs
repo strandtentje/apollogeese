@@ -3,6 +3,7 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utensils.Collections.Settings;
 using System.IO;
 using System.Threading.Tasks;
+using BorrehSoft.Utensils.Collections.Maps;
 
 namespace Filesystem
 {
@@ -23,6 +24,7 @@ namespace Filesystem
 			this.MayOverwrite = settings.GetBool ("overwrite", false);
 		}
 
+
 		protected override bool Process (IInteraction parameters)
 		{
 			var dataSource = Closest<IIncomingBodiedInteraction>.From (parameters);
@@ -36,13 +38,13 @@ namespace Filesystem
 				return FailForException (parameters, new Exception ("File already exists"));
 			}
 
-			try {
-				using (FileStream fileStream = file.OpenWrite()) {
+			try {				
+				using (FileStream fileStream = file.OpenWrite()) {					
 					Task copyTask = dataSource.IncomingBody.CopyToAsync (fileStream);
 					this.Meanwhile.TryProcess (parameters);
 					copyTask.Wait ();
 				}
-				return (Successful == null) || Successful.TryProcess (parameters);
+				return (Successful == null) || Successful.TryProcess (parameters);				
 			} catch (Exception ex) {
 				return FailForException (parameters, ex);
 			}
