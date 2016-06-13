@@ -10,6 +10,9 @@ namespace InputProcessing
 	{
 		Regex regex;
 
+		[Instruction("Length limit", int.MaxValue)]
+		public int MaxLength { get; set; }
+
 		[Instruction("String matching pattern")]
 		public string Pattern { 
 			get {
@@ -24,13 +27,15 @@ namespace InputProcessing
 		{
 			base.Initialize (settings);
 			this.Pattern = settings.GetString ("pattern");
+			this.MaxLength = settings.GetInt ("maxlength", int.MaxValue);
 		}
 
 		protected override bool CheckValid (object rawInput)
 		{
 			string stringInput = rawInput.ToString ();
 
-			bool isValid = (stringInput.Length != 0) || !this.IsRequired;
+			bool isValid = stringInput.Length <= this.MaxLength;
+			isValid &= (stringInput.Length != 0) || !this.IsRequired;
 			isValid &= this.regex.IsMatch (stringInput);
 
 			return isValid;
