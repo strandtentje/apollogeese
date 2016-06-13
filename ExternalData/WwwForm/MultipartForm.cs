@@ -90,7 +90,9 @@ namespace ExternalData
                                  mappedValues, 
                                  contentDisposition,
                                  contentType
-                             );
+							);
+
+							incoming ["mimetype"] = contentType;
 
 							incoming ["filename"] = fileName;
 
