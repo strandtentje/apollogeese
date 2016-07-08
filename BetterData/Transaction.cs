@@ -19,9 +19,12 @@ namespace BetterData
 			set;
 		}
 
+		bool Rollback { get; set; }
+
         protected override void Initialize(Settings settings)
         {
             this.DatasourceName = settings.GetString("connection", "default");
+			this.Rollback = settings.GetBool ("rollback", false);
         }
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -38,7 +41,11 @@ namespace BetterData
 
             success &= Begin.TryProcess(new TransactionInteraction(this.Connection, this.DatasourceName, parameters));
 
-            actualTransaction.Commit();
+			if (this.Rollback) {
+				actualTransaction.Rollback ();
+			} else {
+				actualTransaction.Commit();
+			}
 
             return success;
 		}
