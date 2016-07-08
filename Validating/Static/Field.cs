@@ -51,9 +51,9 @@ namespace InputProcessing
 
 			object candidateValue;
 
-			if (parameters.TryGetFallback(VariableName, out candidateValue)) {
+			if (parameters.TryGetFallback(VariableName, out candidateValue) && candidateValue != null) {
 				if (CheckValid (candidateValue)) {
-					successful &= Successful.TryProcess (parameters);
+					successful &= (Successful ?? Stub).TryProcess (parameters);
 				} else {
 					successful &= Failure.TryProcess (parameters);
 				}
