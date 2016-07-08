@@ -15,6 +15,8 @@ namespace ExternalData
 
 		protected NameValuePiper<TextReader, T> ParserRunner { get; private set; }
 
+		protected bool EmptyNull { get; private set; }
+
 		public TimeSpan ParsingTimeout { 
 			get {
 				return this.parsingTimeout;
@@ -31,6 +33,7 @@ namespace ExternalData
 
 			this.StringFieldWhiteList = settings.GetStringList ("fieldlist");
 			this.ParsingTimeout = TimeSpan.Parse (settings.GetString ("timeout", "00:00:00.5"));
+			this.EmptyNull = settings.GetBool ("emptynull", true);
 
 			if (this.StringFieldWhiteList.Count == 0) {
 				Secretary.Report (5, "Fieldlist Empty line:", this.ConfigLine.ToString());
