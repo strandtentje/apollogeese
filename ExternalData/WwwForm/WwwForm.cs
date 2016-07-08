@@ -41,12 +41,21 @@ namespace ExternalData
 			StringBuilder valueBuilder = new StringBuilder ();
 			StringBuilder currentBuilder = nameBuilder;
 
+			Action callBackForValueBuilder = delegate() {
+				string value = HttpUtility.UrlDecode (valueBuilder.ToString ());
+				if ((value.Length == 0) && this.EmptyNull) {
+					callback (nameBuilder.ToString (), null);
+				} else {
+					callback (nameBuilder.ToString (), value);
+				}				
+			};
+
 			while (reader.Peek() > -1) {
 				currentCharacter = (char)reader.Read ();
 
 				switch (currentCharacter) {
 				case Concatenator:						
-					callback (nameBuilder.ToString (), HttpUtility.UrlDecode (valueBuilder.ToString ()));
+					callBackForValueBuilder ();
 					nameBuilder.Clear ();
 					valueBuilder.Clear ();
 					currentBuilder = nameBuilder;
@@ -61,11 +70,7 @@ namespace ExternalData
 			}
 
 			if (nameBuilder.Length > 0) {
-				if (valueBuilder.Length > 0) {
-					callback (nameBuilder.ToString (), HttpUtility.UrlDecode (valueBuilder.ToString ()));
-				} else {
-					callback (nameBuilder.ToString (), "");
-				}
+				callBackForValueBuilder ();
 			}
 		}
 
@@ -99,10 +104,11 @@ namespace ExternalData
 			foreach (string fieldName in this.StringFieldWhiteList) {
 				IInteraction currentField;
 
-				if (inputInteractionsByName.Has (fieldName))
-					currentField = inputInteractionsByName [fieldName];
-				else
-					currentField = new SimpleInteraction (parameters, "name", fieldName);
+				if (!inputInteractionsByName.Has (fieldName)) {
+					inputInteractionsByName [fieldName] = new WwwInputInteraction(fieldName, null, parameters);
+				}
+			
+				currentField = inputInteractionsByName [fieldName];
 
 				success = success && (!Branches.Has (fieldName) || Branches [fieldName].TryProcess (currentField));
 				success = success && (!DoIterate || this.Iterator.TryProcess (currentField));
