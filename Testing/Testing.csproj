@@ -44,6 +44,8 @@
     <Compile Include="ErrorHandler.cs" />
     <Compile Include="ErrorHandlingInteraction.cs" />
     <Compile Include="ErrorHandledInteraction.cs" />
+    <Compile Include="HaltRecursion.cs" />
+    <Compile Include="RecursionMarkerInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
