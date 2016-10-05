@@ -35,6 +35,7 @@ namespace Imaging
 
 		protected override void Initialize (Settings settings)
 		{
+			base.Initialize (settings);
 			this.UseJpgInsteadOfPng = settings.GetBool ("usejpginsteadofpng", true);
 		}
 
