@@ -5,7 +5,7 @@ using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
-	public class FormatDateTime : Service
+	public class FormatDateTime : TwoBranchedService
 	{
 		public override string Description {
 			get {
@@ -42,6 +42,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 		protected override bool Process (IInteraction parameters)
 		{
+			bool success = true;
 			object dateTimeCandidate;
 			IInteraction targetOutgoing;
 
@@ -52,8 +53,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 
 					byte[] formatted = target.Encoding.GetBytes (source.ToString (this.DateTimeFormat));
 					target.OutgoingBody.Write (formatted, 0, formatted.Length);
+
+					success &= (Successful == null) || Successful.TryProcess (parameters);
 				} else {
-					throw new Exception ("No target interaction found");
+					success &= (Failure == null) || Failure.TryProcess (parameters);
 				}
 			} else {
 				string actualValueType;
@@ -64,14 +67,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 					actualValueType = dateTimeCandidate.GetType ().ToString ();
 				}
 
-				throw new Exception (
-					string.Format (
-						"Expected DateTime at '{0}', got a '{1}'", 
-						this.VariableName, 
-						actualValueType));
+				success &= (Failure == null) || Failure.TryProcess (parameters);
 			}
 
-			return true;
+			return success;
 		}
 	}
 }
