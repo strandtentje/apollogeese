@@ -28,7 +28,6 @@ namespace Filesystem
 		protected override bool Process (IInteraction parameters)
 		{
 			var dataSink = Closest<IOutgoingBodiedInteraction>.From (parameters);
-			var httpSink = dataSink as IHttpInteraction;
 
 			FileInfo file = GetFileInfo (parameters);
 
