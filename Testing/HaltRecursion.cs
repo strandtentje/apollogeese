@@ -23,10 +23,12 @@ namespace Testing
 
 		protected override bool Process (IInteraction parameters)
 		{
-			if (Closest<RecursionMarkerInteraction>.From (parameters).Placer == this) {
+			IInteraction foundInteraction;
+
+			if (parameters.TryGetClosest(typeof(RecursionMarkerInteraction), out foundInteraction) && ((RecursionMarkerInteraction)foundInteraction).Placer == this) {
 				throw new Exception ("Recursion halted");
 			} else {
-				return this.Continue.TryProcess (new RecursionMarkerInteraction (this));
+				return this.Continue.TryProcess (new RecursionMarkerInteraction (parameters, this));
 			}
 		}
 	}

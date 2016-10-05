@@ -6,12 +6,12 @@ namespace Testing
 {
 	class RecursionMarkerInteraction : SimpleInteraction
 	{
-		public HaltRecursion Placer { get; private set; }
-
-		public RecursionMarkerInteraction (HaltRecursion haltRecursion)
+		public RecursionMarkerInteraction (IInteraction parameters, HaltRecursion haltRecursion): base(parameters)
 		{
 			this.Placer = haltRecursion;
 		}
+
+		public HaltRecursion Placer { get; private set; }
 	}
 }
 
