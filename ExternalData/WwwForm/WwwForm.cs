@@ -76,7 +76,17 @@ namespace ExternalData
 
 		public override bool CheckMimetype (string mimeType)
 		{
-			return mimeType == "application/x-www-form-urlencoded";
+			string[] specifiers = mimeType.Split (';');
+
+			string mime = specifiers [0];
+			if (specifiers.Length > 1) {
+				string encoding = specifiers [1];
+				if (!encoding.ToLower().EndsWith(this.Encoding.HeaderName)) {
+					throw new Exception ("Encoding mismatch (temporary)");
+				}
+			}
+
+			return mime == "application/x-www-form-urlencoded";
 		}
 
 		protected override bool Process (IInteraction parameters)

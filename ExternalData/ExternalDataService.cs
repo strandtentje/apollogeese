@@ -8,7 +8,7 @@ namespace ExternalData
 {
 	public abstract class ExternalDataService : Service
 	{
-		Encoding Encoding;
+		protected Encoding Encoding { get; private set; }
 
 		protected override void Initialize (Settings settings)
 		{
