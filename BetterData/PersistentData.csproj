@@ -47,17 +47,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Data" />
     <Reference Include="Mono.Data.Sqlite">
-      <HintPath>..\..\..\Documents\Mono.Data.Sqlite.dll</HintPath>
-      <Private>True</Private>
+      <HintPath>..\debugbin\Mono.Data.Sqlite.dll</HintPath>
     </Reference>
     <Reference Include="Npgsql">
-      <HintPath>..\..\..\Downloads\npgsql.3.1.2.nupkg_FILES\lib\net45\Npgsql.dll</HintPath>
+      <HintPath>..\debugbin\Npgsql.dll</HintPath>
     </Reference>
     <Reference Include="MySql.Data">
-      <HintPath>..\..\..\Downloads\MySql.Data.dll</HintPath>
+      <HintPath>..\debugbin\MySql.Data.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
