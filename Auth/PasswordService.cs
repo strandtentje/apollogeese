@@ -34,7 +34,7 @@ namespace BorrehSoft.ApolloGeese.Auth
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
-
+			base.HandleBranchChanged (sender, e);
 		}
 	}
 }
