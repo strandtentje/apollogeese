@@ -7,7 +7,6 @@
     <OutputType>Library</OutputType>
     <RootNamespace>PersistentData</RootNamespace>
     <AssemblyName>BetterData</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,7 +55,6 @@
     </Reference>
     <Reference Include="Npgsql">
       <HintPath>..\..\..\Downloads\npgsql.3.1.2.nupkg_FILES\lib\net45\Npgsql.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="MySql.Data">
       <HintPath>..\..\..\Downloads\MySql.Data.dll</HintPath>

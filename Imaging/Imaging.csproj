@@ -7,13 +7,12 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Imaging</RootNamespace>
     <AssemblyName>Imaging</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\debugbin</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -38,6 +37,8 @@
     <Compile Include="ImagingService.cs" />
     <Compile Include="GenericCrop.cs" />
     <Compile Include="Tile.cs" />
+    <Compile Include="ZbarVideoDecode.cs" />
+    <Compile Include="SymbolInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -52,6 +53,10 @@
     <ProjectReference Include="..\Utilities\Logging\IO.csproj">
       <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
       <Name>IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\ZbarSharp\libzbar-cil\libzbar-cil.csproj">
+      <Project>{58D63AA2-59A3-4E02-B833-819727FA8CEE}</Project>
+      <Name>libzbar-cil</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>
