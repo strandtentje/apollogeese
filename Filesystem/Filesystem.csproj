@@ -46,6 +46,7 @@
     <Compile Include="WriteToFile.cs" />
     <Compile Include="ReadFromFile.cs" />
     <Compile Include="FileService.cs" />
+    <Compile Include="ShellCommand.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

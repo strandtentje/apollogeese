@@ -44,8 +44,10 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 
 		public SimpleInteraction (IInteraction parent, string name, object value)
 		{
-			this.parent = parent;
-			this.ExceptionHandler = parent.ExceptionHandler;
+			if (parent != null) {
+				this.parent = parent;
+				this.ExceptionHandler = parent.ExceptionHandler;
+			}
 			this [name] = value;
 		}
 
