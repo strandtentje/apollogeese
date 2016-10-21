@@ -46,7 +46,11 @@
     <Compile Include="WriteToFile.cs" />
     <Compile Include="ReadFromFile.cs" />
     <Compile Include="FileService.cs" />
-    <Compile Include="ShellCommand.cs" />
+    <Compile Include="Shell\ShellStart.cs" />
+    <Compile Include="Shell\SystemShell.cs" />
+    <Compile Include="Shell\ShellKill.cs" />
+    <Compile Include="Shell\ShellSignalInteraction.cs" />
+    <Compile Include="Shell\ShellSignal.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -74,5 +78,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Indexing\" />
+    <Folder Include="Shell\" />
   </ItemGroup>
 </Project>

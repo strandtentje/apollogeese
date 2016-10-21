@@ -7,7 +7,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace Filesystem
 {
-	public class ShellCommand : Service
+	public class SystemShell : Service
 	{
 		public override string Description {
 			get {
@@ -15,33 +15,13 @@ namespace Filesystem
 			}
 		}
 
-		public override void LoadDefaultParameters (string defaultParameter)
-		{
-			this.Settings ["command"] = defaultParameter;
-		}
-
-		Service IncomingLineService;
-
 		SystemProcess shellProcess;
-
+		Service IncomingLineService;
 		string IncomingLineName;
 
 		protected override void Initialize (Settings settings)
 		{
 			this.IncomingLineName = settings.GetString ("incominglinename", "line");
-
-			ProcessStartInfo processInfo = new ProcessStartInfo (
-				                               settings.GetString ("command"), 
-				                               settings.GetString ("arguments", "")
-			                               ) {
-				UseShellExecute = false,
-				RedirectStandardOutput = true,
-
-			};
-
-			shellProcess = SystemProcess.Start (processInfo);
-			shellProcess.BeginOutputReadLine ();
-			shellProcess.OutputDataReceived += ShellProcess_OutputDataReceived;
 		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
@@ -61,6 +41,19 @@ namespace Filesystem
 			this.IncomingLineService.TryProcess (new SimpleInteraction (
 				null, this.IncomingLineName, e.Data
 			));
+		}
+
+		protected override bool Process (IInteraction parameters)
+		{
+			var signal = Closest<ShellSignalInteraction>.From (parameters);
+
+			if (signal.IsKill) {
+				shellProcess.Dispose ();
+			} else {
+				shellProcess = SystemProcess.Start (signal.ProcessInfo);
+				shellProcess.BeginOutputReadLine ();
+				shellProcess.OutputDataReceived += ShellProcess_OutputDataReceived;
+			}
 		}
 	}
 }
