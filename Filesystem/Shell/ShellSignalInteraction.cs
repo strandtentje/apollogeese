@@ -6,13 +6,15 @@ using System.Diagnostics;
 
 namespace Filesystem
 {
-	class ShellSignalInteraction
+	class ShellSignalInteraction : SimpleInteraction
 	{
 		public ProcessStartInfo ProcessInfo { get; private set; }
 		public bool IsKill { get; private set; }
 
-		public ShellSignalInteraction (ProcessStartInfo processInfo)
-		{
+		public ShellSignalInteraction (
+			IInteraction parameters, 
+			ProcessStartInfo processInfo
+		) : base(parameters) {
 			this.ProcessInfo = processInfo;
 		}
 

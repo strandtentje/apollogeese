@@ -7,9 +7,7 @@ namespace Filesystem
 	{
 		protected override bool Process (IInteraction parameters)
 		{
-			return this.Shell.TryProcess (new ShellSignalInteraction (
-				isKill = true
-			));
+			return this.Shell.TryProcess (new ShellSignalInteraction (true));
 		}
 	}
 }

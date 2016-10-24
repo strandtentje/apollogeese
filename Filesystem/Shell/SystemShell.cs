@@ -33,7 +33,9 @@ namespace Filesystem
 
 		public override void Dispose ()
 		{
-			this.shellProcess.Close ();
+			if (this.shellProcess != null) {
+				this.shellProcess.Close ();
+			}
 		}
 
 		void ShellProcess_OutputDataReceived (object sender, DataReceivedEventArgs e)
@@ -54,6 +56,8 @@ namespace Filesystem
 				shellProcess.BeginOutputReadLine ();
 				shellProcess.OutputDataReceived += ShellProcess_OutputDataReceived;
 			}
+
+			return true;
 		}
 	}
 }

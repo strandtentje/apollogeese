@@ -10,6 +10,11 @@ namespace Filesystem
 	{
 		ProcessStartInfo processInfo;
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["command"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings settings)
 		{
 			processInfo = new ProcessStartInfo (
