@@ -152,7 +152,11 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
                 ProcessErrorMessage = "";
 			}
 			catch (Exception ex) {
-				parameters.ExceptionHandler (this, parameters, ex);
+				if (parameters.ExceptionHandler == null) {
+					Secretary.Report (5, ex.Message, "unhandled by business logic");
+				} else {
+					parameters.ExceptionHandler (this, parameters, ex);
+				}
 			}
 
 			return succesful;
