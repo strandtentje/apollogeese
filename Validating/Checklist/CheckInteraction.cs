@@ -8,6 +8,7 @@ namespace Validating
 		public CheckInteraction (IInteraction parent) : base(parent)
 		{
 			this.Successful = true;
+			this.ExceptionHandler = parent.ExceptionHandler;
 		}	
 
 		public bool Successful { get; set; }
