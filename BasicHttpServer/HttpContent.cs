@@ -13,9 +13,18 @@ namespace BasicHttpServer
 			}
 		}
 
+		string ContentType;
+		bool SendLength;
+
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			this.Settings ["contenttype"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings settings)
 		{
-			
+			this.ContentType = settings.GetString ("contenttype", "");
+			this.SendLength = settings.GetBool ("sendlength", true);
 		}
 
 		private Service Content = Stub;
@@ -36,11 +45,21 @@ namespace BasicHttpServer
 		protected override bool Process (IInteraction parameters)
 		{
 			IHttpInteraction httpInteraction = Closest<IHttpInteraction>.From (parameters);
-			string contentType = Fallback<string>.From (parameters, "contenttype");
-			long length = Fallback<long>.From (parameters, "contentlength");
+			string contentType;
+
+			if (this.ContentType.Length > 0) {
+				contentType = this.ContentType;
+			} else {
+				contentType = Fallback<string>.From (parameters, "contenttype");
+			};
 
 			httpInteraction.SetContentType (contentType);
-			httpInteraction.SetContentLength (length);
+
+			if (this.SendLength) {
+				long length = Fallback<long>.From (parameters, "contentlength");
+				httpInteraction.SetContentLength (length);
+			}
+
 			httpInteraction.PurgeBuffer ();
 
 			return this.Content.TryProcess (parameters);
