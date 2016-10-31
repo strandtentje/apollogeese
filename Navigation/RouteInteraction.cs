@@ -9,7 +9,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 	/// <summary>
 	/// Subsection interaction, produced after program flow was altered by URL
 	/// </summary>
-	class SubsectionInteraction : SimpleInteraction
+	class RouteInteraction : SimpleInteraction
 	{
 		/// <summary>
 		/// Gets the parent http interaction
@@ -30,7 +30,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 		/// </summary>
 		/// <param name="http">Http.</param>
 		/// <param name="parent">Parent.</param>
-		public SubsectionInteraction(IHttpInteraction http, IInteraction parent, string resourceNameKey) : base(parent)
+		public RouteInteraction(IHttpInteraction http, IInteraction parent, string resourceNameKey) : base(parent)
 		{
 			this.ParentHttp = http;
 			this.ResourceNameKey = resourceNameKey;

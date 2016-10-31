@@ -40,7 +40,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 			IHttpInteraction httpParameters = (IHttpInteraction)uncastParameters.GetClosest(
 				typeof(IHttpInteraction));
 
-			SubsectionInteraction interaction = new SubsectionInteraction (
+			RouteInteraction interaction = new RouteInteraction (
 				httpParameters, uncastParameters, this.ResourceNameKey);
 
 			Service branch = Stub;
@@ -57,7 +57,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 			else
 				interaction.Confirm ();
 
-						return branch.TryProcess (interaction);
+			return branch.TryProcess (interaction);
 		}
 	}
 }

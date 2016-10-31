@@ -29,8 +29,9 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SiteSubsection.cs" />
-    <Compile Include="SubsectionInteraction.cs" />
     <Compile Include="Dir.cs" />
+    <Compile Include="Route.cs" />
+    <Compile Include="RouteInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
