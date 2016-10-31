@@ -78,7 +78,7 @@ namespace BorrehSoft.ApolloGeese.Auth
 			IInteraction candidateParameters;
 			IHttpInteraction parameters;
 
-			if (uncastParameters.TryGetClosest (typeof(IHttpInteraction), out candidateParameters)) {
+			if (((candidateParameters = uncastParameters.Parent) is IHttpInteraction) || uncastParameters.TryGetClosest (typeof(IHttpInteraction), out candidateParameters)) {
 				parameters = (IHttpInteraction)candidateParameters;
 
 				string givenCookie = parameters.GetCookie (CookieName);
