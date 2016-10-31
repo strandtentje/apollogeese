@@ -21,9 +21,11 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 
 		private WatchableMap<Service> watchedBranches = null;
 		private static int modelIDCounter;
-		private int modelID = -1;
+		private ProfilerHog hog = new ProfilerHog ();
 
 		public string ConfigLine { get; set; }
+
+		public ProfilerHog Hog { get { return this.hog; } }
 
 		/// <summary>
 		/// Numeric identity attribute for this service.
@@ -32,14 +34,8 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// The model ID
 		/// </value>
 		public int ModelID { 
-			get {
-				if (modelID == -1)	{
-					modelID = Interlocked.Increment (ref modelIDCounter);
-					ModelLookup.Add(modelID, this);
-				}
-
-				return modelID;
-			}
+			get;
+			private set;
 		}
 
 		/// <summary>
@@ -83,7 +79,10 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			this.watchedBranches.ItemChanged += HandleAllBranchChanged;
 		}
 
-		public Service() { }
+		public Service() {
+			this.ModelID = Interlocked.Increment (ref modelIDCounter);
+			ModelLookup.Add(this.ModelID, this);
+		}
 
 		void HandleAllBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
@@ -146,18 +145,20 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
             if (FailHard)
                 return InvokeProcess(parameters);
 
-			try
-			{
-                succesful = InvokeProcess(parameters);
-                ProcessErrorMessage = "";
-			}
-			catch (Exception ex) {
-				if (parameters.ExceptionHandler == null) {
-					Secretary.Report (5, ex.Message, "unhandled by business logic");
-				} else {
-					parameters.ExceptionHandler (this, parameters, ex);
+			hog.Measure (delegate() {
+				try
+				{
+					succesful = InvokeProcess(parameters);
+					ProcessErrorMessage = "";
 				}
-			}
+				catch (Exception ex) {
+					if (parameters.ExceptionHandler == null) {
+						Secretary.Report (5, ex.Message, "unhandled by business logic");
+					} else {
+						parameters.ExceptionHandler (this, parameters, ex);
+					}
+				}	
+			});
 
 			return succesful;
 		}
@@ -179,6 +180,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
         }
 
 		public virtual void Dispose() {
+			Service.ModelLookup.Remove (this.ModelID);
 			foreach (Service service in Branches.Dictionary.Values)
 				service.Dispose ();
 		}

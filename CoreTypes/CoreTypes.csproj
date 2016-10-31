@@ -57,6 +57,7 @@
     <Compile Include="LoggingExceptionHandler.cs" />
     <Compile Include="Interactions\Closest.cs" />
     <Compile Include="Interactions\Fallback.cs" />
+    <Compile Include="Services\ProfilerHog.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
