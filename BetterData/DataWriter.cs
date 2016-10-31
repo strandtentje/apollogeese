@@ -11,7 +11,10 @@ namespace BetterData
 		public override string Description {
 			get {
 				return string.Format (
-					"Write on {0}", DatasourceName);
+					"Write {1} on {0}", 
+					DatasourceName,
+					base.Description
+				);
 			}
 		}
 

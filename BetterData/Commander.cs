@@ -111,6 +111,12 @@ namespace BetterData
 			}
 		}
 
+		string description;
+
+		public override string Description {
+			get { return description; }
+		}
+
 		protected override void Initialize (Settings settings)
 		{
 			this.DatasourceName = settings.GetString ("connection", "default");
@@ -119,10 +125,13 @@ namespace BetterData
 
 			if (settings.Has ("sql")) {
 				this.SqlText = settings.GetString ("sql");
+				description = this.SqlText;
 			} else if (settings.Has ("sqlfile")) {
 				this.SqlFile = settings.GetString ("sqlfile");
+				description = (new FileInfo (this.SqlFile)).Name;
 			} else if (settings.Has ("autosql")) {
 				this.AutoSqlFile = settings.GetString ("autosql");
+				description = (new FileInfo (this.AutoSqlFile)).Name;
 			} else {
 				throw new Exception("Expected either 'sql', 'sqlfile' or 'autosql'");
 			}
