@@ -63,6 +63,8 @@
     <Compile Include="Planned\Schedule.cs" />
     <Compile Include="Recur.cs" />
     <Compile Include="Reflection\View\ServiceListView.cs" />
+    <Compile Include="Profiling\Profiler.cs" />
+    <Compile Include="Profiling\ProfilerInteraction.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -73,6 +75,7 @@
     <Folder Include="Reflection\View\" />
     <Folder Include="View\" />
     <Folder Include="Planned\" />
+    <Folder Include="Profiling\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Loader\Loader.csproj">

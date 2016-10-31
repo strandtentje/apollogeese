@@ -30,7 +30,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 				Reassignments = "reassignments",
 				WorkingDirectory = "rootpath";
 
-			public static bool Contains(string candidateSetting) {
+			public static bool Contains (string candidateSetting)
+			{
 				switch (candidateSetting) {
 				case File:
 				case Branch:
@@ -51,25 +52,25 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		public override string Description {
 			get {
 				if (BranchName == null)
-					return string.Format("{0}:directed", File);
-				else 
-					return string.Format("{0}:{1}", File, BranchName);
+					return string.Format ("{0}:directed", File);
+				else
+					return string.Format ("{0}:{1}", File, BranchName);
 			}
 		}
 
-		[Instruction("Module file to load.")]
+		[Instruction ("Module file to load.")]
 		public string File { get; set; }
 
-		[Instruction("Alternative working directory for using when parsing module", null)]
+		[Instruction ("Alternative working directory for using when parsing module", null)]
 		public string WorkingDirectory { get; set; }
 
-		[Instruction("Name of branch in module to fire up.")]
+		[Instruction ("Name of branch in module to fire up.")]
 		public string BranchName { get; set; }
 
-		[Instruction("Name of the context variable wherefrom the branch name should be acquired")]
+		[Instruction ("Name of the context variable wherefrom the branch name should be acquired")]
 		public string BranchVariable { get; set; }
 
-		[Instruction("Flag indicating if this module may propagate its own settings into context", false)]
+		[Instruction ("Flag indicating if this module may propagate its own settings into context", false)]
 		public bool InjectOwnSettings { get; set; }
 
 		/// <summary>
@@ -80,16 +81,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		/// <summary>
 		/// The variable injections.
 		/// </summary>
-		private Map<object> VariableInjections = new Map<object>();
+		private Map<object> VariableInjections = new Map<object> ();
 
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
 			string[] pathAndBranch = defaultParameter.Split ('@');
 
-			this.Settings[SettingsKeys.File] = pathAndBranch [0];
+			this.Settings [SettingsKeys.File] = pathAndBranch [0];
 
 			if (pathAndBranch.Length > 1) {
-				this.Settings[SettingsKeys.Branch] = pathAndBranch [1]; 
+				this.Settings [SettingsKeys.Branch] = pathAndBranch [1]; 
 			}
 		}
 
@@ -98,7 +99,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			this.File = modSettings.GetString (SettingsKeys.File);
 			this.BranchName = modSettings.GetString (SettingsKeys.Branch, null);			
 			this.BranchVariable = modSettings.GetString (SettingsKeys.BranchVariable, SettingsKeys.BranchName);
-			this.AutoInvoke = modSettings.GetBool(SettingsKeys.AutoInvoke, false);
+			this.AutoInvoke = modSettings.GetBool (SettingsKeys.AutoInvoke, false);
 			this.InjectOwnSettings = modSettings.GetBool (SettingsKeys.InjectOwnSettings, false);
 			this.WorkingDirectory = modSettings.GetString (
 				SettingsKeys.WorkingDirectory,
@@ -108,12 +109,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			RegisterVariableOverrides (modSettings.GetSubsettings (SettingsKeys.Remap));
 
 			foreach (KeyValuePair<string, object> setting in modSettings.Dictionary) {
-				if (IsOverride(setting)) {					
+				if (IsOverride (setting)) {					
 					int keyTailLength = setting.Key.Length - OverrideSuffix.Length;
 					string targetVariable = setting.Key.Substring (0, keyTailLength);
 					this.VariableOverrides [targetVariable] = (string)setting.Value;
 				} 
-				if (IsInjectable(setting)) {
+				if (IsInjectable (setting)) {
 					VariableInjections [setting.Key] = setting.Value;
 				}
 			}
@@ -125,7 +126,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		/// </summary>
 		/// <returns><c>true</c> if this instance is override the specified setting; otherwise, <c>false</c>.</returns>
 		/// <param name="setting">Setting.</param>
-		private bool IsOverride(KeyValuePair<string, object> setting) {
+		private bool IsOverride (KeyValuePair<string, object> setting)
+		{
 			return setting.Key.EndsWith (OverrideSuffix) && setting.Value is string;
 		}
 
@@ -134,7 +136,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		/// </summary>
 		/// <returns><c>true</c> if this instance is injectable the specified setting; otherwise, <c>false</c>.</returns>
 		/// <param name="setting">Setting.</param>
-		private bool IsInjectable(KeyValuePair<string, object> setting) {
+		private bool IsInjectable (KeyValuePair<string, object> setting)
+		{
 			bool isUnsafe = SettingsKeys.Contains (setting.Key) || setting.Key.EndsWith (OverrideSuffix);
 			return !isUnsafe || this.InjectOwnSettings;
 		}
@@ -143,7 +146,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		/// Registers the variable overrides.
 		/// </summary>
 		/// <param name="overrides">Overrides.</param>
-		private void RegisterVariableOverrides(Map<object> overrides) {
+		private void RegisterVariableOverrides (Map<object> overrides)
+		{
 			foreach (KeyValuePair<string, object> overrideCandidate in overrides.Dictionary) {
 				if (overrideCandidate.Value is string) {
 					this.VariableOverrides [overrideCandidate.Key] = (string)overrideCandidate.Value;
@@ -156,48 +160,45 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 		}
 
-        public override void OnReady()
-        {
-            if (this.AutoInvoke)
-            {
-                if (this.BranchName != null)
-                {
-					if (!GetService(this.BranchName).TryProcess(CreateJump()))
-                    {
-                        Secretary.Report(5, "Autoinvoke branch", this.BranchName, "failed");
-                    }
-                }
-                else
-                {
-                    Secretary.Report(5, "Can't autoinvoke", Description, "- branch needs explicit stating.");
-                }
-            }
-        }
+		public override void OnReady ()
+		{
+			if (this.AutoInvoke) {
+				if (this.BranchName != null) {
+					if (!GetService (this.BranchName).TryProcess (CreateJump ())) {
+						Secretary.Report (5, "Autoinvoke branch", this.BranchName, "failed");
+					}
+				} else {
+					Secretary.Report (5, "Can't autoinvoke", Description, "- branch needs explicit stating.");
+				}
+			}
+		}
 
-		public Service GetService(string branchName) {
+		public Service GetService (string branchName)
+		{
 			return ServiceCollectionCache.Get (File, WorkingDirectory).Get (branchName, null);
 		}
 
-        public bool AutoInvoke { get; private set; }
+		public bool AutoInvoke { get; private set; }
 
-        class ModuleBranchException : Exception
+		class ModuleBranchException : Exception
 		{
-			public ModuleBranchException(string branchVariable) : base(
-				string.Format("No branch name found in context at {0}", 
-					branchVariable)) {
+			public ModuleBranchException (string branchVariable) : base (
+					string.Format ("No branch name found in context at {0}", 
+						branchVariable))
+			{
 
-				}
+			}
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			Service referredService;
-			JumpInteraction jumpInteraction;
+			Service referredService = null;
+			JumpInteraction jumpInteraction = null;
 
-			string pickedBranchName;
+			string pickedBranchName = "";
 
 			if (BranchName == null) {
-				if (!parameters.TryGetFallbackString(this.BranchVariable, out pickedBranchName)) {
+				if (!parameters.TryGetFallbackString (this.BranchVariable, out pickedBranchName)) {
 					throw new ModuleBranchException (this.BranchVariable);
 				}
 			} else {
@@ -214,11 +215,14 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 					)
 				);
 			} else {
-				return referredService.TryProcess (CreateJump(parameters));
+				jumpInteraction = CreateJump (parameters);
 			}
+
+			return referredService.TryProcess (jumpInteraction);
 		}
 
-		private IInteraction CreateJump(IInteraction parameters = null) {
+		private JumpInteraction CreateJump (IInteraction parameters = null)
+		{
 			return new JumpInteraction (parameters,
 				this.Branches, this.VariableOverrides, this.VariableInjections);
 		}
