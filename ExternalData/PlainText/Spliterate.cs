@@ -16,7 +16,7 @@ namespace InputProcessing
 
 		public override string Description {
 			get {
-				throw new NotImplementedException ();
+				return string.Format ("Iterator over {0} into {1}", this.From, this.To);
 			}
 		}
 
