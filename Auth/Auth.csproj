@@ -48,12 +48,15 @@
       <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
       <Name>IO</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\BCrypt\BCrypt.Net\BCrypt.Net.csproj">
-      <Project>{517CBAB6-A48C-4068-9042-57DB2793BF50}</Project>
-      <Name>BCrypt.Net</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="BCrypt.Net">
+      <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="LICENSE.txt" />
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
