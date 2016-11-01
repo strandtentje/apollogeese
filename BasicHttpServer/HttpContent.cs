@@ -5,7 +5,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BasicHttpServer
 {
-	public class HttpContent : Service
+	public class HttpContent : SingleBranchService
 	{
 		public override string Description {
 			get {
@@ -25,21 +25,6 @@ namespace BasicHttpServer
 		{
 			this.ContentType = settings.GetString ("contenttype", "");
 			this.SendLength = settings.GetBool ("sendlength", true);
-		}
-
-		private Service Content = Stub;
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			switch (e.Name) {
-			case "http":
-			case "data":
-			case "content":
-				this.Content = e.NewValue ?? Stub;
-				break;
-			default:				
-				break;
-			}
 		}
 	
 		protected override bool Process (IInteraction parameters)
@@ -62,7 +47,7 @@ namespace BasicHttpServer
 
 			httpInteraction.PurgeBuffer ();
 
-			return this.Content.TryProcess (parameters);
+			return WithBranch.TryProcess (parameters);
 		}
 	}
 }

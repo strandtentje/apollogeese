@@ -8,7 +8,7 @@ using BorrehSoft.Utensils.Collections;
 
 namespace BetterData
 {
-	public class Connector : Service
+	public class Connector : SingleBranchService
 	{
 		string Name;
 
@@ -32,13 +32,6 @@ namespace BetterData
 					"Password={0}; " +
 					"Pooling=true; " +
 					"Allow User Variables=True";
-			}
-		}
-		
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "init") {
-				e.NewValue.TryProcess (new SimpleInteraction ());
 			}
 		}
 
@@ -65,6 +58,11 @@ namespace BetterData
 		public static IDbConnection Find (string name)
 		{
 			return NamedConnectors [name].GetNewConnection ();
+		}
+
+		public override void OnReady ()
+		{
+			WithBranch.TryProcess (new SimpleInteraction ());
 		}
 	}
 

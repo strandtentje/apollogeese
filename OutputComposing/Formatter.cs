@@ -11,20 +11,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 	/// <summary>
 	/// Formats text produced downstream. Might be notoriously slow.
 	/// </summary>
-	public class Formatter : Service
+	public class Formatter : SingleBranchService
 	{
 		public override string Description {
 			get {
 				return "Downstream text formatter";
 			}
-		}
-
-		private Service begin;
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "begin")
-				begin = e.NewValue;
 		}
 
 		List<Format> formats = new List<Format>();
@@ -46,7 +38,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		protected override bool Process (IInteraction parameters)
 		{
 			if (parameters is INosyInteraction) {
-				return begin.TryProcess (parameters);
+				return WithBranch.TryProcess (parameters);
 			} else {
 				IOutgoingBodiedInteraction upstreamTarget;
 				SimpleOutgoingInteraction downstreamTarget;
@@ -58,7 +50,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				downstreamTarget = new SimpleOutgoingInteraction (
 					formattables = new MemoryStream (), upstreamTarget.Encoding, parameters);
 
-				success = begin.TryProcess (downstreamTarget);
+				success = WithBranch.TryProcess (downstreamTarget);
 				downstreamTarget.Done ();
 
 				formattables.Position = 0;

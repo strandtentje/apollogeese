@@ -9,11 +9,10 @@ using System.Collections.Generic;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	public class Fork : Service
+	public class Fork : SingleBranchService
 	{
 		private bool IsWorking { get; set; }
 
-		Service offloadBranch;
 		Queue<IInteraction> jobs = new Queue<IInteraction>();
 		Thread worker;
 
@@ -21,11 +20,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			get {
 				return "Pass interactions into offload thread";
 			}
-		}
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "offload") offloadBranch = e.NewValue;
 		}
 
 		protected override void Initialize (Settings modSettings)
@@ -45,7 +39,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 					locker.Release ();
 				}
 				lock (jobs) {
-					offloadBranch.TryProcess (jobs.Dequeue ());
+					WithBranch.TryProcess (jobs.Dequeue ());
 				}
 			}
 		}

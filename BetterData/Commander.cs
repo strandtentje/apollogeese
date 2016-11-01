@@ -13,7 +13,7 @@ using System.Text.RegularExpressions;
 
 namespace BetterData
 {
-	public abstract class Commander : Service
+	public abstract class Commander : SingleBranchService
 	{
 		private string DSN;
 

@@ -7,7 +7,7 @@ using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
-	public class NullSink : Service
+	public class NullSink : SingleBranchService
 	{
 		public override string Description {
 			get {
@@ -22,19 +22,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			log = settings.GetBool ("log", false);
 		}
 
-		Service Source;
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "source")
-				this.Source = e.NewValue;
-		}
-
 		protected override bool Process (IInteraction parameters)
 		{
 			StringComposeInteraction composer = new StringComposeInteraction (parameters, Encoding.UTF8);
 
-			bool success = this.Source.TryProcess (composer);
+			bool success = WithBranch.TryProcess (composer);
 
 			if (log) {
 				Secretary.Report (5, composer.ToString ());

@@ -21,8 +21,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 
 		ListenerWithEvents listener;
 
-		Service begin;
-
 		[Instruction("Love isn't always on time")]
 		public bool HoldTheLine {
 			get;
@@ -45,7 +43,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 
 				while(this.HoldTheLine) {
 					pipe.Handshake ();
-					begin.TryProcess (new ReachInteraction (pipe));
+					WithBranch.TryProcess (new ReachInteraction (pipe));
 					pipe.SendCommand (Command.Close);
 				}
 
@@ -56,12 +54,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 				Secretary.Report (5, "Misc. exception occured at", this.Description, ":", ex.Message);
 				e.Client.Close ();
 			}
-		}
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "begin")
-				this.begin = e.NewValue;
 		}
 
 		protected override bool Process (IInteraction parameters)

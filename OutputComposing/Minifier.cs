@@ -7,22 +7,14 @@ using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 {
-	public abstract class Minifier : Service
+	public abstract class Minifier : SingleBranchService
 	{
 		protected ICompressor compressor;
-		Service Source;
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "source") {
-				this.Source = e.NewValue;
-			}
-		}
 
 		protected override bool Process (IInteraction parameters)
 		{
 			var processor = StringProcessorInteraction.From (parameters);
-			var success = this.Source.TryProcess (processor);
+			var success = WithBranch.TryProcess (processor);
 			processor.Run (this.compressor.Compress);
 			return success;
 		}

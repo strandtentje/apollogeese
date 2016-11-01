@@ -9,7 +9,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 	/// <summary>
 	/// Named cache; has multiple caches by names. Useful when using the same Cache-instance for different but
 	/// not too many types of datastreams.
-	public class ContextCache : Service
+	public class ContextCache : SingleBranchService
 	/// </summary>
 	{
 		public override string Description {
@@ -23,11 +23,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 		Settings cacheSettings = new Settings();
 
 		protected string CacheNameSource {
-			get;
-			set;
-		}
-
-		protected Service BeginBranch {
 			get;
 			set;
 		}
@@ -49,13 +44,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 
 			if (modSettings.Has ("lifetime"))
 				cacheSettings ["lifetime"] = modSettings ["lifetime"];
-		}
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "begin") {
-				this.BeginBranch = e.NewValue;
-			}
 		}
 
 		protected virtual string GetCacheName(IInteraction parameters) {
@@ -82,7 +70,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			} else {
 				currentCache = cacheMap [cacheName] = new AnonymousCache ();
 				currentCache.SetSettings (cacheSettings);
-				currentCache.Branches ["begin"] = this.BeginBranch;
+				currentCache.Branches [SingleBranchNames.With] = this.WithBranch;
 			}
 
 			return currentCache.TryProcess (parameters);

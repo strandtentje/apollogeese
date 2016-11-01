@@ -10,7 +10,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking
 	/// <summary>
 	/// I hope you weren't expecting anything exciting here
 	/// </summary>
-	public abstract class IPService : Service
+	public abstract class IPService : SingleBranchService
 	{
 		[Instruction("IP of socket")]
 		public string Ip { get; set; }

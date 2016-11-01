@@ -14,10 +14,10 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 	/// <summary>
 	/// Http server.
 	/// </summary>
-	public class HttpService : Service
+	public class HttpService : SingleBranchService
 	{
 		private HttpListener listener = new HttpListener();
-		private Service httpBranch;
+
 		private List<string> prefixStrings = new List<string>();
 
 		public override string Description {
@@ -59,17 +59,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
             listener.IgnoreWriteExceptions = true;
 
-			listener.BeginGetContext (RequestMade, listener);
-            
-			Branches["http"] = Stub;
-		}
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "http")
-				httpBranch = e.NewValue;
-			else if (e.Name == "request")
-				httpBranch = e.NewValue;
+			listener.BeginGetContext (RequestMade, listener);            
 		}
 
 		/// <summary>
@@ -148,7 +138,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
 		protected override bool Process (IInteraction parameters)
 		{
-			return httpBranch.TryProcess(parameters);
+			return WithBranch.TryProcess(parameters);
 		}
 
 		public override void Dispose ()

@@ -7,7 +7,7 @@ using BorrehSoft.Utensils.Log;
 
 namespace Testing
 {
-	public class Log : Service
+	public class Log : SingleBranchService
 	{
 		public override string Description {
 			get {
@@ -15,11 +15,6 @@ namespace Testing
 					"Logger \"{0}\" for variables [\"{1}\"]", 
 					this.Label, string.Join ("\", \"", this.WatchVariables));
 			}
-		}
-
-		Service Continue {
-			get;
-			set;
 		}
 
 		IEnumerable<string> WatchVariables {
@@ -32,12 +27,6 @@ namespace Testing
 			set;
 		}
 
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "continue")
-				this.Continue = e.NewValue;
-		}
-
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
 			Settings ["label"] = defaultParameter;
@@ -47,7 +36,6 @@ namespace Testing
 		{
 			this.Label = modSettings.GetString ("label", "noname log");
 			this.WatchVariables = modSettings.GetStringList ("variablenames");
-			this.Continue = Stub;
 		}
 
 		protected override bool Process (IInteraction parameters)
@@ -65,7 +53,7 @@ namespace Testing
 				Secretary.Report (5, varName, "=", candidateString);
 			}
 
-			return this.Continue.TryProcess (parameters);
+			return this.WithBranch.TryProcess (parameters);
 		}
 	}
 }

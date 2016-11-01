@@ -11,7 +11,7 @@ namespace BorrehSoft.ApolloGeese.Auth
 	/// <summary>
 	/// Tags interactions with a (new) session cookie
 	/// </summary>
-	public class Sessionizer : Service
+	public class Sessionizer : SingleBranchService
 	{
 		public override string Description {
 			get {
@@ -31,8 +31,6 @@ namespace BorrehSoft.ApolloGeese.Auth
 		/// </summary>
 		public static Map<SessionState> SessionStates = new Map<SessionState>();
 
-		private Service Http;
-
 		[Instruction("When set to true, this will revoke the session", false)]
 		public bool Closing { get; set; }
 
@@ -49,17 +47,9 @@ namespace BorrehSoft.ApolloGeese.Auth
 
 		protected override void Initialize (Settings modSettings)
 		{
-			Branches ["http"] = Stub;
-
 			this.CookieName = modSettings.GetString ("cookiename", "SES");
 			this.Closing = modSettings.GetBool("sessioncloser", false);
 			this.IsSecureSession = modSettings.GetBool ("issecure", true);
-		}
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "http") 
-				Http = e.NewValue;
 		}
 
 		private static RandomNumberGenerator rng = new RNGCryptoServiceProvider ();
@@ -125,7 +115,7 @@ namespace BorrehSoft.ApolloGeese.Auth
 					// gloBALLY UNIQUE IDENTIFIER now hand me my tinfoil hat.
 				}
 
-				success = Http.TryProcess (new SessionInteraction (uncastParameters, CookieName, givenCookie));
+				success = WithBranch.TryProcess (new SessionInteraction (uncastParameters, CookieName, givenCookie));
 			}
 
 			return success;

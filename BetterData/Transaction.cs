@@ -14,11 +14,6 @@ namespace BetterData
 			}
 		}
 
-		Service Begin {
-			get;
-			set;
-		}
-
 		bool Rollback { get; set; }
 
         protected override void Initialize(Settings settings)
@@ -27,19 +22,13 @@ namespace BetterData
 			this.Rollback = settings.GetBool ("rollback", false);
         }
 
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "begin") 
-				this.Begin = e.NewValue;
-		}
-
 		protected override bool Process (IInteraction parameters)
 		{
             bool success = true;
 
             IDbTransaction actualTransaction = this.Connection.BeginTransaction();   
 
-            success &= Begin.TryProcess(new TransactionInteraction(this.Connection, this.DatasourceName, parameters));
+            success &= WithBranch.TryProcess(new TransactionInteraction(this.Connection, this.DatasourceName, parameters));
 
 			if (this.Rollback) {
 				actualTransaction.Rollback ();

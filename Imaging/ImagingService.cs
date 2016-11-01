@@ -12,20 +12,12 @@ using System.Text;
 
 namespace Imaging
 {
-	public abstract class ImagingService : Service
+	public abstract class ImagingService : SingleBranchService
 	{		
-		Service Source;
-
 		ImageFormat selectedImageformat;
 
 		protected static Bitmap emptyBitmap = new Bitmap(1,1);
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "source") 
-				this.Source = e.NewValue;
-		}
-
+			
 		bool UseJpgInsteadOfPng {
 			get { return selectedImageformat == ImageFormat.Jpeg; }
 			set {
@@ -60,7 +52,7 @@ namespace Imaging
 				SimpleOutgoingInteraction imageSourcer = new SimpleOutgoingInteraction (
 					imageData, Encoding.Default, parameters);
 
-				if (Source.TryProcess (imageSourcer)) {
+				if (WithBranch.TryProcess (imageSourcer)) {
 					Image inImage = Bitmap.FromStream (imageData);
 
 					Bitmap outImage = imageCallback (inImage);

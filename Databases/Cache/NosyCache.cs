@@ -20,7 +20,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			NosyInteraction interaction = new NosyInteraction (includeContext, parameters);
 			string cacheName;
 
-			if (BeginBranch.TryProcess (interaction)) {
+			if (WithBranch.TryProcess (interaction)) {
 				cacheName = interaction.Signature;
 			} else {
 				throw new Exception ("begin-branch of nosy interaction produced false.");

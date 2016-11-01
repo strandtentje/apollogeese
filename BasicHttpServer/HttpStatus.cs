@@ -5,7 +5,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {
-	public class HttpStatus : Service
+	public class HttpStatus : SingleBranchService
 	{
 		public override string Description {
 			get {
@@ -26,15 +26,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 		string MimeType {
 			get;
 			set;
-		}
-
-		private Service nextService;
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "next") {
-				nextService = e.NewValue;
-			}
 		}
 
 		public override void LoadDefaultParameters (object defaultParameter)
@@ -69,7 +60,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
 			interaction.SetStatusCode (this.Statuscode);
 
-			return nextService.TryProcess(parameters);
+			return WithBranch.TryProcess(parameters);
 		}
 	}
 }

@@ -6,7 +6,7 @@ using System.Diagnostics;
 
 namespace Filesystem
 {
-	public abstract class ShellSignal : Service
+	public abstract class ShellSignal : SingleBranchService
 	{
 		public override string Description {
 			get {
@@ -14,14 +14,7 @@ namespace Filesystem
 			}
 		}
 
-		protected Service Shell;
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "shell") {
-				this.Shell = e.NewValue;
-			}
-		}
+		protected Service Shell { get { return this.WithBranch; } }
 	}
 }
 

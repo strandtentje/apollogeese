@@ -6,7 +6,7 @@ using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 {
-	public class AnonymousCache : Service
+	public class AnonymousCache : SingleBranchService
 	{
 		public override string Description {
 			get {
@@ -44,16 +44,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 			this.Data = null;
 		}
 
-		private Service begin;
-
 		protected virtual byte[] Data { get; set; }
 
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "begin")
-				begin = e.NewValue;
-		}
-	
 		protected override bool Process (IInteraction parameters)
 		{
 			bool success = true;
@@ -72,7 +64,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 				SimpleOutgoingInteraction downstreamTarget = new SimpleOutgoingInteraction (
 					targetStream, upstreamTarget.Encoding, parameters);
 
-				success = begin.TryProcess (downstreamTarget);		
+				success = WithBranch.TryProcess (downstreamTarget);		
 				downstreamTarget.Done ();
 
 				targetStream.Position = 0;

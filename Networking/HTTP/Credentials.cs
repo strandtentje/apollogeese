@@ -6,7 +6,7 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace Networking
 {
-	public class Credentials : Service
+	public class Credentials : SingleBranchService
 	{
 		public override string Description {
 			get {
@@ -24,11 +24,6 @@ namespace Networking
 			set;
 		}
 
-		Service Continue {
-			get;
-			set;
-		}
-
 		NetworkCredential CurrentCredentials {
 			get;
 			set;
@@ -41,16 +36,9 @@ namespace Networking
 			this.CurrentCredentials = new NetworkCredential (this.Username, this.Password);
 		}
 
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "continue") {
-				this.Continue = e.NewValue;
-			}
-		}
-
 		protected override bool Process (IInteraction parameters)
 		{
-			return this.Continue.TryProcess (new CredentialInteraction (this.CurrentCredentials, parameters));
+			return WithBranch.TryProcess (new CredentialInteraction (this.CurrentCredentials, parameters));
 		}		
 
 		public static ICredentials Recover(IInteraction parameters) {			

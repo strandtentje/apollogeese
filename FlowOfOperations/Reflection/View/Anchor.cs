@@ -5,10 +5,9 @@ using BorrehSoft.Utensils.Collections.Settings;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	public class Anchor : Service
+	public class Anchor : SingleBranchService
 	{
 		string desc;
-		Service proceed;
 
 		public override string Description {
 			get {
@@ -16,10 +15,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			}
 		}
 
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
+		public override void LoadDefaultParameters (string defaultParameter)
 		{
-			if (e.Name == "proceed") proceed = e.NewValue;
+			Settings ["title"] = defaultParameter;
 		}
 
 		protected override void Initialize (Settings modSettings)
@@ -29,7 +27,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 		protected override bool Process (IInteraction parameters)
 		{
-			return proceed.TryProcess(parameters);
+			return WithBranch.TryProcess(parameters);
 		}
 	}
 }

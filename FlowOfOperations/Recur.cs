@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-	public class Recur : Service
+	public class Recur : SingleBranchService
 	{
 		public override string Description {
 			get {
@@ -40,18 +40,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 			base.Initialize (settings);
 		}
-		
-		Service Offload {
-			get;
-			set;
-		}
-
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "offload") {
-				this.Offload = e.NewValue;
-			}
-		}
 
 		Queue<IInteraction> items = new Queue<IInteraction>();
 				
@@ -59,7 +47,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		{
 			lock (items)
 				while (items.Count > 0) 
-					Offload.TryProcess (items.Dequeue ());
+					this.WithBranch.TryProcess (items.Dequeue ());
 		}
 
 		protected override bool Process (IInteraction parameters)
