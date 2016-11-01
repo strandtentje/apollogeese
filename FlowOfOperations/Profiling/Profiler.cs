@@ -50,6 +50,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			long totalTimeSpent = 0, totalMeasurements = 0;
 
 			foreach (Service service in Service.ModelLookup.Values) {
+				if (service != null)
 				if ((service.ConfigLine ?? "").StartsWith (ConfigurationRoot)) {
 					sortedByAvg.Add (service.Hog.TicksPerMeasurement, service);
 					totalTimeSpent += service.Hog.TotalTicksSpent;
