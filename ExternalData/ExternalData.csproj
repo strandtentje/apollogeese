@@ -7,6 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>ExternalData</RootNamespace>
     <AssemblyName>Decoding</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,6 +31,9 @@
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Web" />
+    <Reference Include="HttpMultipartParser">
+      <HintPath>..\packages\HttpMultipartParser.2.1.7\lib\net40\HttpMultipartParser.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -68,14 +72,13 @@
       <Project>{8C04E544-F8DF-4A27-A071-57DE8C407C72}</Project>
       <Name>BasicHttpServer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Utilities\Http-Multipart-Data-Parser\HttpMultipartParser\HttpMultipartParser.csproj">
-      <Project>{4691988A-CE66-40CB-AFB4-2757255E03E0}</Project>
-      <Name>HttpMultipartParser</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="XML\" />
     <Folder Include="WwwForm\" />
     <Folder Include="PlainText\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
