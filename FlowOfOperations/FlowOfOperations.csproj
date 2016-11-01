@@ -27,9 +27,6 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Web" />
-    <Reference Include="CronNET">
-      <HintPath>..\packages\CronNET.1.1.4939.24773\lib\net40\CronNET.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -64,7 +61,6 @@
     <Compile Include="Reflection\Control\NewService.cs" />
     <Compile Include="Reflection\Control\ReloadService.cs" />
     <Compile Include="Reflection\Control\SetSetting.cs" />
-    <Compile Include="Planned\Schedule.cs" />
     <Compile Include="Recur.cs" />
     <Compile Include="Reflection\View\ServiceListView.cs" />
     <Compile Include="Profiling\Profiler.cs" />
@@ -78,7 +74,6 @@
     <Folder Include="Reflection\" />
     <Folder Include="Reflection\View\" />
     <Folder Include="View\" />
-    <Folder Include="Planned\" />
     <Folder Include="Profiling\" />
   </ItemGroup>
   <ItemGroup>
@@ -106,8 +101,5 @@
       <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
       <Name>IO</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
 </Project>

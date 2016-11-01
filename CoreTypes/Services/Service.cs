@@ -8,6 +8,7 @@ using BorrehSoft.Utensils.Collections;
 using BorrehSoft.Utensils.Collections.Maps;
 using System.Text;
 using System.Threading;
+using BorrehSoft.Utensils.Log.Profiling;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
@@ -21,11 +22,11 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 
 		private WatchableMap<Service> watchedBranches = null;
 		private static int modelIDCounter;
-		private ProfilerHog hog = new ProfilerHog ();
+		private ThreadAwareProfiler hog = new ThreadAwareProfiler ();
 
 		public string ConfigLine { get; set; }
 
-		public ProfilerHog Hog { get { return this.hog; } }
+		public ThreadAwareProfiler Hog { get { return this.hog; } }
 
 		/// <summary>
 		/// Numeric identity attribute for this service.

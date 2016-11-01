@@ -49,12 +49,18 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 			long totalTimeSpent = 0, totalMeasurements = 0;
 
+			bool doReset = parameters is ResetInteraction;
+
 			foreach (Service service in Service.ModelLookup.Values) {
-				if (service != null)
-				if ((service.ConfigLine ?? "").StartsWith (ConfigurationRoot)) {
-					sortedByAvg.Add (service.Hog.TicksPerMeasurement, service);
-					totalTimeSpent += service.Hog.TotalTicksSpent;
-					totalMeasurements += service.Hog.MeasurementCount;
+				if (service != null) {
+					if (doReset) {
+						service.Hog.Reset ();
+					}
+					if ((service.ConfigLine ?? "").StartsWith (ConfigurationRoot)) {
+						sortedByAvg.Add (service.Hog.TicksPerMeasurement, service);
+						totalTimeSpent += service.Hog.TotalTicksSpent;
+						totalMeasurements += service.Hog.MeasurementCount;
+					}
 				}
 			}
 		
