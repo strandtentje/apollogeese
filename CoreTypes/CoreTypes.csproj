@@ -59,6 +59,8 @@
     <Compile Include="Interactions\Simple\StringProcessorInteraction.cs" />
     <Compile Include="Statefulness\Reset.cs" />
     <Compile Include="Statefulness\ResetInteraction.cs" />
+    <Compile Include="Services\SingleBranchNames.cs" />
+    <Compile Include="Services\SingleBranchService.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
