@@ -1,16 +1,18 @@
 ﻿using System;
 using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utensils.Log;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
 	public abstract class SingleBranchService : Service
 	{
-		protected Service WithBranch { get; private set; }
+		private Service withBranch = StubService.Instance;
 
-		protected override sealed void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
+		protected Service WithBranch { get { return withBranch; } }
+
+		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			switch (e.Name) {
-			case SingleBranchNames.With:
 			case SingleBranchNames.Begin:
 			case SingleBranchNames.Content:
 			case SingleBranchNames.Continue:
@@ -23,7 +25,12 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			case SingleBranchNames.Request:
 			case SingleBranchNames.Source:
 			case SingleBranchNames.Subject:
-				this.WithBranch = e.NewValue;
+				Secretary.Report (5, "using deprecated single branch at", ConfigLine);
+				this.withBranch = e.NewValue;
+				break;
+			case SingleBranchNames.With:
+				this.withBranch = e.NewValue;
+				break;
 			default:
 				break;
 			}
