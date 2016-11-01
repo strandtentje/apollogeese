@@ -12,7 +12,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
+    <OutputPath>..\debugbin</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -26,6 +26,18 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Web" />
+    <Reference Include="NodeAssets.Core">
+      <HintPath>..\packages\NodeAssets.Core.3.0.2\lib\Net40\NodeAssets.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="EcmaScript.NET">
+      <HintPath>..\packages\EcmaScript.Net.1.0.1.0\lib\net20\EcmaScript.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="Yahoo.Yui.Compressor">
+      <HintPath>..\packages\YUICompressor.NET.2.7.0.0\lib\NET20\Yahoo.Yui.Compressor.dll</HintPath>
+    </Reference>
+    <Reference Include="NodeAssets.Compilers.Minify">
+      <HintPath>..\packages\NodeAssets.Compilers.Minify.3.0.0\lib\Net40\NodeAssets.Compilers.Minify.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -44,6 +56,9 @@
     <Compile Include="FormatDateTime.cs" />
     <Compile Include="Expressions\Constant.cs" />
     <Compile Include="Expressions\VariableCall.cs" />
+    <Compile Include="JsMinifier.cs" />
+    <Compile Include="CssMinifier.cs" />
+    <Compile Include="Minifier.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -62,6 +77,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Expressions\" />
-    <Folder Include="Nieuwe map\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>
