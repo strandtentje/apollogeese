@@ -3,30 +3,21 @@ using BorrehSoft.Utensils.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
-	public class Reset : Service
-	{
-		Service subject;
-
+	public class Reset : SingleBranchService
+	{		
 		public override string Description {
 			get {
-				if (subject == null) {
+				if (WithBranch == null) {
 					return "Service Resetter";
 				} else {
-					return string.Format ("Resetter for '{0}'", subject.Description);
+					return string.Format ("Resetter for '{0}'", WithBranch.Description);
 				}
 			}
 		}
 
-		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
-		{
-			if (e.Name == "subject") {
-				this.subject = e.NewValue;
-			}			
-		}
-
 		protected override bool Process (IInteraction parameters)
 		{
-			return this.subject.TryProcess (new ResetInteraction (parameters));
+			return WithBranch.TryProcess (new ResetInteraction (parameters));
 		}
 	}
 }
