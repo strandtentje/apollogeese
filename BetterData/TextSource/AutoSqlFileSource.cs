@@ -11,31 +11,24 @@ using System.Collections.Generic;
 
 namespace BetterData
 {
-	class AutoSqlFileSource : SqlFileSource
+	class AutoSqlFileSource : GenerativeSqlFileSource
 	{
-		class GeneratedSqlException : Exception
-		{
-			public GeneratedSqlException (string message) : base(message)
-			{
-
-			}
-		}
-
 		static class Clauses
 		{
-			public const string SelectAll = "SELECT * FROM {0}";
-			public const string Where = "WHERE {0} = @{0}";
+			public const string 
+			SelectAll = "SELECT * FROM {0}",
+			Where = "WHERE {0} = @{0}",
 
-			public const string Update = "UPDATE {0}";
-			public const string Set = "SET {0} = @{0}";
-			public const string ExtraSet = ", {0} = @{0}";
+			Update = "UPDATE {0}",
+			Set = "SET {0} = @{0}",
+			ExtraSet = ", {0} = @{0}",
 
-			public const string Insert = "INSERT INTO {0}";
-			public const string Values = "VALUES";
+			Insert = "INSERT INTO {0}",
+			Values = "VALUES",
 
-			public const string Delete = "DELETE FROM {0} ";
+			Delete = "DELETE FROM {0} ",
 
-			public const string SelectLastInsertId = ";\nSELECT LAST_INSERT_ID() AS last_insert_id;";
+			SelectLastInsertId = ";\nSELECT LAST_INSERT_ID() AS last_insert_id;";
 		}
 		
 		void ParseConditionClause (string[] sections, StreamWriter writer, int start)
@@ -44,6 +37,12 @@ namespace BetterData
 				if (sections [start].ToLower() == "by") {
 					writer.WriteLine (Clauses.Where, sections [start + 1]);
 				}
+			}
+		}
+
+		protected override string Extension {
+			get {
+				return ".auto.sql";
 			}
 		}
 
@@ -71,7 +70,7 @@ namespace BetterData
 			} 
 		}
 
-		void ParseActionClause (string[] sections, StreamWriter writer)
+		protected override void GenerateSqlForSections (string[] sections, StreamWriter writer)
 		{
 			string foundAction = sections [0].ToLower ();
 
@@ -113,21 +112,6 @@ namespace BetterData
 				writer.Write (Clauses.Delete, sections [1]);
 				ParseConditionClause (sections, writer, 2);
 			}
-		}
-
-		public override string GetText ()
-		{
-			if (!File.Exists (BackEnd.FilePath)) {
-				FileInfo info = new FileInfo (BackEnd.FilePath);
-
-				using (StreamWriter writer = new StreamWriter(info.OpenWrite())) {
-					string TinyInstruction = info.Name.Substring (
-						0, info.Name.Length - ".auto.sql".Length);
-					ParseActionClause (
-						TinyInstruction.Split(' '), writer);
-				}
-			}
-			return base.GetText ();
 		}
 	}
 }

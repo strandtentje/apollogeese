@@ -75,8 +75,10 @@ namespace BetterData
 		{
 			if (File.Exists (defaultParameter)) {
 				Settings ["sqlfile"] = defaultParameter;
-			} else if (defaultParameter.ToLower().EndsWith (".auto.sql")) {
+			} else if (defaultParameter.ToLower ().EndsWith (".auto.sql")) {
 				Settings ["autosql"] = defaultParameter;
+			} else if (defaultParameter.ToLower ().EndsWith (".model.sql")) {
+				Settings ["modelsql"] = defaultParameter;
 			} else {
 				Settings ["sql"] = defaultParameter;
 			}
@@ -111,6 +113,16 @@ namespace BetterData
 			}
 		}
 
+		string ModelSqlFile {
+			get {
+				return this.sqlFile;	
+			}
+			set {
+				this.sqlFile = value;
+				this.sqlSource = new ModelSqlFileSource (value);
+			}
+		}
+
 		string description;
 
 		public override string Description {
@@ -132,6 +144,9 @@ namespace BetterData
 			} else if (settings.Has ("autosql")) {
 				this.AutoSqlFile = settings.GetString ("autosql");
 				description = (new FileInfo (this.AutoSqlFile)).Name;
+			} else if (settings.Has ("modelsql")) {
+				this.ModelSqlFile = settings.GetString ("modelsql");
+				description = (new FileInfo (this.ModelSqlFile)).Name;
 			} else {
 				throw new Exception("Expected either 'sql', 'sqlfile' or 'autosql'");
 			}
