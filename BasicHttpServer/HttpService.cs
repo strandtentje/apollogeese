@@ -49,6 +49,32 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			}
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			try {
+				string[] splitParam = defaultParameter.Split (':');
+				string host = "localhost";
+				int port = 8080;
+
+				if (splitParam.Length == 1) {
+					if (!int.TryParse (splitParam [0], out port)) {
+						host = splitParam [0];
+					}
+				} else if (splitParam.Length > 1) {
+					host = splitParam [0];
+					port = int.Parse (splitParam [1]);
+				}
+
+				Settings["prefixes"] = new string[] { 
+					string.Format("http://{0}:{1}/", host, port) 
+				};				
+			} catch (Exception ex) {
+				throw new ArgumentException (
+					"Configuration required in the format hostname:port", 
+					ex
+				);
+			}
+		}
 
 		protected override void Initialize (Settings modSettings)
 		{
