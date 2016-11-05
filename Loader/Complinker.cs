@@ -55,6 +55,11 @@ namespace BorrehSoft.ApolloGeese.Loader
 		{
 			IEnumerable<object> pluginPathObjects = (Configuration ["plugins"] as IEnumerable<object>);
 
+			if (pluginPathObjects == null) {
+				Secretary.Report (5, "No plugins specified in configuration");
+				return;
+			}
+
 			foreach (object pluginPathObject in pluginPathObjects) {
 				string pluginPath = (string)pluginPathObject;
 
