@@ -22,6 +22,11 @@ namespace BetterData
 			return new SqliteConnection (this.ConnectionString);
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			Settings ["dbfile"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings settings)
 		{
 			string file = settings.GetString ("dbfile", "db.sqlite");
