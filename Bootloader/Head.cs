@@ -41,7 +41,7 @@ namespace BorrehSoft.ApolloGeese
 
 			string config = "apollogeese.conf", logfolder = ".", runbranch = "";
 			bool pluginsFromConfig = true;
-			bool pluginsFromBin = false;
+			bool pluginsFromBin = true;
 			SimpleInteraction miscArgs = new SimpleInteraction ();
 
 			try {
@@ -103,7 +103,7 @@ namespace BorrehSoft.ApolloGeese
 					"-b [identifier]: Specify startup branch\n" +
 					"-l [directory]: Logging directory\n" +
 					"-pfc [*true|false]: Load plugin assemblies from plugins-array in bootstrapper config.\n" +
-					"-pfb [*false|true]: Load plugin assemblies fron installation directory.\n" +
+					"-pfb [*true|false]: Load plugin assemblies fron installation directory.\n" +
 					"key=value: Extra context to feed into the startup branch");
 
 				Secretary.LatestLog.Dispose ();
