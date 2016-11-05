@@ -33,6 +33,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 			Branches ["main"] = Stub;
 			Branches ["default"] = Stub;
 			Branches ["continue"] = Stub;
+			Branches [SingleBranchNames.With] = Stub;
 		}
 
 		protected override bool Process (IInteraction uncastParameters)
@@ -48,9 +49,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.Navigation
 			if (branch == Stub) 
 				branch = Branches [interaction.DirectoryName] ?? Stub;
 
-			if (branch == Stub) {
-				branch = Branches ["continue"];
-			}
+			if (branch == Stub) 
+				branch = Branches ["continue"];			
+
+			if (branch == Stub)
+				branch = Branches [SingleBranchNames.With];
 
 			if (branch == Stub)
 				branch = Branches ["default"];
