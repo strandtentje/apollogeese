@@ -47,7 +47,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 		public Complinker(FileInfo configFile, string workingDirectory = null)
 		{
 			this.ConfigFile = configFile;
-			Configuration = SettingsParser.FromFile (
+			Configuration = SettingsLoader.FromFile (
 				this.ConfigFile.FullName, workingDirectory);	
 		}
 

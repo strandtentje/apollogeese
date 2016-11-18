@@ -24,7 +24,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 					string folder = (new FileInfo (binLocation)).DirectoryName;
 					string extensionFile = Path.Combine (folder, "mimetypes.clon");
 					if (File.Exists (extensionFile)) {
-						allExtensions = SettingsParser.FromFile (extensionFile);
+						allExtensions = SettingsLoader.FromFile (extensionFile);
 					} else {
 						allExtensions = new Settings ();
 					}
