@@ -1,9 +1,9 @@
 ﻿using System;
 using SystemProcess = System.Diagnostics.Process;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Settings;
 using System.Diagnostics;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Maps;
 
 namespace Filesystem
 {

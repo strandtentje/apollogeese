@@ -2,8 +2,8 @@
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Data;
 using System.Collections.Generic;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Collections;
 
 namespace BetterData
 {

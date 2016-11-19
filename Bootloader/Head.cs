@@ -1,13 +1,13 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Collections;
 using System.Collections.Generic;
 using System.Reflection;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Log;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Log;
+using BorrehSoft.Utilities.Collections.Settings;
 using System.Text.RegularExpressions;
-using BorrehSoft.Utensils;
+using BorrehSoft.Utilities;
 using BorrehSoft.ApolloGeese.Loader;
 
 namespace BorrehSoft.ApolloGeese
@@ -54,7 +54,7 @@ namespace BorrehSoft.ApolloGeese
 				while (CommandLineArguments.Count > 0) {
 					string paramAhead = CommandLineArguments.Dequeue();
 					if (paramAhead.ToLower().Contains("-h")) {
-						throw new Exception("Help requested");
+						throw new CommandLineArgumentException("Help requested");
 					} else if (paramAhead.ToLower () == "-b") {
 						runbranch = CommandLineArguments.Dequeue ();
 						Secretary.Report (5, "Branch name: ", runbranch);
@@ -77,11 +77,11 @@ namespace BorrehSoft.ApolloGeese
 							miscArgs [pair [0]] = pair [1];
 							Secretary.Report (5, pair [0], "=", pair [1]);
 						} else {
-							throw new Exception (
+							throw new CommandLineArgumentException (
 								"Interaction variables need to be supplied as key=value-pair");
 						}
 					} else {
-						throw new Exception ("Not sure what to do with " + paramAhead.ToLower ());
+						throw new CommandLineArgumentException ("Not sure what to do with " + paramAhead.ToLower ());
 					}
 				}
 
@@ -93,7 +93,7 @@ namespace BorrehSoft.ApolloGeese
 				if (runbranch.Length > 0) {
 					services [runbranch].TryProcess (miscArgs);
 				}
-			} catch(Exception ex) {
+			} catch(CommandLineArgumentException ex) {
 				Console.WriteLine ("ApolloGeese\n" +
 					"2013-2016 Rob Tierolff");
 				Console.WriteLine ("Message: {0}", ex.Message);

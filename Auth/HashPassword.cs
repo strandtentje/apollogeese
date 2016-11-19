@@ -1,8 +1,8 @@
 ﻿using System;
 using BCryptHasher = BCrypt.Net.BCrypt;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.Auth
 {

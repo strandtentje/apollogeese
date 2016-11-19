@@ -2,11 +2,11 @@ using System;
 using System.Text;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Collections.Generic;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Maps;
 using System.Text.RegularExpressions;
 using System.Web;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Collections;
 
 namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {

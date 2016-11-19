@@ -3,11 +3,11 @@ using System.Web;
 using System.Net;
 using System.Collections.Generic;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using L = BorrehSoft.Utensils.Log.Secretary;
-using BorrehSoft.Utensils.Collections.Settings;
+using L = BorrehSoft.Utilities.Log.Secretary;
+using BorrehSoft.Utilities.Collections.Settings;
 using System.Diagnostics;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {

@@ -1,8 +1,8 @@
 using System;
 using System.Net;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Maps;
 using System.Net.Sockets;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Networking

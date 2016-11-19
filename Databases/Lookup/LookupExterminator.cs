@@ -1,8 +1,8 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Collections.Maps.Search;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Maps.Search;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup
 {

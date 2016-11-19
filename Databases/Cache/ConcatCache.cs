@@ -1,6 +1,6 @@
 using System;
 using BorrehSoft.ApolloGeese.Extensions.Data.Cache;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Settings;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Collections.Generic;
 using System.Text;

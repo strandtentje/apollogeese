@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Collections;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Log;
 using System.Reflection;
 
 namespace BorrehSoft.ApolloGeese.Loader

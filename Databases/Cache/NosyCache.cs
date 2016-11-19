@@ -1,6 +1,6 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Settings;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Cache
 {

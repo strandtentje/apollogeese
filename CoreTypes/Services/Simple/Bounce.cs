@@ -1,5 +1,5 @@
-﻿using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections.Settings;
+﻿using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
 using System;
 using System.Collections.Generic;
 using System.Text;

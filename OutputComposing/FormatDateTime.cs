@@ -1,6 +1,6 @@
 ﻿using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Settings;
 using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing

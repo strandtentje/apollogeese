@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Text;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Settings;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Text.RegularExpressions;
 

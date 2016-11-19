@@ -3,9 +3,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Web;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Log;
 using Proc = System.Diagnostics.Process;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Filesystem

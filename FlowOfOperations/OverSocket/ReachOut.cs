@@ -4,9 +4,9 @@ using System.Net.Sockets;
 using System.Threading;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.ApolloGeese.Extensions.Networking;
-using BorrehSoft.Utensils.Collections;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
 using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket

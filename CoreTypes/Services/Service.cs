@@ -1,14 +1,14 @@
 using System;
 using System.Collections.Generic;
 using System.Net;
-using BorrehSoft.Utensils;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Log;
-using BorrehSoft.Utensils.Collections;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Log;
+using BorrehSoft.Utilities.Collections;
+using BorrehSoft.Utilities.Collections.Maps;
 using System.Text;
 using System.Threading;
-using BorrehSoft.Utensils.Log.Profiling;
+using BorrehSoft.Utilities.Log.Profiling;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {

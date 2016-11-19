@@ -1,9 +1,9 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections;
+using BorrehSoft.Utilities.Collections.Settings;
 using System.Collections.Generic;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 {

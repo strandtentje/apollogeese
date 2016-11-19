@@ -1,9 +1,9 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Collections;
 using System.Text.RegularExpressions;
-using BorrehSoft.Utensils.Collections.Maps.Search;
+using BorrehSoft.Utilities.Collections.Maps.Search;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 {

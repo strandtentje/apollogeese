@@ -6,9 +6,9 @@ using System.Net;
 using System.Text;
 using System.Web;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils;
-using BorrehSoft.Utensils.Collections;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities;
+using BorrehSoft.Utilities.Collections;
+using BorrehSoft.Utilities.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {

@@ -1,5 +1,5 @@
 ﻿using System;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Log;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {

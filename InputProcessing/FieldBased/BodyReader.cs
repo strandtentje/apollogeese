@@ -1,9 +1,9 @@
 using System;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Collections;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Maps;
 using System.Web;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Settings;
 
 namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {

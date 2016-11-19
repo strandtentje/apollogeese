@@ -15,6 +15,7 @@
     <WarningLevel>4</WarningLevel>
     <Externalconsole>true</Externalconsole>
     <DebugSymbols>true</DebugSymbols>
+    <Commandlineparameters>-c /home/rob/sources/ticketguard-project/apollogeese.conf</Commandlineparameters>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <Optimize>true</Optimize>
@@ -30,6 +31,7 @@
     <Compile Include="Head.cs">
       <Link>Head.cs</Link>
     </Compile>
+    <Compile Include="CommandLineArgumentException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

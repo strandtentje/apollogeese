@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using Parsing;
 using System.IO;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Log;
 
 namespace ExternalData
 {

@@ -1,11 +1,11 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities;
 using System.Collections.Generic;
-using BorrehSoft.Utensils.Collections.Maps.Search;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Collections.Maps.Search;
+using BorrehSoft.Utilities.Collections;
 using System.Text.RegularExpressions;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Data.Lookup

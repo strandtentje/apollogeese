@@ -1,9 +1,10 @@
 using System;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Settings;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Parsing;
-using BorrehSoft.Utensils.Parsing.Parsers;
+using BorrehSoft.Utilities.Parsing;
+using BorrehSoft.Utilities.Parsing.Parsers;
 using System.Collections.Generic;
+using BorrehSoft.Utilities.Parsing.Parsers.SettingsParsers;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {

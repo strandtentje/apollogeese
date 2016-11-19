@@ -1,5 +1,5 @@
 ﻿using System;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Settings;
 using Yahoo.Yui.Compressor;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing

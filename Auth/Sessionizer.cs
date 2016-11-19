@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Collections;
 using System.Security.Cryptography;
 
 namespace BorrehSoft.ApolloGeese.Auth

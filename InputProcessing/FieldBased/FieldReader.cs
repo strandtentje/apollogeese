@@ -5,9 +5,9 @@ using System.Text.RegularExpressions;
 using System.Web;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module;
-using BorrehSoft.Utensils.Collections;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
 
 namespace BorrehSoft.ApolloGeese.Extensions.InputProcessing
 {

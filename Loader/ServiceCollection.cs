@@ -1,10 +1,10 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Collections.Generic;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Collections;
 using System.IO;
 using System.Reflection;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Log;
 
 namespace BorrehSoft.ApolloGeese.Loader
 {

@@ -1,8 +1,8 @@
 ﻿using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Settings;
 using Yahoo.Yui.Compressor;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Maps;
 using System.IO;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing

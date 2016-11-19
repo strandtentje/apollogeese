@@ -2,12 +2,12 @@ using System;
 using System.IO;
 using System.Text.RegularExpressions;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Maps;
 using System.Threading;
 using System.Collections.Generic;
-using BorrehSoft.Utensils.Collections;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Collections;
+using BorrehSoft.Utilities.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Filesystem
 {

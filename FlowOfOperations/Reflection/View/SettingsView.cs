@@ -1,8 +1,8 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Collections;
 using System.Collections.Generic;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations

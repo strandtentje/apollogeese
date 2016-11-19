@@ -1,13 +1,13 @@
 using System;
 using System.Drawing;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Settings;
 using System.Collections.Generic;
-using BorrehSoft.Utensils.Collections;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities.Collections;
+using BorrehSoft.Utilities.Collections.Maps;
 using System.IO;
 using System.Drawing.Imaging;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Log;
 using System.Globalization;
 
 namespace Imaging

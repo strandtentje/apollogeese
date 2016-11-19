@@ -6,9 +6,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Web;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Collections;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Log;
 using Stringtionary = System.Collections.Generic.Dictionary<string, string>;
 
 namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing

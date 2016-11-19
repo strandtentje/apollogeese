@@ -1,13 +1,13 @@
 using System;
 using System.Net;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Maps;
 using System.Net.Sockets;
 using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Networking;
 using BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket.Piping;
 using BorrehSoft.ApolloGeese.Extensions.Networking;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.OverSocket
 {

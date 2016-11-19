@@ -1,8 +1,8 @@
 using System;
 using System.Text;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
 
 namespace BorrehSoft.ApolloGeese.Auth
 {

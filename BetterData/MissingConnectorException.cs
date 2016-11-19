@@ -1,10 +1,10 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Maps;
 using System.Data;
 using MySql.Data.MySqlClient;
-using BorrehSoft.Utensils.Collections.Settings;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Collections.Settings;
+using BorrehSoft.Utilities.Collections;
 
 namespace BetterData
 {

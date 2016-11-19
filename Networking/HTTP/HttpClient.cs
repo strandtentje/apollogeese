@@ -1,12 +1,12 @@
 using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Settings;
 using System.Net.Sockets;
 using System.Net;
 using System.IO;
-using BorrehSoft.Utensils.Collections;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Collections;
+using BorrehSoft.Utilities.Log;
 using System.Text.RegularExpressions;
 using System.Text;
 using Networking;

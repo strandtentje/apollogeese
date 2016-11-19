@@ -1,11 +1,11 @@
 ﻿using System;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Maps;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.IO;
-using BorrehSoft.Utensils.Collections.Settings;
+using BorrehSoft.Utilities.Collections.Settings;
 using System.Collections.Generic;
-using BorrehSoft.Utensils.Log;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Log;
+using BorrehSoft.Utilities.Collections;
 using System.Text;
 using System.Threading.Tasks;
 using System.Threading;

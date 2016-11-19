@@ -3,7 +3,7 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Diagnostics;
 using DProcess = System.Diagnostics.Process;
 using System.IO;
-using BorrehSoft.Utensils.Collections;
+using BorrehSoft.Utilities.Collections;
 
 namespace Testing.Diff
 {

@@ -1,6 +1,6 @@
 ﻿using System;
-using BorrehSoft.Utensils.Collections.Maps;
-using BorrehSoft.Utensils.Log;
+using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Log;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {

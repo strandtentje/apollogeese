@@ -1,5 +1,5 @@
 using System;
-using BorrehSoft.Utensils.Collections.Maps;
+using BorrehSoft.Utilities.Collections.Maps;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
