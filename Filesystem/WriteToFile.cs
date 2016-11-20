@@ -24,7 +24,6 @@ namespace Filesystem
 			this.MayOverwrite = settings.GetBool ("overwrite", false);
 		}
 
-
 		protected override bool Process (IInteraction parameters)
 		{
 			var dataSource = Closest<IIncomingBodiedInteraction>.From (parameters);

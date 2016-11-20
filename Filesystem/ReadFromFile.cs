@@ -16,8 +16,15 @@ namespace Filesystem
 
 		private Service Header = Stub;
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			Settings ["rootpath"] = defaultParameter;
+			Settings ["usevariable"] = false;
+		}
+
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
+			base.HandleBranchChanged (sender, e);
 			switch (e.Name) {
 			case "header":
 				this.Header = e.NewValue ?? Stub;
