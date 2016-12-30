@@ -3,6 +3,7 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utilities.Collections.Settings;
 using System.IO;
 using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Log;
 
 namespace Filesystem
 {
