@@ -2,6 +2,7 @@
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utilities.Collections.Settings;
 using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Log;
 
 namespace Testing
 {
@@ -32,14 +33,25 @@ namespace Testing
 		protected override bool Process (IInteraction parameters)
 		{
 			bool handled = false;
+			bool handling = false;
 
 			ExceptionHandler handler = delegate(
                Service cause, IInteraction context, Exception problem
            ) {
-				ErrorHandledInteraction errorInfo;
-				errorInfo = new ErrorHandledInteraction (
-					cause, context, problem);
-				handled = this.CatchBranch.TryProcess(errorInfo);
+				if (handling) {
+					Secretary.Report(
+						5, 
+						"Another error occurred",
+						"in the process of handling",
+						"an error:", problem.Message);
+				} else {						
+					handling = true;
+					ErrorHandledInteraction errorInfo;
+					errorInfo = new ErrorHandledInteraction (
+						cause, context, problem);				
+
+					handled = this.CatchBranch.TryProcess(errorInfo);	
+				}
 			};
 
 			ErrorHandlingInteraction wrapper;
