@@ -45,6 +45,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExternalData", "ExternalDat
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Validating", "Validating\Validating.csproj", "{2A09EF6A-68DF-4A41-ADDC-7981114E31C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Game", "Graphical\Game.csproj", "{0AF976EF-9F73-48D9-9ED5-2B9CD86724D8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -59,6 +61,10 @@ Global
 		{09321C24-D224-48B6-ABE4-9AEBDDAF4E25}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{09321C24-D224-48B6-ABE4-9AEBDDAF4E25}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{09321C24-D224-48B6-ABE4-9AEBDDAF4E25}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0AF976EF-9F73-48D9-9ED5-2B9CD86724D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0AF976EF-9F73-48D9-9ED5-2B9CD86724D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0AF976EF-9F73-48D9-9ED5-2B9CD86724D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0AF976EF-9F73-48D9-9ED5-2B9CD86724D8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{274A8AFD-1DE7-47D8-98CD-925982D59DE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{274A8AFD-1DE7-47D8-98CD-925982D59DE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{274A8AFD-1DE7-47D8-98CD-925982D59DE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
