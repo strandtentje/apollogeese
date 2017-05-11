@@ -76,21 +76,18 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			}
 
 			object value;
-			if (SingleValueName == "") {
-				JsonObject values = new JsonObject ();
-				foreach (var assignment in ValueAssignments) {
-					values [assignment.Item1] = new JsonPrimitive (assignment.Item2);
-				}
-				foreach (var remapping in ValueNameRemappings) {
-					if (parameters.TryGetFallback (
-						    remapping.Item2, out value)) {
-						values [remapping.Item1] = JsonPrimitive.From (value);
-					}
-				}
-				Writer.Into (outgoing).Append (values);
-			} else if (parameters.TryGetFallback (SingleValue, out value)) {
-				Writer.Into (outgoing).Append (JsonPrimitive.From (value));
+
+			JsonObject values = new JsonObject ();
+			foreach (var assignment in ValueAssignments) {
+				values [assignment.Item1] = new JsonPrimitive (assignment.Item2);
 			}
+			foreach (var remapping in ValueNameRemappings) {
+				if (parameters.TryGetFallback (
+					    remapping.Item2, out value)) {
+					values [remapping.Item1] = JsonPrimitive.From (value);
+				}
+			}
+			Writer.Into (outgoing).Append (values);
 
 			return true;
 		}

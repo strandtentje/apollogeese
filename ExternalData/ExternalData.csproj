@@ -49,6 +49,7 @@
     <Compile Include="PlainText\RegexGroups.cs" />
     <Compile Include="WwwForm\MultipartForm.cs" />
     <Compile Include="WwwForm\HttpForm.cs" />
+    <Compile Include="WwwForm\JsonForm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
