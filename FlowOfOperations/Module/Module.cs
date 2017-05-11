@@ -7,6 +7,7 @@ using BorrehSoft.Utilities.Collections;
 using BorrehSoft.Utilities.Log;
 using System.Collections.Generic;
 using System.IO;
+using IOFile = System.IO.File;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 {
@@ -16,6 +17,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 	public class Module : Service
 	{
 		const string OverrideSuffix = "_override";
+		const string DefaultModuleFile = "main.conf";
+		const string DefaultModuleEntryPoint = "begin";
 
 		private static class SettingsKeys
 		{
@@ -87,10 +90,16 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		{
 			string[] pathAndBranch = defaultParameter.Split ('@');
 
-			this.Settings [SettingsKeys.File] = pathAndBranch [0];
+			if (IOFile.Exists (pathAndBranch [0])) {
+				this.Settings [SettingsKeys.File] = pathAndBranch [0];
+			} else if (Directory.Exists (pathAndBranch [0])) {
+				this.Settings [SettingsKeys.File] = Path.Combine (pathAndBranch [0], DefaultModuleFile);
+			}
 
 			if (pathAndBranch.Length > 1) {
 				this.Settings [SettingsKeys.Branch] = pathAndBranch [1]; 
+			} else if (this.Settings.GetString (SettingsKeys.Branch, string.Empty).Length < 1) {
+				this.Settings [SettingsKeys.Branch] = DefaultModuleEntryPoint;
 			}
 		}
 
