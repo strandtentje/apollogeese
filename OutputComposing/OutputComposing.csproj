@@ -38,6 +38,15 @@
     <Reference Include="NodeAssets.Compilers.Minify">
       <HintPath>..\packages\NodeAssets.Compilers.Minify.3.0.0\lib\Net40\NodeAssets.Compilers.Minify.dll</HintPath>
     </Reference>
+    <Reference Include="Json">
+      <HintPath>..\packages\JSON.1.0.1\lib\net40\Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Commons.Json">
+      <HintPath>..\packages\Commons.Json.0.3.0.775\lib\net40\Commons.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Commons.Utils">
+      <HintPath>..\packages\Commons.Json.0.3.0.775\lib\net40\Commons.Utils.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -56,9 +65,10 @@
     <Compile Include="FormatDateTime.cs" />
     <Compile Include="Expressions\Constant.cs" />
     <Compile Include="Expressions\VariableCall.cs" />
-    <Compile Include="JsMinifier.cs" />
-    <Compile Include="CssMinifier.cs" />
-    <Compile Include="Minifier.cs" />
+    <Compile Include="Minification\CssMinifier.cs" />
+    <Compile Include="Minification\JsMinifier.cs" />
+    <Compile Include="Minification\Minifier.cs" />
+    <Compile Include="JSON\JsonValue.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -77,6 +87,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Expressions\" />
+    <Folder Include="JSON\" />
+    <Folder Include="Minification\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
