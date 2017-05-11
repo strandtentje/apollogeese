@@ -61,6 +61,7 @@
     <Compile Include="Statefulness\ResetInteraction.cs" />
     <Compile Include="Services\SingleBranchNames.cs" />
     <Compile Include="Services\SingleBranchService.cs" />
+    <Compile Include="Interactions\Write.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
