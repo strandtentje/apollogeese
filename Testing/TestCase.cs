@@ -10,7 +10,7 @@ namespace Testing
 	{
 		public override string Description {
 			get {
-				return string.Format("Testing apparatus for case {0}", this.Name);
+				return string.Format ("Testing apparatus for case {0}", this.Name);
 			}
 		}
 
@@ -23,7 +23,7 @@ namespace Testing
 		/// Gets or sets the name.
 		/// </summary>
 		/// <value>The name.</value>
-		string Name { get { return this.Settings.GetString("name"); } }
+		string Name { get { return this.Settings.GetString ("name"); } }
 
 		/// <summary>
 		/// Gets the sourcename that should be used for incoming data interactions
@@ -55,7 +55,7 @@ namespace Testing
 		/// </summary>
 		/// <value>The type of the ingoing content.</value>
 		string IngoingContentType { get { return this.Settings.GetString ("mimetype", "text/plain"); } }
-				
+
 		/// <summary>
 		/// Gets or sets the test subject.
 		/// </summary>
@@ -67,7 +67,7 @@ namespace Testing
 		/// </summary>
 		/// <value>The outgoing diff viewer.</value>
 		Service OutgoingDataViewer { get { return Branches ["viewoutgoingdata"]; } }
-		
+
 		bool HasOutgoingDataViewer { get { return (this.Branches ["viewoutgoingdata"] ?? Stub) != Stub; } }
 
 		/// <summary>
@@ -90,7 +90,7 @@ namespace Testing
 			IInteraction testBundle;
 			bool success;
 
-			testBundle = testContext = new TestContextInteraction (this.Name, this.AvailableContext);
+			testBundle = testContext = new TestContextInteraction (this.Name, this.AvailableContext, parameters);
 
 			if (HasIngoingData)
 				testBundle = testInput = new IncomingTestData (this.IngoingDataFile, testBundle, this.SourceName, this.IngoingContentType);
@@ -114,10 +114,12 @@ namespace Testing
 			}
 
 			foreach (ProbeResultInteraction result in testContext.ProbeResults) {
-				if (result.IsMatch) 
-					success &= this.MatchingProbeResultViewer.TryProcess (result);
-				else 
-					success &= this.MismatchingProbeResultViewer.TryProcess (result);
+				if (result.IsMatch)
+					success &= this.MatchingProbeResultViewer == null ||
+					this.MatchingProbeResultViewer.TryProcess (result);
+				else
+					success &= this.MismatchingProbeResultViewer == null ||
+					this.MismatchingProbeResultViewer.TryProcess (result);
 			}
 
 			return success;

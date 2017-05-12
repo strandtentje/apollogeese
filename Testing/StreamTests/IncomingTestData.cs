@@ -8,13 +8,18 @@ namespace Testing
 {
 	class IncomingTestData : SimpleIncomingInteraction, IDisposable
 	{
-		public IncomingTestData (string ingoingDataFile, IInteraction testContext, string sourceName, string mimeType) : base(
-			File.OpenRead(ingoingDataFile), testContext, sourceName, mimeType)
+		public IncomingTestData (
+			string ingoingDataFile, 
+			IInteraction testContext, 
+			string sourceName, 
+			string mimeType) : base (
+				File.OpenRead (ingoingDataFile), testContext, sourceName, mimeType)
 		{
 
 		}
 
-		public void Dispose() {
+		public void Dispose ()
+		{
 			this.IncomingBody.Close ();
 		}
 	}

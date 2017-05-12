@@ -46,6 +46,7 @@
     <Compile Include="ErrorHandledInteraction.cs" />
     <Compile Include="HaltRecursion.cs" />
     <Compile Include="RecursionMarkerInteraction.cs" />
+    <Compile Include="Probing\DumbProbe.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

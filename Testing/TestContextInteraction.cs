@@ -24,8 +24,8 @@ namespace Testing
 			get;
 			private set;
 		}
-		 
-		public TestContextInteraction (string name, Settings availableContext) : base(null, availableContext)
+
+		public TestContextInteraction (string name, Settings availableContext, IInteraction parent) : base (parent, availableContext)
 		{
 			this.ProbeResults = new List<ProbeResultInteraction> ();
 			this.OriginatingCaseName = name;
