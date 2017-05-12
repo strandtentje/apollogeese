@@ -25,9 +25,10 @@ namespace ExternalData
 
 		private Service Mapped = Stub;
 
-		[Instruction("Buffer size")]
+		[Instruction ("Buffer size")]
 		public int BufferSize { get; private set; }
-		[Instruction("Whitelisted field names")]
+
+		[Instruction ("Whitelisted field names")]
 		protected List<string> StringFieldWhiteList { get; private set; }
 
 		protected override void Initialize (Settings settings)
@@ -58,18 +59,18 @@ namespace ExternalData
 					SimpleInteraction mappedValues = new SimpleInteraction (parameters);
 
 					StreamingMultipartFormDataParser parser = new StreamingMultipartFormDataParser (
-						httpInteraction.IncomingBody,
-						headerBoundary, 
-						httpInteraction.Encoding, 
-						this.BufferSize
-					);
+						                                          httpInteraction.IncomingBody,
+						                                          headerBoundary, 
+						                                          httpInteraction.Encoding, 
+						                                          this.BufferSize
+					                                          );
 
 					parser.ParameterHandler += delegate(ParameterPart part) {
-						if (this.StringFieldWhiteList.Contains(part.Name)) {
-							mappedValues[part.Name] = part.Data;
+						if (this.StringFieldWhiteList.Contains (part.Name)) {
+							mappedValues [part.Name] = part.Data;
 
-							successful &= this.Branches.Get(part.Name, Stub).TryProcess(
-								new WwwInputInteraction(part.Name, part.Data, parameters)
+							successful &= this.Branches.Get (part.Name, Stub).TryProcess (
+								new InputInteraction<string> (part.Name, part.Data, parameters)
 							);
 						}
 					};
@@ -86,11 +87,11 @@ namespace ExternalData
 							MemoryStream stream = new MemoryStream (buffer, 0, bytes);
 
 							SimpleIncomingInteraction incoming = new SimpleIncomingInteraction (
-                                 stream,
-                                 mappedValues, 
-                                 contentDisposition,
-                                 contentType
-							);
+								                                     stream,
+								                                     mappedValues, 
+								                                     contentDisposition,
+								                                     contentType
+							                                     );
 
 							incoming ["mimetype"] = contentType;
 
@@ -106,11 +107,11 @@ namespace ExternalData
 
 					successful &= this.Mapped.TryProcess (mappedValues);
 				} else {
-					Secretary.Report(5, "Require boundary content type for multipart forms");
+					Secretary.Report (5, "Require boundary content type for multipart forms");
 					successful &= Failure.TryProcess (parameters);
 				}
 			} else {
-				Secretary.Report(5, "Require HttpInteraction for multipart forms");
+				Secretary.Report (5, "Require HttpInteraction for multipart forms");
 				successful &= Failure.TryProcess (parameters);
 			}
 
