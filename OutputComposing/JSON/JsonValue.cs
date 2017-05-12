@@ -12,12 +12,6 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 	public class JsonValue : Service
 	{
 		const string OverrideTail = "_override";
-		const string SingleValueName = "singlevalue";
-		/// <summary>
-		/// If present, return only JSON format of single value,
-		/// instead of entire object.
-		/// </summary>
-		string SingleValue;
 		/// <summary>
 		/// The valuename remappings ie. T1<-T2
 		/// </summary>
@@ -30,16 +24,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			}
 		}
 
-		public override void LoadDefaultParameters (string defaultParameter)
-		{
-			Settings [SingleValueName] = defaultParameter;
-		}
-
 		protected override void Initialize (Settings settings)
 		{
 			base.Initialize (settings);
-
-			this.SingleValue = settings.GetString (SingleValueName, "");
 
 			foreach (var overridePair in settings.Dictionary) {
 				if (overridePair.Key.EndsWith (OverrideTail)) {
