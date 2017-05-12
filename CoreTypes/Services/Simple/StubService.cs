@@ -12,21 +12,25 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 	{
 		static StubService instance;
 
-		public StubService() {}
+		public StubService ()
+		{
+		}
 
 		public override string Description { get { return "Control flows back upstream"; } }
 
-		protected override void Initialize (Settings modSettings){ }
+		protected override void Initialize (Settings modSettings)
+		{
+		}
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 
 		}
 
-        public override bool FastProcess(IFast parameter)
-        {
-            return true;
-        }
+		public override bool FastProcess (IFast parameter)
+		{
+			return true;
+		}
 
 		/// <summary>
 		/// Gets the instance.
@@ -34,7 +38,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		/// <value>The instance.</value>
 		public static Service Instance {
 			get {
-				instance = instance ?? new StubService();
+				instance = instance ?? new StubService ();
 				return instance;
 			}
 		}

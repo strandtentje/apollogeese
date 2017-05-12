@@ -62,6 +62,8 @@
     <Compile Include="Services\SingleBranchNames.cs" />
     <Compile Include="Services\SingleBranchService.cs" />
     <Compile Include="Interactions\Write.cs" />
+    <Compile Include="Iteration\IterationBranches.cs" />
+    <Compile Include="Iteration\BranchingIteration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -81,5 +83,6 @@
     <Folder Include="Services\Simple\" />
     <Folder Include="Services\Configuration\Instructions\" />
     <Folder Include="Statefulness\" />
+    <Folder Include="Iteration\" />
   </ItemGroup>
 </Project>

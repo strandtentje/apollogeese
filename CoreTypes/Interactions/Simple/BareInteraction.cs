@@ -22,27 +22,27 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			get { 
 				if (parent == null)
 					return this;
-				else 
+				else
 					return parent.Root; 
 			} 
 		}
-		
+
 		public ExceptionHandler ExceptionHandler { get; protected set; }
 
 		public IInteraction Parent { get { return parent; } }
 
-		public bool TryGetClosest(Type t, IInteraction limit, out IInteraction closest) 
+		public bool TryGetClosest (Type t, IInteraction limit, out IInteraction closest)
 		{
 			for (closest = this; (closest != limit); closest = closest.Parent)
-				if (t.IsAssignableFrom(closest.GetType()))
+				if (t.IsAssignableFrom (closest.GetType ()))
 					return true;
 
 			return false;
 		}
 
-		public bool TryGetClosest(Type t, out IInteraction closest)
+		public bool TryGetClosest (Type t, out IInteraction closest)
 		{
-			return TryGetClosest(t, null, out closest);
+			return TryGetClosest (t, null, out closest);
 		}
 
 		public IInteraction GetClosest (Type t)
@@ -52,8 +52,8 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			if (t == null)
 				throw new ArgumentNullException ("Type required for GetClosest");
 
-			if (!TryGetClosest(t, out closest))
-				throw new Exception(string.Format("No interaction in chain was of type", t.Name));
+			if (!TryGetClosest (t, out closest))
+				throw new Exception (string.Format ("No interaction in chain was of type", t.Name));
 
 			return closest;
 		}
@@ -61,27 +61,31 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		public bool TryGetFallback (string id, out object luggage)
 		{
 			if (this.parent != null)
-				return this.parent.TryGetFallback(id, out luggage);
+				return this.parent.TryGetFallback (id, out luggage);
 
 			luggage = null;
 			return false;
 		}
 
-		public bool TryGetFallbackString(string id, out string luggage)
+		public bool TryGetFallbackString (string id, out string luggage)
 		{
 			if (this.parent != null)
-				return this.parent.TryGetFallbackString(id, out luggage);
+				return this.parent.TryGetFallbackString (id, out luggage);
 
 			luggage = "";
 			return false;
 		}
 
-		public bool TryGetString(string id, out string luggage) { 
-			luggage = null; return false;
+		public bool TryGetString (string id, out string luggage)
+		{ 
+			luggage = null;
+			return false;
 		}
 
-		public bool TryGetValue(string id, out object luggage) {
-			luggage = null; return false;
+		public bool TryGetValue (string id, out object luggage)
+		{
+			luggage = null;
+			return false;
 		}
 
 		public object this [string name] { get { return null; } }

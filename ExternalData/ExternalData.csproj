@@ -32,16 +32,15 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Web" />
     <Reference Include="HttpMultipartParser">
-      <HintPath>..\packages\HttpMultipartParser.2.1.7\lib\net40\HttpMultipartParser.dll</HintPath>
+      <HintPath>..\packages\HttpMultipartParser.2.2.3\lib\net45\HttpMultipartParser.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ExternalDataService.cs" />
     <Compile Include="XML\XML.cs" />
     <Compile Include="XML\XMLNodeInteraction.cs" />
-    <Compile Include="WwwForm\WwwForm.cs" />
-    <Compile Include="WwwForm\WwwInputInteraction.cs" />
     <Compile Include="PlainText\Spliterate.cs" />
     <Compile Include="PlainText\SplitInteraction.cs" />
     <Compile Include="NameValueInteraction.cs" />
@@ -50,6 +49,10 @@
     <Compile Include="WwwForm\MultipartForm.cs" />
     <Compile Include="WwwForm\HttpForm.cs" />
     <Compile Include="WwwForm\JsonForm.cs" />
+    <Compile Include="WwwForm\BriefForm.cs" />
+    <Compile Include="WwwForm\WwwForm.cs" />
+    <Compile Include="WwwForm\InputInteraction.cs" />
+    <Compile Include="WwwForm\JsonIterator.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -72,6 +75,10 @@
     <ProjectReference Include="..\BasicHttpServer\BasicHttpServer.csproj">
       <Project>{8C04E544-F8DF-4A27-A071-57DE8C407C72}</Project>
       <Name>BasicHttpServer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Utilities\SimpleJson\Transcoder\Transcoder.csproj">
+      <Project>{7AEC7920-66DD-4B29-A928-A73C936BD67C}</Project>
+      <Name>Transcoder</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
