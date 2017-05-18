@@ -128,38 +128,39 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
             try
             {
-                if (Process(parameters))
-                {
-					parameters.FlushBuffer();                    
-                }
-                else
+                if (!Process(parameters))
                 {
                     context.Response.StatusCode = 500;
-                }
+				}
             }
             catch (Exception ex)
             {
                 Secretary.Report(5, "Unhandled fault occurred near the server", ex.Message);
                 Secretary.Report(7, ex.ToString());
             }
+			finally
+			{
+				parameters.FlushBuffer();
 
-            try
-            {
-			    parameters.IncomingBody.Close ();
-            }
-            catch (Exception ex)
-            {
-                Secretary.Report(5, "Failure to close incoming stream", ex.Message);
-            }
+				try
+				{
+					parameters.IncomingBody.Close ();
+				}
+				catch (Exception ex)
+				{
+					Secretary.Report(5, "Failure to close incoming stream", ex.Message);
+				}
 
-            try
-            {
-                parameters.OutgoingBody.Close();
-            }
-            catch (Exception ex)
-            {
-                Secretary.Report(5, "Failure to close outgoing stream", ex.Message);
-            }
+				try
+				{
+					parameters.OutgoingBody.Close();
+				}
+				catch (Exception ex)
+				{
+					Secretary.Report(5, "Failure to close outgoing stream", ex.Message);
+				}	
+			}
+
 		}
 
 		protected override bool Process (IInteraction parameters)
