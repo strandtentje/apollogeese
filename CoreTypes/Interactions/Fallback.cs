@@ -30,5 +30,13 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			);
 		}
 	}
+
+	public static class Fallback
+	{
+		public static byte[] FromBase64(IInteraction parameters, params string[] names)
+		{
+			return Convert.FromBase64String(Fallback<string>.From(parameters, names));
+		}
+	}
 }
 
