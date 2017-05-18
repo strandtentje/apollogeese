@@ -7,6 +7,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Auth</RootNamespace>
     <AssemblyName>Auth</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,14 +26,16 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="BasicSingleLogin.cs" />
-    <Compile Include="Sessionizer.cs" />
-    <Compile Include="SessionException.cs" />
-    <Compile Include="SessionInteraction.cs" />
-    <Compile Include="HashPassword.cs" />
-    <Compile Include="PasswordService.cs" />
-    <Compile Include="MatchPassword.cs" />
-    <Compile Include="BasicAuthentication.cs" />
+    <Compile Include="Password\HashPassword.cs" />
+    <Compile Include="Password\MatchPassword.cs" />
+    <Compile Include="Password\PasswordService.cs" />
+    <Compile Include="Session\SessionException.cs" />
+    <Compile Include="Session\SessionInteraction.cs" />
+    <Compile Include="Session\Sessionizer.cs" />
+    <Compile Include="Password\Nonce.cs" />
+    <Compile Include="Mechanisms\BasicAuthentication.cs" />
+    <Compile Include="Mechanisms\BasicSingleLogin.cs" />
+    <Compile Include="Crypto\VerifySignature.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -48,15 +51,34 @@
       <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
       <Name>IO</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ExternalData\ExternalData.csproj">
+      <Project>{031E9962-7F53-468C-AEF8-03F35FFE37D4}</Project>
+      <Name>ExternalData</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="BCrypt.Net">
       <HintPath>..\packages\BCrypt-Official.0.1.109\lib\BCrypt.Net.dll</HintPath>
     </Reference>
+    <Reference Include="System.Web" />
+    <Reference Include="System.Security" />
+    <Reference Include="Validation">
+      <HintPath>..\packages\Validation.2.2.8\lib\portable-net45+dnxcore50+win+wpa81+wp80+MonoAndroid10+xamarinios10+MonoTouch10\Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="Mono.Security" />
+    <Reference Include="BouncyCastle.Crypto">
+      <HintPath>..\packages\BouncyCastle.1.8.1\lib\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <None Include="LICENSE.txt" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Password\" />
+    <Folder Include="Session\" />
+    <Folder Include="Mechanisms\" />
+    <Folder Include="Crypto\" />
   </ItemGroup>
 </Project>
