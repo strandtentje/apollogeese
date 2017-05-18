@@ -28,35 +28,33 @@ namespace BetterData
 		/// <value>
 		/// The connection.
 		/// </value>
-		public IDbConnection Connection { 
-			get {
-					DateTime nowish = DateTime.Now;
-				TimeSpan dif = (nowish - timestamp);
+		public IDbConnection ProduceConnection() { 
+			DateTime nowish = DateTime.Now;
+			TimeSpan dif = (nowish - timestamp);
 
-				bool 
-				noconnection = connection == null,
-				notopen = noconnection || (connection.State != ConnectionState.Open),
-				tooold = dif.TotalMinutes > 1;
+			bool 
+			noconnection = connection == null,
+			notopen = noconnection || (connection.State != ConnectionState.Open),
+			tooold = dif.TotalMinutes > 1;
 
-				timestamp = nowish;
+			timestamp = nowish;
 
-				if (notopen || tooold) {
-					Secretary.Report (5, "Reviving MySQL connection because it was:", (notopen ? "not open" : ""), (tooold ? "too old" : ""));
+			if (notopen || tooold) {
+				Secretary.Report (5, "Reviving MySQL connection because it was:", (notopen ? "not open" : ""), (tooold ? "too old" : ""));
 
-					if (connection != null) {
-						try {
-							connection.Dispose();
-						} catch(Exception ex) {
-							Secretary.Report (5, "Failed to dispose of old one due to:", ex.Message);
-						}
+				if (connection != null) {
+					try {
+						connection.Dispose();
+					} catch(Exception ex) {
+						Secretary.Report (5, "Failed to dispose of old one due to:", ex.Message);
 					}
-
-					connection = Connector.Find (this.DatasourceName);
-					connection.Open ();
 				}
 
-				return connection;
+				connection = Connector.Find (this.DatasourceName);
+				connection.Open ();
 			}
+
+			return connection;
 		}
 
 		public string DatasourceName { 
@@ -176,7 +174,7 @@ namespace BetterData
             callback(command);
         }
 
-        private IDbConnection GetConnection(IInteraction parameters)
+        private IDbConnection ProduceConnection(IInteraction parameters)
         {
             if (this.UseTransaction)
             {
@@ -193,11 +191,11 @@ namespace BetterData
                 }
             }
 
-            return Connection;
+			return ProduceConnection();
         }
 
 		protected void UseCommand(IInteraction parameters, Action<IDbCommand> callback) {
-            IDbConnection connection = GetConnection(parameters);
+            IDbConnection connection = ProduceConnection(parameters);
 
 			lock (connection) {
 				using (IDbCommand command = connection.CreateCommand ()) {

@@ -26,9 +26,9 @@ namespace BetterData
 		{
             bool success = true;
 
-            IDbTransaction actualTransaction = this.Connection.BeginTransaction();   
+			IDbTransaction actualTransaction = this.ProduceConnection().BeginTransaction();   
 
-            success &= WithBranch.TryProcess(new TransactionInteraction(this.Connection, this.DatasourceName, parameters));
+			success &= WithBranch.TryProcess(new TransactionInteraction(this.ProduceConnection(), this.DatasourceName, parameters));
 
 			if (this.Rollback) {
 				actualTransaction.Rollback ();
