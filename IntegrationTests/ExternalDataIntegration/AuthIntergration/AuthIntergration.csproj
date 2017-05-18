@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{9AD6BD2C-5871-45CD-9663-AD429445ECD4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>AuthIntergration</RootNamespace>
+    <AssemblyName>AuthIntergration</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="nunit.framework">
+      <HintPath>..\..\..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="RSASigning\VerifySignatureTest.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <None Include="packages.config" />
+    <None Include="RSASigning\verifyingtest.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="RSASigning\validpacket.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="RSASigning\invalidpacket.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="RSASigning\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Auth\Auth.csproj">
+      <Project>{7D645A0A-7F18-408A-9D4A-EC98F2FC374D}</Project>
+      <Name>Auth</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Bootloader\Bootloader.csproj">
+      <Project>{C942E5BC-B6C5-4DF1-808C-71736F045B3D}</Project>
+      <Name>Bootloader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\CoreTypes\CoreTypes.csproj">
+      <Project>{4E2886F5-A220-45E7-A3DA-D60A98F2AC2D}</Project>
+      <Name>CoreTypes</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Utilities\Collections\Collections.csproj">
+      <Project>{81DFA659-4906-4653-AC13-E0886D28B9A0}</Project>
+      <Name>Collections</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Loader\Loader.csproj">
+      <Project>{D7D1C556-3224-4410-90E6-EB44DF551FEA}</Project>
+      <Name>Loader</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Utilities\Logging\IO.csproj">
+      <Project>{3BE321C5-F1E7-4F2C-A0E0-4AFFD4E7AF5F}</Project>
+      <Name>IO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Testing\Testing.csproj">
+      <Project>{7B1BAD3C-775E-4481-804C-1EB9479AFFF4}</Project>
+      <Name>Testing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\FlowOfOperations\FlowOfOperations.csproj">
+      <Project>{FF10A427-5CC9-4C4F-8AAA-FE6D65D66AE7}</Project>
+      <Name>FlowOfOperations</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\ExternalData\ExternalData.csproj">
+      <Project>{031E9962-7F53-468C-AEF8-03F35FFE37D4}</Project>
+      <Name>ExternalData</Name>
+    </ProjectReference>
+  </ItemGroup>
+</Project>
