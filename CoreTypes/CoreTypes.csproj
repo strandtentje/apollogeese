@@ -64,6 +64,10 @@
     <Compile Include="Interactions\Write.cs" />
     <Compile Include="Iteration\IterationBranches.cs" />
     <Compile Include="Iteration\BranchingIteration.cs" />
+    <Compile Include="Services\Simple\Pass.cs" />
+    <Compile Include="Services\Simple\Future.cs" />
+    <Compile Include="Services\Simple\Now.cs" />
+    <Compile Include="Branch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
