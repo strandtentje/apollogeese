@@ -11,7 +11,7 @@ namespace InputProcessing
 		protected override bool CheckValid (object rawInput)
 		{
 			DateTime dummy;
-			return DateTime.TryParse (rawInput.ToString (), out dummy);
+			return DateTime.TryParse (rawInput.ToString (), null, System.Globalization.DateTimeStyles.RoundtripKind, out dummy);
 		}
 	}
 }
