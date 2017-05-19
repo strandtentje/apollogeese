@@ -45,6 +45,7 @@
     <Compile Include="Dynamic\Matches.cs" />
     <Compile Include="Checklist\CheckCheck.cs" />
     <Compile Include="Static\DateField.cs" />
+    <Compile Include="Static\Base64Field.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
