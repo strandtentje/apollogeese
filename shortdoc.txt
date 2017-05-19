@@ -1,0 +1,82 @@
+BasicAuthentication(realm="Basic Authentication Realm Goes here") {
+  successful->Write("Context contains the variables username and password, when presented correctly by the client");
+  failure->Write("Context is not enriched because the credentials weren't presented correctly");
+}
+
+HashPassword("password>passwordhash") {
+  successful->Write("Context contains bcrypt hash of password in password-variable, in passwordhash-variable");
+  failure->Write("This never goes wrong");    
+}
+
+MatchPassword("password>passwordhash") {
+  successful->Write("plaintext password in password-variable was matched to bcrypt hash in passwordhash-variable");
+  failure->Write("password mismatch");
+}
+
+Sessionizer("name of sessioncookie", sessioncloser="set this to true when this destroys the session cookie"):Pass("session token available in context under name of cookie");
+
+HttpService("hostname:portnumber"):Pass("Services that can output crap or procecss requests");
+
+HttpStatus("numeric status code, default 200", mimetype = "mimetype to respond with. auto-determines by default", charset = "charset to respond with. auto-determines by default"):Pass("Service that continues responding, but with this HTTP status set.");
+
+Bounce():Pass("Returns incoming byte stream back to sender. Primarily useful for debug stuff");
+
+
+AnonymousCache("01:00:00 - formatted lifetime of cache"):Pass("Service that outputs a stream of data that should be cached and invalidated periodically");
+
+ConcatCache(keynames = ["keyA", "keyB"], lifetime="01:00:00"):Pass("Service that produces different data depending on keynames given to ConcatCache, but can otherwise be Cached.");
+
+ContextCache("variableName", lifetime="01:00:00"):Pass("Service that produces different data depending on single key name given to ContextCache, but can otherwise be Cached.");
+
+Fileserver(f"static|jpg,gif"):Pass("Serves file relative to configured path (static) and navigated URL. Filters for given filetypes and won't do ../");
+
+Fork():Pass("Offloads following tasks to single thread worker"):
+
+<f"relative/path/to/module.conf@andbranchname">(pass = "values by assigning them here", reassign<-"values by mapping them here"):Pass("Opens configuration file elsewhere and picks up branch")
+
+<f"relative/path/to/module">:Pass("Is equivalent to opening module/main.conf@begin");
+
+Return("branchname to go back to in calling module"); 
+
+DateField, DecimalField, EmailField, NameField, NumberField, TextField, ValueField()
+
+Template(f"path/to/template.html"):Pass("Formats html");
+
+Translation(f"path/to/template.%s.html", localizationkey = "variablename denoting current locale", locales = ["permitted", "locales"]):Pass("Formats html internationally")
+
+Check():Pass("Opens validation block");
+
+FailCheck():Pass("Fails validation block");
+
+CheckCheck() {
+  successful->Pass("Validation block successful");
+  failure->Pass("Validation block failed");
+};
+
+Route("resourcenamevariable") {
+  path1->Pass("When navigated to route section path1");
+  path2->Pass("When navigated to route section path2");
+  et->Pass("Cetra");
+};
+
+Write("Text directly");
+
+Log("Put formatted data in logfile {0} {1}", variablenames = ["route", "username"]);
+
+Connector("Server=localhost; Database={0}; User ID={0}; Password={0}; Pooling=true; Allow User Variables=True"):Pass("Connects to MySQL");
+
+DataReader(f"queries/Get AllColumnsFromDataTable by severalid columnname specifications.auto.sql") {
+  none->Pass("nothing found");
+  single->Pass("single thing found");
+  first->Pass("first hit");
+  iterator->Pass("every hit");
+  last->Pass("last hit");
+  row_3->Pass("third hit");
+};
+
+DataWriter(f"queries/Add SomeColumnsToDataTable list your columns here.auto.sql") {
+  changed_0->Pass("nothing changed");
+  changed_1->Pass("one thing changed");
+};
+
+Transaction():Pass("Open a transaction", rollback = "set to true if transaction should rollback");
