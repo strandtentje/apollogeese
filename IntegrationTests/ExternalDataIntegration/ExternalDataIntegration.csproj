@@ -34,17 +34,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Json\WritingTest.cs" />
+    <Compile Include="Date\DateTolleranceTest.cs" />
     <Compile Include="Json\ReadingTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Json\" />
+    <Folder Include="Date\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
-    <None Include="Json\readingtest.conf">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <None Include="Json\empty.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -54,7 +54,14 @@
     <None Include="Json\nested.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Json\writingtest.conf" />
     <None Include="Json\array.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Json\readingtest.conf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Date\datetest.conf">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
