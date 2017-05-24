@@ -162,7 +162,7 @@ namespace Networking
 				SimpleOutgoingInteraction bodyBuilder = new SimpleOutgoingInteraction (
 					request.GetRequestStream (), parameters);
 
-				if (this.Body.TryProcess (bodyBuilder)) {
+				if (!this.Body.TryProcess (bodyBuilder)) {
 					throw new Exception ("Failed to compose body");
 				}
 
