@@ -68,6 +68,7 @@
     <Compile Include="Services\Simple\Future.cs" />
     <Compile Include="Services\Simple\Now.cs" />
     <Compile Include="Branch.cs" />
+    <Compile Include="Services\Simple\NewGuid.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
