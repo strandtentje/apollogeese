@@ -47,6 +47,7 @@
     <Compile Include="Static\DateField.cs" />
     <Compile Include="Static\Base64Field.cs" />
     <Compile Include="Dynamic\TimeSimilar.cs" />
+    <Compile Include="Static\HexField.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
