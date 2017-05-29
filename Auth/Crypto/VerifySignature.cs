@@ -35,7 +35,7 @@ namespace Crypto
 			var encoding = settings.GetString ("encoding", "base64");
 			this.IsRawBase64Message = encoding == "base64";
 			this.IsUnicodeTextMessage = encoding == "unicode";
-			this.MessageVariable = settings.GetString("message_variable", "message");
+			this.MessageVariable = settings.GetString("message_override", "message");
 		}
 
 		protected override bool Process (IInteraction parameters)
