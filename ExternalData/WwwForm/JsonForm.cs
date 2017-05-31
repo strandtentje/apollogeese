@@ -31,7 +31,7 @@ namespace ExternalData
 	{
 		public override bool CheckMimetype (string mimeType)
 		{
-			return mimeType == "application/json";
+			return true; // ew
 		}
 
 		protected override void Initialize (Settings settings)
@@ -47,7 +47,8 @@ namespace ExternalData
 
 		protected override void UrlParseReader (TextReader reader, NameValuePiper<TextReader, object>.NameValueCallback callback)
 		{
-			var jsonObject = JsonSerializer.DeserializeString (reader.ReadToEnd ()) as Hashtable;
+			var jsonData = reader.ReadToEnd ();
+			var jsonObject = JsonSerializer.DeserializeString (jsonData) as Hashtable;
 
 			foreach (DictionaryEntry entry in jsonObject) {
 				callback (entry.Key.ToString (), JsonFormulator.Formulate (entry.Value));
