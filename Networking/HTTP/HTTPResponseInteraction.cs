@@ -11,7 +11,7 @@ namespace Networking
 {
 	class HTTPResponseInteraction : BareInteraction, IIncomingBodiedInteraction
 	{
-		public HTTPResponseInteraction (HttpWebRequest request, HttpWebResponse response, IInteraction parameters) : base(parameters)
+		public HTTPResponseInteraction (HttpWebRequest request, WebResponse response, IInteraction parameters) : base(parameters)
 		{
 			this.SourceName = request.RequestUri.ToString ();
 			this.ContentType = request.ContentType;

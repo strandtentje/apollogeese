@@ -180,7 +180,10 @@ namespace Networking
 			if (successful &= TryProduceURI (parameters, out uriString)) {
 				HttpWebRequest request = ProduceRequest (parameters, uriString);
 
-				using (HttpWebResponse response = (HttpWebResponse)request.GetResponse ()) {
+
+				HttpWebResponse response = null;
+				try {
+					response = (HttpWebResponse)request.GetResponse ();
 					int statusInt = (int)response.StatusCode;
 
 					HTTPResponseInteraction responseInteraction;
@@ -189,6 +192,12 @@ namespace Networking
 					successful = (statusInt >= 200) && (statusInt < 300);
 					successful = successful && Successful.TryProcess (responseInteraction);
 					successful = successful || Failure.TryProcess (responseInteraction);
+				} catch (WebException ex) {
+					var exceptionInteraction = new HTTPResponseInteraction(request, ex.Response, parameters);
+
+					successful = Failure.TryProcess(exceptionInteraction);
+				} finally {
+					if (response != null) response.Dispose();
 				}
 			}
 

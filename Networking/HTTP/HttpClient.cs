@@ -29,8 +29,17 @@ namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 		}
 
 		public override void LoadDefaultParameters (string defaultParameter)
-		{			
-			Settings ["uri"] = defaultParameter;
+		{
+			string[] requestStart = defaultParameter.Split(' ');
+
+			if (requestStart.Length == 2) {
+				Settings["method"] = requestStart[0];
+				Settings["uri"] = requestStart[1];
+			} else if (requestStart.Length == 1) {
+				Settings["uri"] = requestStart[0];
+			} else {
+				throw new Exception("Request as ([METHOD] )[URL]");
+			}
 		}
     }
 }
