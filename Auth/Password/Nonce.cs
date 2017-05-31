@@ -37,17 +37,10 @@ namespace Auth
 
 		protected override bool Process (IInteraction parameters)
 		{
-			return WithBranch.TryProcess(
-				new SimpleInteraction(
-					parameters, 
-					this.VariableName, 
-					Regex.Replace(
-						Membership.GeneratePassword(this.Length, 0), 
-						@"[^a-zA-Z0-9]", 
-						m => rnd.Next(0, 10).ToString()
-					)
-				)
-			);
+			var dinkyNonce = Membership.GeneratePassword (this.Length, 0);
+			var fixedNonce = Regex.Replace (dinkyNonce, @"[^a-zA-Z0-9]", m => rnd.Next (0, 10).ToString ());
+			var nonceInteraction = new SimpleInteraction (parameters, this.VariableName, fixedNonce);
+			return WithBranch.TryProcess (nonceInteraction);
 		}
 	}
 }
