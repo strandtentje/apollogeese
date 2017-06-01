@@ -53,6 +53,7 @@
     <Compile Include="WwwForm\WwwForm.cs" />
     <Compile Include="WwwForm\InputInteraction.cs" />
     <Compile Include="WwwForm\JsonIterator.cs" />
+    <Compile Include="WwwForm\FormException.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

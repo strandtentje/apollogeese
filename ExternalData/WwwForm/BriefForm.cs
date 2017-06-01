@@ -41,13 +41,16 @@ namespace ExternalData
 
 		protected override bool Process (IInteraction parameters)
 		{
-			TextReader urlDataReader = null;
 			bool success = true;
+			TextReader urlDataReader = null;
 			SimpleInteraction valuesByName = new SimpleInteraction (parameters);
 			Map<IInteraction> inputInteractionsByName = new Map<IInteraction> ();
 
-			success = success && TryGetDatareader (parameters, null, out urlDataReader);
-			success = success && this.ParserRunner.TryRun (urlDataReader, delegate(string name, T value) {
+			if (!TryGetDatareader (parameters, null, out urlDataReader)) {
+				throw new FormException("Getting data reader failed");
+			}
+
+			if (!this.ParserRunner.TryRun (urlDataReader, delegate(string name, T value) {
 				var inputInteractions = new InputInteraction<T> (name, value, parameters);
 
 				if (StringFieldWhiteList.Contains (inputInteractions.Name)) {
@@ -59,7 +62,9 @@ namespace ExternalData
 						inputInteractionsByName [inputInteractions.Name] = inputInteractions;
 					}
 				}
-			});
+			})) {
+				throw new FormException("Parser-runner timed out");
+			}
 
 			foreach (string fieldName in this.StringFieldWhiteList) {
 				IInteraction currentField;
