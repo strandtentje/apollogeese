@@ -47,10 +47,15 @@ namespace Testing
 				} else {						
 					handling = true;
 					ErrorHandledInteraction errorInfo;
+
 					errorInfo = new ErrorHandledInteraction (
 						cause, context, problem);				
 
-					handled = this.CatchBranch.TryProcess(errorInfo);	
+					Secretary.Report(2, problem.ToString());
+
+					handled &= this.CatchBranch.TryProcess(errorInfo);	
+
+					problem = problem.InnerException;
 				}
 			};
 
