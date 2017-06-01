@@ -70,6 +70,7 @@
     <Compile Include="Minification\Minifier.cs" />
     <Compile Include="JSON\JsonValue.cs" />
     <Compile Include="JSON\JsonArrayInteraction.cs" />
+    <Compile Include="Contextualizer.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
