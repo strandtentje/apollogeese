@@ -3,6 +3,7 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Collections.Generic;
 using BorrehSoft.Utilities.Collections.Settings;
 using Commons.Json;
+using JsonVal = Commons.Json.JsonValue;
 using System.Web;
 using BorrehSoft.Utilities.Log;
 using Interactions;
@@ -32,11 +33,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				if (overridePair.Key.EndsWith (OverrideTail)) {
 					ValueNameRemappings.Add (
 						new Tuple<string, string> (
-							overridePair.Value.ToString (),
 							overridePair.Key.Remove (
 								overridePair.Key.Length -
 								OverrideTail.Length
-							)
+							), 
+							overridePair.Value.ToString ()
 						)
 					);
 				} else {
@@ -58,7 +59,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				values [assignment.Item1] = new JsonPrimitive (assignment.Item2);
 			}
 			foreach (var remapping in ValueNameRemappings) {
-				if (parameters.TryGetFallback (remapping.Item2, out value)) {
+				if (parameters.TryGetFallback (remapping.Item2, out value)) {					
 					values [remapping.Item1] = JsonPrimitive.From (value);
 				}
 			}
