@@ -25,9 +25,24 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			}
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			Settings[MapBackSettingName] = defaultParameter;
+			Settings.Dictionary.Remove("default"); // a quirk ™
+		}
+
+		string MapBackJsonVariable = null;
+
+		const string MapBackSettingName = "#jsonvariable";
+
 		protected override void Initialize (Settings settings)
 		{
 			base.Initialize (settings);
+
+			if (settings.Has(MapBackSettingName)) {
+				this.MapBackJsonVariable = settings.GetString(MapBackSettingName);
+				settings.Dictionary.Remove (MapBackSettingName);
+			}
 
 			foreach (var overridePair in settings.Dictionary) {
 				if (overridePair.Key.EndsWith (OverrideTail)) {
@@ -59,14 +74,21 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 				values [assignment.Item1] = new JsonPrimitive (assignment.Item2);
 			}
 			foreach (var remapping in ValueNameRemappings) {
-				if (parameters.TryGetFallback (remapping.Item2, out value)) {					
-					values [remapping.Item1] = JsonPrimitive.From (value);
+				if (parameters.TryGetFallback (remapping.Item2, out value)) {
+					if ((!(value is DBNull)) && (value != null)) {
+						values [remapping.Item1] = JsonPrimitive.From (value);
+					}
 				}
 			}
 			foreach (var branch in Branches.Dictionary) {
-				JsonArrayInteraction interaction = new JsonArrayInteraction (parameters);
+				JsonNestingAction interaction = new JsonNestingAction (parameters);
 				if (branch.Value.TryProcess (interaction)) {
-					values [branch.Key] = interaction.Array;
+					if (interaction.Array.Length > 0) {
+						values [branch.Key] = interaction.Array;
+					}
+					foreach (var item in interaction.Mapping) {
+						values[item.Key] = item.Value;
+					}
 				}
 			}
 			return values;
@@ -75,8 +97,12 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 		private void PutJsonObjectIntoInteraction (IInteraction parameters, JsonObject values)
 		{			
 			IInteraction candidate;
-			if (parameters.TryGetClosest(typeof(JsonArrayInteraction), out candidate)) {
-				((JsonArrayInteraction)candidate).Add(values);
+			if (parameters.TryGetClosest(typeof(JsonNestingAction), out candidate)) {
+				if (MapBackJsonVariable == null) {
+					((JsonNestingAction)candidate).Add(values);
+				} else {
+					((JsonNestingAction)candidate).Map(MapBackJsonVariable, values);
+				}
 			} else if (parameters.TryGetClosest(typeof(IOutgoingBodiedInteraction), out candidate)) {
 				if (candidate is IHttpInteraction) {
 					try {
