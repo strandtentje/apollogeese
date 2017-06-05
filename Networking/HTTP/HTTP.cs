@@ -159,8 +159,8 @@ namespace Networking
 			if (this.UseAuthentication) request.Credentials = Credentials.Recover (parameters);
 
 			if (this.Body != null) {
-				SimpleOutgoingInteraction bodyBuilder = new SimpleOutgoingInteraction (
-					request.GetRequestStream (), parameters);
+				var stream = request.GetRequestStream ();
+				var bodyBuilder = new SimpleOutgoingInteraction (stream, parameters);
 
 				if (!this.Body.TryProcess (bodyBuilder)) {
 					throw new Exception ("Failed to compose body");
@@ -179,7 +179,6 @@ namespace Networking
 
 			if (successful &= TryProduceURI (parameters, out uriString)) {
 				HttpWebRequest request = ProduceRequest (parameters, uriString);
-
 
 				HttpWebResponse response = null;
 				try {
