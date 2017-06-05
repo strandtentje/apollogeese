@@ -22,6 +22,11 @@ namespace Auth
 			}
 		}
 
+		public override void LoadDefaultParameters (string defaultParameter)
+		{
+			Settings["realm"] = defaultParameter;
+		}
+
 		protected override void Initialize (Settings modSettings)
 		{
 			this.Realm = (string)modSettings.Get ("realm");
@@ -50,7 +55,7 @@ namespace Auth
 				string[] userPass = authString.Split (':');
 
 				if (userPass.Length == 2) {
-					var credentials = new SimpleInteraction ();
+					var credentials = new SimpleInteraction (parameters);
 
 					credentials ["username"] = userPass [0];
 					credentials ["password"] = userPass [1];
