@@ -10,13 +10,14 @@ using BorrehSoft.Utilities.Log;
 using System.Text.RegularExpressions;
 using System.Text;
 using Networking;
+using HTTPHTTP = Networking.HTTP;
 
 namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
 {
 	/// <summary>
 	/// Comatibility Synonym for HTTP.
 	/// </summary>
-	public class HttpClient : HTTP
+	public class HttpClient : HTTPHTTP
 	{
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
