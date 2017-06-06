@@ -8,6 +8,7 @@ using BorrehSoft.Utilities.Log;
 using System.Collections.Generic;
 using System.IO;
 using IOFile = System.IO.File;
+using BorrehSoft.Utilities.Log.Profiling;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 {
@@ -29,6 +30,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 				BranchName = "branchname",
 				AutoInvoke = "autoinvoke",
 				InjectOwnSettings = "injectownsettings",
+				ProfileModule = "profilemodule",
 				Remap = "remap",
 				Reassignments = "reassignments",
 				WorkingDirectory = "rootpath";
@@ -45,6 +47,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 				case Remap:
 				case Reassignments:
 				case WorkingDirectory:
+				case ProfileModule:
 					return true;
 				default:
 					return false;
@@ -75,6 +78,9 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 		[Instruction ("Flag indicating if this module may propagate its own settings into context", false)]
 		public bool InjectOwnSettings { get; set; }
+
+		[Instruction ("Set to true to profile all in this module")]
+		public bool ProfileModule { get; set; }
 
 		/// <summary>
 		/// The variable overrides.
@@ -113,6 +119,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 			this.WorkingDirectory = modSettings.GetString (
 				SettingsKeys.WorkingDirectory,
 				(new FileInfo (this.File)).DirectoryName);
+			this.ProfileModule = modSettings.GetBool(SettingsKeys.ProfileModule, false);
+
+			if (this.ProfileModule) {
+				this.Hog = new ThreadAwareProfiler();
+			}
 
 			RegisterVariableOverrides (modSettings.GetSubsettings (SettingsKeys.Reassignments));
 			RegisterVariableOverrides (modSettings.GetSubsettings (SettingsKeys.Remap));

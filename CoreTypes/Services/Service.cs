@@ -22,11 +22,11 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 
 		private WatchableMap<Service> watchedBranches = null;
 		private static int modelIDCounter;
-		private ThreadAwareProfiler hog = new ThreadAwareProfiler ();
+		private ICallbackProfiler hog = new DummyProfiler ();
 
 		public string ConfigLine { get; set; }
 
-		public ThreadAwareProfiler Hog { get { return this.hog; } }
+		public ICallbackProfiler Hog { get { return this.hog; } set { this.hog = value; } }
 
 		/// <summary>
 		/// Numeric identity attribute for this service.
