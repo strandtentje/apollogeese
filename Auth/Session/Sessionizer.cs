@@ -94,15 +94,14 @@ namespace BorrehSoft.ApolloGeese.Auth
 
 					string cookieValue;
 
-					do { // we have a loop here for a stupidly rare case that probably only occurs
-						// when we don't expect it to, so there.
-						// The Base64 thing is there to make sure only letters and numbers
-						// end up in the cookie.
+					do { 
+						/* i don't sport the statistical capacity to prove a 1024-bit random number is very very 
+						 * very very very very very very very rarely going to occur twice, so we'll check if it 
+						 * occurred before. */
 
 						cookieValue = Convert.ToBase64String (GetTrue (128));
 
 						Console.WriteLine (string.Format ("cookie length {0}", cookieValue.Length));
-
 					} while (SessionStates.Has(cookieValue));
 								
 					parameters.SetCookie (CookieName, cookieValue, this.IsSecureSession);
@@ -110,9 +109,6 @@ namespace BorrehSoft.ApolloGeese.Auth
 					givenCookie = cookieValue;
 
 					SessionStates [cookieValue] = SessionState.Existing;
-
-					// Yes, I made the Sescookie-creation loop around in case of a duplicate
-					// gloBALLY UNIQUE IDENTIFIER now hand me my tinfoil hat.
 				}
 
 				success = WithBranch.TryProcess (new SessionInteraction (uncastParameters, CookieName, givenCookie));
