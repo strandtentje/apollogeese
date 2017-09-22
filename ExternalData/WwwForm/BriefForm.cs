@@ -39,6 +39,16 @@ namespace ExternalData
 			return mime == "application/x-www-form-urlencoded";
 		}
 
+		Service ClientFailure;
+		Service ServerFailure;
+
+		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
+		{
+			if (e.Name == "clientfailure") this.ClientFailure = e.NewValue;
+			else if (e.Name == "serverfailure") this.ServerFailure = e.NewValue;
+			else base.HandleBranchChanged(sender, e);
+		}
+
 		protected override bool Process (IInteraction parameters)
 		{
 			bool success = true;
@@ -46,24 +56,30 @@ namespace ExternalData
 			SimpleInteraction valuesByName = new SimpleInteraction (parameters);
 			Map<IInteraction> inputInteractionsByName = new Map<IInteraction> ();
 
-			if (!TryGetDatareader (parameters, null, out urlDataReader)) {
-				throw new FormException("Getting data reader failed");
-			}
-
-			if (!this.ParserRunner.TryRun (urlDataReader, delegate(string name, T value) {
-				var inputInteractions = new InputInteraction<T> (name, value, parameters);
-
-				if (StringFieldWhiteList.Contains (inputInteractions.Name)) {
-					if (Immediate)
-						success &= TryReportPair (valuesByName, inputInteractions);
-					else {
-						if (this.DoMapping)
-							valuesByName [inputInteractions.Name] = inputInteractions.Value;
-						inputInteractionsByName [inputInteractions.Name] = inputInteractions;
-					}
+			try {
+				if (!TryGetDatareader (parameters, null, out urlDataReader)) {
+					throw new FormException("Getting data reader failed");
 				}
-			})) {
-				throw new FormException("Parser-runner timed out");
+
+				if (!this.ParserRunner.TryRun (urlDataReader, delegate(string name, T value) {
+					var inputInteractions = new InputInteraction<T> (name, value, parameters);
+
+					if (StringFieldWhiteList.Contains (inputInteractions.Name)) {
+						if (Immediate)
+							success &= TryReportPair (valuesByName, inputInteractions);
+						else {
+							if (this.DoMapping)
+								valuesByName [inputInteractions.Name] = inputInteractions.Value;
+							inputInteractionsByName [inputInteractions.Name] = inputInteractions;
+						}
+					}
+				})) {
+					throw new FormException("Parser-runner timed out");
+				}
+			} catch(FormException ex) {
+				return ClientFailure.TryProcess(parameters);
+			} catch(Exception ex) {
+				return ServerFailure.TryProcess(parameters);
 			}
 
 			foreach (string fieldName in this.StringFieldWhiteList) {
