@@ -36,6 +36,8 @@
     <Compile Include="Mechanisms\BasicAuthentication.cs" />
     <Compile Include="Mechanisms\BasicSingleLogin.cs" />
     <Compile Include="Crypto\VerifySignature.cs" />
+    <Compile Include="Crypto\Encrypt.cs" />
+    <Compile Include="Crypto\CryptoWrapperFactory.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
