@@ -217,7 +217,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 
 			string pickedBranchName = "";
 
-			if (BranchName == null) {
+			if ((BranchName == null) || (BranchName.Length < 1)) {
 				if (!parameters.TryGetFallbackString (this.BranchVariable, out pickedBranchName)) {
 					throw new ModuleBranchException (this.BranchVariable);
 				}
