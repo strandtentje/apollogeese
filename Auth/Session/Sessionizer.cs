@@ -40,6 +40,12 @@ namespace BorrehSoft.ApolloGeese.Auth
 		[Instruction("Secure cookie header", true)]
 		public bool IsSecureSession { get; set; }
 
+		[Instruction("Set cookie expiration", true)]
+		public string Expires { get; set; }
+		private bool isPersisitent = false;
+		private TimeSpan expiryDelta;
+		private DateTime actualExpiry;
+
 		public override void LoadDefaultParameters (string defaultParameter)
 		{
 			this.Settings ["cookiename"] = defaultParameter;
@@ -50,6 +56,12 @@ namespace BorrehSoft.ApolloGeese.Auth
 			this.CookieName = modSettings.GetString ("cookiename", "SES");
 			this.Closing = modSettings.GetBool("sessioncloser", false);
 			this.IsSecureSession = modSettings.GetBool ("issecure", true);
+
+			if (modSettings.Has("expires")) {
+				this.isPersisitent = true;
+				this.Expires = modSettings.GetString("expires", "");
+				this.expiryDelta = TimeSpan.Parse(this.Expires);
+			}
 		}
 
 		private static RandomNumberGenerator rng = new RNGCryptoServiceProvider ();
@@ -104,7 +116,11 @@ namespace BorrehSoft.ApolloGeese.Auth
 						Console.WriteLine (string.Format ("cookie length {0}", cookieValue.Length));
 					} while (SessionStates.Has(cookieValue));
 								
-					parameters.SetCookie (CookieName, cookieValue, this.IsSecureSession);
+					if (this.isPersisitent) {
+						parameters.SetPersistentCookie(CookieName, cookieValue, DateTime.Now.Add(this.expiryDelta), this.IsSecureSession);
+					} else {
+						parameters.SetCookie(CookieName, cookieValue, this.IsSecureSession);
+					}
 
 					givenCookie = cookieValue;
 

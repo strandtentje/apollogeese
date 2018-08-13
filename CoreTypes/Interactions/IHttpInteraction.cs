@@ -2,6 +2,7 @@ using System.IO;
 using BorrehSoft.Utilities.Collections;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using System.Collections.Specialized;
+using System;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
@@ -27,6 +28,8 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		string GetQuery { get; }
 
 		void SetCookie (string name, string value, bool httpOnly = true);
+
+		void SetPersistentCookie (string name, string value, DateTime death, bool httpOnly = true);
 
 		string GetCookie (string name);
 

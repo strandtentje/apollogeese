@@ -85,6 +85,19 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			}
 		}
 
+		public void SetPersistentCookie(string name, string value, DateTime expiry, bool isSecureSession = true) {
+			if (Response.Cookies [name] != null) {
+				Response.Cookies [name].Value = value;
+			} else {
+				Cookie cookie = new Cookie (name, value);
+				cookie.HttpOnly = isSecureSession;
+				cookie.Secure = isSecureSession;
+				cookie.Expires = expiry;
+
+				Response.SetCookie (cookie);
+			}
+		}
+
 		/// <summary>
 		/// Gets the response headers.
 		/// </summary>

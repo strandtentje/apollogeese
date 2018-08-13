@@ -25,8 +25,8 @@ namespace Crypto
 		}
 
 		public byte[] Encrypt ()
-		{
-			return Provider.Encrypt(this.Message, RSAEncryptionPadding.OaepSHA1);
+		{			
+			return Provider.Encrypt(this.Message, true);
 		}
 	}
 
