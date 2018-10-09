@@ -36,6 +36,7 @@
   <ItemGroup>
     <Compile Include="RSASigning\VerifySignatureTest.cs" />
     <Compile Include="BasicAuthTest.cs" />
+    <Compile Include="NonceTest.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -49,6 +50,7 @@
     <None Include="RSASigning\invalidpacket.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="noncetest.conf" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="RSASigning\" />
