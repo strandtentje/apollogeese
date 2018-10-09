@@ -43,6 +43,7 @@ namespace PushNotifications
 				certificate = new X509Certificate2(CertificateFile);
 			}
 
+
 			var config = new ApnsConfiguration(this.PushEnvironment, certificate);
 
             var connectionFactory = new ApnsServiceConnectionFactory(config);
