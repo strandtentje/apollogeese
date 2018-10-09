@@ -57,6 +57,11 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			}
 		}
 
+		public void SetRedirect(string redirect)
+		{
+			Response.Redirect(redirect);
+		}
+
 		public void PurgeBuffer()
 		{
 			SkipBuffer = true;
