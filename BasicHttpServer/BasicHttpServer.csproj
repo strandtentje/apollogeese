@@ -38,6 +38,7 @@
     <Compile Include="HttpMethod.cs" />
     <Compile Include="HttpContent.cs" />
     <Compile Include="HttpOriginRestriction.cs" />
+    <Compile Include="HttpRedirect.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
