@@ -4,8 +4,6 @@ using BorrehSoft.Utilities.Collections.Settings;
 using System.Security.Cryptography;
 using System.Web.Security;
 using System.Text.RegularExpressions;
-using System.Linq;
-using System.Text;
 
 namespace Auth
 {
@@ -27,34 +25,22 @@ namespace Auth
 			}
 		}
 
-		RandomNumberGenerator generator = RandomNumberGenerator.Create();
+		Random rnd = new Random();
 		int Length = 64;
 		string VariableName = "nonce";
-
-		public string UseCharacters { get; private set; }
 
 		protected override void Initialize (Settings settings)
 		{
 			this.Length = int.Parse(settings.GetString("length"));
 			this.VariableName = settings.GetString("variablename");
-			this.UseCharacters = settings.GetString(
-				"usecharacters", 
-				"abcdefghijklmnopqrstuvwxyz" +
-				"ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
-				"0123456789"
-			);
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			byte[] targetNonce = new byte[this.Length];            
-			string nonce;
-            generator.GetBytes(targetNonce);
-			nonce = string.Join("", targetNonce.Select(
-				b => this.UseCharacters[b ^ 255]
-			));               
-
-			return WithBranch.TryProcess (new SimpleInteraction (parameters, this.VariableName, nonce));
+			var dinkyNonce = Membership.GeneratePassword (this.Length, 0);
+			var fixedNonce = Regex.Replace (dinkyNonce, @"[^a-zA-Z0-9]", m => rnd.Next (0, 10).ToString ());
+			var nonceInteraction = new SimpleInteraction (parameters, this.VariableName, fixedNonce);
+			return WithBranch.TryProcess (nonceInteraction);
 		}
 	}
 }
