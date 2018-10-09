@@ -35,12 +35,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.OutputComposing
 			IOutgoingBodiedInteraction interaction = (IOutgoingBodiedInteraction)parameters.GetClosest (typeof(IOutgoingBodiedInteraction));
 
 			bool success = true;
-			string text; 
+			string text = ""; 
+			object obj;
 
 			if (VariableName.Length == 0) {
 				text = Format;
-			} else if (success = parameters.TryGetFallbackString (VariableName, out text)) {
-				text = string.Format(Format, text);
+			} else if (success = parameters.TryGetFallback (VariableName, out obj)) {
+				text = string.Format(Format, obj.ToString());
 			}
 
 			byte[] data = interaction.Encoding.GetBytes (text);
