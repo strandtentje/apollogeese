@@ -39,6 +39,8 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 
 		void SetContentLength (long contentLength);
 
+		void SetRedirect (string url);
+
 		void FlushBuffer();
 
 		void PurgeBuffer();
