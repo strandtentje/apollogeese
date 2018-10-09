@@ -8,6 +8,8 @@ namespace BasicHttpServer
 	{
 		string URL;
 		string URLVariable;
+		bool EnableXFO;
+		bool DisableCSP;
 
 		public override string Description {
 			get {
@@ -24,6 +26,8 @@ namespace BasicHttpServer
 		{
 			this.URL = settings.GetString ("url", "");
 			this.URLVariable = settings.GetString ("url_override", "");
+			this.EnableXFO = settings.GetBool("enablexframeoptions", false);
+			this.DisableCSP = settings.GetBool("disablecsp", false);
 		}
 
 		protected override bool Process (IInteraction parameters)
@@ -45,10 +49,14 @@ namespace BasicHttpServer
 				xFrameOptions = "DENY";
 				cspOptions = "frame-ancestors 'none'";
 			}
-
+            
 			var headers = Closest<IHttpInteraction>.From (parameters).ResponseHeaders;
-			headers ["X-Frame-Options"] = xFrameOptions;
-			headers ["Content-Security-Policy"] = cspOptions;
+			if (this.EnableXFO == true) {
+			    headers ["X-Frame-Options"] = xFrameOptions;
+			}
+			if (this.DisableCSP == false) {
+			    headers ["Content-Security-Policy"] = cspOptions;
+			}
 
 			return Successful.TryProcess (parameters);
 		}
