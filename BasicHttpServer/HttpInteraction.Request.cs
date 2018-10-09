@@ -33,8 +33,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 			{ 
 				_request = value; 
 
-				this["remoteip"] = _request.RemoteEndPoint.Address.ToString();
-
+				this["remoteip"] = _request.Headers["X-Forwarded-For"]?.ToString() ?? _request.RemoteEndPoint.Address.ToString();
+                
 				SetUrl(value.RawUrl);
 
 				RequestHeaders = Request.Headers;
