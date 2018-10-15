@@ -154,8 +154,10 @@ namespace Networking
 		{
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create (uriString);
 			if (this.ProxyServerVariable.Length > 0) {
-			    request.Proxy = new WebProxy(Fallback<String>.From(parameters, this.ProxyServerVariable));
-
+				var proxyServer = Fallback<String>.From(parameters, this.ProxyServerVariable);
+				if ((proxyServer != null) && (proxyServer.Length > 0)) {
+					request.Proxy = new WebProxy(proxyServer);
+				}
 			}               
 			request.Method = this.Method;
 			request.ContentType = GetContentType ();
