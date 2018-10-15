@@ -86,6 +86,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 				Cookie cookie = new Cookie (name, value);
 				cookie.HttpOnly = isSecureSession;
 				cookie.Secure = isSecureSession;
+				cookie.Path = "*";
 				Response.SetCookie (cookie);
 			}
 		}

@@ -9,7 +9,7 @@ using System.IO;
 
 namespace Networking
 {
-	class HTTPResponseInteraction : BareInteraction, IIncomingBodiedInteraction
+	public class HTTPResponseInteraction : BareInteraction, IIncomingBodiedInteraction
 	{
 		public HTTPResponseInteraction (HttpWebRequest request, WebResponse response, IInteraction parameters) : base(parameters)
 		{

@@ -28,6 +28,7 @@ namespace Networking
 		/// </summary>
 		/// <value>The type of the MIME.</value>
 		object MimeType { get; set; }
+		public string ProxyServerVariable { get; private set; }
 
 		/// <summary>
 		/// Gets or sets the default URI
@@ -90,6 +91,7 @@ namespace Networking
 			this.IsMethodValidatedStrictly = settings.GetBool ("validatemethodstrictly", true);
 			this.UseAuthentication = settings.GetBool ("authenticate", false);
 			this.MimeType = settings.GetString ("mimetype", "application/x-www-form-urlencoded");
+			this.ProxyServerVariable = settings.GetString ("proxyvar", "");
 			
 			if (Array.IndexOf (ValidMethods, this.Method) < 0) {
 				string message = "Method should be \"OPTIONS\", \"GET\", \"HEAD\", " +
@@ -151,7 +153,10 @@ namespace Networking
 		HttpWebRequest ProduceRequest (IInteraction parameters, string uriString)
 		{
 			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create (uriString);
+			if (this.ProxyServerVariable.Length > 0) {
+			    request.Proxy = new WebProxy(Fallback<String>.From(parameters, this.ProxyServerVariable));
 
+			}               
 			request.Method = this.Method;
 			request.ContentType = GetContentType ();
 			request.Expect = "200";
