@@ -17,11 +17,13 @@ namespace ExternalData
 	public abstract class BriefForm<T> : HttpForm<T>
 	{
 		bool Immediate;
+		private bool BypassFieldlist;
 
 		protected override void Initialize (Settings settings)
 		{
 			base.Initialize (settings);
 			this.Immediate = settings.GetBool ("immediate", false); 
+			this.BypassFieldlist = settings.GetBool("bypass", false);
 		}
 
 		public override bool CheckMimetype (string mimeType)
@@ -64,7 +66,7 @@ namespace ExternalData
 				if (!this.ParserRunner.TryRun (urlDataReader, delegate(string name, T value) {
 					var inputInteractions = new InputInteraction<T> (name, value, parameters);
 
-					if (StringFieldWhiteList.Contains (inputInteractions.Name)) {
+					if (BypassFieldlist || StringFieldWhiteList.Contains (inputInteractions.Name)) {
 						if (Immediate)
 							success &= TryReportPair (valuesByName, inputInteractions);
 						else {
