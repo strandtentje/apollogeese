@@ -66,6 +66,7 @@
     <Compile Include="Profiling\Profiler.cs" />
     <Compile Include="Profiling\ProfilerInteraction.cs" />
     <Compile Include="Reflection\View\ServiceDoc.cs" />
+    <Compile Include="AsyncRunner.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
