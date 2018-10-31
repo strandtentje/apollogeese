@@ -33,7 +33,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 		protected override bool Process(IInteraction parameters)
 		{
 			Thread thread = new Thread(runner);
-			thread.Start(parameters);
+			thread.Start(parameters);   
 			return true;
 		}
 

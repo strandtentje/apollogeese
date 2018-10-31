@@ -5,6 +5,7 @@ using BorrehSoft.Utilities.Collections.Settings;
 using BorrehSoft.Utilities.Collections.Maps;
 using BorrehSoft.Utilities.Log;
 using System.Net;
+using System.Collections.Generic;
 
 namespace Networking
 {
@@ -29,6 +30,8 @@ namespace Networking
 		/// <value>The type of the MIME.</value>
 		object MimeType { get; set; }
 		public string ProxyServerVariable { get; private set; }
+
+		Settings HeaderMapping = new Settings();
 
 		/// <summary>
 		/// Gets or sets the default URI
@@ -92,7 +95,14 @@ namespace Networking
 			this.UseAuthentication = settings.GetBool ("authenticate", false);
 			this.MimeType = settings.GetString ("mimetype", "application/x-www-form-urlencoded");
 			this.ProxyServerVariable = settings.GetString ("proxyvar", "");
-			
+
+			foreach (var item in settings.Dictionary)
+			{
+				if (item.Key.EndsWith("_override")) {
+					HeaderMapping[item.Value.ToString()] = item.Key.Substring(0, item.Key.Length - 9);
+				}
+			}
+
 			if (Array.IndexOf (ValidMethods, this.Method) < 0) {
 				string message = "Method should be \"OPTIONS\", \"GET\", \"HEAD\", " +
 					"\"POST\", \"PUT\", \"DELETE\", \"TRACE\" or \"CONNECT\"";
@@ -163,7 +173,15 @@ namespace Networking
 			request.ContentType = GetContentType ();
 			request.Expect = "200";
 
-			if (this.UseAuthentication) request.Credentials = Credentials.Recover (parameters);
+			foreach (var header in this.HeaderMapping.Dictionary)
+			{
+				string resultstr;
+				if (parameters.TryGetFallbackString(header.Value.ToString(), out resultstr)) {
+                    request.Headers[header.Key] = resultstr;
+				}
+			}
+
+			if (this.UseAuthentication) request.Credentials = Credentials.Recover(parameters);
 
 			if (this.Body != null) {
 				var stream = request.GetRequestStream ();

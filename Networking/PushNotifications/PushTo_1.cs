@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utilities.Collections.Settings;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using PushSharp.Apple;
 using PushSharp.Core;
@@ -23,6 +25,7 @@ namespace PushNotifications
 		public string CertificateFile { get; private set; }
 		public IServiceConnection<ApnsNotification> Connection { get; private set; }
 		public List<string> PassVariables { get; private set; }
+		public bool ContentAvailable { get; private set; }
 
 		public override void LoadDefaultParameters(string defaultParameter)
 		{
@@ -43,6 +46,7 @@ namespace PushNotifications
 				certificate = new X509Certificate2(CertificateFile);
 			}
 
+			this.ContentAvailable = settings.GetBool("content-available", false);
 
 			var config = new ApnsConfiguration(this.PushEnvironment, certificate);
 
@@ -56,33 +60,18 @@ namespace PushNotifications
 		{
 			string devicetoken;
 			if (parameters.TryGetFallbackString("devicetoken", out devicetoken)) {
-				            
-				var payload = new JObject();
-				var aps = new JObject();
-				aps["content-available"] = 1;
-				payload["aps"] = aps;
-
 				if (this.Branches.Has("_with")) {
 					var composer = new StringComposeInteraction(parameters, Encoding.UTF8);
 					if (WithBranch.TryProcess(composer)) {
-						payload["extra"] = composer.ToString();
+						var finalNotification = new ApnsNotification(
+							devicetoken, 
+							JObject.Load(
+								new JsonTextReader(
+									new StringReader(
+										composer.ToString()))));
+						Connection.Send(finalNotification).Wait(-1);
 				    }
-				} else {
-    				var extraPayload = new JObject();
-
-                    foreach (var variablename in this.PassVariables)
-                    {
-                        string value;
-                        if (parameters.TryGetFallbackString(variablename, out value)) {
-                            extraPayload[variablename] = value;
-                        }
-                    }
-                    payload["extra"] = extraPayload;
-				}
-
-				var finalNotification = new ApnsNotification(devicetoken, payload);
-                
-				Connection.Send(finalNotification).Wait(-1);
+				}            
 			}               
 
 			return true;
