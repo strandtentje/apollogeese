@@ -34,6 +34,7 @@ namespace Networking
 			this.Username = settings.GetString ("username");
 			this.Password = settings.GetString ("password");
 			this.CurrentCredentials = new NetworkCredential (this.Username, this.Password);
+
 		}
 
 		protected override bool Process (IInteraction parameters)

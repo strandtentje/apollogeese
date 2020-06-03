@@ -47,6 +47,7 @@
     <Compile Include="HaltRecursion.cs" />
     <Compile Include="RecursionMarkerInteraction.cs" />
     <Compile Include="Probing\DumbProbe.cs" />
+    <Compile Include="WaitTime.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

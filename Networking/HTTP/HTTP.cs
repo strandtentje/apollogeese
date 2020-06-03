@@ -9,92 +9,100 @@ using System.Collections.Generic;
 
 namespace Networking
 {
-	public class HTTP : TwoBranchedService
-	{
-		/// <summary>
-		/// The valid HTTP methods.
-		/// </summary>
-		public static readonly string[] ValidMethods = new string[] {
-			"OPTIONS", "GET", "HEAD", "POST", "PUT", "DELETE", "TRACE", "CONNECT"
-		};
+    public class HTTP : TwoBranchedService
+    {
+        /// <summary>
+        /// The valid HTTP methods.
+        /// </summary>
+        public static readonly string[] ValidMethods = new string[] {
+            "OPTIONS", "GET", "HEAD", "POST", "PUT", "DELETE", "TRACE", "CONNECT"
+        };
 
-		/// <summary>
-		/// Gets or sets the URL encoding.
-		/// </summary>
-		/// <value>The URL encoding.</value>
-		Encoding UrlEncoding { get; set; }
+        /// <summary>
+        /// Gets or sets the URL encoding.
+        /// </summary>
+        /// <value>The URL encoding.</value>
+        Encoding UrlEncoding { get; set; }
 
-		/// <summary>
-		/// Gets or sets the Request MIME type
-		/// </summary>
-		/// <value>The type of the MIME.</value>
-		object MimeType { get; set; }
-		public string ProxyServerVariable { get; private set; }
+        /// <summary>
+        /// Gets or sets the Request MIME type
+        /// </summary>
+        /// <value>The type of the MIME.</value>
+        object MimeType { get; set; }
+        public string ProxyServerVariable { get; private set; }
 
-		Settings HeaderMapping = new Settings();
+        Settings HeaderMapping = new Settings();
 
-		/// <summary>
-		/// Gets or sets the default URI
-		/// </summary>
-		/// <value>The default URI</value>
-		protected string DefaultURI { get; set; }
+        /// <summary>
+        /// Gets or sets the default URI
+        /// </summary>
+        /// <value>The default URI</value>
+        protected string DefaultURI { get; set; }
 
-		/// <summary>
-		/// Gets or sets the URI Composition Service.
-		/// </summary>
-		/// <value>The UR.</value>
-		protected Service URI { get; set; }
+        /// <summary>
+        /// Gets or sets the URI Composition Service.
+        /// </summary>
+        /// <value>The UR.</value>
+        protected Service URI { get; set; }
 
-		/// <summary>
-		/// Gets or sets the body composition Service.
-		/// </summary>
-		/// <value>The body.</value>
-		protected Service Body { get; set; }
+        /// <summary>
+        /// Gets or sets the body composition Service.
+        /// </summary>
+        /// <value>The body.</value>
+        protected Service Body { get; set; }
 
-		/// <summary>
-		/// Gets or sets the request method.
-		/// </summary>
-		/// <value>The method.</value>
-		string Method { get; set; }
+        /// <summary>
+        /// Gets or sets the request method.
+        /// </summary>
+        /// <value>The method.</value>
+        string Method { get; set; }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether this instance validates the HTTP method strictly.
-		/// </summary>
-		/// <value><c>true</c> if this instance is method validated strictly; otherwise, <c>false</c>.</value>
-		bool IsMethodValidatedStrictly { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance validates the HTTP method strictly.
+        /// </summary>
+        /// <value><c>true</c> if this instance is method validated strictly; otherwise, <c>false</c>.</value>
+        bool IsMethodValidatedStrictly { get; set; }
 
-		/// <summary>
-		/// Gets or sets a value indicating whether this instance uses HTTP authentication.
-		/// </summary>
-		/// <value><c>true</c> if use authentication; otherwise, <c>false</c>.</value>
-		bool UseAuthentication { get; set; }
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance uses HTTP authentication.
+        /// </summary>
+        /// <value><c>true</c> if use authentication; otherwise, <c>false</c>.</value>
+        bool UseAuthentication { get; set; }
 
-		public override void LoadDefaultParameters (string defaultParameter)
-		{
-			this.Settings ["method"] = defaultParameter;
-		}
+        public override void LoadDefaultParameters(string defaultParameter)
+        {
+            this.Settings["method"] = defaultParameter;
+        }
 
-		public override string Description {
-			get {
-				string uri;
-				if (TryProduceURI (null, out uri)) {
-					return string.Format ("{0} Request for {1}", 
-						this.Method, uri);
-				} else {
-					return string.Format ("{0} Request for undeterminable URI");
-				}
-			}
-		}
+        public override string Description {
+            get {
+                string uri;
+                if (TryProduceURI(null, out uri)) {
+                    return string.Format("{0} Request for {1}",
+                        this.Method, uri);
+                } else {
+                    return string.Format("{0} Request for undeterminable URI");
+                }
+            }
+        }
 
-		protected override void Initialize (Settings settings)
-		{
-			this.UrlEncoding = Encoding.GetEncoding (settings.GetString ("urlencoding", "utf-8"));
-			this.DefaultURI = settings.GetString ("uri", "");
-			this.Method = settings.GetString ("method", "GET");
-			this.IsMethodValidatedStrictly = settings.GetBool ("validatemethodstrictly", true);
-			this.UseAuthentication = settings.GetBool ("authenticate", false);
-			this.MimeType = settings.GetString ("mimetype", "application/x-www-form-urlencoded");
-			this.ProxyServerVariable = settings.GetString ("proxyvar", "");
+        public bool UseBearer { get; private set; }
+        public string BearerToken { get; private set; }
+
+        protected override void Initialize(Settings settings)
+        {
+            this.UrlEncoding = Encoding.GetEncoding(settings.GetString("urlencoding", "utf-8"));
+            this.DefaultURI = settings.GetString("uri", "");
+            this.Method = settings.GetString("method", "GET");
+            this.IsMethodValidatedStrictly = settings.GetBool("validatemethodstrictly", true);
+            this.UseAuthentication = settings.GetBool("authenticate", false);
+            this.MimeType = settings.GetString("mimetype", "application/x-www-form-urlencoded");
+            this.ProxyServerVariable = settings.GetString("proxyvar", "");
+            if (settings.Has("bearer"))
+            {
+                this.UseBearer = true;
+                this.BearerToken = settings.GetString("bearer");
+            }
 
 			foreach (var item in settings.Dictionary)
 			{
@@ -181,7 +189,8 @@ namespace Networking
 				}
 			}
 
-			if (this.UseAuthentication) request.Credentials = Credentials.Recover(parameters);
+            if (this.UseAuthentication) request.Credentials = Credentials.Recover(parameters);
+            else if (this.UseBearer) request.Headers["Authorization"] = "Bearer " + this.BearerToken;
 
 			if (this.Body != null) {
 				var stream = request.GetRequestStream ();

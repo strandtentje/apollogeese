@@ -55,7 +55,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Transcoder", "Utilities\Sim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkingTests", "IntegrationTests\ExternalDataIntegration\NetworkingTests\NetworkingTests.csproj", "{27F3D421-3F65-4B8A-BF22-B33DCFCFEF49}"
 EndProject
-Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Game", "Graphical\Game.csproj", "{7EC8473A-1BCC-4928-B18E-82CDF10D684D}"
+Project("{9344BDBB-3E7F-41FC-A0DD-8665D75EE146}") = "Game", "Graphical\Game.csproj", "{1D39FC03-75F1-4518-AFD8-98C560B25668}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -163,10 +163,10 @@ Global
 		{27F3D421-3F65-4B8A-BF22-B33DCFCFEF49}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{27F3D421-3F65-4B8A-BF22-B33DCFCFEF49}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{27F3D421-3F65-4B8A-BF22-B33DCFCFEF49}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7EC8473A-1BCC-4928-B18E-82CDF10D684D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7EC8473A-1BCC-4928-B18E-82CDF10D684D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7EC8473A-1BCC-4928-B18E-82CDF10D684D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7EC8473A-1BCC-4928-B18E-82CDF10D684D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1D39FC03-75F1-4518-AFD8-98C560B25668}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1D39FC03-75F1-4518-AFD8-98C560B25668}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1D39FC03-75F1-4518-AFD8-98C560B25668}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1D39FC03-75F1-4518-AFD8-98C560B25668}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{81DFA659-4906-4653-AC13-E0886D28B9A0} = {7C5A0356-3630-4EF5-9250-4DB92ECC39BA}
