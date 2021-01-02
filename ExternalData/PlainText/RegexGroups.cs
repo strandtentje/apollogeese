@@ -26,12 +26,14 @@ namespace ExternalData
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
+            base.HandleBranchChanged(sender, e);
 			if (e.Name == "successful")
 				successful = e.NewValue;
 		}
 
 		protected override void Initialize (Settings modSettings)
 		{
+            base.Initialize(modSettings);
 			matcher = new Regex(modSettings["regex"] as String);
 		}
 
@@ -43,6 +45,8 @@ namespace ExternalData
 			if (success = TryGetDatareader (parameters, null, out reader)) {
 				string fullData = reader.ReadToEnd ();
 				Match results = matcher.Match (fullData);
+
+                if (!results.Success) return None.TryProcess(parameters);
 
 				SimpleInteraction inputs = new SimpleInteraction (parameters);
 

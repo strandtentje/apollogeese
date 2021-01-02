@@ -43,15 +43,26 @@ namespace InputProcessing
 
 		protected override void HandleBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
-			if (e.Name == "iterator") {
-				numBranches.Default = e.NewValue;
-			} else if (e.Name == "done") {
-				countBranches.Default = e.NewValue;
-			} else if (e.Name.StartsWith ("item_")) {
-				numBranches.Set (e.Name, e.NewValue, "item_");
-			} else if (e.Name.StartsWith ("counted_")) {
-				countBranches.Set (e.Name, e.NewValue, "counted_");
-			}
+            if (e.Name == "iterator")
+            {
+                numBranches.Default = e.NewValue;
+            }
+            else if (e.Name == "_with")
+            {
+                numBranches.Default = e.NewValue;
+            }
+            else if (e.Name == "done")
+            {
+                countBranches.Default = e.NewValue;
+            }
+            else if (e.Name.StartsWith("item_"))
+            {
+                numBranches.Set(e.Name, e.NewValue, "item_");
+            }
+            else if (e.Name.StartsWith("counted_"))
+            {
+                countBranches.Set(e.Name, e.NewValue, "counted_");
+            }
 		}
 
 		protected override bool Process (IInteraction parameters)
