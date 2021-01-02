@@ -164,7 +164,7 @@ namespace BorrehSoft.ApolloGeese.Loader
 				type = config.GetString ("type", "StubService");
 				moduleConfiguration = (Settings)config ["modconf"];
 
-				newService = plugins.GetConstructed (type);	
+				newService = plugins.GetConstructed (type, Guid.NewGuid());	
 		
 				succesfulInit = newService.SetSettings (moduleConfiguration);
 

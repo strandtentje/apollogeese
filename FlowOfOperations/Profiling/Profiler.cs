@@ -51,7 +51,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 
 			bool doReset = parameters is ResetInteraction;
 
-			foreach (Service service in Service.ModelLookup.Values) {
+			foreach (Service service in ServiceLookup.All) {
 				if (service != null) {
 					if (doReset) {
 						service.Hog.Reset ();

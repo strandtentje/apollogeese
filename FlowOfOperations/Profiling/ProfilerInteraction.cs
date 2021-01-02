@@ -12,7 +12,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 			long totalTimeSpent, long totalMeasurements, 
 			Service service, IInteraction parameters) : base (parameters)
 		{
-			this ["serviceid"] = service.ModelID;
+			this ["serviceid"] = service.ServiceGUID;
 			this ["configline"] = service.ConfigLine;
 			this ["description"] = service.Description;	
 

@@ -44,28 +44,10 @@
     <Compile Include="OverSocket\Piping\Symbol.cs" />
     <Compile Include="OverSocket\Networking\ListenerWithEvents.cs" />
     <Compile Include="OverSocket\Networking\NewClientEvent.cs" />
-    <Compile Include="Reflection\View\Anchor.cs" />
-    <Compile Include="Reflection\View\FlowView.cs" />
-    <Compile Include="Reflection\View\ModuleView.cs" />
-    <Compile Include="Reflection\View\SettingsView.cs" />
-    <Compile Include="Reflection\MetaInteraction.cs" />
-    <Compile Include="Reflection\MetaServiceInteraction.cs" />
-    <Compile Include="Reflection\OutgoingIterator.cs" />
-    <Compile Include="Reflection\SettingInteraction.cs" />
-    <Compile Include="Reflection\Control\ControlException.cs" />
-    <Compile Include="Reflection\Control\FailureInteraction.cs" />
-    <Compile Include="Reflection\Control\ServiceMutator.cs" />
     <Compile Include="Module\Proceed.cs" />
-    <Compile Include="Reflection\MetaModuleInteraction.cs" />
-    <Compile Include="Reflection\Control\SetBranch.cs" />
-    <Compile Include="Reflection\Control\NewService.cs" />
-    <Compile Include="Reflection\Control\ReloadService.cs" />
-    <Compile Include="Reflection\Control\SetSetting.cs" />
     <Compile Include="Recur.cs" />
-    <Compile Include="Reflection\View\ServiceListView.cs" />
     <Compile Include="Profiling\Profiler.cs" />
     <Compile Include="Profiling\ProfilerInteraction.cs" />
-    <Compile Include="Reflection\View\ServiceDoc.cs" />
     <Compile Include="AsyncRunner.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
@@ -73,8 +55,6 @@
     <Folder Include="Module\" />
     <Folder Include="OverSocket\" />
     <Folder Include="OverSocket\Piping\" />
-    <Folder Include="Reflection\" />
-    <Folder Include="Reflection\View\" />
     <Folder Include="View\" />
     <Folder Include="Profiling\" />
   </ItemGroup>
