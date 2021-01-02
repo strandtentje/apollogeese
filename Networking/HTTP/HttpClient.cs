@@ -12,7 +12,7 @@ using System.Text;
 using Networking;
 using HTTPHTTP = Networking.HTTP;
 
-namespace BorrehSoft.ApolloGeese.Extensions.Networking.TCP
+namespace BorrehSoft.ApolloGeese.Extensions.Networking
 {
 	/// <summary>
 	/// Comatibility Synonym for HTTP.
