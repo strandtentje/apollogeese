@@ -70,6 +70,7 @@
     <Compile Include="Services\Simple\Now.cs" />
     <Compile Include="Branch.cs" />
     <Compile Include="Services\Simple\NewGuid.cs" />
+    <Compile Include="Services\ServiceLookup.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

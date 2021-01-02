@@ -17,27 +17,15 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 	/// </summary>
 	public abstract class Service : Configurables, IDisposable
 	{
-		public static Dictionary<int, Service> ModelLookup = new Dictionary<int, Service>();
-		public PluginCollection<Service> PossibleSiblingTypes { get; set; }
+        public PluginCollection<Service> PossibleSiblingTypes { get; set; }
 
 		private WatchableMap<Service> watchedBranches = null;
-		private static int modelIDCounter;
 		private ICallbackProfiler hog = new DummyProfiler ();
+        private readonly Guid serviceGuid;
 
-		public string ConfigLine { get; set; }
+        public string ConfigLine { get; set; }
 
 		public ICallbackProfiler Hog { get { return this.hog; } set { this.hog = value; } }
-
-		/// <summary>
-		/// Numeric identity attribute for this service.
-		/// </summary>
-		/// <value>
-		/// The model ID
-		/// </value>
-		public int ModelID { 
-			get;
-			private set;
-		}
 
 		/// <summary>
 		/// Gets a stub service. StubService.Instance does thesame.
@@ -80,12 +68,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			this.watchedBranches.ItemChanged += HandleAllBranchChanged;
 		}
 
-		public Service() {
-			this.ModelID = Interlocked.Increment (ref modelIDCounter);
-			ModelLookup.Add(this.ModelID, this);
-		}
-
-		void HandleAllBranchChanged (object sender, ItemChangedEventArgs<Service> e)
+        void HandleAllBranchChanged (object sender, ItemChangedEventArgs<Service> e)
 		{
 			if (e.Name == "_successor") {
 				Successor = e.NewValue;
@@ -106,6 +89,22 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 			get;
 			set;
 		}
+
+        public Guid ServiceGUID {
+            get => this.serviceGuid;
+        }
+
+        public Service()
+        {
+            serviceGuid = Guid.NewGuid();
+            ServiceLookup.Register(serviceGuid.ToString(), this);
+        }
+
+        public Service(Guid guid)
+        {
+            serviceGuid = guid;
+            ServiceLookup.Register(serviceGuid.ToString(), this);
+        }
 
         private bool InvokeProcess(IInteraction parameters)
         {
@@ -181,7 +180,7 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
         }
 
 		public virtual void Dispose() {
-			Service.ModelLookup.Remove (this.ModelID);
+            ServiceLookup.Purge(serviceGuid);
 			foreach (Service service in Branches.Dictionary.Values)
 				service.Dispose ();
 		}
