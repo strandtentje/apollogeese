@@ -28,6 +28,7 @@ namespace BetterData
 			rowBranches.Set (e.Name, e.NewValue, "row_");
 
 			if (e.Name == "iterator") rowBranches.Default = e.NewValue;
+            if (e.Name == "_with") rowBranches.Default = e.NewValue;
 		}
 
 		Service None {
@@ -63,6 +64,8 @@ namespace BetterData
 			bool success = true;
 			IInteraction lastRow = parameters;
 			int currentRowNumber = -1;
+
+            if (Branches.Has("_with")) rowBranches.Default = Branches["_with"];
 
 			UseCommand (parameters, delegate(IDbCommand command) {
 				using (IDataReader reader = command.ExecuteReader()) {

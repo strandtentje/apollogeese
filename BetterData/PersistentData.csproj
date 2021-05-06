@@ -85,6 +85,7 @@
     <Compile Include="PostgreSQL.cs" />
     <Compile Include="TextSource\ModelSqlFileSource.cs" />
     <Compile Include="TextSource\GenerativeSqlFileSource.cs" />
+    <Compile Include="MSSQL.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

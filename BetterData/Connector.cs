@@ -44,7 +44,7 @@ namespace BetterData
 
 		protected override void Initialize (Settings settings)
 		{
-			this.Name = settings.GetString ("name", "default");
+            this.Name = settings.GetString("name", settings.GetString("_select", "default"));
 			this.ConnectionString = settings.GetString ("connectionstring");
 
 			NamedConnectors [this.Name] = this;

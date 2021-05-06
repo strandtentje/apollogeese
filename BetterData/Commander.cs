@@ -129,7 +129,7 @@ namespace BetterData
 
 		protected override void Initialize (Settings settings)
 		{
-			this.DatasourceName = settings.GetString ("connection", "default");
+			this.DatasourceName = settings.GetString ("connection", settings.GetString("_select", "default"));
             this.UseTransaction = settings.GetBool("usetransaction", false);
 			this.AutoSelectLastInsertId = settings.GetBool ("lastinsertid", false);
 

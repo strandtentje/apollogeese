@@ -20,7 +20,7 @@ namespace Services.Simple
 				Settings["variablename"] = options[1];
 			}
 		}
-
+         
 		string VariableName;
 		TimeSpan TimeIncrease;
 
