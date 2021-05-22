@@ -42,6 +42,19 @@
     <Reference Include="Commons.Utils">
       <HintPath>..\packages\Commons.Json.0.3.0.775\lib\net45\Commons.Utils.dll</HintPath>
     </Reference>
+    <Reference Include="QRCoder">
+      <HintPath>..\packages\QRCoder.1.4.1\lib\net40\QRCoder.dll</HintPath>
+    </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="zxing">
+      <HintPath>..\packages\ZXing.Net.0.16.6\lib\net45\zxing.dll</HintPath>
+    </Reference>
+    <Reference Include="zxing.presentation">
+      <HintPath>..\packages\ZXing.Net.0.16.6\lib\net45\zxing.presentation.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -66,6 +79,7 @@
     <Compile Include="JSON\JsonValue.cs" />
     <Compile Include="Contextualizer.cs" />
     <Compile Include="JSON\JsonNestingAction.cs" />
+    <Compile Include="QRCode.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
