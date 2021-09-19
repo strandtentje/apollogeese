@@ -35,6 +35,9 @@
       <HintPath>..\packages\HttpMultipartParser.2.2.3\lib\net45\HttpMultipartParser.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Transcoder">
+      <HintPath>..\debugbin\Transcoder.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -54,6 +57,7 @@
     <Compile Include="WwwForm\InputInteraction.cs" />
     <Compile Include="WwwForm\JsonIterator.cs" />
     <Compile Include="WwwForm\FormException.cs" />
+    <Compile Include="JsonPick.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -76,10 +80,6 @@
     <ProjectReference Include="..\BasicHttpServer\BasicHttpServer.csproj">
       <Project>{8C04E544-F8DF-4A27-A071-57DE8C407C72}</Project>
       <Name>BasicHttpServer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Utilities\SimpleJson\Transcoder\Transcoder.csproj">
-      <Project>{7AEC7920-66DD-4B29-A928-A73C936BD67C}</Project>
-      <Name>Transcoder</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

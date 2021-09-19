@@ -19,7 +19,7 @@ namespace ExternalData
 		}
 
 		/// <summary>
-		/// Gets a value indicating whether this instance is mimetype checking.
+		/// Gets a value indicating whether this instance    is mimetype checking.
 		/// </summary>
 		/// <value><c>true</c> if this instance is mimetype checking; otherwise, <c>false</c>.</value>
 		public bool IsMimetypeChecking { get; private set; }
@@ -29,7 +29,7 @@ namespace ExternalData
 		/// </summary>
 		/// <value><c>true</c> if this instance is variable sourcing; otherwise, <c>false</c>.</value>
 		public bool IsVariableSourcing {
-			get { return Variable.Length > 0; }
+			get { return (Variable?.Length ?? 0) > 0; }
 		}
 			
 		/// <summary>
