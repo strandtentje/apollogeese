@@ -45,8 +45,6 @@
     <Reference Include="QRCoder">
       <HintPath>..\packages\QRCoder.1.4.1\lib\net40\QRCoder.dll</HintPath>
     </Reference>
-    <Reference Include="PresentationCore" />
-    <Reference Include="PresentationFramework" />
     <Reference Include="WindowsBase" />
     <Reference Include="zxing">
       <HintPath>..\packages\ZXing.Net.0.16.6\lib\net45\zxing.dll</HintPath>
@@ -55,6 +53,9 @@
       <HintPath>..\packages\ZXing.Net.0.16.6\lib\net45\zxing.presentation.dll</HintPath>
     </Reference>
     <Reference Include="System.Drawing" />
+    <Reference Include="CommonMark">
+      <HintPath>..\packages\CommonMark.NET.0.15.1\lib\net45\CommonMark.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -80,6 +81,7 @@
     <Compile Include="Contextualizer.cs" />
     <Compile Include="JSON\JsonNestingAction.cs" />
     <Compile Include="QRCode.cs" />
+    <Compile Include="MarkdownToHtml.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
