@@ -71,6 +71,7 @@
     <Compile Include="Branch.cs" />
     <Compile Include="Services\Simple\NewGuid.cs" />
     <Compile Include="Services\ServiceLookup.cs" />
+    <Compile Include="Services\Simple\Switch.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
