@@ -38,6 +38,7 @@
     <Compile Include="ImagingService.cs" />
     <Compile Include="GenericCrop.cs" />
     <Compile Include="Tile.cs" />
+    <Compile Include="ScaleAndCrop.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

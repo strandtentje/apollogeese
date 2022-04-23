@@ -1,6 +1,8 @@
 using System;
+using System.Linq;
 using BorrehSoft.Utilities.Collections;
 using BorrehSoft.Utilities.Collections.Maps;
+using BorrehSoft.Utilities.Log;
 
 namespace BorrehSoft.ApolloGeese.CoreTypes
 {
@@ -38,11 +40,26 @@ namespace BorrehSoft.ApolloGeese.CoreTypes
 		public SimpleInteraction (IInteraction parent, Map<object> values) : base(values)
 		{
 			this.parent = parent;
-			this.ExceptionHandler = parent.ExceptionHandler;
-
+            if (parent?.ExceptionHandler != null)
+                this.ExceptionHandler = parent.ExceptionHandler;
+            else
+                this.ExceptionHandler = DefaultEHandler;
 		}
 
-		public SimpleInteraction (IInteraction parent, string name, object value)
+        public static void DefaultEHandler(
+                Service s,
+                IInteraction c,
+                Exception e
+            )
+        {
+            Secretary.Report(5, string.Format(
+                "Exception occurred on an interaction " +
+                "that had no exceptionhandler passed on. " +
+                "{0} {1} {2}",
+                s.GetType().Name, c.GetType().Name, e.Message));
+        }
+
+        public SimpleInteraction (IInteraction parent, string name, object value)
 		{
 			if (parent != null) {
 				this.parent = parent;

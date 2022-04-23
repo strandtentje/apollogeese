@@ -88,6 +88,8 @@ namespace Networking
 
         public bool UseBearer { get; private set; }
         public string BearerToken { get; private set; }
+        public bool UseBearerVar { get; private set; }
+        public string BearerVar { get; private set; }
 
         protected override void Initialize(Settings settings)
         {
@@ -103,8 +105,13 @@ namespace Networking
                 this.UseBearer = true;
                 this.BearerToken = settings.GetString("bearer");
             }
+            if (settings.Has("bearer_var"))
+            {
+                this.UseBearerVar = true;
+                this.BearerVar = settings.GetString("bearer_var");
+            }
 
-			foreach (var item in settings.Dictionary)
+            foreach (var item in settings.Dictionary)
 			{
 				if (item.Key.EndsWith("_override")) {
 					HeaderMapping[item.Value.ToString()] = item.Key.Substring(0, item.Key.Length - 9);
@@ -162,35 +169,39 @@ namespace Networking
 			return successful;
 		}
 
-		/// <summary>
-		/// Produces the request.
-		/// </summary>
-		/// <returns>The request.</returns>
-		/// <param name="parameters">Parameters.</param>
-		/// <param name="uriString">URI string.</param>
-		HttpWebRequest ProduceRequest (IInteraction parameters, string uriString)
-		{
-			HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create (uriString);
-			if (this.ProxyServerVariable.Length > 0) {
-				var proxyServer = Fallback<String>.From(parameters, this.ProxyServerVariable);
-				if ((proxyServer != null) && (proxyServer.Length > 0)) {
-					request.Proxy = new WebProxy(proxyServer);
-				}
-			}               
-			request.Method = this.Method;
-			request.ContentType = GetContentType ();
-			request.Expect = "200";
+        /// <summary>
+        /// Produces the request.
+        /// </summary>
+        /// <returns>The request.</returns>
+        /// <param name="parameters">Parameters.</param>
+        /// <param name="uriString">URI string.</param>
+        HttpWebRequest ProduceRequest(IInteraction parameters, string uriString)
+        {
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uriString);
+            if (this.ProxyServerVariable.Length > 0) {
+                var proxyServer = Fallback<String>.From(parameters, this.ProxyServerVariable);
+                if ((proxyServer != null) && (proxyServer.Length > 0)) {
+                    request.Proxy = new WebProxy(proxyServer);
+                }
+            }
+            request.Method = this.Method;
+            request.ContentType = GetContentType();
+            request.Expect = "200";
 
-			foreach (var header in this.HeaderMapping.Dictionary)
-			{
-				string resultstr;
-				if (parameters.TryGetFallbackString(header.Value.ToString(), out resultstr)) {
+            foreach (var header in this.HeaderMapping.Dictionary)
+            {
+                string resultstr;
+                if (parameters.TryGetFallbackString(header.Value.ToString(), out resultstr)) {
                     request.Headers[header.Key] = resultstr;
-				}
-			}
+                }
+            }
 
-            if (this.UseAuthentication) request.Credentials = Credentials.Recover(parameters);
-            else if (this.UseBearer) request.Headers["Authorization"] = "Bearer " + this.BearerToken;
+            if (this.UseAuthentication) 
+                request.Credentials = Credentials.Recover(parameters);
+            else if (this.UseBearerVar) 
+                request.Headers["Authorization"] = "Bearer " + Fallback<string>.From(parameters, BearerVar);
+            else if (this.UseBearer) 
+                request.Headers["Authorization"] = "Bearer " + this.BearerToken;
 
 			if (this.Body != null) {
 				var stream = request.GetRequestStream ();
