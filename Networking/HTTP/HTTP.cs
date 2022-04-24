@@ -178,6 +178,7 @@ namespace Networking
         HttpWebRequest ProduceRequest(IInteraction parameters, string uriString)
         {
             HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uriString);
+            request.AllowAutoRedirect = Settings.GetBool("allowautoredirect", true);
             if (this.ProxyServerVariable.Length > 0) {
                 var proxyServer = Fallback<String>.From(parameters, this.ProxyServerVariable);
                 if ((proxyServer != null) && (proxyServer.Length > 0)) {

@@ -79,28 +79,28 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
 		public bool SkipBuffer { get; private set; }
 
-		public void SetCookie(string name, string value, bool isSecureSession = true) {
+		public void SetCookie(string name, string value, bool isHttpOnly, bool isSecureSession) {
 			if (Response.Cookies [name] != null) {
 				Response.Cookies [name].Value = value;
 			} else {
 				Cookie cookie = new Cookie (name, value);
-				cookie.HttpOnly = isSecureSession;
+				cookie.HttpOnly = isHttpOnly;
 				cookie.Secure = isSecureSession;
-				cookie.Path = "*";
+                cookie.Path = "/";
 				Response.SetCookie (cookie);
 			}
 		}
 
-		public void SetPersistentCookie(string name, string value, DateTime expiry, bool isSecureSession = true) {
+		public void SetPersistentCookie(string name, string value, DateTime expiry, bool isHttpOnly, bool isSecureSession) {
 			if (Response.Cookies [name] != null) {
 				Response.Cookies [name].Value = value;
 			} else {
 				Cookie cookie = new Cookie (name, value);
-				cookie.HttpOnly = isSecureSession;
+				cookie.HttpOnly = isHttpOnly;
 				cookie.Secure = isSecureSession;
 				cookie.Expires = expiry;
-
-				Response.SetCookie (cookie);
+                cookie.Path = "/";
+                Response.SetCookie (cookie);
 			}
 		}
 

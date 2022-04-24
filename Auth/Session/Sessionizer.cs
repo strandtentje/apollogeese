@@ -39,8 +39,8 @@ namespace BorrehSoft.ApolloGeese.Auth
 
 		[Instruction("Secure cookie header", true)]
 		public bool IsSecureSession { get; set; }
-
-		[Instruction("Set cookie expiration", true)]
+        public bool IsHttpOnly { get; private set; }
+        [Instruction("Set cookie expiration", true)]
 		public string Expires { get; set; }
 		private bool isPersisitent = false;
 		private TimeSpan expiryDelta;
@@ -56,6 +56,7 @@ namespace BorrehSoft.ApolloGeese.Auth
 			this.CookieName = modSettings.GetString ("cookiename", "SES");
 			this.Closing = modSettings.GetBool("sessioncloser", false);
 			this.IsSecureSession = modSettings.GetBool ("issecure", true);
+            this.IsHttpOnly = modSettings.GetBool("ishttponly", true);
 
 			if (modSettings.Has("expires")) {
 				this.isPersisitent = true;
@@ -117,9 +118,9 @@ namespace BorrehSoft.ApolloGeese.Auth
 					} while (SessionStates.Has(cookieValue));
 								
 					if (this.isPersisitent) {
-						parameters.SetPersistentCookie(CookieName, cookieValue, DateTime.Now.Add(this.expiryDelta), this.IsSecureSession);
+						parameters.SetPersistentCookie(CookieName, cookieValue, DateTime.Now.Add(this.expiryDelta), this.IsHttpOnly, this.IsSecureSession);
 					} else {
-						parameters.SetCookie(CookieName, cookieValue, this.IsSecureSession);
+						parameters.SetCookie(CookieName, cookieValue, this.IsHttpOnly, this.IsSecureSession);
 					}
 
 					givenCookie = cookieValue;

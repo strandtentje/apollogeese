@@ -4,7 +4,7 @@ using BorrehSoft.Utilities.Collections.Settings;
 
 namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
 {
-    public class Switch : SingleBranchService
+    public class HardSwitch : SingleBranchService
     {
         public string SwitchVar { get; private set; }
 
