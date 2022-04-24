@@ -32,7 +32,7 @@ namespace Services.Simple
 
 		protected override bool Process (IInteraction parameters)
 		{
-			return WithBranch.TryProcess(new SimpleInteraction(parameters, this.VariableName, DateTime.Now + this.TimeIncrease));
+			return WithBranch.TryProcess(new SimpleInteraction(parameters, this.VariableName, (DateTime.Now + this.TimeIncrease).ToString("yyyy-MM-dd HH:mm:ss")));
 		}
 	}
 }

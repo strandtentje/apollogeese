@@ -44,8 +44,8 @@ namespace ExternalData
 
                 foreach (var item in paths)
                 {
-                    jsonObject.TryGetString(item.Item1, out string result);
-                    resultInteraction[item.Item2] = result;
+                    if (jsonObject.ContainsKey(item.Item1))
+                        resultInteraction[item.Item2] = jsonObject[item.Item1].ToString();
                 }
 
                 return WithBranch.TryProcess(resultInteraction);
