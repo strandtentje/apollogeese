@@ -30,7 +30,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations
         protected override bool Process(IInteraction parameters)
         {
             bool success = true;
-            if (parameters.TryGetValue(ForVariable, out object forVar))
+            if (parameters.TryGetFallback(ForVariable, out object forVar))
                 for (int i = 0; i < Convert.ToInt32(forVar); i++)                
                     success &= WithBranch.TryProcess(
                         new SimpleInteraction(
