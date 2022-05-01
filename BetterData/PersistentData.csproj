@@ -71,7 +71,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Commander.cs" />
     <Compile Include="Connector.cs" />
-    <Compile Include="DataWriter.cs" />
     <Compile Include="DataReader.cs" />
     <Compile Include="DataInteraction.cs" />
     <Compile Include="MissingConnectorException.cs" />
@@ -79,13 +78,8 @@
     <Compile Include="TextSource\SqlLiteralSource.cs" />
     <Compile Include="TextSource\SqlFileSource.cs" />
     <Compile Include="TextSource\SqlSource.cs" />
-    <Compile Include="Sqlite.cs" />
-    <Compile Include="Transaction.cs" />
-    <Compile Include="TransactionInteraction.cs" />
-    <Compile Include="PostgreSQL.cs" />
     <Compile Include="TextSource\ModelSqlFileSource.cs" />
     <Compile Include="TextSource\GenerativeSqlFileSource.cs" />
-    <Compile Include="MSSQL.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>

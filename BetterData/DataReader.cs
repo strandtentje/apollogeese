@@ -4,6 +4,7 @@ using System.Data;
 using System.Collections.Generic;
 using BorrehSoft.Utilities.Collections.Maps;
 using BorrehSoft.Utilities.Collections;
+using MySql.Data.MySqlClient;
 
 namespace BetterData
 {
@@ -67,25 +68,29 @@ namespace BetterData
 
             if (Branches.Has("_with")) rowBranches.Default = Branches["_with"];
 
-			UseCommand (parameters, delegate(IDbCommand command) {
-				using (IDataReader reader = command.ExecuteReader()) {
-					string[] columnNames = GetColumnNames (reader);
+            using (var reader = MySqlHelper.ExecuteReader(
+                ConnectionString,
+                SqlSource.GetText(),
+                FillParameters(parameters).ToArray())
+            ) {
+                string[] columnNames = GetColumnNames(reader);
 
-					for (currentRowNumber = 0; reader.Read (); currentRowNumber++) {
-						object[] values = new object[reader.FieldCount];
+                for (currentRowNumber = 0; reader.Read(); currentRowNumber++)
+                {
+                    object[] values = new object[reader.FieldCount];
 
-						for (int i = 0; i < reader.FieldCount; i++) {
-							values[i] = reader.GetValue(i);
-						}
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        values[i] = reader.GetValue(i);
+                    }
 
-						DataInteraction dataRow = new DataInteraction (
-							parameters, columnNames, values);
-						lastRow = dataRow;
+                    DataInteraction dataRow = new DataInteraction(
+                        parameters, columnNames, values);
+                    lastRow = dataRow;
 
-						success &= rowBranches[currentRowNumber].TryProcess (dataRow);
-					}
-				}
-			}); 
+                    success &= rowBranches[currentRowNumber].TryProcess(dataRow);
+                }
+            }
 
 			if (currentRowNumber == 0)
 				success &= None.TryProcess (parameters);

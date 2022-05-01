@@ -40,8 +40,6 @@ namespace BetterData
 			Settings ["connectionstring"] = defaultParameter;
 		}
 
-		public virtual char ParameterSeparator { get { return '@'; } }
-
 		protected override void Initialize (Settings settings)
 		{
             this.Name = settings.GetString("name", settings.GetString("_select", "default"));
@@ -50,14 +48,9 @@ namespace BetterData
 			NamedConnectors [this.Name] = this;
 		}
 
-		public virtual IDbConnection GetNewConnection() {	
-			return new MySqlConnection (
-				this.ConnectionString);
-		}
-
-		public static IDbConnection Find (string name)
+		public static Connector Find (string name)
 		{
-			return NamedConnectors [name].GetNewConnection ();
+			return NamedConnectors [name];
 		}
 
 		public override void OnReady ()
