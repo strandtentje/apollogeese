@@ -29,6 +29,12 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable">
+      <HintPath>..\packages\System.Collections.Immutable.1.7.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="PhoneNumbers">
+      <HintPath>..\packages\libphonenumber-csharp.8.12.46\lib\portable-net45+win8+wp8+wpa81\PhoneNumbers.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -69,5 +75,8 @@
     <Folder Include="Dynamic\" />
     <Folder Include="Checklist\" />
     <Folder Include="Static\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

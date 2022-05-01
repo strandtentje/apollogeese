@@ -5,6 +5,7 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utilities.Collections.Maps;
 using BorrehSoft.Utilities.Collections.Settings;
 using BorrehSoft.Utilities.Collections;
+
 using SimpleJson.Transcoder;
 
 namespace ExternalData
@@ -39,13 +40,14 @@ namespace ExternalData
         {
             if (TryGetDatareader(parameters, null, out var rdr))
             {
-                var jsonObject = JsonSerializer.DeserializeString(rdr.ReadToEnd()) as Hashtable;
+                var jsonUk = JsonSerializer.DeserializeString(rdr.ReadToEnd());
+                var jsonObject = jsonUk as Hashtable;
                 var resultInteraction = new SimpleInteraction(parameters);
 
                 foreach (var item in paths)
                 {
-                    if (jsonObject.ContainsKey(item.Item1))
-                        resultInteraction[item.Item2] = jsonObject[item.Item1].ToString();
+                    if (jsonObject.TryGetString(item.Item1, out string value))
+                        resultInteraction[item.Item2] = value;
                 }
 
                 return WithBranch.TryProcess(resultInteraction);
