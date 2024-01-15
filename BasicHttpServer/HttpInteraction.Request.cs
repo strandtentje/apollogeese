@@ -5,6 +5,7 @@ using System.Text;
 using BorrehSoft.Utilities.Collections;
 using System.IO;
 using System.Collections.Specialized;
+using CefSharp.DevTools.Preload;
 
 namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {
@@ -63,10 +64,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
 			if (parts.Count > 0) queryBuilder.Append (parts.Dequeue ());
 
-			while (parts.Count > 0) {
-				queryBuilder.Append ('?');
-				queryBuilder.Append (parts.Dequeue ());
-			}
+			if (parts.Count > 0) throw new Exception("unreasonable amount of questionmarks in url");
 
 			this ["querysection"] = querysection = queryBuilder.ToString ();
 

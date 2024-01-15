@@ -112,7 +112,8 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 		protected override void Initialize (Settings modSettings)
 		{
 			this.File = modSettings.GetString (SettingsKeys.File);
-			this.BranchName = modSettings.GetString (SettingsKeys.Branch, null);			
+			this.BranchName = modSettings.GetString (SettingsKeys.Branch, null);
+			if (modSettings.Has(SettingsKeys.BranchVariable)) this.BranchName = null;
 			this.BranchVariable = modSettings.GetString (SettingsKeys.BranchVariable, SettingsKeys.BranchName);
 			this.AutoInvoke = modSettings.GetBool (SettingsKeys.AutoInvoke, false);
 			this.InjectOwnSettings = modSettings.GetBool (SettingsKeys.InjectOwnSettings, false);
@@ -225,7 +226,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.FlowOfOperations.Module
 				pickedBranchName = BranchName;
 			}
 
-			referredService = GetService (pickedBranchName);
+			referredService = GetService (pickedBranchName) ?? GetService(pickedBranchName + "_branch");
 
 			if (referredService == null) {
 				throw new NullReferenceException (

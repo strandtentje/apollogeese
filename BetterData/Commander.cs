@@ -4,7 +4,6 @@ using BorrehSoft.Utilities.Collections.Maps;
 using System.Data;
 using BorrehSoft.Utilities.Collections.Settings;
 using System.Data.SqlClient;
-using MySql.Data.MySqlClient;
 using System.IO;
 using System.Threading;
 using System.Collections.Generic;
@@ -15,19 +14,119 @@ namespace BetterData
 {
 	public abstract class Commander : SingleBranchService
 	{
-		public string DatasourceName { get; set; }
-		public SqlSource SqlSource { get; set; }
-        public string ConnectionString {
-            get
-            {
-                return Connector.Find(DatasourceName).ConnectionString;
-            }
-        }
+		private string DSN;
 
-        public override void LoadDefaultParameters (string defaultParameter)
+		private bool AutoSelectLastInsertId;
+
+        public bool UseCachedConnection { get; private set; }
+        public bool ProtectAgainstRecursion { get; private set; }
+
+        IDbConnection connection;
+		DateTime timestamp;
+
+		/// <summary>
+		/// Gets the connection.
+		/// </summary>
+		/// <value>
+		/// The connection.
+		/// </value>
+		public IDbConnection ProduceConnection() {
+			if (!UseCachedConnection)
+			{
+				var cnx = Connector.Find(this.DatasourceName);
+				cnx.Open();
+				return cnx; 
+			}
+
+			DateTime nowish = DateTime.Now;
+			TimeSpan dif = (nowish - timestamp);
+
+			bool 
+			noconnection = connection == null,
+			notopen = noconnection || (connection.State != ConnectionState.Open),
+			tooold = dif.TotalMinutes > 1;
+
+			timestamp = nowish;
+
+			if (notopen || tooold) {
+				Secretary.Report (5, "Reviving MySQL connection because it was:", (notopen ? "not open" : ""), (tooold ? "too old" : ""));
+
+				if (connection != null) {
+					try {
+						connection.Dispose();
+					} catch(Exception ex) {
+						Secretary.Report (5, "Failed to dispose of old one due to:", ex.Message);
+					}
+				}
+
+				connection = Connector.Find (this.DatasourceName);
+				connection.Open ();
+			}
+
+			return connection;
+		}
+
+		public string DatasourceName { 
+			get {
+				return this.DSN; 
+			}
+			set {
+				this.connection = null;
+				this.DSN = value;
+			}
+		}
+
+		private SqlSource sqlSource;
+
+		public override void LoadDefaultParameters (string defaultParameter)
 		{
 			if (File.Exists (defaultParameter)) {
 				Settings ["sqlfile"] = defaultParameter;
+			} else if (defaultParameter.ToLower ().EndsWith (".auto.sql")) {
+				Settings ["autosql"] = defaultParameter;
+			} else if (defaultParameter.ToLower ().EndsWith (".model.sql")) {
+				Settings ["modelsql"] = defaultParameter;
+			} else {
+				Settings ["sql"] = defaultParameter;
+			}
+		}
+
+		string sqlFile;
+
+		string SqlText {
+			get { 
+				return this.sqlSource.GetText ();
+			} set {
+				this.sqlSource = new SqlLiteralSource (value);
+			}
+		}
+
+		string SqlFile {
+			get {
+				return this.sqlFile;
+			} set {
+				this.sqlFile = value;
+				this.sqlSource = new SqlFileSource (value);
+			}
+		}
+
+		string AutoSqlFile {
+			get {
+				return this.sqlFile;
+			}
+			set {
+				this.sqlFile = value;
+				this.sqlSource = new AutoSqlFileSource(value, AutoSelectLastInsertId);
+			}
+		}
+
+		string ModelSqlFile {
+			get {
+				return this.sqlFile;	
+			}
+			set {
+				this.sqlFile = value;
+				this.sqlSource = new ModelSqlFileSource (value);
 			}
 		}
 
@@ -40,12 +139,25 @@ namespace BetterData
 		protected override void Initialize (Settings settings)
 		{
 			this.DatasourceName = settings.GetString ("connection", settings.GetString("_select", "default"));
+            this.UseTransaction = settings.GetBool("usetransaction", false);
+			this.AutoSelectLastInsertId = settings.GetBool ("lastinsertid", false);
+			this.UseCachedConnection = settings.GetBool("usecachedconnection", true);
+			this.ProtectAgainstRecursion = settings.GetBool("banrecursion", true);
 
-            if (settings.TryGetString ("sqlfile", out string sqlFileName)) {
-                this.SqlSource = new SqlFileSource(sqlFileName);
-				description = (new FileInfo (sqlFileName)).Name;
+			if (settings.Has ("sql")) {
+				this.SqlText = settings.GetString ("sql");
+				description = this.SqlText;
+			} else if (settings.Has ("sqlfile")) {
+				this.SqlFile = settings.GetString ("sqlfile");
+				description = (new FileInfo (this.SqlFile)).Name;
+			} else if (settings.Has ("autosql")) {
+				this.AutoSqlFile = settings.GetString ("autosql");
+				description = (new FileInfo (this.AutoSqlFile)).Name;
+			} else if (settings.Has ("modelsql")) {
+				this.ModelSqlFile = settings.GetString ("modelsql");
+				description = (new FileInfo (this.ModelSqlFile)).Name;
 			} else {
-				throw new Exception("Expected 'sqlfile'");
+				throw new Exception("Expected either 'sql', 'sqlfile' or 'autosql'");
 			}
 		}
 
@@ -57,14 +169,53 @@ namespace BetterData
 			return parameter;
 		}
 
-        protected List<MySqlParameter> FillParameters(
-            IInteraction parameters
-        ) {
-            var pc = new List<MySqlParameter>();
-            foreach (string name in this.SqlSource.GetParameterNames())
-                if (parameters.TryGetFallback(name, out object value))
-                    pc.Add(new MySqlParameter(name, value));
-            return pc;
+        protected void UseCommand(IInteraction parameters, Action<IDbCommand> callback, IDbCommand command)
+        {
+            command.CommandText = this.sqlSource.GetText();
+
+            foreach (string name in this.sqlSource.GetParameterNames())
+            {
+                object value;
+                if (parameters.TryGetFallback(name, out value))
+                {
+                    command.Parameters.Add(CreateParameter(command, name, value));
+                }
+            }
+
+            callback(command);
         }
+
+        private IDbConnection ProduceConnection(IInteraction parameters)
+        {
+            if (this.UseTransaction)
+            {
+                IInteraction candidate;
+                TransactionInteraction transaction;
+
+                while((parameters != null) && parameters.TryGetClosest(typeof(TransactionInteraction), out candidate)) {
+                    parameters = candidate.Parent;
+                    transaction = (TransactionInteraction)candidate;
+                    if (transaction.DatasourceName == this.DatasourceName)
+                    {
+                        return transaction.Connection;
+                    }
+                }
+            }
+
+			return ProduceConnection();
+        }
+
+		protected void UseCommand(IInteraction parameters, Action<IDbCommand> callback) {
+            IDbConnection connection = ProduceConnection(parameters);
+
+			lock (connection) {
+				using (IDbCommand command = connection.CreateCommand ()) {
+                    UseCommand(parameters, callback, command);
+				}
+			}
+		}
+
+
+        public bool UseTransaction { get; set; }
     }
 }

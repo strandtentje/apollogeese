@@ -16,23 +16,40 @@ namespace Services.Simple
 		{
 			string[] options = defaultParameter.Split('>');
 			if (options.Length == 2) {
-				Settings["timespan"] = options[0];
+				string[] suboptions = options[0].Split('|');
+				if (suboptions.Length == 2)
+				{
+					Settings["timespan"] = suboptions[0];
+					Settings["format"] = suboptions[1];
+                } else
+				{
+                    Settings["timespan"] = options[0];
+                }				
 				Settings["variablename"] = options[1];
+			} else if (options.Length == 1) 
+			{
+				Settings["variablename"] = options[0];
 			}
 		}
          
 		string VariableName;
 		TimeSpan TimeIncrease;
+        private string Format;
 
-		protected override void Initialize (Settings settings)
+        protected override void Initialize (Settings settings)
 		{
 			this.TimeIncrease = TimeSpan.Parse(settings.GetString("timespan"));
+			this.Format = settings.GetString("format", "yyyy-MM-dd HH:mm:ss");
 			this.VariableName = settings.GetString("variablename");
 		}
 
 		protected override bool Process (IInteraction parameters)
 		{
-			return WithBranch.TryProcess(new SimpleInteraction(parameters, this.VariableName, (DateTime.Now + this.TimeIncrease).ToString("yyyy-MM-dd HH:mm:ss")));
+			return WithBranch.TryProcess(
+				new SimpleInteraction(
+					parameters, 
+					this.VariableName, 
+					(DateTime.Now + this.TimeIncrease).ToString(Format)));
 		}
 	}
 }

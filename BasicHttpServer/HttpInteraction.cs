@@ -31,7 +31,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
 		public Encoding Encoding {
 			get {
-				return this.Response.ContentEncoding;
+				return this.Response.ContentEncoding ?? Encoding.UTF8;
 			}
 		}
 

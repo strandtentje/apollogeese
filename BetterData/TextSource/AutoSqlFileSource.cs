@@ -3,8 +3,6 @@ using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utilities.Collections.Maps;
 using System.Data;
 using BorrehSoft.Utilities.Collections.Settings;
-using System.Data.SqlClient;
-using MySql.Data.MySqlClient;
 using System.IO;
 using System.Threading;
 using System.Collections.Generic;

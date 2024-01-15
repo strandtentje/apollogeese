@@ -76,13 +76,7 @@ namespace Networking
 
         public override string Description {
             get {
-                string uri;
-                if (TryProduceURI(null, out uri)) {
-                    return string.Format("{0} Request for {1}",
-                        this.Method, uri);
-                } else {
-                    return string.Format("{0} Request for undeterminable URI");
-                }
+                return "requester";
             }
         }
 

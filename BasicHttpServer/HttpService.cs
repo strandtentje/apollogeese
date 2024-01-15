@@ -11,6 +11,20 @@ using BorrehSoft.Utilities.Log;
 
 namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 {
+	public class WebWidget : SingleBranchService
+	{
+		public override string Description => "An Window";
+        protected override void Initialize(Settings settings)
+        {
+            base.Initialize(settings);
+        }
+
+        protected override bool Process(IInteraction parameters)
+        {
+			return true;
+        }
+    }
+
 	/// <summary>
 	/// Http server.
 	/// </summary>
@@ -100,7 +114,7 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
 
 			HttpListener contextListener = (HttpListener)ar.AsyncState;
 			HttpListenerContext context = contextListener.EndGetContext (ar);
-
+			
 			L.Report (5, "Request opened by", context.Request.UserHostAddress);
 
 			if (!MeasurePerformance) {
@@ -140,7 +154,13 @@ namespace BorrehSoft.ApolloGeese.Extensions.BasicHttpServer
             }
 			finally
 			{
-				parameters.FlushBuffer();
+				try
+				{
+					parameters.FlushBuffer();
+				} catch(Exception ex)
+				{
+					Secretary.Report(5, "Unable to flush, may be: ", ex.Message);
+				}
 
 				try
 				{

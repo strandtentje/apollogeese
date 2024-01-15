@@ -2,9 +2,9 @@ using System;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utilities.Collections.Maps;
 using System.Data;
-using MySql.Data.MySqlClient;
 using BorrehSoft.Utilities.Collections.Settings;
 using BorrehSoft.Utilities.Collections;
+using MySqlConnector;
 
 namespace BetterData
 {
@@ -40,6 +40,8 @@ namespace BetterData
 			Settings ["connectionstring"] = defaultParameter;
 		}
 
+		public virtual char ParameterSeparator { get { return '@'; } }
+
 		protected override void Initialize (Settings settings)
 		{
             this.Name = settings.GetString("name", settings.GetString("_select", "default"));
@@ -48,9 +50,14 @@ namespace BetterData
 			NamedConnectors [this.Name] = this;
 		}
 
-		public static Connector Find (string name)
+		public virtual IDbConnection GetNewConnection() {				
+			return new MySqlConnection(
+				this.ConnectionString);
+		}
+
+		public static IDbConnection Find (string name)
 		{
-			return NamedConnectors [name];
+			return NamedConnectors [name].GetNewConnection ();
 		}
 
 		public override void OnReady ()

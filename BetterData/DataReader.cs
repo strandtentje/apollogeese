@@ -4,7 +4,6 @@ using System.Data;
 using System.Collections.Generic;
 using BorrehSoft.Utilities.Collections.Maps;
 using BorrehSoft.Utilities.Collections;
-using MySql.Data.MySqlClient;
 
 namespace BetterData
 {
@@ -68,29 +67,35 @@ namespace BetterData
 
             if (Branches.Has("_with")) rowBranches.Default = Branches["_with"];
 
-            using (var reader = MySqlHelper.ExecuteReader(
-                ConnectionString,
-                SqlSource.GetText(),
-                FillParameters(parameters).ToArray())
-            ) {
-                string[] columnNames = GetColumnNames(reader);
+			List<DataInteraction> dataInteractions = null;
+			if (!ProtectAgainstRecursion) dataInteractions = new List<DataInteraction>();
 
-                for (currentRowNumber = 0; reader.Read(); currentRowNumber++)
-                {
-                    object[] values = new object[reader.FieldCount];
+			UseCommand (parameters, delegate(IDbCommand command) {
+				using (IDataReader reader = command.ExecuteReader()) {
+					string[] columnNames = GetColumnNames (reader);
 
-                    for (int i = 0; i < reader.FieldCount; i++)
-                    {
-                        values[i] = reader.GetValue(i);
-                    }
+					for (currentRowNumber = 0; reader.Read (); currentRowNumber++) {
+						object[] values = new object[reader.FieldCount];
 
-                    DataInteraction dataRow = new DataInteraction(
-                        parameters, columnNames, values);
-                    lastRow = dataRow;
+						for (int i = 0; i < reader.FieldCount; i++) {
+							values[i] = reader.GetValue(i);
+						}
 
-                    success &= rowBranches[currentRowNumber].TryProcess(dataRow);
-                }
-            }
+						DataInteraction dataRow = new DataInteraction (
+							parameters, columnNames, values);
+						lastRow = dataRow;
+
+						if (dataInteractions == null)
+							success &= rowBranches[currentRowNumber].TryProcess (dataRow);
+						else 
+							dataInteractions.Add (dataRow);
+					}
+				}
+			});
+
+			if (dataInteractions != null) 
+				foreach (var item in dataInteractions)
+					success &= rowBranches[currentRowNumber].TryProcess(item);
 
 			if (currentRowNumber == 0)
 				success &= None.TryProcess (parameters);

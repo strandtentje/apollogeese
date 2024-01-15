@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -7,7 +7,8 @@
     <OutputType>Library</OutputType>
     <RootNamespace>BorrehSoft.ApolloGeese.Extensions.FlowOfOperations</RootNamespace>
     <AssemblyName>FlowOfOperations</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +30,12 @@
     <Reference Include="System.Web" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Capture\BeginCapture.cs" />
+    <Compile Include="Capture\BeginCaptureInteraction.cs" />
+    <Compile Include="Capture\Capture.cs" />
+    <Compile Include="Capture\CaptureInteraction.cs" />
+    <Compile Include="Capture\EndCapture.cs" />
+    <Compile Include="Capture\NoCaptureScopeException.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Module\JumpInteraction.cs" />
     <Compile Include="Module\Module.cs" />
@@ -54,11 +61,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <Folder Include="Module\" />
-    <Folder Include="OverSocket\" />
-    <Folder Include="OverSocket\Piping\" />
     <Folder Include="View\" />
-    <Folder Include="Profiling\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Loader\Loader.csproj">

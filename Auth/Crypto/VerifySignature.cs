@@ -3,13 +3,6 @@ using System.Text;
 using BorrehSoft.ApolloGeese.CoreTypes;
 using BorrehSoft.Utilities.Collections.Settings;
 using ExternalData;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
-using Mono.Security;
-using Mono.Security.Cryptography;
-using Org.BouncyCastle.Security;
-using Org.BouncyCastle.Asn1.X509;
-using Org.BouncyCastle.Crypto.Parameters;
 
 namespace Crypto
 {
